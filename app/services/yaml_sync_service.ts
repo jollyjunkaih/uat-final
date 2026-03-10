@@ -1,8 +1,7 @@
 import Project from '#models/project'
 import Feature from '#models/feature'
 import UatFlow from '#models/uat_flow'
-import Event from '#models/event'
-import TestCase from '#models/test_case'
+import Step from '#models/step'
 import PrdCompetitor from '#models/prd_competitor'
 import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
@@ -109,11 +108,8 @@ export default class YamlSyncService {
       .preload('uatFlows', (uatFlowQuery) => {
         uatFlowQuery
           .whereNull('deleted_at')
-          .preload('events', (eventQuery) => {
-            eventQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
-          })
-          .preload('testCases', (testCaseQuery) => {
-            testCaseQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+          .preload('steps', (stepQuery) => {
+            stepQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
           })
           .orderBy('sequence', 'asc')
       })
@@ -144,26 +140,11 @@ export default class YamlSyncService {
           preconditions: flow.preconditions,
           status: flow.status,
           sequence: flow.sequence,
-          events: flow.events.map((event) => ({
-            model: event.model,
-            name: event.name,
-            description: event.description,
-            triggerType: event.triggerType,
-            condition: event.condition,
-            sequence: event.sequence,
-            expectedOutcome: event.expectedOutcome,
-            testStatus: event.testStatus,
-            notes: event.notes,
-          })),
-          testCases: flow.testCases.map((tc) => ({
-            testNo: tc.testNo,
-            descriptionOfTasks: tc.descriptionOfTasks,
-            stepsToExecute: tc.stepsToExecute,
-            expectedResults: tc.expectedResults,
-            pass: tc.pass,
-            fail: tc.fail,
-            defectComments: tc.defectComments,
-            sequence: tc.sequence,
+          steps: flow.steps.map((step) => ({
+            name: step.name,
+            description: step.description,
+            sequence: step.sequence,
+            imagePath: step.imagePath,
           })),
         })),
       })),
@@ -194,12 +175,21 @@ export default class YamlSyncService {
     return feature.projectId
   }
 
+  async getProjectIdFromStep(stepId: string): Promise<string> {
+    const step = await Step.findOrFail(stepId)
+    return this.getProjectIdFromUatFlow(step.uatFlowId)
+  }
+
+  /** @deprecated Use getProjectIdFromStep instead */
   async getProjectIdFromEvent(eventId: string): Promise<string> {
+    const { default: Event } = await import('#models/event')
     const event = await Event.findOrFail(eventId)
     return this.getProjectIdFromUatFlow(event.uatFlowId)
   }
 
+  /** @deprecated Use getProjectIdFromStep instead */
   async getProjectIdFromTestCase(testCaseId: string): Promise<string> {
+    const { default: TestCase } = await import('#models/test_case')
     const testCase = await TestCase.findOrFail(testCaseId)
     return this.getProjectIdFromUatFlow(testCase.uatFlowId)
   }

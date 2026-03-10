@@ -28,12 +28,6 @@ export type ScannedRoutes = {
     'uat_flows.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.reorder': { paramsTuple?: []; params?: {} }
-    'events.index': { paramsTuple?: []; params?: {} }
-    'events.store': { paramsTuple?: []; params?: {} }
-    'events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.reorder': { paramsTuple?: []; params?: {} }
     'versions.index': { paramsTuple?: []; params?: {} }
     'versions.store': { paramsTuple?: []; params?: {} }
     'versions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -50,12 +44,14 @@ export type ScannedRoutes = {
     'settings.update': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'integration.sync_triggers': { paramsTuple?: []; params?: {} }
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
-    'test_cases.index': { paramsTuple?: []; params?: {} }
-    'test_cases.store': { paramsTuple?: []; params?: {} }
-    'test_cases.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'test_cases.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'test_cases.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'test_cases.reorder': { paramsTuple?: []; params?: {} }
+    'steps.index': { paramsTuple?: []; params?: {} }
+    'steps.store': { paramsTuple?: []; params?: {} }
+    'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.reorder': { paramsTuple?: []; params?: {} }
+    'steps.upload_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.delete_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.store': { paramsTuple?: []; params?: {} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'uploads.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -95,8 +91,6 @@ export type ScannedRoutes = {
     'features.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.index': { paramsTuple?: []; params?: {} }
     'uat_flows.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.index': { paramsTuple?: []; params?: {} }
-    'events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'versions.index': { paramsTuple?: []; params?: {} }
     'versions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'sign_off.index': { paramsTuple?: []; params?: {} }
@@ -106,8 +100,8 @@ export type ScannedRoutes = {
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
-    'test_cases.index': { paramsTuple?: []; params?: {} }
-    'test_cases.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.index': { paramsTuple?: []; params?: {} }
+    'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'prd.competitors_index': { paramsTuple?: []; params?: {} }
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
@@ -130,8 +124,6 @@ export type ScannedRoutes = {
     'features.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.index': { paramsTuple?: []; params?: {} }
     'uat_flows.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.index': { paramsTuple?: []; params?: {} }
-    'events.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'versions.index': { paramsTuple?: []; params?: {} }
     'versions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'sign_off.index': { paramsTuple?: []; params?: {} }
@@ -141,8 +133,8 @@ export type ScannedRoutes = {
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
-    'test_cases.index': { paramsTuple?: []; params?: {} }
-    'test_cases.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.index': { paramsTuple?: []; params?: {} }
+    'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'prd.competitors_index': { paramsTuple?: []; params?: {} }
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
@@ -163,16 +155,15 @@ export type ScannedRoutes = {
     'features.reorder': { paramsTuple?: []; params?: {} }
     'uat_flows.store': { paramsTuple?: []; params?: {} }
     'uat_flows.reorder': { paramsTuple?: []; params?: {} }
-    'events.store': { paramsTuple?: []; params?: {} }
-    'events.reorder': { paramsTuple?: []; params?: {} }
     'versions.store': { paramsTuple?: []; params?: {} }
     'sign_off.initiate': { paramsTuple?: []; params?: {} }
     'sign_off.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'view_only_links.store': { paramsTuple?: []; params?: {} }
     'view_only_links.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'integration.sync_triggers': { paramsTuple?: []; params?: {} }
-    'test_cases.store': { paramsTuple?: []; params?: {} }
-    'test_cases.reorder': { paramsTuple?: []; params?: {} }
+    'steps.store': { paramsTuple?: []; params?: {} }
+    'steps.reorder': { paramsTuple?: []; params?: {} }
+    'steps.upload_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.store': { paramsTuple?: []; params?: {} }
     'prd.competitors_store': { paramsTuple?: []; params?: {} }
     'prd.milestones_store': { paramsTuple?: []; params?: {} }
@@ -186,9 +177,8 @@ export type ScannedRoutes = {
     'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'features.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'settings.update': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
-    'test_cases.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.competitors_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.milestones_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.open_questions_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -198,8 +188,8 @@ export type ScannedRoutes = {
     'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'features.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'events.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'test_cases.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.delete_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.competitors_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.milestones_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

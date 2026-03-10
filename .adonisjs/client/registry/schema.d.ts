@@ -295,78 +295,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'events.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/events'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['index']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['index']>>>
-    }
-  }
-  'events.store': {
-    methods: ["POST"]
-    pattern: '/api/events'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').createEventValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').createEventValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'events.show': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/events/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['show']>>>
-    }
-  }
-  'events.update': {
-    methods: ["PATCH"]
-    pattern: '/api/events/:id'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').updateEventValidator)>>
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').updateEventValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'events.destroy': {
-    methods: ["DELETE"]
-    pattern: '/api/events/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
-    }
-  }
-  'events.reorder': {
-    methods: ["POST"]
-    pattern: '/api/events/reorder'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['reorder']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'versions.index': {
     methods: ["GET","HEAD"]
     pattern: '/versions'
@@ -559,76 +487,100 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/integration_controller').default['getStatus']>>>
     }
   }
-  'test_cases.index': {
+  'steps.index': {
     methods: ["GET","HEAD"]
-    pattern: '/api/test-cases'
+    pattern: '/api/steps'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['index']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['index']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['index']>>>
     }
   }
-  'test_cases.store': {
+  'steps.store': {
     methods: ["POST"]
-    pattern: '/api/test-cases'
+    pattern: '/api/steps'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/test_case_validator').createTestCaseValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/step_validator').createStepValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/test_case_validator').createTestCaseValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#validators/step_validator').createStepValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'test_cases.show': {
+  'steps.show': {
     methods: ["GET","HEAD"]
-    pattern: '/api/test-cases/:id'
+    pattern: '/api/steps/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['show']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['show']>>>
     }
   }
-  'test_cases.update': {
+  'steps.update': {
     methods: ["PATCH"]
-    pattern: '/api/test-cases/:id'
+    pattern: '/api/steps/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/test_case_validator').updateTestCaseValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/step_validator').updateStepValidator)>>
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/test_case_validator').updateTestCaseValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#validators/step_validator').updateStepValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'test_cases.destroy': {
+  'steps.destroy': {
     methods: ["DELETE"]
-    pattern: '/api/test-cases/:id'
+    pattern: '/api/steps/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['destroy']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['destroy']>>>
     }
   }
-  'test_cases.reorder': {
+  'steps.reorder': {
     methods: ["POST"]
-    pattern: '/api/test-cases/reorder'
+    pattern: '/api/steps/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/test_case_validator').reorderTestCasesValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/step_validator').reorderStepsValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/test_case_validator').reorderTestCasesValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['reorder']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+      query: ExtractQuery<InferInput<(typeof import('#validators/step_validator').reorderStepsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'steps.upload_image': {
+    methods: ["POST"]
+    pattern: '/api/steps/:id/image'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadImage']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadImage']>>>
+    }
+  }
+  'steps.delete_image': {
+    methods: ["DELETE"]
+    pattern: '/api/steps/:id/image'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteImage']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteImage']>>>
     }
   }
   'uploads.store': {

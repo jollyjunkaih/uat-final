@@ -1,8 +1,8 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useRef, type FormEvent } from 'react'
 import { toast } from 'sonner'
 import { useFeatures, type Feature } from '~/hooks/use-features'
 import { useUatFlows, useCreateUatFlow, useUpdateUatFlow, useDeleteUatFlow, type UatFlow } from '~/hooks/use-uat-flows'
-import { useTestCases, useCreateTestCase, useUpdateTestCase, useDeleteTestCase, type TestCase } from '~/hooks/use-test-cases'
+import { useSteps, useCreateStep, useUpdateStep, useDeleteStep, useUploadStepImage, useDeleteStepImage, type Step } from '~/hooks/use-steps'
 import { StatusBadge } from '~/components/status-badge'
 import { PriorityBadge } from '~/components/priority-badge'
 import { cn } from '~/lib/utils'
@@ -88,87 +88,46 @@ function FunctionForm({
   )
 }
 
-function TestCaseForm({
+function StepForm({
   initial,
-  nextTestNo,
   onSubmit,
   onCancel,
   submitting,
 }: {
-  initial?: Partial<TestCase>
-  nextTestNo: number
-  onSubmit: (data: Partial<TestCase>) => void
+  initial?: Partial<Step>
+  onSubmit: (data: { name: string; description: string }) => void
   onCancel: () => void
   submitting: boolean
 }) {
-  const [testNo, setTestNo] = useState(initial?.testNo ?? nextTestNo)
-  const [descriptionOfTasks, setDescriptionOfTasks] = useState(initial?.descriptionOfTasks || '')
-  const [stepsToExecute, setStepsToExecute] = useState(initial?.stepsToExecute || '')
-  const [expectedResults, setExpectedResults] = useState(initial?.expectedResults || '')
-  const [defectComments, setDefectComments] = useState(initial?.defectComments || '')
+  const [name, setName] = useState(initial?.name || '')
+  const [description, setDescription] = useState(initial?.description || '')
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    onSubmit({ testNo, descriptionOfTasks, stepsToExecute, expectedResults, defectComments: defectComments || undefined })
+    onSubmit({ name, description })
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
-        <div>
-          <label className="block text-xs font-medium text-foreground">Test No.</label>
-          <input
-            type="number"
-            required
-            value={testNo}
-            onChange={(e) => setTestNo(Number(e.target.value))}
-            className={inputClass}
-          />
-        </div>
-        <div className="sm:col-span-3">
-          <label className="block text-xs font-medium text-foreground">Description of Tasks</label>
-          <input
-            type="text"
-            required
-            value={descriptionOfTasks}
-            onChange={(e) => setDescriptionOfTasks(e.target.value)}
-            className={inputClass}
-            placeholder="What needs to be tested"
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div>
-          <label className="block text-xs font-medium text-foreground">Steps to Execute</label>
-          <textarea
-            rows={2}
-            required
-            value={stepsToExecute}
-            onChange={(e) => setStepsToExecute(e.target.value)}
-            className={inputClass}
-            placeholder="Step-by-step instructions"
-          />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-foreground">Expected Results</label>
-          <textarea
-            rows={2}
-            required
-            value={expectedResults}
-            onChange={(e) => setExpectedResults(e.target.value)}
-            className={inputClass}
-            placeholder="What should happen"
-          />
-        </div>
-      </div>
       <div>
-        <label className="block text-xs font-medium text-foreground">Defect / Comments</label>
+        <label className="block text-xs font-medium text-foreground">Step Name</label>
         <input
           type="text"
-          value={defectComments}
-          onChange={(e) => setDefectComments(e.target.value)}
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className={inputClass}
-          placeholder="Optional notes"
+          placeholder="e.g. Click the Submit button"
+        />
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-foreground">Description</label>
+        <textarea
+          rows={2}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className={inputClass}
+          placeholder="Describe this step (optional)"
         />
       </div>
       <div className="flex justify-end gap-2">
@@ -176,60 +135,72 @@ function TestCaseForm({
           Cancel
         </button>
         <button type="submit" disabled={submitting} className="rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground shadow hover:bg-primary/90 disabled:opacity-50">
-          {submitting ? 'Saving...' : initial?.id ? 'Update' : 'Add Test Case'}
+          {submitting ? 'Saving...' : initial?.id ? 'Update' : 'Add Step'}
         </button>
       </div>
     </form>
   )
 }
 
-function TestCasesSection({ flow, projectId }: { flow: UatFlow; projectId: string }) {
-  const { data, isLoading } = useTestCases(flow.id)
-  const createTestCase = useCreateTestCase(projectId)
-  const updateTestCase = useUpdateTestCase(projectId)
-  const deleteTestCase = useDeleteTestCase(projectId)
+function StepsSection({ flow, projectId }: { flow: UatFlow; projectId: string }) {
+  const { data, isLoading } = useSteps(flow.id)
+  const createStep = useCreateStep(projectId)
+  const updateStep = useUpdateStep(projectId)
+  const deleteStep = useDeleteStep(projectId)
+  const uploadImage = useUploadStepImage(projectId)
+  const deleteImage = useDeleteStepImage(projectId)
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
-  const testCases = data?.data || []
-  const nextTestNo = testCases.length > 0 ? Math.max(...testCases.map((tc) => tc.testNo)) + 1 : 1
+  const steps = data?.data || []
 
-  function handleCreate(tcData: Partial<TestCase>) {
-    createTestCase.mutate(
-      { uatFlowId: flow.id, testNo: tcData.testNo!, descriptionOfTasks: tcData.descriptionOfTasks!, stepsToExecute: tcData.stepsToExecute!, expectedResults: tcData.expectedResults!, defectComments: tcData.defectComments },
+  function handleCreate(stepData: { name: string; description: string }) {
+    createStep.mutate(
+      { uatFlowId: flow.id, name: stepData.name, description: stepData.description || undefined },
       {
-        onSuccess: () => { setShowAddForm(false); toast.success('Test case added') },
+        onSuccess: () => { setShowAddForm(false); toast.success('Step added') },
         onError: (err) => toast.error(err.message),
       }
     )
   }
 
-  function handleUpdate(tc: TestCase, tcData: Partial<TestCase>) {
-    updateTestCase.mutate(
-      { id: tc.id, uatFlowId: flow.id, ...tcData },
+  function handleUpdate(step: Step, stepData: { name: string; description: string }) {
+    updateStep.mutate(
+      { id: step.id, uatFlowId: flow.id, name: stepData.name, description: stepData.description || null },
       {
-        onSuccess: () => { setEditingId(null); toast.success('Test case updated') },
+        onSuccess: () => { setEditingId(null); toast.success('Step updated') },
         onError: (err) => toast.error(err.message),
       }
     )
   }
 
-  function handlePassFail(tc: TestCase, field: 'pass' | 'fail', value: boolean) {
-    const update: Record<string, unknown> = { id: tc.id, uatFlowId: flow.id, [field]: value }
-    if (field === 'pass' && value) update.fail = false
-    if (field === 'fail' && value) update.pass = false
-    updateTestCase.mutate(update as { id: string; uatFlowId: string }, {
-      onSuccess: () => toast.success('Updated'),
-      onError: (err) => toast.error(err.message),
-    })
+  function handleDelete(step: Step) {
+    deleteStep.mutate(
+      { id: step.id, uatFlowId: flow.id },
+      {
+        onSuccess: () => { setDeletingId(null); toast.success('Step deleted') },
+        onError: (err) => toast.error(err.message),
+      }
+    )
   }
 
-  function handleDelete(tc: TestCase) {
-    deleteTestCase.mutate(
-      { id: tc.id, uatFlowId: flow.id },
+  function handleImageUpload(step: Step, file: File) {
+    uploadImage.mutate(
+      { stepId: step.id, uatFlowId: flow.id, file },
       {
-        onSuccess: () => { setDeletingId(null); toast.success('Test case deleted') },
+        onSuccess: () => toast.success('Image uploaded'),
+        onError: (err) => toast.error(err.message),
+      }
+    )
+  }
+
+  function handleImageDelete(step: Step) {
+    deleteImage.mutate(
+      { stepId: step.id, uatFlowId: flow.id },
+      {
+        onSuccess: () => toast.success('Image removed'),
         onError: (err) => toast.error(err.message),
       }
     )
@@ -238,22 +209,21 @@ function TestCasesSection({ flow, projectId }: { flow: UatFlow; projectId: strin
   return (
     <div className="mt-3 border-t border-border pt-3">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Test Cases</span>
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Steps</span>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20"
         >
-          {showAddForm ? 'Cancel' : '+ Add'}
+          {showAddForm ? 'Cancel' : '+ Add Step'}
         </button>
       </div>
 
       {showAddForm && (
         <div className="mb-3 rounded border border-border bg-muted/30 p-3">
-          <TestCaseForm
-            nextTestNo={nextTestNo}
+          <StepForm
             onSubmit={handleCreate}
             onCancel={() => setShowAddForm(false)}
-            submitting={createTestCase.isPending}
+            submitting={createStep.isPending}
           />
         </div>
       )}
@@ -262,78 +232,85 @@ function TestCasesSection({ flow, projectId }: { flow: UatFlow; projectId: strin
         <div className="flex justify-center py-3">
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
         </div>
-      ) : testCases.length === 0 ? (
-        <p className="text-xs italic text-muted-foreground">No test cases yet.</p>
+      ) : steps.length === 0 ? (
+        <p className="text-xs italic text-muted-foreground">No steps yet.</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="border-b border-border bg-muted/50">
-              <tr>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground">No.</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground">Description</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground">Steps</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground">Expected</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground text-center">Pass</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground text-center">Fail</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground">Defect / Comments</th>
-                <th className="px-2 py-1.5 font-medium text-muted-foreground">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {testCases.map((tc) =>
-                editingId === tc.id ? (
-                  <tr key={tc.id}>
-                    <td colSpan={8} className="p-2">
-                      <TestCaseForm
-                        initial={tc}
-                        nextTestNo={tc.testNo}
-                        onSubmit={(tcData) => handleUpdate(tc, tcData)}
-                        onCancel={() => setEditingId(null)}
-                        submitting={updateTestCase.isPending}
-                      />
-                    </td>
-                  </tr>
-                ) : (
-                  <tr key={tc.id} className="hover:bg-muted/30">
-                    <td className="px-2 py-1.5 font-medium">{tc.testNo}</td>
-                    <td className="px-2 py-1.5 max-w-[150px] truncate">{tc.descriptionOfTasks}</td>
-                    <td className="px-2 py-1.5 max-w-[150px] truncate">{tc.stepsToExecute}</td>
-                    <td className="px-2 py-1.5 max-w-[150px] truncate">{tc.expectedResults}</td>
-                    <td className="px-2 py-1.5 text-center">
-                      <input
-                        type="checkbox"
-                        checked={tc.pass}
-                        onChange={(e) => handlePassFail(tc, 'pass', e.target.checked)}
-                        className="h-3.5 w-3.5 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                      />
-                    </td>
-                    <td className="px-2 py-1.5 text-center">
-                      <input
-                        type="checkbox"
-                        checked={tc.fail}
-                        onChange={(e) => handlePassFail(tc, 'fail', e.target.checked)}
-                        className="h-3.5 w-3.5 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                      />
-                    </td>
-                    <td className="px-2 py-1.5 max-w-[120px] truncate text-muted-foreground">{tc.defectComments || '—'}</td>
-                    <td className="px-2 py-1.5">
-                      <div className="flex items-center gap-1">
-                        <button onClick={() => setEditingId(tc.id)} className="text-xs text-primary hover:underline">Edit</button>
-                        {deletingId === tc.id ? (
-                          <>
-                            <button onClick={() => handleDelete(tc)} className="text-xs text-red-600 hover:underline">Yes</button>
-                            <button onClick={() => setDeletingId(null)} className="text-xs text-muted-foreground hover:underline">No</button>
-                          </>
-                        ) : (
-                          <button onClick={() => setDeletingId(tc.id)} className="text-xs text-red-600 hover:underline">Del</button>
-                        )}
+        <div className="space-y-2">
+          {steps.map((step, index) =>
+            editingId === step.id ? (
+              <div key={step.id} className="rounded border border-border bg-muted/30 p-3">
+                <StepForm
+                  initial={step}
+                  onSubmit={(stepData) => handleUpdate(step, stepData)}
+                  onCancel={() => setEditingId(null)}
+                  submitting={updateStep.isPending}
+                />
+              </div>
+            ) : (
+              <div key={step.id} className="rounded border border-border bg-background p-3">
+                <div className="flex items-start justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
+                        {index + 1}
+                      </span>
+                      <span className="text-sm font-medium text-foreground">{step.name}</span>
+                    </div>
+                    {step.description && (
+                      <p className="mt-1 ml-7 text-xs text-muted-foreground">{step.description}</p>
+                    )}
+                    {step.imagePath && (
+                      <div className="mt-2 ml-7">
+                        <img
+                          src={`/uploads/${step.imagePath.replace('storage/uploads/', '')}`}
+                          alt={`Step ${index + 1}`}
+                          className="max-h-48 rounded border border-border object-contain"
+                        />
                       </div>
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+                    )}
+                  </div>
+                  <div className="ml-3 flex items-center gap-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      ref={(el) => { fileInputRefs.current[step.id] = el }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleImageUpload(step, file)
+                        e.target.value = ''
+                      }}
+                    />
+                    <button
+                      onClick={() => fileInputRefs.current[step.id]?.click()}
+                      className="rounded px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                      title={step.imagePath ? 'Replace image' : 'Upload image'}
+                    >
+                      {uploadImage.isPending ? '...' : 'Img'}
+                    </button>
+                    {step.imagePath && (
+                      <button
+                        onClick={() => handleImageDelete(step)}
+                        className="rounded px-1 py-0.5 text-xs text-red-500 hover:bg-red-50 hover:text-red-700"
+                        title="Remove image"
+                      >
+                        x
+                      </button>
+                    )}
+                    <button onClick={() => setEditingId(step.id)} className="text-xs text-primary hover:underline">Edit</button>
+                    {deletingId === step.id ? (
+                      <>
+                        <button onClick={() => handleDelete(step)} className="text-xs text-red-600 hover:underline">Yes</button>
+                        <button onClick={() => setDeletingId(null)} className="text-xs text-muted-foreground hover:underline">No</button>
+                      </>
+                    ) : (
+                      <button onClick={() => setDeletingId(step.id)} className="text-xs text-red-600 hover:underline">Del</button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
+          )}
         </div>
       )}
     </div>
@@ -551,7 +528,7 @@ function FeatureSection({ feature, projectId }: { feature: Feature; projectId: s
                       </div>
                     </div>
                     {expandedFlowId === flow.id && (
-                      <TestCasesSection flow={flow} projectId={projectId} />
+                      <StepsSection flow={flow} projectId={projectId} />
                     )}
                   </div>
                 )
@@ -580,7 +557,7 @@ export default function UatFlowsTab({ projectId }: UatFlowsTabProps) {
     <div className="rounded-lg border border-border bg-card p-6">
       <h3 className="text-lg font-semibold text-foreground">Functions</h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Functions are organized by feature. Expand a feature to manage its functions and test cases.
+        Functions are organized by feature. Expand a feature to manage its functions and steps.
       </p>
 
       {features.length === 0 ? (

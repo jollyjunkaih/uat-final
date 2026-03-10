@@ -150,42 +150,6 @@ const routes = {
     tokens: [{"old":"/api/uat-flows/reorder","type":0,"val":"api","end":""},{"old":"/api/uat-flows/reorder","type":0,"val":"uat-flows","end":""},{"old":"/api/uat-flows/reorder","type":0,"val":"reorder","end":""}],
     types: placeholder as Registry['uat_flows.reorder']['types'],
   },
-  'events.index': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/events',
-    tokens: [{"old":"/api/events","type":0,"val":"api","end":""},{"old":"/api/events","type":0,"val":"events","end":""}],
-    types: placeholder as Registry['events.index']['types'],
-  },
-  'events.store': {
-    methods: ["POST"],
-    pattern: '/api/events',
-    tokens: [{"old":"/api/events","type":0,"val":"api","end":""},{"old":"/api/events","type":0,"val":"events","end":""}],
-    types: placeholder as Registry['events.store']['types'],
-  },
-  'events.show': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/events/:id',
-    tokens: [{"old":"/api/events/:id","type":0,"val":"api","end":""},{"old":"/api/events/:id","type":0,"val":"events","end":""},{"old":"/api/events/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['events.show']['types'],
-  },
-  'events.update': {
-    methods: ["PATCH"],
-    pattern: '/api/events/:id',
-    tokens: [{"old":"/api/events/:id","type":0,"val":"api","end":""},{"old":"/api/events/:id","type":0,"val":"events","end":""},{"old":"/api/events/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['events.update']['types'],
-  },
-  'events.destroy': {
-    methods: ["DELETE"],
-    pattern: '/api/events/:id',
-    tokens: [{"old":"/api/events/:id","type":0,"val":"api","end":""},{"old":"/api/events/:id","type":0,"val":"events","end":""},{"old":"/api/events/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['events.destroy']['types'],
-  },
-  'events.reorder': {
-    methods: ["POST"],
-    pattern: '/api/events/reorder',
-    tokens: [{"old":"/api/events/reorder","type":0,"val":"api","end":""},{"old":"/api/events/reorder","type":0,"val":"events","end":""},{"old":"/api/events/reorder","type":0,"val":"reorder","end":""}],
-    types: placeholder as Registry['events.reorder']['types'],
-  },
   'versions.index': {
     methods: ["GET","HEAD"],
     pattern: '/versions',
@@ -282,41 +246,53 @@ const routes = {
     tokens: [{"old":"/api/integration/status/:projectId","type":0,"val":"api","end":""},{"old":"/api/integration/status/:projectId","type":0,"val":"integration","end":""},{"old":"/api/integration/status/:projectId","type":0,"val":"status","end":""},{"old":"/api/integration/status/:projectId","type":1,"val":"projectId","end":""}],
     types: placeholder as Registry['integration.get_status']['types'],
   },
-  'test_cases.index': {
+  'steps.index': {
     methods: ["GET","HEAD"],
-    pattern: '/api/test-cases',
-    tokens: [{"old":"/api/test-cases","type":0,"val":"api","end":""},{"old":"/api/test-cases","type":0,"val":"test-cases","end":""}],
-    types: placeholder as Registry['test_cases.index']['types'],
+    pattern: '/api/steps',
+    tokens: [{"old":"/api/steps","type":0,"val":"api","end":""},{"old":"/api/steps","type":0,"val":"steps","end":""}],
+    types: placeholder as Registry['steps.index']['types'],
   },
-  'test_cases.store': {
+  'steps.store': {
     methods: ["POST"],
-    pattern: '/api/test-cases',
-    tokens: [{"old":"/api/test-cases","type":0,"val":"api","end":""},{"old":"/api/test-cases","type":0,"val":"test-cases","end":""}],
-    types: placeholder as Registry['test_cases.store']['types'],
+    pattern: '/api/steps',
+    tokens: [{"old":"/api/steps","type":0,"val":"api","end":""},{"old":"/api/steps","type":0,"val":"steps","end":""}],
+    types: placeholder as Registry['steps.store']['types'],
   },
-  'test_cases.show': {
+  'steps.show': {
     methods: ["GET","HEAD"],
-    pattern: '/api/test-cases/:id',
-    tokens: [{"old":"/api/test-cases/:id","type":0,"val":"api","end":""},{"old":"/api/test-cases/:id","type":0,"val":"test-cases","end":""},{"old":"/api/test-cases/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['test_cases.show']['types'],
+    pattern: '/api/steps/:id',
+    tokens: [{"old":"/api/steps/:id","type":0,"val":"api","end":""},{"old":"/api/steps/:id","type":0,"val":"steps","end":""},{"old":"/api/steps/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['steps.show']['types'],
   },
-  'test_cases.update': {
+  'steps.update': {
     methods: ["PATCH"],
-    pattern: '/api/test-cases/:id',
-    tokens: [{"old":"/api/test-cases/:id","type":0,"val":"api","end":""},{"old":"/api/test-cases/:id","type":0,"val":"test-cases","end":""},{"old":"/api/test-cases/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['test_cases.update']['types'],
+    pattern: '/api/steps/:id',
+    tokens: [{"old":"/api/steps/:id","type":0,"val":"api","end":""},{"old":"/api/steps/:id","type":0,"val":"steps","end":""},{"old":"/api/steps/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['steps.update']['types'],
   },
-  'test_cases.destroy': {
+  'steps.destroy': {
     methods: ["DELETE"],
-    pattern: '/api/test-cases/:id',
-    tokens: [{"old":"/api/test-cases/:id","type":0,"val":"api","end":""},{"old":"/api/test-cases/:id","type":0,"val":"test-cases","end":""},{"old":"/api/test-cases/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['test_cases.destroy']['types'],
+    pattern: '/api/steps/:id',
+    tokens: [{"old":"/api/steps/:id","type":0,"val":"api","end":""},{"old":"/api/steps/:id","type":0,"val":"steps","end":""},{"old":"/api/steps/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['steps.destroy']['types'],
   },
-  'test_cases.reorder': {
+  'steps.reorder': {
     methods: ["POST"],
-    pattern: '/api/test-cases/reorder',
-    tokens: [{"old":"/api/test-cases/reorder","type":0,"val":"api","end":""},{"old":"/api/test-cases/reorder","type":0,"val":"test-cases","end":""},{"old":"/api/test-cases/reorder","type":0,"val":"reorder","end":""}],
-    types: placeholder as Registry['test_cases.reorder']['types'],
+    pattern: '/api/steps/reorder',
+    tokens: [{"old":"/api/steps/reorder","type":0,"val":"api","end":""},{"old":"/api/steps/reorder","type":0,"val":"steps","end":""},{"old":"/api/steps/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['steps.reorder']['types'],
+  },
+  'steps.upload_image': {
+    methods: ["POST"],
+    pattern: '/api/steps/:id/image',
+    tokens: [{"old":"/api/steps/:id/image","type":0,"val":"api","end":""},{"old":"/api/steps/:id/image","type":0,"val":"steps","end":""},{"old":"/api/steps/:id/image","type":1,"val":"id","end":""},{"old":"/api/steps/:id/image","type":0,"val":"image","end":""}],
+    types: placeholder as Registry['steps.upload_image']['types'],
+  },
+  'steps.delete_image': {
+    methods: ["DELETE"],
+    pattern: '/api/steps/:id/image',
+    tokens: [{"old":"/api/steps/:id/image","type":0,"val":"api","end":""},{"old":"/api/steps/:id/image","type":0,"val":"steps","end":""},{"old":"/api/steps/:id/image","type":1,"val":"id","end":""},{"old":"/api/steps/:id/image","type":0,"val":"image","end":""}],
+    types: placeholder as Registry['steps.delete_image']['types'],
   },
   'uploads.store': {
     methods: ["POST"],

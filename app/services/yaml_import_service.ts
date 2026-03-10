@@ -2,8 +2,7 @@ import { parse } from 'yaml'
 import Project from '#models/project'
 import Feature from '#models/feature'
 import UatFlow from '#models/uat_flow'
-import Event from '#models/event'
-import TestCase from '#models/test_case'
+import Step from '#models/step'
 import PrdCompetitor from '#models/prd_competitor'
 import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
@@ -170,35 +169,14 @@ export default class YamlImportService {
           version: 1,
         })
 
-        if (flowData.events?.length) {
-          for (const eventData of flowData.events) {
-            await Event.create({
+        if (flowData.steps?.length) {
+          for (const stepData of flowData.steps) {
+            await Step.create({
               uatFlowId: flow.id,
-              model: eventData.model,
-              name: eventData.name,
-              description: eventData.description ?? null,
-              triggerType: eventData.triggerType as 'create' | 'update' | 'delete',
-              condition: eventData.condition ?? null,
-              sequence: eventData.sequence,
-              expectedOutcome: eventData.expectedOutcome,
-              testStatus: (eventData.testStatus as 'no_tests' | 'tests_failing' | 'tests_passing') || 'no_tests',
-              notes: eventData.notes ?? null,
-            })
-          }
-        }
-
-        if (flowData.testCases?.length) {
-          for (const tcData of flowData.testCases) {
-            await TestCase.create({
-              uatFlowId: flow.id,
-              testNo: tcData.testNo,
-              descriptionOfTasks: tcData.descriptionOfTasks,
-              stepsToExecute: tcData.stepsToExecute,
-              expectedResults: tcData.expectedResults,
-              pass: tcData.pass ?? false,
-              fail: tcData.fail ?? false,
-              defectComments: tcData.defectComments ?? null,
-              sequence: tcData.sequence,
+              name: stepData.name,
+              description: stepData.description ?? null,
+              sequence: stepData.sequence,
+              imagePath: stepData.imagePath ?? null,
             })
           }
         }

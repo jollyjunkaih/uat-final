@@ -2,31 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import { apiFetch } from '~/lib/api'
 import type { Feature } from './use-features'
 
-export interface TreeEvent {
+export interface TreeStep {
   id: string
   uatFlowId: string
-  model: string
   name: string
   description: string | null
-  triggerType: string
-  condition: string | null
   sequence: number
-  expectedOutcome: string
-  testStatus: string
-  notes: string | null
-}
-
-export interface TreeTestCase {
-  id: string
-  uatFlowId: string
-  testNo: number
-  descriptionOfTasks: string
-  stepsToExecute: string
-  expectedResults: string
-  pass: boolean
-  fail: boolean
-  defectComments: string | null
-  sequence: number
+  imagePath: string | null
 }
 
 export interface TreeUatFlow {
@@ -38,8 +20,7 @@ export interface TreeUatFlow {
   status: string
   version: number
   sequence: number
-  events: TreeEvent[]
-  testCases: TreeTestCase[]
+  steps: TreeStep[]
 }
 
 export interface TreeFeature extends Feature {

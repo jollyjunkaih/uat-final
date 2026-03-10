@@ -95,26 +95,11 @@ export interface UatYamlData {
       preconditions: string | null
       status: string
       sequence: number
-      events: Array<{
-        model: string
+      steps: Array<{
         name: string
         description: string | null
-        triggerType: string
-        condition: string | null
         sequence: number
-        expectedOutcome: string
-        testStatus: string
-        notes: string | null
-      }>
-      testCases: Array<{
-        testNo: number
-        descriptionOfTasks: string
-        stepsToExecute: string
-        expectedResults: string
-        pass: boolean
-        fail: boolean
-        defectComments: string | null
-        sequence: number
+        imagePath: string | null
       }>
     }>
   }>

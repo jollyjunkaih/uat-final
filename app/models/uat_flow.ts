@@ -2,8 +2,7 @@ import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Feature from '#models/feature'
-import Event from '#models/event'
-import TestCase from '#models/test_case'
+import Step from '#models/step'
 
 export default class UatFlow extends BaseModel {
   static table = 'uat_flows'
@@ -44,9 +43,6 @@ export default class UatFlow extends BaseModel {
   @belongsTo(() => Feature)
   declare feature: BelongsTo<typeof Feature>
 
-  @hasMany(() => Event)
-  declare events: HasMany<typeof Event>
-
-  @hasMany(() => TestCase)
-  declare testCases: HasMany<typeof TestCase>
+  @hasMany(() => Step)
+  declare steps: HasMany<typeof Step>
 }

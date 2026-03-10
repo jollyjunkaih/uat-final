@@ -23,4 +23,5 @@ export const controllers = {
   Versions: () => import('#controllers/versions_controller'),
   ViewOnlyLinks: () => import('#controllers/view_only_links_controller'),
   YamlImport: () => import('#controllers/yaml_import_controller'),
+  Steps: () => import('#controllers/steps_controller'),
 }

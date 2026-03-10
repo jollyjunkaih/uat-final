@@ -89,8 +89,8 @@ export default class ExportService {
       .whereNull('deleted_at')
       .preload('uatFlows', (q) => {
         q.whereNull('deleted_at')
-          .preload('events', (eq) => {
-            eq.whereNull('deleted_at').orderBy('sequence', 'asc')
+          .preload('steps', (sq) => {
+            sq.whereNull('deleted_at').orderBy('sequence', 'asc')
           })
           .orderBy('sequence', 'asc')
       })
@@ -214,55 +214,27 @@ export default class ExportService {
           )
         }
 
-        const events = flow.events || []
-        for (let i = 0; i < events.length; i++) {
-          const event = events[i]
-          const triggerType = event.triggerType || event.trigger_type || 'N/A'
-          const expectedOutcome = event.expectedOutcome || event.expected_outcome || 'N/A'
-          const testStatus = event.testStatus || event.test_status || 'no_tests'
+        const steps = flow.steps || []
+        for (let i = 0; i < steps.length; i++) {
+          const step = steps[i]
 
           sections.push(
             new Paragraph({
-              children: [new TextRun({ text: `Step ${i + 1}: ${event.name}`, bold: true })],
-            }),
-            new Paragraph({
-              children: [
-                new TextRun({ text: 'Model: ', bold: true }),
-                new TextRun(event.model || 'N/A'),
-                new TextRun({ text: '  |  Trigger: ', bold: true }),
-                new TextRun(triggerType),
-                new TextRun({ text: '  |  Test Status: ', bold: true }),
-                new TextRun(testStatus),
-              ],
+              children: [new TextRun({ text: `Step ${i + 1}: ${step.name}`, bold: true })],
             })
           )
 
-          if (event.condition) {
-            sections.push(
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'Condition: ', bold: true }),
-                  new TextRun(event.condition),
-                ],
-              })
-            )
+          if (step.description) {
+            sections.push(new Paragraph({ text: step.description }))
           }
 
-          sections.push(
-            new Paragraph({
-              children: [
-                new TextRun({ text: 'Expected Outcome: ', bold: true }),
-                new TextRun(expectedOutcome),
-              ],
-            })
-          )
-
-          if (event.notes) {
+          const imgPath = step.imagePath || step.image_path
+          if (imgPath) {
             sections.push(
               new Paragraph({
                 children: [
-                  new TextRun({ text: 'Notes: ', bold: true }),
-                  new TextRun(event.notes),
+                  new TextRun({ text: 'Image: ', bold: true }),
+                  new TextRun(imgPath),
                 ],
               })
             )
@@ -317,15 +289,13 @@ export default class ExportService {
           lines.push(`  Flow: ${flow.name}`)
           if (flow.description) lines.push(`    ${flow.description}`)
           if (flow.preconditions) lines.push(`    Preconditions: ${flow.preconditions}`)
-          const events = flow.events || []
-          for (let i = 0; i < events.length; i++) {
-            const event = events[i]
-            const triggerType = event.triggerType || event.trigger_type || 'N/A'
-            const expectedOutcome = event.expectedOutcome || event.expected_outcome || 'N/A'
-            lines.push(`    Step ${i + 1}: ${event.name}`)
-            lines.push(`      Model: ${event.model || 'N/A'}  |  Trigger: ${triggerType}`)
-            if (event.condition) lines.push(`      Condition: ${event.condition}`)
-            lines.push(`      Expected: ${expectedOutcome}`)
+          const steps = flow.steps || []
+          for (let i = 0; i < steps.length; i++) {
+            const step = steps[i]
+            lines.push(`    Step ${i + 1}: ${step.name}`)
+            if (step.description) lines.push(`      ${step.description}`)
+            const imgPath = step.imagePath || step.image_path
+            if (imgPath) lines.push(`      Image: ${imgPath}`)
           }
           lines.push('')
         }

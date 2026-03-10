@@ -67,8 +67,8 @@ export default class VersionService {
       .where('project_id', projectId)
       .whereNull('deleted_at')
       .preload('uatFlows', (uatFlowQuery) => {
-        uatFlowQuery.whereNull('deleted_at').preload('events', (eventQuery) => {
-          eventQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+        uatFlowQuery.whereNull('deleted_at').preload('steps', (stepQuery) => {
+          stepQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
         }).orderBy('sequence', 'asc')
       })
       .orderBy('sequence', 'asc')

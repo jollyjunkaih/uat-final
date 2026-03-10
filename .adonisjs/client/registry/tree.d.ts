@@ -41,14 +41,6 @@ export interface ApiDefinition {
     destroy: typeof routes['uat_flows.destroy']
     reorder: typeof routes['uat_flows.reorder']
   }
-  events: {
-    index: typeof routes['events.index']
-    store: typeof routes['events.store']
-    show: typeof routes['events.show']
-    update: typeof routes['events.update']
-    destroy: typeof routes['events.destroy']
-    reorder: typeof routes['events.reorder']
-  }
   versions: {
     index: typeof routes['versions.index']
     store: typeof routes['versions.store']
@@ -77,13 +69,15 @@ export interface ApiDefinition {
     syncTriggers: typeof routes['integration.sync_triggers']
     getStatus: typeof routes['integration.get_status']
   }
-  testCases: {
-    index: typeof routes['test_cases.index']
-    store: typeof routes['test_cases.store']
-    show: typeof routes['test_cases.show']
-    update: typeof routes['test_cases.update']
-    destroy: typeof routes['test_cases.destroy']
-    reorder: typeof routes['test_cases.reorder']
+  steps: {
+    index: typeof routes['steps.index']
+    store: typeof routes['steps.store']
+    show: typeof routes['steps.show']
+    update: typeof routes['steps.update']
+    destroy: typeof routes['steps.destroy']
+    reorder: typeof routes['steps.reorder']
+    uploadImage: typeof routes['steps.upload_image']
+    deleteImage: typeof routes['steps.delete_image']
   }
   uploads: {
     store: typeof routes['uploads.store']

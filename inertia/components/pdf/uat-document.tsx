@@ -114,68 +114,35 @@ const styles = StyleSheet.create({
   preconditionsLabel: {
     fontWeight: 'bold',
   },
-  // Test case table
-  table: {
-    marginBottom: 12,
+  // Step styles
+  stepContainer: {
+    marginBottom: 8,
+    paddingLeft: 8,
+    borderLeftWidth: 2,
+    borderLeftColor: '#e2e8f0',
   },
-  tableHeader: {
-    flexDirection: 'row',
-    backgroundColor: '#f1f5f9',
+  stepTitle: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#334155',
+    marginBottom: 2,
+  },
+  stepDescription: {
+    fontSize: 8,
+    color: '#475569',
+    marginBottom: 4,
+    lineHeight: 1.4,
+  },
+  stepImage: {
+    maxWidth: 300,
+    maxHeight: 200,
+    marginTop: 4,
+    marginBottom: 4,
     borderWidth: 1,
     borderColor: '#e2e8f0',
+    borderRadius: 4,
   },
-  tableRow: {
-    flexDirection: 'row',
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#e2e8f0',
-    minHeight: 24,
-  },
-  tableRowAlt: {
-    backgroundColor: '#fafafa',
-  },
-  tableHeaderCell: {
-    fontSize: 7,
-    fontWeight: 'bold',
-    color: '#475569',
-    padding: 4,
-    textTransform: 'uppercase',
-    letterSpacing: 0.3,
-  },
-  tableCell: {
-    fontSize: 8,
-    color: '#1e293b',
-    padding: 4,
-    lineHeight: 1.3,
-  },
-  tableCellCenter: {
-    fontSize: 8,
-    color: '#1e293b',
-    padding: 4,
-    textAlign: 'center',
-  },
-  passText: {
-    fontSize: 8,
-    color: '#16a34a',
-    fontWeight: 'bold',
-    padding: 4,
-    textAlign: 'center',
-  },
-  failText: {
-    fontSize: 8,
-    color: '#dc2626',
-    fontWeight: 'bold',
-    padding: 4,
-    textAlign: 'center',
-  },
-  neutralText: {
-    fontSize: 8,
-    color: '#94a3b8',
-    padding: 4,
-    textAlign: 'center',
-  },
-  noTestCases: {
+  noSteps: {
     fontSize: 9,
     color: '#94a3b8',
     fontStyle: 'italic',
@@ -220,17 +187,6 @@ const styles = StyleSheet.create({
   },
 })
 
-// Column widths for test case table
-const COL = {
-  testNo: '8%',
-  description: '22%',
-  steps: '22%',
-  expected: '20%',
-  pass: '7%',
-  fail: '7%',
-  defect: '14%',
-}
-
 interface UatDocumentProps {
   projectName: string
   project: Record<string, unknown>
@@ -247,9 +203,9 @@ export default function UatDocument({ projectName, project, features, logoUrl }:
   })
 
   const totalFunctions = features.reduce((sum, f) => sum + (f.uatFlows?.length || 0), 0)
-  const totalTestCases = features.reduce(
+  const totalSteps = features.reduce(
     (sum, f) =>
-      sum + (f.uatFlows?.reduce((s, fl) => s + (fl.testCases?.length || 0), 0) || 0),
+      sum + (f.uatFlows?.reduce((s, fl) => s + (fl.steps?.length || 0), 0) || 0),
     0
   )
 
@@ -295,12 +251,12 @@ export default function UatDocument({ projectName, project, features, logoUrl }:
             <Text style={styles.metaValue}>{totalFunctions}</Text>
           </View>
           <View style={styles.metaRow}>
-            <Text style={styles.metaLabel}>Total Test Cases:</Text>
-            <Text style={styles.metaValue}>{totalTestCases}</Text>
+            <Text style={styles.metaLabel}>Total Steps:</Text>
+            <Text style={styles.metaValue}>{totalSteps}</Text>
           </View>
         </View>
 
-        {/* Features with Functions and Test Cases */}
+        {/* Features with Functions and Steps */}
         {features.map((feature) => (
           <View key={feature.id}>
             <Text style={styles.featureTitle}>Feature: {feature.name}</Text>
@@ -323,69 +279,25 @@ export default function UatDocument({ projectName, project, features, logoUrl }:
                     </Text>
                   )}
 
-                  {flow.testCases && flow.testCases.length > 0 ? (
-                    <View style={styles.table}>
-                      <View style={styles.tableHeader}>
-                        <Text style={[styles.tableHeaderCell, { width: COL.testNo }]}>
-                          Test No
+                  {flow.steps && flow.steps.length > 0 ? (
+                    flow.steps.map((step, idx) => (
+                      <View key={step.id} style={styles.stepContainer} wrap={false}>
+                        <Text style={styles.stepTitle}>
+                          Step {idx + 1}: {step.name}
                         </Text>
-                        <Text style={[styles.tableHeaderCell, { width: COL.description }]}>
-                          Description of Tasks
-                        </Text>
-                        <Text style={[styles.tableHeaderCell, { width: COL.steps }]}>
-                          Steps to Execute
-                        </Text>
-                        <Text style={[styles.tableHeaderCell, { width: COL.expected }]}>
-                          Expected Results
-                        </Text>
-                        <Text style={[styles.tableHeaderCell, { width: COL.pass }]}>Pass</Text>
-                        <Text style={[styles.tableHeaderCell, { width: COL.fail }]}>Fail</Text>
-                        <Text style={[styles.tableHeaderCell, { width: COL.defect }]}>
-                          Defect / Comments
-                        </Text>
+                        {step.description && (
+                          <Text style={styles.stepDescription}>{step.description}</Text>
+                        )}
+                        {step.imagePath && (
+                          <Image
+                            src={`/${step.imagePath}`}
+                            style={styles.stepImage}
+                          />
+                        )}
                       </View>
-                      {flow.testCases.map((tc, idx) => (
-                        <View
-                          key={tc.id}
-                          style={[styles.tableRow, idx % 2 === 1 ? styles.tableRowAlt : {}]}
-                          wrap={false}
-                        >
-                          <Text style={[styles.tableCellCenter, { width: COL.testNo }]}>
-                            {tc.testNo}
-                          </Text>
-                          <Text style={[styles.tableCell, { width: COL.description }]}>
-                            {tc.descriptionOfTasks}
-                          </Text>
-                          <Text style={[styles.tableCell, { width: COL.steps }]}>
-                            {tc.stepsToExecute}
-                          </Text>
-                          <Text style={[styles.tableCell, { width: COL.expected }]}>
-                            {tc.expectedResults}
-                          </Text>
-                          <Text
-                            style={[
-                              tc.pass ? styles.passText : styles.neutralText,
-                              { width: COL.pass },
-                            ]}
-                          >
-                            {tc.pass ? 'Y' : '—'}
-                          </Text>
-                          <Text
-                            style={[
-                              tc.fail ? styles.failText : styles.neutralText,
-                              { width: COL.fail },
-                            ]}
-                          >
-                            {tc.fail ? 'Y' : '—'}
-                          </Text>
-                          <Text style={[styles.tableCell, { width: COL.defect }]}>
-                            {tc.defectComments || ''}
-                          </Text>
-                        </View>
-                      ))}
-                    </View>
+                    ))
                   ) : (
-                    <Text style={styles.noTestCases}>No test cases defined.</Text>
+                    <Text style={styles.noSteps}>No steps defined.</Text>
                   )}
                 </View>
               ))

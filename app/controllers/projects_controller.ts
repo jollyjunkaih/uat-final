@@ -61,11 +61,8 @@ export default class ProjectsController {
       .preload('uatFlows', (uatFlowQuery) => {
         uatFlowQuery
           .whereNull('deleted_at')
-          .preload('events', (eventQuery) => {
-            eventQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
-          })
-          .preload('testCases', (testCaseQuery) => {
-            testCaseQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+          .preload('steps', (stepQuery) => {
+            stepQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
           })
           .orderBy('sequence', 'asc')
       })

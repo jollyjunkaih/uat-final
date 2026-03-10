@@ -349,6 +349,29 @@ export class SignOffRecordSchema extends BaseModel {
   declare versionId: string
 }
 
+export class StepSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'imagePath', 'name', 'sequence', 'uatFlowId', 'updatedAt'] as const
+  $columns = StepSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare imagePath: string | null
+  @column()
+  declare name: string
+  @column()
+  declare sequence: number
+  @column()
+  declare uatFlowId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class TestCaseSchema extends BaseModel {
   static $columns = ['createdAt', 'defectComments', 'deletedAt', 'descriptionOfTasks', 'expectedResults', 'fail', 'id', 'pass', 'sequence', 'stepsToExecute', 'testNo', 'uatFlowId', 'updatedAt'] as const
   $columns = TestCaseSchema.$columns

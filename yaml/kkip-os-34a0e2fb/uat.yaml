@@ -1,5 +1,5 @@
 _projectId: 34a0e2fb-b208-41a4-ad99-edb75a5ab7eb
-_generatedAt: 2026-03-10T16:32:21.183Z
+_generatedAt: 2026-03-10T17:22:29.837Z
 metadata:
   testingStartDate: null
   testingStartTime: null
@@ -23,22 +23,29 @@ features:
         preconditions: null
         status: draft
         sequence: 0
-        events: []
-        testCases: []
+        steps:
+          - name: Click Submit Button
+            description: asdfasfd
+            sequence: 0
+            imagePath: null
       - name: asdfasdf
         description: asdfasdf
         preconditions: null
         status: draft
         sequence: 0
-        events: []
-        testCases: []
+        steps: []
       - name: asdfasdf
         description: asdfasdf
         preconditions: asdfasdf
         status: draft
         sequence: 0
-        events: []
-        testCases: []
+        steps: []
+      - name: asdfasdf
+        description: asdfasdf
+        preconditions: asdfasdf
+        status: draft
+        sequence: 0
+        steps: []
   - name: asdfasdf
     description: fasdfas
     module: asdfasd
