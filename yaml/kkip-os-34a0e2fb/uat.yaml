@@ -1,0 +1,51 @@
+_projectId: 34a0e2fb-b208-41a4-ad99-edb75a5ab7eb
+_generatedAt: 2026-03-10T16:32:21.183Z
+metadata:
+  testingStartDate: null
+  testingStartTime: null
+  testingEndDate: null
+  testingEndTime: null
+  testerNames: []
+  generalComments: null
+features:
+  - name: adfasdf
+    description: null
+    module: null
+    priority: medium
+    status: draft
+    ecosystem: null
+    inScope: null
+    outOfScope: null
+    sequence: 0
+    uatFlows:
+      - name: asdfasdf
+        description: asdfasfd
+        preconditions: null
+        status: draft
+        sequence: 0
+        events: []
+        testCases: []
+      - name: asdfasdf
+        description: asdfasdf
+        preconditions: null
+        status: draft
+        sequence: 0
+        events: []
+        testCases: []
+      - name: asdfasdf
+        description: asdfasdf
+        preconditions: asdfasdf
+        status: draft
+        sequence: 0
+        events: []
+        testCases: []
+  - name: asdfasdf
+    description: fasdfas
+    module: asdfasd
+    priority: medium
+    status: draft
+    ecosystem: asdfasdf
+    inScope: asdfasdf
+    outOfScope: asdfasdf
+    sequence: 0
+    uatFlows: []

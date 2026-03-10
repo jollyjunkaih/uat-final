@@ -49,7 +49,9 @@ export default function PrdEditTab({ project }: PrdEditTabProps) {
       apiFetch(`/projects/${projectId}`, {
         method: 'PATCH',
         body: JSON.stringify({ [field]: value }),
-      }).catch((err) => toast.error(err.message))
+      })
+        .then(() => toast.success('Saved'))
+        .catch((err) => toast.error(err.message))
     }, 800)
   }, [projectId])
 

@@ -75,6 +75,8 @@ export type ScannedRoutes = {
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
     'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -176,6 +178,8 @@ export type ScannedRoutes = {
     'prd.milestones_store': { paramsTuple?: []; params?: {} }
     'prd.open_questions_store': { paramsTuple?: []; params?: {} }
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
+    'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   PATCH: {

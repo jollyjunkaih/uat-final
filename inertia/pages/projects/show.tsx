@@ -66,8 +66,22 @@ function TabContent({
   }
 }
 
+function getInitialTab(): Tab {
+  const params = new URLSearchParams(window.location.search)
+  const tab = params.get('tab')
+  const validTabs: Tab[] = ['features', 'uat-flows', 'prd-edit', 'prd-view', 'uat-view', 'versions']
+  return validTabs.includes(tab as Tab) ? (tab as Tab) : 'features'
+}
+
 export default function ProjectShow({ project }: ProjectShowProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('features')
+  const [activeTab, setActiveTab] = useState<Tab>(getInitialTab)
+
+  function switchTab(tab: Tab) {
+    setActiveTab(tab)
+    const url = new URL(window.location.href)
+    url.searchParams.set('tab', tab)
+    window.history.replaceState({}, '', url.toString())
+  }
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <div className="flex items-start justify-between">
@@ -116,7 +130,7 @@ export default function ProjectShow({ project }: ProjectShowProps) {
             {tabs.map((tab) => (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                onClick={() => switchTab(tab.key)}
                 className={cn(
                   'border-b-2 px-1 pb-3 text-sm font-medium transition-colors',
                   activeTab === tab.key

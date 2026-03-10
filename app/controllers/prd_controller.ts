@@ -13,8 +13,13 @@ import {
   createContactValidator,
   updateContactValidator,
 } from '#validators/prd_validator'
+import YamlSyncService from '#services/yaml_sync_service'
 
 export default class PrdController {
+  private syncPrd(projectId: string) {
+    new YamlSyncService().syncPrd(projectId).catch(() => {})
+  }
+
   // --- Competitors ---
   async competitorsIndex(ctx: HttpContext) {
     const projectId = ctx.request.input('projectId')
@@ -27,6 +32,7 @@ export default class PrdController {
   async competitorsStore(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(createCompetitorValidator)
     const record = await PrdCompetitor.create(payload)
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
@@ -36,13 +42,16 @@ export default class PrdController {
     const record = await PrdCompetitor.findOrFail(id)
     record.merge(payload)
     await record.save()
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
   async competitorsDestroy(ctx: HttpContext) {
     const id = ctx.params.id
     const record = await PrdCompetitor.findOrFail(id)
+    const projectId = record.projectId
     await record.delete()
+    this.syncPrd(projectId)
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -58,6 +67,7 @@ export default class PrdController {
   async milestonesStore(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(createMilestoneValidator)
     const record = await PrdMilestone.create(payload)
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
@@ -67,13 +77,16 @@ export default class PrdController {
     const record = await PrdMilestone.findOrFail(id)
     record.merge(payload)
     await record.save()
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
   async milestonesDestroy(ctx: HttpContext) {
     const id = ctx.params.id
     const record = await PrdMilestone.findOrFail(id)
+    const projectId = record.projectId
     await record.delete()
+    this.syncPrd(projectId)
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -89,6 +102,7 @@ export default class PrdController {
   async openQuestionsStore(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(createOpenQuestionValidator)
     const record = await PrdOpenQuestion.create(payload)
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
@@ -98,13 +112,16 @@ export default class PrdController {
     const record = await PrdOpenQuestion.findOrFail(id)
     record.merge(payload)
     await record.save()
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
   async openQuestionsDestroy(ctx: HttpContext) {
     const id = ctx.params.id
     const record = await PrdOpenQuestion.findOrFail(id)
+    const projectId = record.projectId
     await record.delete()
+    this.syncPrd(projectId)
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -120,6 +137,7 @@ export default class PrdController {
   async contactsStore(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(createContactValidator)
     const record = await PrdContact.create(payload)
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
@@ -129,13 +147,16 @@ export default class PrdController {
     const record = await PrdContact.findOrFail(id)
     record.merge(payload)
     await record.save()
+    this.syncPrd(record.projectId)
     return ctx.response.json({ data: record })
   }
 
   async contactsDestroy(ctx: HttpContext) {
     const id = ctx.params.id
     const record = await PrdContact.findOrFail(id)
+    const projectId = record.projectId
     await record.delete()
+    this.syncPrd(projectId)
     return ctx.response.json({ data: { success: true } })
   }
 }

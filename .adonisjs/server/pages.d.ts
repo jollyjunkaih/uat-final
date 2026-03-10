@@ -21,6 +21,7 @@ declare module '@adonisjs/inertia/types' {
     'projects/index': ExtractProps<(typeof import('../../inertia/pages/projects/index.tsx'))['default']>
     'projects/show': ExtractProps<(typeof import('../../inertia/pages/projects/show.tsx'))['default']>
     'projects/tabs/features-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/features-tab.tsx'))['default']>
+    'projects/tabs/prd-edit-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/prd-edit-tab.tsx'))['default']>
     'projects/tabs/prd-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/prd-view-tab.tsx'))['default']>
     'projects/tabs/uat-flows-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-flows-tab.tsx'))['default']>
     'projects/tabs/uat-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-view-tab.tsx'))['default']>
@@ -34,6 +35,5 @@ declare module '@adonisjs/inertia/types' {
     'sign-off/panel': ExtractProps<(typeof import('../../inertia/pages/sign-off/panel.tsx'))['default']>
     'versions/index': ExtractProps<(typeof import('../../inertia/pages/versions/index.tsx'))['default']>
     'versions/show': ExtractProps<(typeof import('../../inertia/pages/versions/show.tsx'))['default']>
-    'projects/tabs/prd-edit-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/prd-edit-tab.tsx'))['default']>
   }
 }

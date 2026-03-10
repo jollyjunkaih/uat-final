@@ -1,6 +1,6 @@
 import Upload from '#models/upload'
 import app from '@adonisjs/core/services/app'
-import { cuid } from '@adonisjs/core/helpers'
+import { randomUUID } from 'node:crypto'
 import { unlink, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { MultipartFile } from '@adonisjs/core/bodyparser'
@@ -14,7 +14,7 @@ export default class UploadService {
     const dir = this.getStoragePath(projectId)
     await mkdir(dir, { recursive: true })
 
-    const fileName = `${cuid()}-${file.clientName}`
+    const fileName = `${randomUUID()}-${file.clientName}`
     await file.move(dir, { name: fileName })
 
     if (!file.filePath) {

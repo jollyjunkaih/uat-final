@@ -29,6 +29,7 @@ const NewAccountController = () => import('#controllers/new_account_controller')
 const TestCasesController = () => import('#controllers/test_cases_controller')
 const UploadsController = () => import('#controllers/uploads_controller')
 const PrdController = () => import('#controllers/prd_controller')
+const YamlImportController = () => import('#controllers/yaml_import_controller')
 
 // Home
 router.on('/').renderInertia('home', {}).as('home')
@@ -143,6 +144,10 @@ router
     router.post('api/prd/contacts', [PrdController, 'contactsStore'])
     router.patch('api/prd/contacts/:id', [PrdController, 'contactsUpdate'])
     router.delete('api/prd/contacts/:id', [PrdController, 'contactsDestroy'])
+
+    // YAML Import
+    router.post('api/yaml/import/prd/:projectId', [YamlImportController, 'importPrd'])
+    router.post('api/yaml/import/uat/:projectId', [YamlImportController, 'importUat'])
 
     // Project tree (features + UAT flows + events in one request)
     router.get('api/projects/:id/tree', [ProjectsController, 'tree'])

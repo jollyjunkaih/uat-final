@@ -432,6 +432,18 @@ const routes = {
     tokens: [{"old":"/api/prd/contacts/:id","type":0,"val":"api","end":""},{"old":"/api/prd/contacts/:id","type":0,"val":"prd","end":""},{"old":"/api/prd/contacts/:id","type":0,"val":"contacts","end":""},{"old":"/api/prd/contacts/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['prd.contacts_destroy']['types'],
   },
+  'yaml_import.import_prd': {
+    methods: ["POST"],
+    pattern: '/api/yaml/import/prd/:projectId',
+    tokens: [{"old":"/api/yaml/import/prd/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/import/prd/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/import/prd/:projectId","type":0,"val":"import","end":""},{"old":"/api/yaml/import/prd/:projectId","type":0,"val":"prd","end":""},{"old":"/api/yaml/import/prd/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['yaml_import.import_prd']['types'],
+  },
+  'yaml_import.import_uat': {
+    methods: ["POST"],
+    pattern: '/api/yaml/import/uat/:projectId',
+    tokens: [{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"import","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"uat","end":""},{"old":"/api/yaml/import/uat/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['yaml_import.import_uat']['types'],
+  },
   'projects.tree': {
     methods: ["GET","HEAD"],
     pattern: '/api/projects/:id/tree',

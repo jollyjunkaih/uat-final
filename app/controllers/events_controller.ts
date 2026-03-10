@@ -6,6 +6,7 @@ import {
   updateEventValidator,
   reorderEventsValidator,
 } from '#validators/event_validator'
+import YamlSyncService from '#services/yaml_sync_service'
 
 export default class EventsController {
   async index(ctx: HttpContext) {
@@ -33,6 +34,9 @@ export default class EventsController {
     const data = await ctx.request.validateUsing(createEventValidator)
     const service = new EventService()
     const event = await service.create(data)
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromEvent(event.id)
+    yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: EventTransformer.transform(event) })
   }
 
@@ -41,13 +45,19 @@ export default class EventsController {
     const data = await ctx.request.validateUsing(updateEventValidator)
     const service = new EventService()
     const event = await service.update(id, data)
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromEvent(event.id)
+    yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: EventTransformer.transform(event) })
   }
 
   async destroy(ctx: HttpContext) {
     const id = ctx.params.id
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromEvent(id)
     const service = new EventService()
     await service.delete(id)
+    yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -55,6 +65,11 @@ export default class EventsController {
     const { ids } = await ctx.request.validateUsing(reorderEventsValidator)
     const service = new EventService()
     await service.reorder(ids)
+    if (ids.length > 0) {
+      const yamlSync = new YamlSyncService()
+      const projectId = await yamlSync.getProjectIdFromEvent(ids[0])
+      yamlSync.syncUat(projectId).catch(() => {})
+    }
     return ctx.response.json({ data: { success: true } })
   }
 }

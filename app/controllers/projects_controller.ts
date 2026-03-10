@@ -2,10 +2,9 @@ import type { HttpContext } from '@adonisjs/core/http'
 import ProjectService from '#services/project_service'
 import ProjectTransformer from '#transformers/project_transformer'
 import FeatureTransformer from '#transformers/feature_transformer'
-import UatFlowTransformer from '#transformers/uat_flow_transformer'
-import EventTransformer from '#transformers/event_transformer'
 import Feature from '#models/feature'
 import { createProjectValidator, updateProjectValidator } from '#validators/project_validator'
+import YamlSyncService from '#services/yaml_sync_service'
 
 export default class ProjectsController {
   async index(ctx: HttpContext) {
@@ -32,6 +31,7 @@ export default class ProjectsController {
     const data = await ctx.request.validateUsing(createProjectValidator)
     const service = new ProjectService()
     const project = await service.create({ ...data, ownerId: String(ctx.auth.user!.id) })
+    new YamlSyncService().syncAll(project.id).catch(() => {})
     return ctx.response.redirect().toPath(`/projects/${project.id}`)
   }
 
@@ -40,12 +40,14 @@ export default class ProjectsController {
     const data = await ctx.request.validateUsing(updateProjectValidator)
     const service = new ProjectService()
     await service.update(id, data)
-    return ctx.response.redirect().back()
+    new YamlSyncService().syncAll(id).catch(() => {})
+    return ctx.response.json({ success: true })
   }
 
   async destroy(ctx: HttpContext) {
     const id = ctx.params.id
     const service = new ProjectService()
+    new YamlSyncService().removeProject(id).catch(() => {})
     await service.delete(id)
     return ctx.response.redirect().toPath('/projects')
   }

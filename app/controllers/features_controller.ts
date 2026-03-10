@@ -3,6 +3,7 @@ import FeatureService from '#services/feature_service'
 import FeatureTransformer from '#transformers/feature_transformer'
 import { createFeatureValidator, updateFeatureValidator } from '#validators/feature_validator'
 import { reorderEventsValidator } from '#validators/event_validator'
+import YamlSyncService from '#services/yaml_sync_service'
 
 export default class FeaturesController {
   async index(ctx: HttpContext) {
@@ -30,6 +31,7 @@ export default class FeaturesController {
     const data = await ctx.request.validateUsing(createFeatureValidator)
     const service = new FeatureService()
     const feature = await service.create(data)
+    new YamlSyncService().syncUat(feature.projectId).catch(() => {})
     if (ctx.request.accepts(['html', 'json']) === 'json') {
       return ctx.response.json({ data: FeatureTransformer.transform(feature) })
     }
@@ -41,6 +43,7 @@ export default class FeaturesController {
     const data = await ctx.request.validateUsing(updateFeatureValidator)
     const service = new FeatureService()
     const feature = await service.update(id, data)
+    new YamlSyncService().syncUat(feature.projectId).catch(() => {})
     if (ctx.request.accepts(['html', 'json']) === 'json') {
       return ctx.response.json({ data: FeatureTransformer.transform(feature) })
     }
@@ -50,7 +53,10 @@ export default class FeaturesController {
   async destroy(ctx: HttpContext) {
     const id = ctx.params.id
     const service = new FeatureService()
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromFeature(id)
     await service.delete(id)
+    yamlSync.syncUat(projectId).catch(() => {})
     if (ctx.request.accepts(['html', 'json']) === 'json') {
       return ctx.response.json({ data: { success: true } })
     }
@@ -61,6 +67,11 @@ export default class FeaturesController {
     const { ids } = await ctx.request.validateUsing(reorderEventsValidator)
     const service = new FeatureService()
     await service.reorder(ids)
+    if (ids.length > 0) {
+      const yamlSync = new YamlSyncService()
+      const projectId = await yamlSync.getProjectIdFromFeature(ids[0])
+      yamlSync.syncUat(projectId).catch(() => {})
+    }
     return ctx.response.json({ data: { success: true } })
   }
 }

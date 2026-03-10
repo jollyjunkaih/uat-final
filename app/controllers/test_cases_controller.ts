@@ -6,6 +6,7 @@ import {
   updateTestCaseValidator,
   reorderTestCasesValidator,
 } from '#validators/test_case_validator'
+import YamlSyncService from '#services/yaml_sync_service'
 
 export default class TestCasesController {
   async index(ctx: HttpContext) {
@@ -33,6 +34,9 @@ export default class TestCasesController {
     const data = await ctx.request.validateUsing(createTestCaseValidator)
     const service = new TestCaseService()
     const testCase = await service.create(data)
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromTestCase(testCase.id)
+    yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: TestCaseTransformer.transform(testCase) })
   }
 
@@ -41,13 +45,19 @@ export default class TestCasesController {
     const data = await ctx.request.validateUsing(updateTestCaseValidator)
     const service = new TestCaseService()
     const testCase = await service.update(id, data)
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromTestCase(testCase.id)
+    yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: TestCaseTransformer.transform(testCase) })
   }
 
   async destroy(ctx: HttpContext) {
     const id = ctx.params.id
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromTestCase(id)
     const service = new TestCaseService()
     await service.delete(id)
+    yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -55,6 +65,11 @@ export default class TestCasesController {
     const { ids } = await ctx.request.validateUsing(reorderTestCasesValidator)
     const service = new TestCaseService()
     await service.reorder(ids)
+    if (ids.length > 0) {
+      const yamlSync = new YamlSyncService()
+      const projectId = await yamlSync.getProjectIdFromTestCase(ids[0])
+      yamlSync.syncUat(projectId).catch(() => {})
+    }
     return ctx.response.json({ data: { success: true } })
   }
 }

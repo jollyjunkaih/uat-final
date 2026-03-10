@@ -12,13 +12,13 @@ import type FeatureTransformer from '#transformers/feature_transformer'
 import type ProjectTransformer from '#transformers/project_transformer'
 import type SignOffLinkTransformer from '#transformers/sign_off_link_transformer'
 import type SignOffRecordTransformer from '#transformers/sign_off_record_transformer'
+import type TestCaseTransformer from '#transformers/test_case_transformer'
 import type TriggerLinkTransformer from '#transformers/trigger_link_transformer'
 import type UatFlowTransformer from '#transformers/uat_flow_transformer'
+import type UploadTransformer from '#transformers/upload_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 import type VersionTransformer from '#transformers/version_transformer'
 import type ViewOnlyLinkTransformer from '#transformers/view_only_link_transformer'
-import type TestCaseTransformer from '#transformers/test_case_transformer'
-import type UploadTransformer from '#transformers/upload_transformer'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
@@ -46,6 +46,10 @@ export namespace Data {
   export namespace SignOffRecord {
     export type Variants = InferVariants<SignOffRecordTransformer>
   }
+  export type TestCase = InferData<TestCaseTransformer>
+  export namespace TestCase {
+    export type Variants = InferVariants<TestCaseTransformer>
+  }
   export type TriggerLink = InferData<TriggerLinkTransformer>
   export namespace TriggerLink {
     export type Variants = InferVariants<TriggerLinkTransformer>
@@ -53,6 +57,10 @@ export namespace Data {
   export type UatFlow = InferData<UatFlowTransformer>
   export namespace UatFlow {
     export type Variants = InferVariants<UatFlowTransformer>
+  }
+  export type Upload = InferData<UploadTransformer>
+  export namespace Upload {
+    export type Variants = InferVariants<UploadTransformer>
   }
   export type User = InferData<UserTransformer>
   export namespace User {
@@ -65,14 +73,6 @@ export namespace Data {
   export type ViewOnlyLink = InferData<ViewOnlyLinkTransformer>
   export namespace ViewOnlyLink {
     export type Variants = InferVariants<ViewOnlyLinkTransformer>
-  }
-  export type TestCase = InferData<TestCaseTransformer>
-  export namespace TestCase {
-    export type Variants = InferVariants<TestCaseTransformer>
-  }
-  export type Upload = InferData<UploadTransformer>
-  export namespace Upload {
-    export type Variants = InferVariants<UploadTransformer>
   }
   export type SharedProps = InferSharedProps<InertiaMiddleware>
 }

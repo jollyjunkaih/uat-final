@@ -859,6 +859,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsDestroy']>>>
     }
   }
+  'yaml_import.import_prd': {
+    methods: ["POST"]
+    pattern: '/api/yaml/import/prd/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importPrd']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importPrd']>>>
+    }
+  }
+  'yaml_import.import_uat': {
+    methods: ["POST"]
+    pattern: '/api/yaml/import/uat/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUat']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUat']>>>
+    }
+  }
   'projects.tree': {
     methods: ["GET","HEAD"]
     pattern: '/api/projects/:id/tree'

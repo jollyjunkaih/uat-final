@@ -108,6 +108,10 @@ export interface ApiDefinition {
     contactsUpdate: typeof routes['prd.contacts_update']
     contactsDestroy: typeof routes['prd.contacts_destroy']
   }
+  yamlImport: {
+    importPrd: typeof routes['yaml_import.import_prd']
+    importUat: typeof routes['yaml_import.import_uat']
+  }
   publicView: {
     show: typeof routes['public_view.show']
   }
