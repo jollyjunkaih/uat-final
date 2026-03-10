@@ -1,179 +1,113 @@
-import { Link } from '@inertiajs/react'
-import { useProjectTree, type TreeFeature } from '~/hooks/use-project-tree'
-import { Badge, type BadgeVariant } from '~/components/ui/badge'
+import { useMemo } from 'react'
+import { useProjectTree } from '~/hooks/use-project-tree'
+import { pdf } from '@react-pdf/renderer'
+import { BlobProvider } from '@react-pdf/renderer'
+import UatDocument from '~/components/pdf/uat-document'
+import logoSrc from '~/public/byte of bread logo.png'
 
 interface UatViewTabProps {
   projectId: string
+  projectName: string
 }
 
-function statusVariant(status: string): BadgeVariant {
-  switch (status.toLowerCase()) {
-    case 'approved':
-    case 'passed':
-      return 'success'
-    case 'in_review':
-    case 'pending':
-    case 'ready_for_test':
-      return 'warning'
-    case 'rejected':
-    case 'failed':
-      return 'destructive'
-    case 'blocked':
-      return 'warning'
-    case 'draft':
-      return 'secondary'
-    default:
-      return 'outline'
-  }
-}
-
-function testStatusIndicator(status: string) {
-  if (status === 'tests_passing') {
-    return (
-      <span className="inline-flex items-center gap-1 text-green-700 text-xs font-medium">
-        <span className="w-2 h-2 rounded-full bg-green-500" />
-        Passing
-      </span>
-    )
-  }
-  if (status === 'tests_failing') {
-    return (
-      <span className="inline-flex items-center gap-1 text-red-700 text-xs font-medium">
-        <span className="w-2 h-2 rounded-full bg-red-500" />
-        Failing
-      </span>
-    )
-  }
-  return (
-    <span className="inline-flex items-center gap-1 text-gray-500 text-xs font-medium">
-      <span className="w-2 h-2 rounded-full bg-gray-300" />
-      No tests
-    </span>
-  )
-}
-
-function FeatureUatSection({ feature }: { feature: TreeFeature }) {
-  const hasFlows = feature.uatFlows && feature.uatFlows.length > 0
-
-  return (
-    <section className="space-y-3">
-      <h4 className="text-base font-semibold text-foreground border-b border-border pb-2">
-        {feature.name}
-        {feature.module && (
-          <span className="ml-2 text-xs font-normal text-muted-foreground">({feature.module})</span>
-        )}
-      </h4>
-
-      {!hasFlows ? (
-        <p className="text-sm text-muted-foreground py-2">No UAT flows defined for this feature.</p>
-      ) : (
-        <div className="space-y-4">
-          {feature.uatFlows.map((flow) => (
-            <div
-              key={flow.id}
-              className="rounded-lg border border-border bg-background p-4 space-y-3"
-            >
-              <div className="flex flex-wrap items-start gap-2">
-                <h5 className="text-sm font-medium text-foreground flex-1 min-w-0">
-                  {flow.name}
-                </h5>
-                <Badge variant={statusVariant(flow.status)}>
-                  {flow.status.replace(/_/g, ' ')}
-                </Badge>
-              </div>
-              {flow.description && (
-                <p className="text-sm text-muted-foreground leading-relaxed">{flow.description}</p>
-              )}
-              {flow.preconditions && (
-                <div className="text-xs text-muted-foreground">
-                  <span className="font-medium">Preconditions:</span> {flow.preconditions}
-                </div>
-              )}
-
-              {flow.events && flow.events.length > 0 && (
-                <div className="space-y-2 pt-1">
-                  <h6 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    Events
-                  </h6>
-                  <div className="space-y-2">
-                    {flow.events.map((event) => (
-                      <div
-                        key={event.id}
-                        className="rounded border border-border bg-muted/30 p-3 space-y-1.5"
-                      >
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span className="text-sm font-medium text-foreground">
-                            {event.name}
-                          </span>
-                          {testStatusIndicator(event.testStatus)}
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                          <div>
-                            <span className="font-medium">Model:</span> {event.model}
-                          </div>
-                          <div>
-                            <span className="font-medium">Trigger:</span> {event.triggerType}
-                          </div>
-                          {event.condition && (
-                            <div className="sm:col-span-2">
-                              <span className="font-medium">Condition:</span> {event.condition}
-                            </div>
-                          )}
-                          {event.expectedOutcome && (
-                            <div className="sm:col-span-2">
-                              <span className="font-medium">Expected:</span> {event.expectedOutcome}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
-  )
-}
-
-export default function UatViewTab({ projectId }: UatViewTabProps) {
+export default function UatViewTab({ projectId, projectName }: UatViewTabProps) {
   const { data, isLoading } = useProjectTree(projectId)
   const features = data?.data || []
 
-  return (
-    <div className="rounded-lg border border-border bg-card p-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">UAT View</h3>
-        <Link
-          href={`/projects/${projectId}/uat`}
-          className="text-sm font-medium text-primary hover:underline"
-        >
-          Full UAT Document
-        </Link>
-      </div>
-      <p className="mt-1 text-sm text-muted-foreground">
-        User Acceptance Testing document with all flows and events.
-      </p>
+  const document = useMemo(
+    () => <UatDocument projectName={projectName} features={features} logoUrl={logoSrc} />,
+    [projectName, features]
+  )
 
-      {isLoading ? (
-        <div className="mt-6 flex items-center justify-center py-12">
+  async function handleDownload() {
+    const blob = await pdf(document).toBlob()
+    const url = URL.createObjectURL(blob)
+    const a = Object.assign(window.document.createElement('a'), {
+      href: url,
+      download: `${projectName.replace(/\s+/g, '_')}_UAT.pdf`,
+    })
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-6">
+        <div className="flex items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
         </div>
-      ) : features.length === 0 ? (
+      </div>
+    )
+  }
+
+  if (features.length === 0) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-6">
+        <h3 className="text-lg font-semibold text-foreground">UAT View</h3>
+        <p className="mt-1 text-sm text-muted-foreground">
+          User Acceptance Testing document with all flows and events.
+        </p>
         <div className="mt-6 rounded-md border border-dashed border-border bg-muted/30 px-4 py-8 text-center">
           <p className="text-sm text-muted-foreground">
             No features defined yet. Add features and UAT flows to generate your UAT document.
           </p>
         </div>
-      ) : (
-        <div className="mt-6 space-y-6">
-          {features.map((feature) => (
-            <FeatureUatSection key={feature.id} feature={feature} />
-          ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-lg border border-border bg-card p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground">UAT View</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            User Acceptance Testing document with all flows and events.
+          </p>
         </div>
-      )}
+        <button
+          onClick={handleDownload}
+          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Download PDF
+        </button>
+      </div>
+
+      <BlobProvider document={document}>
+        {({ url, loading }) => {
+          if (loading) {
+            return (
+              <div className="flex items-center justify-center py-12">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
+              </div>
+            )
+          }
+          if (!url) return null
+          return (
+            <iframe
+              src={url}
+              className="w-full rounded-lg border border-border"
+              style={{ height: '80vh' }}
+              title="UAT Document Preview"
+            />
+          )
+        }}
+      </BlobProvider>
     </div>
   )
 }

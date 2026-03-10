@@ -44,10 +44,12 @@ function ProjectStatusBadge({ status }: { status: string }) {
 function TabContent({
   tab,
   projectId,
+  projectName,
   moduleList,
 }: {
   tab: Tab
   projectId: string
+  projectName: string
   moduleList: string[]
 }) {
   switch (tab) {
@@ -56,9 +58,9 @@ function TabContent({
     case 'uat-flows':
       return <UatFlowsTab projectId={projectId} />
     case 'prd-view':
-      return <PrdViewTab projectId={projectId} />
+      return <PrdViewTab projectId={projectId} projectName={projectName} />
     case 'uat-view':
-      return <UatViewTab projectId={projectId} />
+      return <UatViewTab projectId={projectId} projectName={projectName} />
     case 'versions':
       return <VersionsTab projectId={projectId} />
   }
@@ -129,7 +131,7 @@ export default function ProjectShow({ project }: ProjectShowProps) {
           </nav>
         </div>
         <div className="mt-6">
-          <TabContent tab={activeTab} projectId={project.id} moduleList={project.moduleList} />
+          <TabContent tab={activeTab} projectId={project.id} projectName={project.name} moduleList={project.moduleList} />
         </div>
       </div>
 

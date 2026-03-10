@@ -1,118 +1,113 @@
-import { Link } from '@adonisjs/inertia/react'
+import { useMemo } from 'react'
 import { useProjectTree } from '~/hooks/use-project-tree'
-import { Badge, type BadgeVariant } from '~/components/ui/badge'
+import { pdf } from '@react-pdf/renderer'
+import { BlobProvider } from '@react-pdf/renderer'
+import PrdDocument from '~/components/pdf/prd-document'
+import logoSrc from '~/public/byte of bread logo.png'
 
 interface PrdViewTabProps {
   projectId: string
+  projectName: string
 }
 
-function priorityVariant(priority: string): BadgeVariant {
-  switch (priority.toLowerCase()) {
-    case 'high':
-    case 'critical':
-      return 'destructive'
-    case 'medium':
-      return 'warning'
-    case 'low':
-      return 'secondary'
-    default:
-      return 'outline'
-  }
-}
-
-function statusVariant(status: string): BadgeVariant {
-  switch (status.toLowerCase()) {
-    case 'approved':
-      return 'success'
-    case 'in_review':
-    case 'pending':
-      return 'warning'
-    case 'rejected':
-    case 'deprecated':
-      return 'destructive'
-    case 'draft':
-      return 'secondary'
-    default:
-      return 'outline'
-  }
-}
-
-export default function PrdViewTab({ projectId }: PrdViewTabProps) {
+export default function PrdViewTab({ projectId, projectName }: PrdViewTabProps) {
   const { data, isLoading } = useProjectTree(projectId)
   const features = data?.data || []
-  console.log(data)
 
-  const grouped: Record<string, typeof features> = {}
-  for (const feature of features) {
-    const module = feature.module || 'General'
-    if (!grouped[module]) grouped[module] = []
-    grouped[module].push(feature)
+  const document = useMemo(
+    () => <PrdDocument projectName={projectName} features={features} logoUrl={logoSrc} />,
+    [projectName, features]
+  )
+
+  async function handleDownload() {
+    const blob = await pdf(document).toBlob()
+    const url = URL.createObjectURL(blob)
+    const a = Object.assign(window.document.createElement('a'), {
+      href: url,
+      download: `${projectName.replace(/\s+/g, '_')}_PRD.pdf`,
+    })
+    a.click()
+    URL.revokeObjectURL(url)
   }
-  const modules = Object.keys(grouped).sort()
 
-  return (
-    <div className="rounded-lg border border-border bg-card p-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">PRD View</h3>
-        <Link
-          href={`/projects/${projectId}/prd`}
-          className="text-sm font-medium text-primary hover:underline"
-        >
-          Full PRD Document
-        </Link>
-      </div>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Product Requirements Document generated from your project features.
-      </p>
-
-      {isLoading ? (
-        <div className="mt-6 flex items-center justify-center py-12">
+  if (isLoading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-6">
+        <div className="flex items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
         </div>
-      ) : modules.length === 0 ? (
+      </div>
+    )
+  }
+
+  if (features.length === 0) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-6">
+        <h3 className="text-lg font-semibold text-foreground">PRD View</h3>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Product Requirements Document generated from your project features.
+        </p>
         <div className="mt-6 rounded-md border border-dashed border-border bg-muted/30 px-4 py-8 text-center">
           <p className="text-sm text-muted-foreground">
             No features defined yet. Add features in the Features tab to generate your PRD.
           </p>
         </div>
-      ) : (
-        <div className="mt-6 space-y-6">
-          {modules.map((moduleName) => (
-            <section key={moduleName} className="space-y-3">
-              <h4 className="text-base font-semibold text-foreground border-b border-border pb-2">
-                {moduleName}
-              </h4>
-              <div className="space-y-3">
-                {grouped[moduleName].map((feature) => (
-                  <div
-                    key={feature.id}
-                    className="rounded-lg border border-border bg-background p-4 space-y-2"
-                  >
-                    <div className="flex flex-wrap items-start gap-2">
-                      <h5 className="text-sm font-medium text-foreground flex-1 min-w-0">
-                        {feature.name}
-                      </h5>
-                      <div className="flex flex-wrap gap-1.5">
-                        <Badge variant={priorityVariant(feature.priority)}>
-                          {feature.priority}
-                        </Badge>
-                        <Badge variant={statusVariant(feature.status)}>
-                          {feature.status.replace(/_/g, ' ')}
-                        </Badge>
-                      </div>
-                    </div>
-                    {feature.description && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {feature.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
-          ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-lg border border-border bg-card p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground">PRD View</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Product Requirements Document generated from your project features.
+          </p>
         </div>
-      )}
+        <button
+          onClick={handleDownload}
+          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Download PDF
+        </button>
+      </div>
+
+      <BlobProvider document={document}>
+        {({ url, loading }) => {
+          if (loading) {
+            return (
+              <div className="flex items-center justify-center py-12">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
+              </div>
+            )
+          }
+          if (!url) return null
+          return (
+            <iframe
+              src={url}
+              className="w-full rounded-lg border border-border"
+              style={{ height: '80vh' }}
+              title="PRD Document Preview"
+            />
+          )
+        }}
+      </BlobProvider>
     </div>
   )
 }
