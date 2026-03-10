@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react'
+import { Link } from '@adonisjs/inertia/react'
 import { useProjectTree } from '~/hooks/use-project-tree'
 import { Badge, type BadgeVariant } from '~/components/ui/badge'
 
@@ -40,6 +40,7 @@ function statusVariant(status: string): BadgeVariant {
 export default function PrdViewTab({ projectId }: PrdViewTabProps) {
   const { data, isLoading } = useProjectTree(projectId)
   const features = data?.data || []
+  console.log(data)
 
   const grouped: Record<string, typeof features> = {}
   for (const feature of features) {

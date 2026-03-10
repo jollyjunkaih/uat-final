@@ -3,6 +3,7 @@ import ProjectService from '#services/project_service'
 import ProjectTransformer from '#transformers/project_transformer'
 import FeatureTransformer from '#transformers/feature_transformer'
 import UatFlowTransformer from '#transformers/uat_flow_transformer'
+import EventTransformer from '#transformers/event_transformer'
 import Feature from '#models/feature'
 import { createProjectValidator, updateProjectValidator } from '#validators/project_validator'
 
@@ -65,32 +66,8 @@ export default class ProjectsController {
       })
       .orderBy('sequence', 'asc')
 
-    const data = features.map((feature) => {
-      const f = FeatureTransformer.transform(feature)
-      return {
-        ...f,
-        uatFlows: feature.uatFlows.map((flow) => {
-          const fl = UatFlowTransformer.transform(flow)
-          return {
-            ...fl,
-            events: flow.events.map((event) => ({
-              id: event.id,
-              uatFlowId: event.uatFlowId,
-              model: event.model,
-              name: event.name,
-              description: event.description,
-              triggerType: event.triggerType,
-              condition: event.condition,
-              sequence: event.sequence,
-              expectedOutcome: event.expectedOutcome,
-              testStatus: event.testStatus,
-              notes: event.notes,
-            })),
-          }
-        }),
-      }
-    })
+    const data = await ctx.serialize(FeatureTransformer.transform(features))
 
-    return ctx.response.json({ data })
+    return ctx.response.json(data)
   }
 }
