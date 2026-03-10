@@ -7,16 +7,18 @@ import UatFlowsTab from './tabs/uat-flows-tab'
 import PrdViewTab from './tabs/prd-view-tab'
 import UatViewTab from './tabs/uat-view-tab'
 import VersionsTab from './tabs/versions-tab'
+import PrdEditTab from './tabs/prd-edit-tab'
 
 interface ProjectShowProps {
   project: Data.Project
 }
 
-type Tab = 'features' | 'uat-flows' | 'prd-view' | 'uat-view' | 'versions'
+type Tab = 'features' | 'uat-flows' | 'prd-edit' | 'prd-view' | 'uat-view' | 'versions'
 
 const tabs: { key: Tab; label: string }[] = [
   { key: 'features', label: 'Features' },
-  { key: 'uat-flows', label: 'UAT Flows' },
+  { key: 'uat-flows', label: 'Functions' },
+  { key: 'prd-edit', label: 'PRD Edit' },
   { key: 'prd-view', label: 'PRD View' },
   { key: 'uat-view', label: 'UAT View' },
   { key: 'versions', label: 'Versions' },
@@ -43,32 +45,29 @@ function ProjectStatusBadge({ status }: { status: string }) {
 
 function TabContent({
   tab,
-  projectId,
-  projectName,
-  moduleList,
+  project,
 }: {
   tab: Tab
-  projectId: string
-  projectName: string
-  moduleList: string[]
+  project: Data.Project
 }) {
   switch (tab) {
     case 'features':
-      return <FeaturesTab projectId={projectId} moduleList={moduleList} />
+      return <FeaturesTab projectId={project.id} moduleList={project.moduleList} />
     case 'uat-flows':
-      return <UatFlowsTab projectId={projectId} />
+      return <UatFlowsTab projectId={project.id} />
+    case 'prd-edit':
+      return <PrdEditTab project={project} />
     case 'prd-view':
-      return <PrdViewTab projectId={projectId} projectName={projectName} />
+      return <PrdViewTab projectId={project.id} projectName={project.name} project={project} />
     case 'uat-view':
-      return <UatViewTab projectId={projectId} projectName={projectName} />
+      return <UatViewTab projectId={project.id} projectName={project.name} project={project} />
     case 'versions':
-      return <VersionsTab projectId={projectId} />
+      return <VersionsTab projectId={project.id} />
   }
 }
 
 export default function ProjectShow({ project }: ProjectShowProps) {
   const [activeTab, setActiveTab] = useState<Tab>('features')
-  console.log(project)
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <div className="flex items-start justify-between">
@@ -131,7 +130,7 @@ export default function ProjectShow({ project }: ProjectShowProps) {
           </nav>
         </div>
         <div className="mt-6">
-          <TabContent tab={activeTab} projectId={project.id} projectName={project.name} moduleList={project.moduleList} />
+          <TabContent tab={activeTab} project={project} />
         </div>
       </div>
 

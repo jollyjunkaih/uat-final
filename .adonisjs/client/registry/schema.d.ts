@@ -559,6 +559,306 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/integration_controller').default['getStatus']>>>
     }
   }
+  'test_cases.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/test-cases'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['index']>>>
+    }
+  }
+  'test_cases.store': {
+    methods: ["POST"]
+    pattern: '/api/test-cases'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/test_case_validator').createTestCaseValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/test_case_validator').createTestCaseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'test_cases.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/test-cases/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['show']>>>
+    }
+  }
+  'test_cases.update': {
+    methods: ["PATCH"]
+    pattern: '/api/test-cases/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/test_case_validator').updateTestCaseValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/test_case_validator').updateTestCaseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'test_cases.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/test-cases/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['destroy']>>>
+    }
+  }
+  'test_cases.reorder': {
+    methods: ["POST"]
+    pattern: '/api/test-cases/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/test_case_validator').reorderTestCasesValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/test_case_validator').reorderTestCasesValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/test_cases_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'uploads.store': {
+    methods: ["POST"]
+    pattern: '/api/uploads'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uploads_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uploads_controller').default['store']>>>
+    }
+  }
+  'uploads.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/uploads'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uploads_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uploads_controller').default['index']>>>
+    }
+  }
+  'uploads.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/uploads/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uploads_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uploads_controller').default['destroy']>>>
+    }
+  }
+  'prd.competitors_index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/prd/competitors'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsIndex']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsIndex']>>>
+    }
+  }
+  'prd.competitors_store': {
+    methods: ["POST"]
+    pattern: '/api/prd/competitors'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').createCompetitorValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').createCompetitorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsStore']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsStore']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.competitors_update': {
+    methods: ["PATCH"]
+    pattern: '/api/prd/competitors/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').updateCompetitorValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').updateCompetitorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsUpdate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsUpdate']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.competitors_destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/prd/competitors/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsDestroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['competitorsDestroy']>>>
+    }
+  }
+  'prd.milestones_index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/prd/milestones'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesIndex']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesIndex']>>>
+    }
+  }
+  'prd.milestones_store': {
+    methods: ["POST"]
+    pattern: '/api/prd/milestones'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').createMilestoneValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').createMilestoneValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesStore']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesStore']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.milestones_update': {
+    methods: ["PATCH"]
+    pattern: '/api/prd/milestones/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').updateMilestoneValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').updateMilestoneValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesUpdate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesUpdate']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.milestones_destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/prd/milestones/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesDestroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['milestonesDestroy']>>>
+    }
+  }
+  'prd.open_questions_index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/prd/open-questions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsIndex']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsIndex']>>>
+    }
+  }
+  'prd.open_questions_store': {
+    methods: ["POST"]
+    pattern: '/api/prd/open-questions'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').createOpenQuestionValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').createOpenQuestionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsStore']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsStore']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.open_questions_update': {
+    methods: ["PATCH"]
+    pattern: '/api/prd/open-questions/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').updateOpenQuestionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').updateOpenQuestionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsUpdate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsUpdate']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.open_questions_destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/prd/open-questions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsDestroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['openQuestionsDestroy']>>>
+    }
+  }
+  'prd.contacts_index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/prd/contacts'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsIndex']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsIndex']>>>
+    }
+  }
+  'prd.contacts_store': {
+    methods: ["POST"]
+    pattern: '/api/prd/contacts'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').createContactValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').createContactValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsStore']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsStore']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.contacts_update': {
+    methods: ["PATCH"]
+    pattern: '/api/prd/contacts/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/prd_validator').updateContactValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/prd_validator').updateContactValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsUpdate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsUpdate']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'prd.contacts_destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/prd/contacts/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsDestroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsDestroy']>>>
+    }
+  }
   'projects.tree': {
     methods: ["GET","HEAD"]
     pattern: '/api/projects/:id/tree'

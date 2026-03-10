@@ -19,4 +19,7 @@ export const controllers = {
   UatFlows: () => import('#controllers/uat_flows_controller'),
   Versions: () => import('#controllers/versions_controller'),
   ViewOnlyLinks: () => import('#controllers/view_only_links_controller'),
+  TestCases: () => import('#controllers/test_cases_controller'),
+  Uploads: () => import('#controllers/uploads_controller'),
+  Prd: () => import('#controllers/prd_controller'),
 }

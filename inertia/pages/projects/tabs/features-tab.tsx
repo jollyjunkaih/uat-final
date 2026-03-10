@@ -36,10 +36,13 @@ function FeatureForm({
   const [description, setDescription] = useState(initial?.description || '')
   const [module, setModule] = useState(initial?.module || '')
   const [priority, setPriority] = useState<string>(initial?.priority || 'medium')
+  const [ecosystem, setEcosystem] = useState((initial as Record<string, unknown>)?.ecosystem as string || '')
+  const [inScope, setInScope] = useState((initial as Record<string, unknown>)?.inScope as string || '')
+  const [outOfScope, setOutOfScope] = useState((initial as Record<string, unknown>)?.outOfScope as string || '')
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    onSubmit({ name, description, module, priority })
+    onSubmit({ name, description, module, priority, ecosystem, inScope, outOfScope })
   }
 
   return (
@@ -91,6 +94,38 @@ function FeatureForm({
           className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
           placeholder="Describe this feature (optional)"
         />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-foreground">Other Product Compatibility & Ecosystem</label>
+        <textarea
+          rows={2}
+          value={ecosystem}
+          onChange={(e) => setEcosystem(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+          placeholder="Describe how this feature integrates with other devices, platforms, or software systems (optional)"
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label className="block text-sm font-medium text-foreground">In Scope</label>
+          <textarea
+            rows={2}
+            value={inScope}
+            onChange={(e) => setInScope(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+            placeholder="Core features & functionalities included (optional)"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-foreground">Out of Scope (Future Considerations)</label>
+          <textarea
+            rows={2}
+            value={outOfScope}
+            onChange={(e) => setOutOfScope(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+            placeholder="What will not be addressed in this version (optional)"
+          />
+        </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-foreground">Priority</label>
@@ -149,6 +184,9 @@ export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps)
         description: formData.description || undefined,
         module: formData.module || undefined,
         priority: formData.priority,
+        ecosystem: formData.ecosystem || undefined,
+        inScope: formData.inScope || undefined,
+        outOfScope: formData.outOfScope || undefined,
         ownerId: user?.id || '',
       },
       {
@@ -169,6 +207,9 @@ export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps)
         description: formData.description || null,
         module: formData.module || null,
         priority: formData.priority,
+        ecosystem: formData.ecosystem || null,
+        inScope: formData.inScope || null,
+        outOfScope: formData.outOfScope || null,
       },
       {
         onSuccess: () => {

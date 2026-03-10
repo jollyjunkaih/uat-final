@@ -26,6 +26,9 @@ const PublicViewController = () => import('#controllers/public_view_controller')
 const PublicSignOffController = () => import('#controllers/public_sign_off_controller')
 const SessionController = () => import('#controllers/session_controller')
 const NewAccountController = () => import('#controllers/new_account_controller')
+const TestCasesController = () => import('#controllers/test_cases_controller')
+const UploadsController = () => import('#controllers/uploads_controller')
+const PrdController = () => import('#controllers/prd_controller')
 
 // Home
 router.on('/').renderInertia('home', {}).as('home')
@@ -107,6 +110,40 @@ router
     router.post('api/integration/sync', [IntegrationController, 'syncTriggers'])
     router.get('api/integration/status/:projectId', [IntegrationController, 'getStatus'])
 
+    // Test Cases
+    router.get('api/test-cases', [TestCasesController, 'index'])
+    router.post('api/test-cases', [TestCasesController, 'store'])
+    router.get('api/test-cases/:id', [TestCasesController, 'show'])
+    router.patch('api/test-cases/:id', [TestCasesController, 'update'])
+    router.delete('api/test-cases/:id', [TestCasesController, 'destroy'])
+    router.post('api/test-cases/reorder', [TestCasesController, 'reorder'])
+
+    // Uploads
+    router.post('api/uploads', [UploadsController, 'store'])
+    router.get('api/uploads', [UploadsController, 'index'])
+    router.delete('api/uploads/:id', [UploadsController, 'destroy'])
+
+    // PRD Sub-resources (Competitors, Milestones, Open Questions, Contacts)
+    router.get('api/prd/competitors', [PrdController, 'competitorsIndex'])
+    router.post('api/prd/competitors', [PrdController, 'competitorsStore'])
+    router.patch('api/prd/competitors/:id', [PrdController, 'competitorsUpdate'])
+    router.delete('api/prd/competitors/:id', [PrdController, 'competitorsDestroy'])
+
+    router.get('api/prd/milestones', [PrdController, 'milestonesIndex'])
+    router.post('api/prd/milestones', [PrdController, 'milestonesStore'])
+    router.patch('api/prd/milestones/:id', [PrdController, 'milestonesUpdate'])
+    router.delete('api/prd/milestones/:id', [PrdController, 'milestonesDestroy'])
+
+    router.get('api/prd/open-questions', [PrdController, 'openQuestionsIndex'])
+    router.post('api/prd/open-questions', [PrdController, 'openQuestionsStore'])
+    router.patch('api/prd/open-questions/:id', [PrdController, 'openQuestionsUpdate'])
+    router.delete('api/prd/open-questions/:id', [PrdController, 'openQuestionsDestroy'])
+
+    router.get('api/prd/contacts', [PrdController, 'contactsIndex'])
+    router.post('api/prd/contacts', [PrdController, 'contactsStore'])
+    router.patch('api/prd/contacts/:id', [PrdController, 'contactsUpdate'])
+    router.delete('api/prd/contacts/:id', [PrdController, 'contactsDestroy'])
+
     // Project tree (features + UAT flows + events in one request)
     router.get('api/projects/:id/tree', [ProjectsController, 'tree'])
 
@@ -116,6 +153,15 @@ router
     router.get('projects/:id/uat', [ProjectsController, 'show']).as('projects.uat')
   })
   .use(middleware.auth())
+
+// Serve uploaded files
+router.get('uploads/*', async (ctx) => {
+  const filePath = ctx.params['*'].join('/')
+  const { join } = await import('node:path')
+  const app = (await import('@adonisjs/core/services/app')).default
+  const fullPath = join(app.makePath('storage/uploads'), filePath)
+  return ctx.response.download(fullPath)
+})
 
 // Public routes (no auth required)
 router.get('share/view/:token', [PublicViewController, 'show'])

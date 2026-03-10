@@ -4,19 +4,28 @@ import { pdf } from '@react-pdf/renderer'
 import { BlobProvider } from '@react-pdf/renderer'
 import UatDocument from '~/components/pdf/uat-document'
 import logoSrc from '~/public/byte of bread logo.png'
+import type { Data } from '@generated/data'
 
 interface UatViewTabProps {
   projectId: string
   projectName: string
+  project: Data.Project
 }
 
-export default function UatViewTab({ projectId, projectName }: UatViewTabProps) {
+export default function UatViewTab({ projectId, projectName, project }: UatViewTabProps) {
   const { data, isLoading } = useProjectTree(projectId)
   const features = data?.data || []
 
   const document = useMemo(
-    () => <UatDocument projectName={projectName} features={features} logoUrl={logoSrc} />,
-    [projectName, features]
+    () => (
+      <UatDocument
+        projectName={projectName}
+        project={project as unknown as Record<string, unknown>}
+        features={features}
+        logoUrl={logoSrc}
+      />
+    ),
+    [projectName, project, features]
   )
 
   async function handleDownload() {
@@ -45,11 +54,11 @@ export default function UatViewTab({ projectId, projectName }: UatViewTabProps) 
       <div className="rounded-lg border border-border bg-card p-6">
         <h3 className="text-lg font-semibold text-foreground">UAT View</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          User Acceptance Testing document with all flows and events.
+          User Acceptance Testing document with all functions and test cases.
         </p>
         <div className="mt-6 rounded-md border border-dashed border-border bg-muted/30 px-4 py-8 text-center">
           <p className="text-sm text-muted-foreground">
-            No features defined yet. Add features and UAT flows to generate your UAT document.
+            No features defined yet. Add features and functions to generate your UAT document.
           </p>
         </div>
       </div>
@@ -62,7 +71,7 @@ export default function UatViewTab({ projectId, projectName }: UatViewTabProps) 
         <div>
           <h3 className="text-lg font-semibold text-foreground">UAT View</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            User Acceptance Testing document with all flows and events.
+            User Acceptance Testing document with all functions and test cases.
           </p>
         </div>
         <button

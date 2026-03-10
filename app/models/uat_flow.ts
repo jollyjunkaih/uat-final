@@ -3,6 +3,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Feature from '#models/feature'
 import Event from '#models/event'
+import TestCase from '#models/test_case'
 
 export default class UatFlow extends BaseModel {
   static table = 'uat_flows'
@@ -45,4 +46,7 @@ export default class UatFlow extends BaseModel {
 
   @hasMany(() => Event)
   declare events: HasMany<typeof Event>
+
+  @hasMany(() => TestCase)
+  declare testCases: HasMany<typeof TestCase>
 }

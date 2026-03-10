@@ -14,6 +14,51 @@ export default class ProjectTransformer extends BaseTransformer<Project> {
       'integrationEnabled',
       'integrationConfig',
       'status',
+      // Product Overview
+      'companyName',
+      'productName',
+      'projectManager',
+      'contributors',
+      'prdVersion',
+      'locationsOfSale',
+      'prdDate',
+      'preparedBy',
+      // Purpose
+      'objective',
+      'targetMarket',
+      'targetAudience',
+      'successMetrics',
+      // User Interaction
+      'userInteractions',
+      'touchpoint',
+      'userFeedback',
+      // Design & Branding
+      'formFactor',
+      'materials',
+      'brandingAdjectives',
+      'brandingTone',
+      'visualIdentity',
+      'packagingPresentation',
+      // Software Architecture
+      'firmwareFunctions',
+      'cloudApplication',
+      'smartphoneApplication',
+      // Servicing & Updates
+      'servicingUpdates',
+      // Milestones
+      'targetReleaseDate',
+      // Additional Information
+      'diagramsSchematics',
+      'bom',
+      'additionalResources',
+      'additionalVisualIdentity',
+      // UAT Metadata
+      'testingStartDate',
+      'testingStartTime',
+      'testingEndDate',
+      'testingEndTime',
+      'testerNames',
+      'generalComments',
       'createdAt',
       'updatedAt',
       'deletedAt',

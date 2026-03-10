@@ -77,6 +77,37 @@ export interface ApiDefinition {
     syncTriggers: typeof routes['integration.sync_triggers']
     getStatus: typeof routes['integration.get_status']
   }
+  testCases: {
+    index: typeof routes['test_cases.index']
+    store: typeof routes['test_cases.store']
+    show: typeof routes['test_cases.show']
+    update: typeof routes['test_cases.update']
+    destroy: typeof routes['test_cases.destroy']
+    reorder: typeof routes['test_cases.reorder']
+  }
+  uploads: {
+    store: typeof routes['uploads.store']
+    index: typeof routes['uploads.index']
+    destroy: typeof routes['uploads.destroy']
+  }
+  prd: {
+    competitorsIndex: typeof routes['prd.competitors_index']
+    competitorsStore: typeof routes['prd.competitors_store']
+    competitorsUpdate: typeof routes['prd.competitors_update']
+    competitorsDestroy: typeof routes['prd.competitors_destroy']
+    milestonesIndex: typeof routes['prd.milestones_index']
+    milestonesStore: typeof routes['prd.milestones_store']
+    milestonesUpdate: typeof routes['prd.milestones_update']
+    milestonesDestroy: typeof routes['prd.milestones_destroy']
+    openQuestionsIndex: typeof routes['prd.open_questions_index']
+    openQuestionsStore: typeof routes['prd.open_questions_store']
+    openQuestionsUpdate: typeof routes['prd.open_questions_update']
+    openQuestionsDestroy: typeof routes['prd.open_questions_destroy']
+    contactsIndex: typeof routes['prd.contacts_index']
+    contactsStore: typeof routes['prd.contacts_store']
+    contactsUpdate: typeof routes['prd.contacts_update']
+    contactsDestroy: typeof routes['prd.contacts_destroy']
+  }
   publicView: {
     show: typeof routes['public_view.show']
   }

@@ -50,6 +50,31 @@ export type ScannedRoutes = {
     'settings.update': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'integration.sync_triggers': { paramsTuple?: []; params?: {} }
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'test_cases.index': { paramsTuple?: []; params?: {} }
+    'test_cases.store': { paramsTuple?: []; params?: {} }
+    'test_cases.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'test_cases.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'test_cases.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'test_cases.reorder': { paramsTuple?: []; params?: {} }
+    'uploads.store': { paramsTuple?: []; params?: {} }
+    'uploads.index': { paramsTuple?: []; params?: {} }
+    'uploads.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.competitors_index': { paramsTuple?: []; params?: {} }
+    'prd.competitors_store': { paramsTuple?: []; params?: {} }
+    'prd.competitors_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.competitors_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.milestones_index': { paramsTuple?: []; params?: {} }
+    'prd.milestones_store': { paramsTuple?: []; params?: {} }
+    'prd.milestones_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.milestones_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.open_questions_index': { paramsTuple?: []; params?: {} }
+    'prd.open_questions_store': { paramsTuple?: []; params?: {} }
+    'prd.open_questions_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.open_questions_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.contacts_index': { paramsTuple?: []; params?: {} }
+    'prd.contacts_store': { paramsTuple?: []; params?: {} }
+    'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -79,6 +104,13 @@ export type ScannedRoutes = {
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'test_cases.index': { paramsTuple?: []; params?: {} }
+    'test_cases.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'uploads.index': { paramsTuple?: []; params?: {} }
+    'prd.competitors_index': { paramsTuple?: []; params?: {} }
+    'prd.milestones_index': { paramsTuple?: []; params?: {} }
+    'prd.open_questions_index': { paramsTuple?: []; params?: {} }
+    'prd.contacts_index': { paramsTuple?: []; params?: {} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -107,6 +139,13 @@ export type ScannedRoutes = {
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'test_cases.index': { paramsTuple?: []; params?: {} }
+    'test_cases.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'uploads.index': { paramsTuple?: []; params?: {} }
+    'prd.competitors_index': { paramsTuple?: []; params?: {} }
+    'prd.milestones_index': { paramsTuple?: []; params?: {} }
+    'prd.open_questions_index': { paramsTuple?: []; params?: {} }
+    'prd.contacts_index': { paramsTuple?: []; params?: {} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -130,6 +169,13 @@ export type ScannedRoutes = {
     'view_only_links.store': { paramsTuple?: []; params?: {} }
     'view_only_links.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'integration.sync_triggers': { paramsTuple?: []; params?: {} }
+    'test_cases.store': { paramsTuple?: []; params?: {} }
+    'test_cases.reorder': { paramsTuple?: []; params?: {} }
+    'uploads.store': { paramsTuple?: []; params?: {} }
+    'prd.competitors_store': { paramsTuple?: []; params?: {} }
+    'prd.milestones_store': { paramsTuple?: []; params?: {} }
+    'prd.open_questions_store': { paramsTuple?: []; params?: {} }
+    'prd.contacts_store': { paramsTuple?: []; params?: {} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   PATCH: {
@@ -138,12 +184,23 @@ export type ScannedRoutes = {
     'uat_flows.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'events.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'settings.update': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'test_cases.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.competitors_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.milestones_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.open_questions_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'features.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'events.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'test_cases.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'uploads.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.competitors_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.milestones_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.open_questions_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

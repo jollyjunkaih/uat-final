@@ -28,6 +28,15 @@ export default class Feature extends BaseModel {
   declare status: 'draft' | 'in_review' | 'approved' | 'deprecated'
 
   @column()
+  declare ecosystem: string | null
+
+  @column()
+  declare inScope: string | null
+
+  @column()
+  declare outOfScope: string | null
+
+  @column()
   declare ownerId: string
 
   @column()

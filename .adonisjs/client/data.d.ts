@@ -17,6 +17,8 @@ import type UatFlowTransformer from '#transformers/uat_flow_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 import type VersionTransformer from '#transformers/version_transformer'
 import type ViewOnlyLinkTransformer from '#transformers/view_only_link_transformer'
+import type TestCaseTransformer from '#transformers/test_case_transformer'
+import type UploadTransformer from '#transformers/upload_transformer'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
@@ -63,6 +65,14 @@ export namespace Data {
   export type ViewOnlyLink = InferData<ViewOnlyLinkTransformer>
   export namespace ViewOnlyLink {
     export type Variants = InferVariants<ViewOnlyLinkTransformer>
+  }
+  export type TestCase = InferData<TestCaseTransformer>
+  export namespace TestCase {
+    export type Variants = InferVariants<TestCaseTransformer>
+  }
+  export type Upload = InferData<UploadTransformer>
+  export namespace Upload {
+    export type Variants = InferVariants<UploadTransformer>
   }
   export type SharedProps = InferSharedProps<InertiaMiddleware>
 }

@@ -16,6 +16,19 @@ export interface TreeEvent {
   notes: string | null
 }
 
+export interface TreeTestCase {
+  id: string
+  uatFlowId: string
+  testNo: number
+  descriptionOfTasks: string
+  stepsToExecute: string
+  expectedResults: string
+  pass: boolean
+  fail: boolean
+  defectComments: string | null
+  sequence: number
+}
+
 export interface TreeUatFlow {
   id: string
   featureId: string
@@ -26,6 +39,7 @@ export interface TreeUatFlow {
   version: number
   sequence: number
   events: TreeEvent[]
+  testCases: TreeTestCase[]
 }
 
 export interface TreeFeature extends Feature {

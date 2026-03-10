@@ -1,22 +1,51 @@
 import { useMemo } from 'react'
 import { useProjectTree } from '~/hooks/use-project-tree'
+import { useCompetitors, useMilestones, useOpenQuestions, useContacts } from '~/hooks/use-prd-data'
+import { useUploads } from '~/hooks/use-uploads'
 import { pdf } from '@react-pdf/renderer'
 import { BlobProvider } from '@react-pdf/renderer'
 import PrdDocument from '~/components/pdf/prd-document'
 import logoSrc from '~/public/byte of bread logo.png'
+import type { Data } from '@generated/data'
 
 interface PrdViewTabProps {
   projectId: string
   projectName: string
+  project: Data.Project
 }
 
-export default function PrdViewTab({ projectId, projectName }: PrdViewTabProps) {
-  const { data, isLoading } = useProjectTree(projectId)
-  const features = data?.data || []
+export default function PrdViewTab({ projectId, projectName, project }: PrdViewTabProps) {
+  const { data: treeData, isLoading: treeLoading } = useProjectTree(projectId)
+  const { data: competitorsData, isLoading: compLoading } = useCompetitors(projectId)
+  const { data: milestonesData, isLoading: msLoading } = useMilestones(projectId)
+  const { data: questionsData, isLoading: qLoading } = useOpenQuestions(projectId)
+  const { data: contactsData, isLoading: ctLoading } = useContacts(projectId)
+  const { data: uploadsData, isLoading: upLoading } = useUploads(projectId)
+
+  const features = treeData?.data || []
+  const competitors = competitorsData?.data || []
+  const milestones = milestonesData?.data || []
+  const openQuestions = questionsData?.data || []
+  const contacts = contactsData?.data || []
+  const uploads = uploadsData?.data || []
+
+  const isLoading = treeLoading || compLoading || msLoading || qLoading || ctLoading || upLoading
 
   const document = useMemo(
-    () => <PrdDocument projectName={projectName} features={features} logoUrl={logoSrc} />,
-    [projectName, features]
+    () => (
+      <PrdDocument
+        projectName={projectName}
+        project={project as unknown as Record<string, unknown>}
+        features={features}
+        competitors={competitors}
+        milestones={milestones}
+        openQuestions={openQuestions}
+        contacts={contacts}
+        uploads={uploads}
+        logoUrl={logoSrc}
+      />
+    ),
+    [projectName, project, features, competitors, milestones, openQuestions, contacts, uploads]
   )
 
   async function handleDownload() {
@@ -40,29 +69,13 @@ export default function PrdViewTab({ projectId, projectName }: PrdViewTabProps) 
     )
   }
 
-  if (features.length === 0) {
-    return (
-      <div className="rounded-lg border border-border bg-card p-6">
-        <h3 className="text-lg font-semibold text-foreground">PRD View</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Product Requirements Document generated from your project features.
-        </p>
-        <div className="mt-6 rounded-md border border-dashed border-border bg-muted/30 px-4 py-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            No features defined yet. Add features in the Features tab to generate your PRD.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="rounded-lg border border-border bg-card p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-foreground">PRD View</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Product Requirements Document generated from your project features.
+            Product Requirements Document generated from your project data.
           </p>
         </div>
         <button

@@ -62,6 +62,9 @@ export default class ProjectsController {
           .preload('events', (eventQuery) => {
             eventQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
           })
+          .preload('testCases', (testCaseQuery) => {
+            testCaseQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+          })
           .orderBy('sequence', 'asc')
       })
       .orderBy('sequence', 'asc')

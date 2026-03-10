@@ -34,5 +34,6 @@ declare module '@adonisjs/inertia/types' {
     'sign-off/panel': ExtractProps<(typeof import('../../inertia/pages/sign-off/panel.tsx'))['default']>
     'versions/index': ExtractProps<(typeof import('../../inertia/pages/versions/index.tsx'))['default']>
     'versions/show': ExtractProps<(typeof import('../../inertia/pages/versions/show.tsx'))['default']>
+    'projects/tabs/prd-edit-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/prd-edit-tab.tsx'))['default']>
   }
 }

@@ -66,7 +66,7 @@ export class EventSchema extends BaseModel {
 }
 
 export class FeatureSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'module', 'name', 'ownerId', 'priority', 'projectId', 'sequence', 'status', 'updatedAt', 'version'] as const
+  static $columns = ['createdAt', 'deletedAt', 'description', 'ecosystem', 'id', 'inScope', 'module', 'name', 'outOfScope', 'priority', 'projectId', 'sequence', 'status', 'updatedAt', 'version'] as const
   $columns = FeatureSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -74,14 +74,18 @@ export class FeatureSchema extends BaseModel {
   declare deletedAt: DateTime | null
   @column()
   declare description: string | null
+  @column()
+  declare ecosystem: string | null
   @column({ isPrimary: true })
   declare id: string
+  @column()
+  declare inScope: string | null
   @column()
   declare module: string | null
   @column()
   declare name: string
   @column()
-  declare ownerId: number | null
+  declare outOfScope: string | null
   @column()
   declare priority: string
   @column()
@@ -96,15 +100,125 @@ export class FeatureSchema extends BaseModel {
   declare version: number
 }
 
+export class PrdCompetitorSchema extends BaseModel {
+  static $columns = ['competitorName', 'createdAt', 'id', 'productNameOrLink', 'projectId', 'sequence', 'updatedAt'] as const
+  $columns = PrdCompetitorSchema.$columns
+  @column()
+  declare competitorName: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare productNameOrLink: string | null
+  @column()
+  declare projectId: string
+  @column()
+  declare sequence: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class PrdContactSchema extends BaseModel {
+  static $columns = ['createdAt', 'email', 'id', 'name', 'phone', 'projectId', 'sequence', 'title', 'updatedAt'] as const
+  $columns = PrdContactSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare name: string
+  @column()
+  declare phone: string | null
+  @column()
+  declare projectId: string
+  @column()
+  declare sequence: number
+  @column()
+  declare title: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class PrdMilestoneSchema extends BaseModel {
+  static $columns = ['completionDate', 'createdAt', 'department', 'id', 'projectId', 'sequence', 'startDate', 'status', 'updatedAt'] as const
+  $columns = PrdMilestoneSchema.$columns
+  @column()
+  declare completionDate: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare department: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare projectId: string
+  @column()
+  declare sequence: number
+  @column()
+  declare startDate: string | null
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class PrdOpenQuestionSchema extends BaseModel {
+  static $columns = ['answer', 'createdAt', 'dateAnswered', 'id', 'projectId', 'question', 'sequence', 'updatedAt'] as const
+  $columns = PrdOpenQuestionSchema.$columns
+  @column()
+  declare answer: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare dateAnswered: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare projectId: string
+  @column()
+  declare question: string
+  @column()
+  declare sequence: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class ProjectSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'integrationConfig', 'integrationEnabled', 'moduleList', 'name', 'ownerId', 'prdRequiredSignatures', 'status', 'uatAcceptanceRequiredSignatures', 'uatImplementationRequiredSignatures', 'updatedAt'] as const
+  static $columns = ['additionalResources', 'additionalVisualIdentity', 'bom', 'brandingAdjectives', 'brandingTone', 'cloudApplication', 'companyName', 'contributors', 'createdAt', 'deletedAt', 'description', 'diagramsSchematics', 'firmwareFunctions', 'formFactor', 'generalComments', 'id', 'integrationConfig', 'integrationEnabled', 'locationsOfSale', 'materials', 'moduleList', 'name', 'objective', 'ownerId', 'packagingPresentation', 'prdDate', 'prdRequiredSignatures', 'prdVersion', 'preparedBy', 'productName', 'projectManager', 'servicingUpdates', 'smartphoneApplication', 'status', 'successMetrics', 'targetAudience', 'targetMarket', 'targetReleaseDate', 'testerNames', 'testingEndDate', 'testingEndTime', 'testingStartDate', 'testingStartTime', 'touchpoint', 'uatAcceptanceRequiredSignatures', 'uatImplementationRequiredSignatures', 'updatedAt', 'userFeedback', 'userInteractions', 'visualIdentity'] as const
   $columns = ProjectSchema.$columns
+  @column()
+  declare additionalResources: string | null
+  @column()
+  declare additionalVisualIdentity: string | null
+  @column()
+  declare bom: string | null
+  @column()
+  declare brandingAdjectives: any | null
+  @column()
+  declare brandingTone: any | null
+  @column()
+  declare cloudApplication: string | null
+  @column()
+  declare companyName: string | null
+  @column()
+  declare contributors: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column.dateTime()
   declare deletedAt: DateTime | null
   @column()
   declare description: string | null
+  @column()
+  declare diagramsSchematics: string | null
+  @column()
+  declare firmwareFunctions: string | null
+  @column()
+  declare formFactor: string | null
+  @column()
+  declare generalComments: string | null
   @column({ isPrimary: true })
   declare id: string
   @column()
@@ -112,21 +226,69 @@ export class ProjectSchema extends BaseModel {
   @column()
   declare integrationEnabled: boolean
   @column()
+  declare locationsOfSale: string | null
+  @column()
+  declare materials: string | null
+  @column()
   declare moduleList: any | null
   @column()
   declare name: string
   @column()
+  declare objective: string | null
+  @column()
   declare ownerId: number | null
+  @column()
+  declare packagingPresentation: string | null
+  @column()
+  declare prdDate: string | null
   @column()
   declare prdRequiredSignatures: number
   @column()
+  declare prdVersion: string | null
+  @column()
+  declare preparedBy: string | null
+  @column()
+  declare productName: string | null
+  @column()
+  declare projectManager: string | null
+  @column()
+  declare servicingUpdates: string | null
+  @column()
+  declare smartphoneApplication: string | null
+  @column()
   declare status: string
+  @column()
+  declare successMetrics: string | null
+  @column()
+  declare targetAudience: string | null
+  @column()
+  declare targetMarket: string | null
+  @column()
+  declare targetReleaseDate: string | null
+  @column()
+  declare testerNames: any | null
+  @column()
+  declare testingEndDate: string | null
+  @column()
+  declare testingEndTime: string | null
+  @column()
+  declare testingStartDate: string | null
+  @column()
+  declare testingStartTime: string | null
+  @column()
+  declare touchpoint: string | null
   @column()
   declare uatAcceptanceRequiredSignatures: number
   @column()
   declare uatImplementationRequiredSignatures: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare userFeedback: string | null
+  @column()
+  declare userInteractions: string | null
+  @column()
+  declare visualIdentity: string | null
 }
 
 export class SignOffLinkSchema extends BaseModel {
@@ -187,6 +349,37 @@ export class SignOffRecordSchema extends BaseModel {
   declare versionId: string
 }
 
+export class TestCaseSchema extends BaseModel {
+  static $columns = ['createdAt', 'defectComments', 'deletedAt', 'descriptionOfTasks', 'expectedResults', 'fail', 'id', 'pass', 'sequence', 'stepsToExecute', 'testNo', 'uatFlowId', 'updatedAt'] as const
+  $columns = TestCaseSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare defectComments: string | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare descriptionOfTasks: string
+  @column()
+  declare expectedResults: string
+  @column()
+  declare fail: boolean
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare pass: boolean
+  @column()
+  declare sequence: number
+  @column()
+  declare stepsToExecute: string
+  @column()
+  declare testNo: number
+  @column()
+  declare uatFlowId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class TriggerLinkSchema extends BaseModel {
   static $columns = ['createdAt', 'eventId', 'id', 'isBroken', 'lastSyncAt', 'testStatus', 'triggerIdentifier', 'triggerModel', 'updatedAt'] as const
   $columns = TriggerLinkSchema.$columns
@@ -235,6 +428,29 @@ export class UatFlowSchema extends BaseModel {
   declare updatedAt: DateTime | null
   @column()
   declare version: number
+}
+
+export class UploadSchema extends BaseModel {
+  static $columns = ['context', 'createdAt', 'fileName', 'filePath', 'id', 'mimeType', 'projectId', 'size', 'updatedAt'] as const
+  $columns = UploadSchema.$columns
+  @column()
+  declare context: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fileName: string
+  @column()
+  declare filePath: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare mimeType: string
+  @column()
+  declare projectId: string
+  @column()
+  declare size: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
 }
 
 export class UserSchema extends BaseModel {

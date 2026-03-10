@@ -7,7 +7,9 @@ export const createFeatureValidator = vine.compile(
     description: vine.string().trim().optional(),
     module: vine.string().trim().maxLength(255).optional(),
     priority: vine.enum(['critical', 'high', 'medium', 'low']),
-    // ownerId: vine.string(),
+    ecosystem: vine.string().trim().optional(),
+    inScope: vine.string().trim().optional(),
+    outOfScope: vine.string().trim().optional(),
   })
 )
 
@@ -18,6 +20,8 @@ export const updateFeatureValidator = vine.compile(
     module: vine.string().trim().maxLength(255).optional().nullable(),
     priority: vine.enum(['critical', 'high', 'medium', 'low']).optional(),
     status: vine.enum(['draft', 'in_review', 'approved', 'deprecated']).optional(),
-    // ownerId: vine.string().optional(),
+    ecosystem: vine.string().trim().optional().nullable(),
+    inScope: vine.string().trim().optional().nullable(),
+    outOfScope: vine.string().trim().optional().nullable(),
   })
 )

@@ -26,6 +26,9 @@ export function useCreateFeature(projectId: string) {
       module?: string
       priority: string
       ownerId: string
+      ecosystem?: string
+      inScope?: string
+      outOfScope?: string
     }) => apiFetch('/api/features', { method: 'POST', body: JSON.stringify(data) }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['features', projectId] })
