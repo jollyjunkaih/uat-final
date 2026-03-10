@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 /// <reference path="../manifest.d.ts" />
 
-import type { ExtractBody, ExtractQuery, ExtractQueryForGet, ExtractResponse } from '@tuyau/core/types'
-import type { InferInput } from '@vinejs/vine/types'
+import type { ExtractBody, ExtractErrorResponse, ExtractQuery, ExtractQueryForGet, ExtractResponse } from '@tuyau/core/types'
+import type { InferInput, SimpleError } from '@vinejs/vine/types'
+
+export type ParamValue = string | number | bigint | boolean
 
 export interface Registry {
   'home': {
@@ -14,6 +16,7 @@ export interface Registry {
       params: {}
       query: {}
       response: unknown
+      errorResponse: unknown
     }
   }
   'new_account.create': {
@@ -25,6 +28,7 @@ export interface Registry {
       params: {}
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['create']>>>
     }
   }
   'new_account.store': {
@@ -36,6 +40,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/user').signupValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'session.create': {
@@ -47,6 +52,7 @@ export interface Registry {
       params: {}
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/session_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['create']>>>
     }
   }
   'session.store': {
@@ -58,6 +64,7 @@ export interface Registry {
       params: {}
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/session_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['store']>>>
     }
   }
   'session.destroy': {
@@ -69,6 +76,559 @@ export interface Registry {
       params: {}
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
+    }
+  }
+  'dashboard.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/dashboard'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['index']>>>
+    }
+  }
+  'projects.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/projects'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['index']>>>
+    }
+  }
+  'projects.store': {
+    methods: ["POST"]
+    pattern: '/projects'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/project_validator').createProjectValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/project_validator').createProjectValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'projects.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/projects/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+    }
+  }
+  'projects.update': {
+    methods: ["PATCH"]
+    pattern: '/projects/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/project_validator').updateProjectValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/project_validator').updateProjectValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'projects.destroy': {
+    methods: ["DELETE"]
+    pattern: '/projects/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['destroy']>>>
+    }
+  }
+  'features.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/features'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['index']>>>
+    }
+  }
+  'features.store': {
+    methods: ["POST"]
+    pattern: '/api/features'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/feature_validator').createFeatureValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/feature_validator').createFeatureValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'features.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/features/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['show']>>>
+    }
+  }
+  'features.update': {
+    methods: ["PATCH"]
+    pattern: '/api/features/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/feature_validator').updateFeatureValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/feature_validator').updateFeatureValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'features.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/features/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['destroy']>>>
+    }
+  }
+  'features.reorder': {
+    methods: ["POST"]
+    pattern: '/api/features/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'uat_flows.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/uat-flows'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['index']>>>
+    }
+  }
+  'uat_flows.store': {
+    methods: ["POST"]
+    pattern: '/api/uat-flows'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/uat_flow_validator').createUatFlowValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/uat_flow_validator').createUatFlowValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'uat_flows.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/uat-flows/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['show']>>>
+    }
+  }
+  'uat_flows.update': {
+    methods: ["PATCH"]
+    pattern: '/api/uat-flows/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/uat_flow_validator').updateUatFlowValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/uat_flow_validator').updateUatFlowValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'uat_flows.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/uat-flows/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['destroy']>>>
+    }
+  }
+  'uat_flows.reorder': {
+    methods: ["POST"]
+    pattern: '/api/uat-flows/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_flows_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'events.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/events'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['index']>>>
+    }
+  }
+  'events.store': {
+    methods: ["POST"]
+    pattern: '/api/events'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').createEventValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').createEventValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'events.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/events/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['show']>>>
+    }
+  }
+  'events.update': {
+    methods: ["PATCH"]
+    pattern: '/api/events/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').updateEventValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').updateEventValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'events.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/events/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['destroy']>>>
+    }
+  }
+  'events.reorder': {
+    methods: ["POST"]
+    pattern: '/api/events/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/event_validator').reorderEventsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/events_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'versions.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/versions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/versions_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/versions_controller').default['index']>>>
+    }
+  }
+  'versions.store': {
+    methods: ["POST"]
+    pattern: '/versions'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/version_validator').createVersionValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/version_validator').createVersionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/versions_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/versions_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'versions.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/versions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/versions_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/versions_controller').default['show']>>>
+    }
+  }
+  'sign_off.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/sign-off'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['index']>>>
+    }
+  }
+  'sign_off.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/sign-off/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['show']>>>
+    }
+  }
+  'sign_off.initiate': {
+    methods: ["POST"]
+    pattern: '/sign-off/initiate'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/sign_off_validator').initiateSignOffValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/sign_off_validator').initiateSignOffValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['initiate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['initiate']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'sign_off.revoke': {
+    methods: ["POST"]
+    pattern: '/sign-off/:id/revoke'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['revoke']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/sign_off_controller').default['revoke']>>>
+    }
+  }
+  'view_only_links.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/view-links'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['index']>>>
+    }
+  }
+  'view_only_links.store': {
+    methods: ["POST"]
+    pattern: '/api/view-links'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/view_only_link_validator').createViewOnlyLinkValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/view_only_link_validator').createViewOnlyLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'view_only_links.revoke': {
+    methods: ["POST"]
+    pattern: '/api/view-links/:id/revoke'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['revoke']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['revoke']>>>
+    }
+  }
+  'export.export_prd': {
+    methods: ["GET","HEAD"]
+    pattern: '/export/prd/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/export_controller').default['exportPrd']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/export_controller').default['exportPrd']>>>
+    }
+  }
+  'export.export_uat': {
+    methods: ["GET","HEAD"]
+    pattern: '/export/uat/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/export_controller').default['exportUat']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/export_controller').default['exportUat']>>>
+    }
+  }
+  'settings.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/settings/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['show']>>>
+    }
+  }
+  'settings.update': {
+    methods: ["PATCH"]
+    pattern: '/settings/:projectId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/project_validator').updateProjectValidator)>>
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/project_validator').updateProjectValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'integration.sync_triggers': {
+    methods: ["POST"]
+    pattern: '/api/integration/sync'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/integration_controller').default['syncTriggers']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/integration_controller').default['syncTriggers']>>>
+    }
+  }
+  'integration.get_status': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/integration/status/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/integration_controller').default['getStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/integration_controller').default['getStatus']>>>
+    }
+  }
+  'projects.tree': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/projects/:id/tree'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['tree']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['tree']>>>
+    }
+  }
+  'projects.prd': {
+    methods: ["GET","HEAD"]
+    pattern: '/projects/:id/prd'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+    }
+  }
+  'projects.uat': {
+    methods: ["GET","HEAD"]
+    pattern: '/projects/:id/uat'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+    }
+  }
+  'public_view.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/share/view/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_view_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_view_controller').default['show']>>>
+    }
+  }
+  'public_sign_off.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/share/sign/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_sign_off_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_sign_off_controller').default['show']>>>
+    }
+  }
+  'public_sign_off.submit': {
+    methods: ["POST"]
+    pattern: '/share/sign/:token'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/sign_off_link_validator').submitSignOffValidator)>>
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/sign_off_link_validator').submitSignOffValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_sign_off_controller').default['submit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_sign_off_controller').default['submit']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }

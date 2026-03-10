@@ -7,8 +7,238 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AuditLogSchema extends BaseModel {
+  static $columns = ['action', 'createdAt', 'details', 'entityId', 'entityType', 'id', 'ipAddress', 'updatedAt', 'userAgent', 'userId'] as const
+  $columns = AuditLogSchema.$columns
+  @column()
+  declare action: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare details: any | null
+  @column()
+  declare entityId: string | null
+  @column()
+  declare entityType: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare ipAddress: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userAgent: string | null
+  @column()
+  declare userId: number | null
+}
+
+export class EventSchema extends BaseModel {
+  static $columns = ['condition', 'createdAt', 'deletedAt', 'description', 'expectedOutcome', 'id', 'model', 'name', 'notes', 'sequence', 'testStatus', 'triggerType', 'uatFlowId', 'updatedAt'] as const
+  $columns = EventSchema.$columns
+  @column()
+  declare condition: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column()
+  declare expectedOutcome: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare model: string
+  @column()
+  declare name: string
+  @column()
+  declare notes: string | null
+  @column()
+  declare sequence: number
+  @column()
+  declare testStatus: string
+  @column()
+  declare triggerType: string
+  @column()
+  declare uatFlowId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class FeatureSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'module', 'name', 'ownerId', 'priority', 'projectId', 'sequence', 'status', 'updatedAt', 'version'] as const
+  $columns = FeatureSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare module: string | null
+  @column()
+  declare name: string
+  @column()
+  declare ownerId: number | null
+  @column()
+  declare priority: string
+  @column()
+  declare projectId: string
+  @column()
+  declare sequence: number
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare version: number
+}
+
+export class ProjectSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'integrationConfig', 'integrationEnabled', 'moduleList', 'name', 'ownerId', 'prdRequiredSignatures', 'status', 'uatAcceptanceRequiredSignatures', 'uatImplementationRequiredSignatures', 'updatedAt'] as const
+  $columns = ProjectSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare integrationConfig: any | null
+  @column()
+  declare integrationEnabled: boolean
+  @column()
+  declare moduleList: any | null
+  @column()
+  declare name: string
+  @column()
+  declare ownerId: number | null
+  @column()
+  declare prdRequiredSignatures: number
+  @column()
+  declare status: string
+  @column()
+  declare uatAcceptanceRequiredSignatures: number
+  @column()
+  declare uatImplementationRequiredSignatures: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SignOffLinkSchema extends BaseModel {
+  static $columns = ['createdAt', 'expiresAt', 'id', 'signOffRecordId', 'signedAt', 'signerActualName', 'signerComments', 'signerEmail', 'signerIp', 'signerName', 'signerUserAgent', 'status', 'token', 'updatedAt'] as const
+  $columns = SignOffLinkSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare expiresAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare signOffRecordId: string
+  @column.dateTime()
+  declare signedAt: DateTime | null
+  @column()
+  declare signerActualName: string | null
+  @column()
+  declare signerComments: string | null
+  @column()
+  declare signerEmail: string
+  @column()
+  declare signerIp: string | null
+  @column()
+  declare signerName: string
+  @column()
+  declare signerUserAgent: string | null
+  @column()
+  declare status: string
+  @column()
+  declare token: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SignOffRecordSchema extends BaseModel {
+  static $columns = ['createdAt', 'documentType', 'id', 'requestedAt', 'requestedById', 'requiredSignatures', 'signOffStage', 'status', 'updatedAt', 'versionId'] as const
+  $columns = SignOffRecordSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare documentType: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column.dateTime()
+  declare requestedAt: DateTime
+  @column()
+  declare requestedById: number | null
+  @column()
+  declare requiredSignatures: number
+  @column()
+  declare signOffStage: string
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare versionId: string
+}
+
+export class TriggerLinkSchema extends BaseModel {
+  static $columns = ['createdAt', 'eventId', 'id', 'isBroken', 'lastSyncAt', 'testStatus', 'triggerIdentifier', 'triggerModel', 'updatedAt'] as const
+  $columns = TriggerLinkSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare eventId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare isBroken: boolean
+  @column.dateTime()
+  declare lastSyncAt: DateTime | null
+  @column()
+  declare testStatus: string
+  @column()
+  declare triggerIdentifier: string
+  @column()
+  declare triggerModel: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class UatFlowSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'featureId', 'id', 'name', 'preconditions', 'sequence', 'status', 'updatedAt', 'version'] as const
+  $columns = UatFlowSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column()
+  declare featureId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare name: string
+  @column()
+  declare preconditions: string | null
+  @column()
+  declare sequence: number
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare version: number
+}
+
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'role', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -20,6 +250,62 @@ export class UserSchema extends BaseModel {
   declare id: number
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare role: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class VersionSchema extends BaseModel {
+  static $columns = ['createdAt', 'createdById', 'documentType', 'id', 'projectId', 'snapshot', 'status', 'updatedAt', 'versionNumber'] as const
+  $columns = VersionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdById: number | null
+  @column()
+  declare documentType: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare projectId: string
+  @column()
+  declare snapshot: any | null
+  @column()
+  declare status: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare versionNumber: number
+}
+
+export class ViewOnlyLinkSchema extends BaseModel {
+  static $columns = ['accessCount', 'createdAt', 'createdById', 'documentType', 'expiresAt', 'id', 'isActive', 'lastAccessedAt', 'passwordHash', 'projectId', 'token', 'updatedAt', 'version'] as const
+  $columns = ViewOnlyLinkSchema.$columns
+  @column()
+  declare accessCount: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdById: number | null
+  @column()
+  declare documentType: string
+  @column.dateTime()
+  declare expiresAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare isActive: boolean
+  @column.dateTime()
+  declare lastAccessedAt: DateTime | null
+  @column()
+  declare passwordHash: string | null
+  @column()
+  declare projectId: string
+  @column()
+  declare token: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare version: number
 }
