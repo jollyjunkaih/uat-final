@@ -13,22 +13,16 @@ export default class VersionsController {
     const params: Record<string, unknown> = {}
     if (projectId) params.projectId = projectId
     const paginated = await service.findPaginated(params, page, limit)
-
-    const transformed = {
-      data: paginated.all().map((v) => VersionTransformer.transform(v)),
-      meta: {
-        total: paginated.total,
-        perPage: paginated.perPage,
-        currentPage: paginated.currentPage,
-      },
-    }
+    const data = paginated.all()
+    const meta = paginated.getMeta()
+    const response = await ctx.serialize(VersionTransformer.paginate(data, meta))
 
     if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json(transformed)
+      return ctx.response.json(response)
     }
 
     return ctx.inertia.render('versions/index', {
-      versions: transformed,
+      versions: response,
       projectId,
     })
   }

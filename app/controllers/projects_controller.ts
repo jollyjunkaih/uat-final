@@ -12,15 +12,11 @@ export default class ProjectsController {
     const limit = ctx.request.input('limit', 20)
     const service = new ProjectService()
     const paginated = await service.findPaginated({}, page, limit)
+    const data = paginated.all()
+    const meta = paginated.getMeta()
+    const response = await ctx.serialize(ProjectTransformer.paginate(data, meta))
     return ctx.inertia.render('projects/index', {
-      projects: {
-        data: paginated.all().map((p) => ProjectTransformer.transform(p)),
-        meta: {
-          total: paginated.total,
-          perPage: paginated.perPage,
-          currentPage: paginated.currentPage,
-        },
-      },
+      projects: response,
     })
   }
 
@@ -60,9 +56,12 @@ export default class ProjectsController {
       .where('project_id', id)
       .whereNull('deleted_at')
       .preload('uatFlows', (uatFlowQuery) => {
-        uatFlowQuery.whereNull('deleted_at').preload('events', (eventQuery) => {
-          eventQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
-        }).orderBy('sequence', 'asc')
+        uatFlowQuery
+          .whereNull('deleted_at')
+          .preload('events', (eventQuery) => {
+            eventQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+          })
+          .orderBy('sequence', 'asc')
       })
       .orderBy('sequence', 'asc')
 

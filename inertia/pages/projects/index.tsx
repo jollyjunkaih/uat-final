@@ -7,7 +7,7 @@ import { type Data } from '@generated/data'
 interface ProjectsIndexProps {
   projects: {
     data: Data.Project[]
-    meta: {
+    metadata: {
       total: number
       perPage: number
       currentPage: number
@@ -38,7 +38,6 @@ export default function ProjectsIndex({ projects }: ProjectsIndexProps) {
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({ name: '', description: '' })
   const [submitting, setSubmitting] = useState(false)
-
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setSubmitting(true)
@@ -180,25 +179,29 @@ export default function ProjectsIndex({ projects }: ProjectsIndexProps) {
               </table>
             </div>
 
-            {projects.meta.total > projects.meta.perPage && (
+            {projects.metadata.total > projects.metadata.perPage && (
               <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
                 <span>
-                  Showing {(projects.meta.currentPage - 1) * projects.meta.perPage + 1} to{' '}
-                  {Math.min(projects.meta.currentPage * projects.meta.perPage, projects.meta.total)}{' '}
-                  of {projects.meta.total} projects
+                  Showing {(projects.metadata.currentPage - 1) * projects.metadata.perPage + 1} to{' '}
+                  {Math.min(
+                    projects.metadata.currentPage * projects.metadata.perPage,
+                    projects.metadata.total
+                  )}{' '}
+                  of {projects.metadata.total} projects
                 </span>
                 <div className="flex gap-2">
-                  {projects.meta.currentPage > 1 && (
+                  {projects.metadata.currentPage > 1 && (
                     <Link
-                      href={`/projects?page=${projects.meta.currentPage - 1}`}
+                      href={`/projects?page=${projects.metadata.currentPage - 1}`}
                       className="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent"
                     >
                       Previous
                     </Link>
                   )}
-                  {projects.meta.currentPage * projects.meta.perPage < projects.meta.total && (
+                  {projects.metadata.currentPage * projects.metadata.perPage <
+                    projects.metadata.total && (
                     <Link
-                      href={`/projects?page=${projects.meta.currentPage + 1}`}
+                      href={`/projects?page=${projects.metadata.currentPage + 1}`}
                       className="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent"
                     >
                       Next

@@ -16,14 +16,10 @@ export default class EventsController {
     const params: Record<string, unknown> = {}
     if (uatFlowId) params.uatFlowId = uatFlowId
     const paginated = await service.findPaginated(params, page, limit)
-    return ctx.response.json({
-      data: paginated.all().map((e) => EventTransformer.transform(e)),
-      meta: {
-        total: paginated.total,
-        perPage: paginated.perPage,
-        currentPage: paginated.currentPage,
-      },
-    })
+    const data = paginated.all()
+    const meta = paginated.getMeta()
+    const response = await ctx.serialize(EventTransformer.paginate(data, meta))
+    return ctx.response.json(response)
   }
 
   async show(ctx: HttpContext) {

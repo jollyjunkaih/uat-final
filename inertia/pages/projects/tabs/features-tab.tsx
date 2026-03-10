@@ -1,7 +1,13 @@
 import { useState, type FormEvent } from 'react'
 import { usePage } from '@inertiajs/react'
 import { toast } from 'sonner'
-import { useFeatures, useCreateFeature, useUpdateFeature, useDeleteFeature, type Feature } from '~/hooks/use-features'
+import {
+  useFeatures,
+  useCreateFeature,
+  useUpdateFeature,
+  useDeleteFeature,
+  type Feature,
+} from '~/hooks/use-features'
 import { PriorityBadge } from '~/components/priority-badge'
 
 interface FeaturesTabProps {
@@ -60,7 +66,9 @@ function FeatureForm({
             >
               <option value="">No module</option>
               {moduleList.map((m) => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m}>
+                  {m}
+                </option>
               ))}
             </select>
           ) : (
@@ -92,7 +100,9 @@ function FeatureForm({
           className="mt-1 block w-full max-w-xs rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         >
           {priorities.map((p) => (
-            <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>
+            <option key={p} value={p}>
+              {p.charAt(0).toUpperCase() + p.slice(1)}
+            </option>
           ))}
         </select>
       </div>
@@ -122,6 +132,8 @@ export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps)
   const updateFeature = useUpdateFeature(projectId)
   const deleteFeature = useDeleteFeature(projectId)
   const user = usePage().props.user as { id: string } | undefined
+
+  console.log(data)
 
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -271,9 +283,7 @@ export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps)
                         )}
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {feature.module || '—'}
-                    </td>
+                    <td className="px-4 py-3 text-muted-foreground">{feature.module || '—'}</td>
                     <td className="px-4 py-3">
                       <PriorityBadge priority={feature.priority} />
                     </td>

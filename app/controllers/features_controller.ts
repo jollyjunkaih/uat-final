@@ -13,17 +13,10 @@ export default class FeaturesController {
     const params: Record<string, unknown> = {}
     if (projectId) params.projectId = projectId
     const paginated = await service.findPaginated(params, page, limit)
-
-    const transformed = {
-      data: paginated.all().map((f) => FeatureTransformer.transform(f)),
-      meta: {
-        total: paginated.total,
-        perPage: paginated.perPage,
-        currentPage: paginated.currentPage,
-      },
-    }
-
-    return ctx.response.json(transformed)
+    const data = paginated.all()
+    const meta = paginated.getMeta()
+    const response = await ctx.serialize(FeatureTransformer.paginate(data, meta))
+    return ctx.response.json(response)
   }
 
   async show(ctx: HttpContext) {

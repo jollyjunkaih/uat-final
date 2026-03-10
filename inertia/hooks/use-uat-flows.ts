@@ -6,7 +6,7 @@ export type UatFlow = Data.UatFlow
 
 interface PaginatedResponse {
   data: UatFlow[]
-  meta: { total: number; perPage: number; currentPage: number }
+  metadata: { total: number; perPage: number; currentPage: number }
 }
 
 export function useUatFlows(featureId: string | null) {
@@ -36,7 +36,11 @@ export function useCreateUatFlow(projectId: string) {
 export function useUpdateUatFlow(projectId: string) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, featureId, ...data }: { id: string; featureId: string } & Record<string, unknown>) =>
+    mutationFn: ({
+      id,
+      featureId,
+      ...data
+    }: { id: string; featureId: string } & Record<string, unknown>) =>
       apiFetch(`/api/uat-flows/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['uat-flows', variables.featureId] })

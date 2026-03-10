@@ -6,7 +6,7 @@ export type Feature = Data.Feature
 
 interface PaginatedResponse {
   data: Feature[]
-  meta: { total: number; perPage: number; currentPage: number }
+  metadata: { total: number; perPage: number; currentPage: number }
 }
 
 export function useFeatures(projectId: string) {

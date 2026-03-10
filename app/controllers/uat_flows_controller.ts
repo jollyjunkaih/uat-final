@@ -13,17 +13,10 @@ export default class UatFlowsController {
     const params: Record<string, unknown> = {}
     if (featureId) params.featureId = featureId
     const paginated = await service.findPaginated(params, page, limit)
-
-    const transformed = {
-      data: paginated.all().map((f) => UatFlowTransformer.transform(f)),
-      meta: {
-        total: paginated.total,
-        perPage: paginated.perPage,
-        currentPage: paginated.currentPage,
-      },
-    }
-
-    return ctx.response.json(transformed)
+    const data = paginated.all()
+    const meta = paginated.getMeta()
+    const response = await ctx.serialize(UatFlowTransformer.paginate(data, meta))
+    return ctx.response.json(response)
   }
 
   async show(ctx: HttpContext) {

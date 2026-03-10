@@ -18,16 +18,17 @@ function PriorityBadge({ priority, className }: PriorityBadgeProps) {
     variant: 'secondary' as BadgeVariant,
     label: priority,
   }
+  if (priority) {
+    const displayLabel =
+      config.label || priority.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 
-  const displayLabel =
-    config.label ||
-    priority.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-
-  return (
-    <Badge variant={config.variant} className={cn(className)}>
-      {displayLabel}
-    </Badge>
-  )
+    return (
+      <Badge variant={config.variant} className={cn(className)}>
+        {displayLabel}
+      </Badge>
+    )
+  }
+  return <></>
 }
 
 export { PriorityBadge }

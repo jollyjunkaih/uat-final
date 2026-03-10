@@ -66,7 +66,7 @@ function TabContent({
 
 export default function ProjectShow({ project }: ProjectShowProps) {
   const [activeTab, setActiveTab] = useState<Tab>('features')
-
+  console.log(project)
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <div className="flex items-start justify-between">

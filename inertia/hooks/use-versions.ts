@@ -6,7 +6,7 @@ export type Version = Data.Version
 
 interface PaginatedResponse {
   data: Version[]
-  meta: { total: number; perPage: number; currentPage: number }
+  metadata: { total: number; perPage: number; currentPage: number }
 }
 
 export function useVersions(projectId: string) {

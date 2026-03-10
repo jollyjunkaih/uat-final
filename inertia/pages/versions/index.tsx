@@ -7,7 +7,7 @@ import { Link } from '@adonisjs/inertia/react'
 interface VersionsIndexProps {
   versions: {
     data: Data.Version[]
-    meta: {
+    metadata: {
       total: number
       perPage: number
       currentPage: number
