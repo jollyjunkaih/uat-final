@@ -25,7 +25,7 @@ export default defineConfig({
 
   server: {
     watch: {
-      ignored: ['**/storage/**', '**/tmp/**'],
+      ignored: ['**/storage/**', '**/tmp/**', '**/yaml/**'],
     },
   },
 })

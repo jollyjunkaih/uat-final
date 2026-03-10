@@ -32,10 +32,7 @@ export default class FeaturesController {
     const service = new FeatureService()
     const feature = await service.create(data)
     new YamlSyncService().syncUat(feature.projectId).catch(() => {})
-    if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json({ data: FeatureTransformer.transform(feature) })
-    }
-    return ctx.response.redirect().back()
+    return ctx.response.json({ data: FeatureTransformer.transform(feature) })
   }
 
   async update(ctx: HttpContext) {
@@ -44,10 +41,7 @@ export default class FeaturesController {
     const service = new FeatureService()
     const feature = await service.update(id, data)
     new YamlSyncService().syncUat(feature.projectId).catch(() => {})
-    if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json({ data: FeatureTransformer.transform(feature) })
-    }
-    return ctx.response.redirect().back()
+    return ctx.response.json({ data: FeatureTransformer.transform(feature) })
   }
 
   async destroy(ctx: HttpContext) {
@@ -57,10 +51,7 @@ export default class FeaturesController {
     const projectId = await yamlSync.getProjectIdFromFeature(id)
     await service.delete(id)
     yamlSync.syncUat(projectId).catch(() => {})
-    if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json({ data: { success: true } })
-    }
-    return ctx.response.redirect().back()
+    return ctx.response.json({ data: { success: true } })
   }
 
   async reorder(ctx: HttpContext) {

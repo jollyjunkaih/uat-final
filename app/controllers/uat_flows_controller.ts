@@ -34,10 +34,7 @@ export default class UatFlowsController {
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromUatFlow(uatFlow.id)
     yamlSync.syncUat(projectId).catch(() => {})
-    if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json({ data: UatFlowTransformer.transform(uatFlow) })
-    }
-    return ctx.response.redirect().back()
+    return ctx.response.json({ data: UatFlowTransformer.transform(uatFlow) })
   }
 
   async update(ctx: HttpContext) {
@@ -48,10 +45,7 @@ export default class UatFlowsController {
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromUatFlow(uatFlow.id)
     yamlSync.syncUat(projectId).catch(() => {})
-    if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json({ data: UatFlowTransformer.transform(uatFlow) })
-    }
-    return ctx.response.redirect().back()
+    return ctx.response.json({ data: UatFlowTransformer.transform(uatFlow) })
   }
 
   async destroy(ctx: HttpContext) {
@@ -61,10 +55,7 @@ export default class UatFlowsController {
     const service = new UatFlowService()
     await service.delete(id)
     yamlSync.syncUat(projectId).catch(() => {})
-    if (ctx.request.accepts(['html', 'json']) === 'json') {
-      return ctx.response.json({ data: { success: true } })
-    }
-    return ctx.response.redirect().back()
+    return ctx.response.json({ data: { success: true } })
   }
 
   async reorder(ctx: HttpContext) {

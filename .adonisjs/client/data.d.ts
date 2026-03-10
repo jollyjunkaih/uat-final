@@ -12,6 +12,7 @@ import type FeatureTransformer from '#transformers/feature_transformer'
 import type ProjectTransformer from '#transformers/project_transformer'
 import type SignOffLinkTransformer from '#transformers/sign_off_link_transformer'
 import type SignOffRecordTransformer from '#transformers/sign_off_record_transformer'
+import type StepTransformer from '#transformers/step_transformer'
 import type TestCaseTransformer from '#transformers/test_case_transformer'
 import type TriggerLinkTransformer from '#transformers/trigger_link_transformer'
 import type UatFlowTransformer from '#transformers/uat_flow_transformer'
@@ -19,7 +20,6 @@ import type UploadTransformer from '#transformers/upload_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 import type VersionTransformer from '#transformers/version_transformer'
 import type ViewOnlyLinkTransformer from '#transformers/view_only_link_transformer'
-import type StepTransformer from '#transformers/step_transformer'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
@@ -46,6 +46,10 @@ export namespace Data {
   export type SignOffRecord = InferData<SignOffRecordTransformer>
   export namespace SignOffRecord {
     export type Variants = InferVariants<SignOffRecordTransformer>
+  }
+  export type Step = InferData<StepTransformer>
+  export namespace Step {
+    export type Variants = InferVariants<StepTransformer>
   }
   export type TestCase = InferData<TestCaseTransformer>
   export namespace TestCase {
@@ -74,10 +78,6 @@ export namespace Data {
   export type ViewOnlyLink = InferData<ViewOnlyLinkTransformer>
   export namespace ViewOnlyLink {
     export type Variants = InferVariants<ViewOnlyLinkTransformer>
-  }
-  export type Step = InferData<StepTransformer>
-  export namespace Step {
-    export type Variants = InferVariants<StepTransformer>
   }
   export type SharedProps = InferSharedProps<InertiaMiddleware>
 }

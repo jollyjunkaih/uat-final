@@ -17,11 +17,11 @@ export const controllers = {
   Session: () => import('#controllers/session_controller'),
   Settings: () => import('#controllers/settings_controller'),
   SignOff: () => import('#controllers/sign_off_controller'),
+  Steps: () => import('#controllers/steps_controller'),
   TestCases: () => import('#controllers/test_cases_controller'),
   UatFlows: () => import('#controllers/uat_flows_controller'),
   Uploads: () => import('#controllers/uploads_controller'),
   Versions: () => import('#controllers/versions_controller'),
   ViewOnlyLinks: () => import('#controllers/view_only_links_controller'),
   YamlImport: () => import('#controllers/yaml_import_controller'),
-  Steps: () => import('#controllers/steps_controller'),
 }

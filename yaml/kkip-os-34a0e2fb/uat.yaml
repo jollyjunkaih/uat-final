@@ -1,5 +1,5 @@
 _projectId: 34a0e2fb-b208-41a4-ad99-edb75a5ab7eb
-_generatedAt: 2026-03-10T17:22:29.837Z
+_generatedAt: 2026-03-10T17:47:41.013Z
 metadata:
   testingStartDate: null
   testingStartTime: null
@@ -19,33 +19,41 @@ features:
     sequence: 0
     uatFlows:
       - name: asdfasdf
-        description: asdfasfd
+        description: asdfasdf
         preconditions: null
         status: draft
+        sequence: 0
+        steps:
+          - name: asdfasdfasdfa
+            description: asdfasdf
+            sequence: 0
+            imagePath: null
+      - name: asdfasdf
+        description: asdfasdf
+        preconditions: asdfasdf
+        status: draft
+        sequence: 0
+        steps:
+          - name: asdfasdf
+            description: asdfasdf
+            sequence: 0
+            imagePath: null
+      - name: asdfasdf
+        description: asdfasdf
+        preconditions: asdfasdf
+        status: draft
+        sequence: 0
+        steps: []
+      - name: asdfasdf
+        description: asdfasfd
+        preconditions: null
+        status: ready_for_test
         sequence: 0
         steps:
           - name: Click Submit Button
             description: asdfasfd
             sequence: 0
             imagePath: null
-      - name: asdfasdf
-        description: asdfasdf
-        preconditions: null
-        status: draft
-        sequence: 0
-        steps: []
-      - name: asdfasdf
-        description: asdfasdf
-        preconditions: asdfasdf
-        status: draft
-        sequence: 0
-        steps: []
-      - name: asdfasdf
-        description: asdfasdf
-        preconditions: asdfasdf
-        status: draft
-        sequence: 0
-        steps: []
   - name: asdfasdf
     description: fasdfas
     module: asdfasd
