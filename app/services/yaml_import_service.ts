@@ -176,7 +176,7 @@ export default class YamlImportService {
               name: stepData.name,
               description: stepData.description ?? null,
               sequence: stepData.sequence,
-              imagePath: stepData.imagePath ?? null,
+              imageFileName: stepData.imageFileName ?? null,
             })
           }
         }

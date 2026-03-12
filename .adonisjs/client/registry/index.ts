@@ -258,6 +258,12 @@ const routes = {
     tokens: [{"old":"/api/steps","type":0,"val":"api","end":""},{"old":"/api/steps","type":0,"val":"steps","end":""}],
     types: placeholder as Registry['steps.store']['types'],
   },
+  'steps.reorder': {
+    methods: ["POST"],
+    pattern: '/api/steps/reorder',
+    tokens: [{"old":"/api/steps/reorder","type":0,"val":"api","end":""},{"old":"/api/steps/reorder","type":0,"val":"steps","end":""},{"old":"/api/steps/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['steps.reorder']['types'],
+  },
   'steps.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/steps/:id',
@@ -276,11 +282,11 @@ const routes = {
     tokens: [{"old":"/api/steps/:id","type":0,"val":"api","end":""},{"old":"/api/steps/:id","type":0,"val":"steps","end":""},{"old":"/api/steps/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['steps.destroy']['types'],
   },
-  'steps.reorder': {
-    methods: ["POST"],
-    pattern: '/api/steps/reorder',
-    tokens: [{"old":"/api/steps/reorder","type":0,"val":"api","end":""},{"old":"/api/steps/reorder","type":0,"val":"steps","end":""},{"old":"/api/steps/reorder","type":0,"val":"reorder","end":""}],
-    types: placeholder as Registry['steps.reorder']['types'],
+  'steps.get_image': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/steps/:id/image',
+    tokens: [{"old":"/api/steps/:id/image","type":0,"val":"api","end":""},{"old":"/api/steps/:id/image","type":0,"val":"steps","end":""},{"old":"/api/steps/:id/image","type":1,"val":"id","end":""},{"old":"/api/steps/:id/image","type":0,"val":"image","end":""}],
+    types: placeholder as Registry['steps.get_image']['types'],
   },
   'steps.upload_image': {
     methods: ["POST"],
@@ -419,6 +425,12 @@ const routes = {
     pattern: '/api/yaml/import/uat/:projectId',
     tokens: [{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"import","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"uat","end":""},{"old":"/api/yaml/import/uat/:projectId","type":1,"val":"projectId","end":""}],
     types: placeholder as Registry['yaml_import.import_uat']['types'],
+  },
+  'yaml_import.refetch_from_disk': {
+    methods: ["POST"],
+    pattern: '/api/yaml/refetch/:projectId',
+    tokens: [{"old":"/api/yaml/refetch/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/refetch/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/refetch/:projectId","type":0,"val":"refetch","end":""},{"old":"/api/yaml/refetch/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['yaml_import.refetch_from_disk']['types'],
   },
   'projects.tree': {
     methods: ["GET","HEAD"],

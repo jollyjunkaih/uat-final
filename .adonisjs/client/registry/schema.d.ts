@@ -511,6 +511,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'steps.reorder': {
+    methods: ["POST"]
+    pattern: '/api/steps/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/step_validator').reorderStepsValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/step_validator').reorderStepsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'steps.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/steps/:id'
@@ -547,16 +559,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['destroy']>>>
     }
   }
-  'steps.reorder': {
-    methods: ["POST"]
-    pattern: '/api/steps/reorder'
+  'steps.get_image': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/steps/:id/image'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/step_validator').reorderStepsValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/step_validator').reorderStepsValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['reorder']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getImage']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getImage']>>>
     }
   }
   'steps.upload_image': {
@@ -833,6 +845,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUat']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUat']>>>
+    }
+  }
+  'yaml_import.refetch_from_disk': {
+    methods: ["POST"]
+    pattern: '/api/yaml/refetch/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['refetchFromDisk']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['refetchFromDisk']>>>
     }
   }
   'projects.tree': {

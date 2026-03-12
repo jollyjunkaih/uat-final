@@ -2,6 +2,9 @@ import { Link } from '@adonisjs/inertia/react'
 import { cn } from '~/lib/utils'
 import { useState } from 'react'
 import { type Data } from '@generated/data'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { apiFetch } from '~/lib/api'
+import { toast } from 'sonner'
 import FeaturesTab from './tabs/features-tab'
 import UatFlowsTab from './tabs/uat-flows-tab'
 import PrdViewTab from './tabs/prd-view-tab'
@@ -75,6 +78,21 @@ function getInitialTab(): Tab {
 
 export default function ProjectShow({ project }: ProjectShowProps) {
   const [activeTab, setActiveTab] = useState<Tab>(getInitialTab)
+  const queryClient = useQueryClient()
+
+  const refetchMutation = useMutation({
+    mutationFn: () =>
+      apiFetch<{ data: { success: boolean } }>(`/api/yaml/refetch/${project.id}`, {
+        method: 'POST',
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries()
+      toast.success('Data refetched from YAML files')
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to refetch data')
+    },
+  })
 
   function switchTab(tab: Tab) {
     setActiveTab(tab)
@@ -174,6 +192,19 @@ export default function ProjectShow({ project }: ProjectShowProps) {
           </p>
         </div>
       </div>
+
+      <button
+        onClick={() => refetchMutation.mutate()}
+        disabled={refetchMutation.isPending}
+        className={cn(
+          'fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl',
+          refetchMutation.isPending
+            ? 'cursor-not-allowed bg-gray-400'
+            : 'bg-blue-600 hover:bg-blue-700'
+        )}
+      >
+        {refetchMutation.isPending ? 'Refetching...' : 'REFETCH'}
+      </button>
     </div>
   )
 }

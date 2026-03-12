@@ -1,5 +1,5 @@
 _projectId: 34a0e2fb-b208-41a4-ad99-edb75a5ab7eb
-_generatedAt: 2026-03-10T17:47:41.013Z
+_generatedAt: 2026-03-12T09:11:56.604Z
 metadata:
   testingStartDate: null
   testingStartTime: null
@@ -8,59 +8,1922 @@ metadata:
   testerNames: []
   generalComments: null
 features:
-  - name: adfasdf
-    description: null
-    module: null
-    priority: medium
+  - name: Office Services - Inventory Request (E-Office Supplies)
+    description: End-to-end office supplies request lifecycle including browsing items, cart management, submission,
+      approval, officer assignment, order preparation, goods receiving, and feedback collection.
+    module: Office Services
+    priority: high
     status: draft
-    ecosystem: null
-    inScope: null
-    outOfScope: null
+    ecosystem: Admin Desktop App + Backend
+    inScope: Browsing office supply items, adding items to cart, submitting inventory requests, HOD approval workflow,
+      officer assignment, order preparation, GRN completion, feedback collection, request modification, rejection,
+      reassignment.
+    outOfScope: Stock replenishment, vendor purchase orders, warehouse stock management (inventory levels admin),
+      IBS-Concrete requests.
     sequence: 0
     uatFlows:
-      - name: asdfasdf
-        description: asdfasdf
-        preconditions: null
+      - name: Browse Office Supplies Catalog
+        description: User navigates to the e-office supplies page, browses available items, searches for specific items, and
+          views item details.
+        preconditions: User is logged in and has access to Office Services module.
         status: draft
         sequence: 0
         steps:
-          - name: asdfasdfasdfa
-            description: asdfasdf
+          - name: Navigate to E-Office Supplies page
+            description: Click on "E-Office Supplies" in the Office Services sidebar menu. Verify the page loads with a table of
+              office supply items.
             sequence: 0
-            imagePath: null
-      - name: asdfasdf
-        description: asdfasdf
-        preconditions: asdfasdf
+            imageFileName: null
+          - name: Verify table columns
+            description: Confirm the table displays Item Code, Item Name, Availability (stocked/not stocked badge), and Action
+              buttons (Add or Request).
+            sequence: 1
+            imageFileName: null
+          - name: Search for an item by name
+            description: Type an item name into the search field. Verify the table filters to show matching results.
+            sequence: 2
+            imageFileName: null
+          - name: Search for an item by code
+            description: Clear the search field and type an item code. Verify the table filters accordingly.
+            sequence: 3
+            imageFileName: null
+          - name: Verify pagination
+            description: If more than one page of items exists, click "Next" to navigate to the next page. Verify page counter
+              updates and items change.
+            sequence: 4
+            imageFileName: null
+          - name: Verify item image preview
+            description: Click on an item image thumbnail. Verify a preview dialog opens showing the full item image.
+            sequence: 5
+            imageFileName: null
+      - name: Add Items to Cart
+        description: User adds stocked items to the cart with specified quantities.
+        preconditions: User is on the E-Office Supplies page with stocked items available.
         status: draft
-        sequence: 0
+        sequence: 1
         steps:
-          - name: asdfasdf
-            description: asdfasdf
+          - name: Click Add button on a stocked item
+            description: Click the "Add" button on a stocked item row. Verify the AddToCartDialog opens showing Item Code, Item
+              Name, Available Quantity, and UOM.
             sequence: 0
-            imagePath: null
-      - name: asdfasdf
-        description: asdfasdf
-        preconditions: asdfasdf
+            imageFileName: null
+          - name: Enter valid quantity
+            description: Enter a quantity within the available range (e.g., 5 if 10 available). Verify no validation error is shown.
+            sequence: 1
+            imageFileName: null
+          - name: Submit add to cart
+            description: Click "Add to Cart" button. Verify the dialog closes and the cart counter badge in the header increments.
+            sequence: 2
+            imageFileName: null
+          - name: Add another item to cart
+            description: Click "Add" on a different stocked item, enter quantity, and add to cart. Verify the cart counter updates
+              to show 2 items.
+            sequence: 3
+            imageFileName: null
+          - name: Attempt to exceed available quantity
+            description: Click "Add" on an item and enter a quantity exceeding available stock. Verify a validation error message
+              appears and submission is prevented.
+            sequence: 4
+            imageFileName: null
+          - name: Add same item again
+            description: Click "Add" on an item already in cart. Verify the dialog shows existing cart quantity. Confirm the total
+              (existing + new) cannot exceed available stock.
+            sequence: 5
+            imageFileName: null
+      - name: View and Manage Cart
+        description: User opens the cart dialog, reviews items, modifies quantities, removes items, and enters a reason for the
+          request.
+        preconditions: User has items in the cart.
         status: draft
-        sequence: 0
-        steps: []
-      - name: asdfasdf
-        description: asdfasfd
-        preconditions: null
+        sequence: 2
+        steps:
+          - name: Open cart dialog
+            description: Click the cart icon/button in the page header. Verify the WarehouseCartDialog opens showing all cart items
+              with Item Code, Item Name, Warehouse, Requested Qty, and Delete action.
+            sequence: 0
+            imageFileName: null
+          - name: Modify item quantity in cart
+            description: Change the quantity of an item using the quantity input field. Verify the value updates.
+            sequence: 1
+            imageFileName: null
+          - name: Remove an item from cart
+            description: Click the delete (X) button on an item. Verify the item is removed and the cart updates.
+            sequence: 2
+            imageFileName: null
+          - name: Enter reason for request
+            description: Type a reason in the "Reason for Request" textarea. This is a required field.
+            sequence: 3
+            imageFileName: null
+          - name: Link a referenced ticket (optional)
+            description: Click the "Referenced Ticket" searchable dropdown and search for a ticket by reference number. Select one.
+              Verify the ticket reference appears.
+            sequence: 4
+            imageFileName: null
+          - name: Verify Preview Order button state
+            description: Confirm the "Preview Order" button is disabled when the cart is empty or reason is blank, and enabled when
+              both are filled.
+            sequence: 5
+            imageFileName: null
+      - name: Preview and Submit Inventory Request
+        description: User previews the formatted request document and submits it.
+        preconditions: Cart has items and reason is filled.
+        status: draft
+        sequence: 3
+        steps:
+          - name: Click Preview Order
+            description: Click "Preview Order" from the cart dialog. Verify the InventoryRequestPreviewDialog opens showing KKIP
+              letterhead, Request No (K1-IR-DRAFT), Requester name, Department, Date, and items table.
+            sequence: 0
+            imageFileName: null
+          - name: Review request details
+            description: Verify all items, quantities, warehouse, reason, and requester information are displayed correctly in the
+              preview.
+            sequence: 1
+            imageFileName: null
+          - name: Submit request
+            description: Click "Submit Request". Verify a loading spinner appears, then a success toast message is shown. Verify the
+              user is navigated to the home page.
+            sequence: 2
+            imageFileName: null
+          - name: Verify ticket creation
+            description: Navigate to Helpdesk Tickets. Verify a new ticket of type INVENTORY-REQUEST is created with the correct
+              reference number.
+            sequence: 3
+            imageFileName: null
+      - name: HOD Approves Inventory Request
+        description: Department HOD reviews and approves an inventory request.
+        preconditions: An inventory request has been submitted and is in PENDING-APPROVAL status. HOD is logged in.
+        status: draft
+        sequence: 4
+        steps:
+          - name: Navigate to ticket
+            description: HOD navigates to the inventory request ticket (via notifications or Helpdesk). Verify the
+              InventoryRequestProgressCard shows the request is at the "Approval" step.
+            sequence: 0
+            imageFileName: null
+          - name: Click Review button
+            description: Click "Review" on the active approval task. Verify the InventoryRequestReviewDialog opens with PDF preview
+              on the left and action buttons on the right.
+            sequence: 1
+            imageFileName: null
+          - name: Review request PDF
+            description: Verify the PDF shows request details including items, quantities, requester, department, and reason.
+            sequence: 2
+            imageFileName: null
+          - name: Click Approve
+            description: Click the "Approve" button. Verify the request status changes to APPROVED and the progress card updates.
+            sequence: 3
+            imageFileName: null
+          - name: Verify notification to requester
+            description: Log in as the requester. Verify a notification is received about the approval.
+            sequence: 4
+            imageFileName: null
+      - name: HOD Requests Changes on Inventory Request
+        description: HOD reviews and returns the request for modifications.
+        preconditions: An inventory request is in PENDING-APPROVAL status. HOD is logged in.
+        status: draft
+        sequence: 5
+        steps:
+          - name: Open review dialog
+            description: Open the InventoryRequestReviewDialog for the pending request.
+            sequence: 0
+            imageFileName: null
+          - name: Click Return button
+            description: Click the "Return" button. Verify a dialog appears with a textarea for "Changes Requested".
+            sequence: 1
+            imageFileName: null
+          - name: Enter change request reason
+            description: Type the reason for requested changes and click "Send". Verify the task is updated with CHANGES-REQUESTED
+              status.
+            sequence: 2
+            imageFileName: null
+          - name: Verify requester receives revision task
+            description: Log in as requester. Verify a SUBMISSION task is created for revision. Verify the progress card shows the
+              request needs revision.
+            sequence: 3
+            imageFileName: null
+          - name: Requester revises and resubmits
+            description: Click "Revise Inventory Request". Open InventoryRequestEditDialog. Modify items/quantities/reason. Click
+              "Update". Verify a new approval task is created for HOD.
+            sequence: 4
+            imageFileName: null
+      - name: HOD Rejects Inventory Request
+        description: HOD rejects the inventory request.
+        preconditions: An inventory request is in PENDING-APPROVAL status.
+        status: draft
+        sequence: 6
+        steps:
+          - name: Open review dialog
+            description: Open the InventoryRequestReviewDialog for the pending request.
+            sequence: 0
+            imageFileName: null
+          - name: Click Reject button
+            description: Click the "Reject" button (red). Verify a dialog appears for entering rejection reason.
+            sequence: 1
+            imageFileName: null
+          - name: Enter rejection reason and confirm
+            description: Enter a reason for rejection and click "Send". Verify the request is marked as rejected.
+            sequence: 2
+            imageFileName: null
+          - name: Verify requester is notified
+            description: Log in as requester. Verify a notification is received about the rejection.
+            sequence: 3
+            imageFileName: null
+      - name: HOD Modifies Items and Approves
+        description: HOD adjusts item quantities and directly approves.
+        preconditions: An inventory request is in PENDING-APPROVAL status.
+        status: draft
+        sequence: 7
+        steps:
+          - name: Open review dialog
+            description: Open the InventoryRequestReviewDialog for the pending request.
+            sequence: 0
+            imageFileName: null
+          - name: Click Modify button
+            description: Click "Modify". Verify the InventoryRequestEditDialog opens with current items pre-populated.
+            sequence: 1
+            imageFileName: null
+          - name: Modify item quantities
+            description: Change quantities using +/- buttons or direct input. Add an update reason in the textarea.
+            sequence: 2
+            imageFileName: null
+          - name: Click Update and Approve
+            description: Click "Update and Approve". Verify the request is updated with new quantities and approved simultaneously.
+            sequence: 3
+            imageFileName: null
+      - name: Office Service HOD Assigns Officer
+        description: After approval, Office Service HOD assigns an officer to prepare the supplies.
+        preconditions: Inventory request is APPROVED. Office Service HOD is logged in.
+        status: draft
+        sequence: 8
+        steps:
+          - name: Navigate to request ticket
+            description: Navigate to the inventory request ticket. Verify the progress shows APPROVED status and a CONSULT task is
+              active.
+            sequence: 0
+            imageFileName: null
+          - name: Click Assign Officer
+            description: Click "Assign Officer" on the active task. Verify a dialog shows with a list of Office Service officers
+              (radio group).
+            sequence: 1
+            imageFileName: null
+          - name: Select officer and confirm
+            description: Select an officer from the list and confirm. Verify the request status changes to ASSIGNED and the
+              officer's name appears.
+            sequence: 2
+            imageFileName: null
+      - name: Assigned Officer Prepares Supplies
+        description: The assigned officer confirms the office supplies are ready for pickup.
+        preconditions: Request is ASSIGNED. Officer is logged in.
+        status: draft
+        sequence: 9
+        steps:
+          - name: Navigate to request ticket
+            description: Navigate to the assigned inventory request ticket. Verify an EXECUTE task is active.
+            sequence: 0
+            imageFileName: null
+          - name: Click Confirm Order Ready
+            description: Click "Confirm Order Ready". Verify the PrepareOfficeSuppliesDialog opens.
+            sequence: 1
+            imageFileName: null
+          - name: Confirm supplies are ready
+            description: Click "Notify Requester". Verify the request status changes to PROCESSED and the requester receives a
+              notification that supplies are ready for pickup.
+            sequence: 2
+            imageFileName: null
+      - name: Requester Completes Goods Received Note (GRN)
+        description: Requester picks up supplies and confirms received quantities.
+        preconditions: Request is PROCESSED (ready for pickup). Requester is logged in.
+        status: draft
+        sequence: 10
+        steps:
+          - name: Navigate to request ticket
+            description: Navigate to the inventory request ticket. Verify a RECEIVING task is active and the progress shows items
+              are ready for pickup.
+            sequence: 0
+            imageFileName: null
+          - name: Click Complete GRN
+            description: Click "Complete GRN". Verify the InventoryGRNDialog opens showing items with Expected Quantity and editable
+              Quantity Received fields.
+            sequence: 1
+            imageFileName: null
+          - name: Enter received quantities
+            description: Enter the quantity received for each item. Verify quantities cannot exceed expected amounts.
+            sequence: 2
+            imageFileName: null
+          - name: Submit GRN
+            description: Submit the GRN form. Verify the request status changes to RECEIVED and the progress card updates.
+            sequence: 3
+            imageFileName: null
+      - name: Requester Provides Feedback
+        description: After receiving supplies, the requester provides a rating and comments.
+        preconditions: Request is RECEIVED. Requester is logged in.
+        status: draft
+        sequence: 11
+        steps:
+          - name: Navigate to request ticket
+            description: Navigate to the inventory request ticket. Verify a FEEDBACK task is active.
+            sequence: 0
+            imageFileName: null
+          - name: Click Leave Feedback
+            description: Click "Leave Feedback". Verify the InventoryRequestFeedbackDialog opens with star rating and comments
+              fields.
+            sequence: 1
+            imageFileName: null
+          - name: Rate the service
+            description: Click on stars to set a rating (1-5). Verify the selected rating displays correctly (e.g., "3 / 5").
+            sequence: 2
+            imageFileName: null
+          - name: Enter feedback comments
+            description: Type feedback comments in the textarea. Verify the field is required.
+            sequence: 3
+            imageFileName: null
+          - name: Submit feedback
+            description: Click submit. Verify the feedback is saved and visible on the InventoryRequestDocumentsCard.
+            sequence: 4
+            imageFileName: null
+      - name: View Submitted Feedback
+        description: View previously submitted feedback for a completed request.
+        preconditions: Feedback has been submitted for a completed inventory request.
+        status: draft
+        sequence: 12
+        steps:
+          - name: Navigate to request ticket
+            description: Navigate to the completed inventory request ticket.
+            sequence: 0
+            imageFileName: null
+          - name: View feedback on documents card
+            description: Verify the InventoryRequestDocumentsCard shows the star rating and comments.
+            sequence: 1
+            imageFileName: null
+          - name: Open detailed feedback dialog
+            description: Click the feedback action on the inventory request table. Verify the InventoryRequestFeedbackViewDialog
+              opens showing full star rating, comments, and submission date.
+            sequence: 2
+            imageFileName: null
+      - name: Reassign Inventory Request to Another Officer
+        description: An officer reassigns an inventory request to themselves.
+        preconditions: Inventory request is assigned to another officer and not yet completed. Current user is an Office Service
+          officer.
+        status: draft
+        sequence: 13
+        steps:
+          - name: Navigate to orders page
+            description: Navigate to Office Services > Orders. Locate the request in the table.
+            sequence: 0
+            imageFileName: null
+          - name: Click Reassign button
+            description: Click the reassign button in the "Officer Assigned" column. Verify the ReassignInventoryRequestDialog opens
+              showing current officer and new officer details.
+            sequence: 1
+            imageFileName: null
+          - name: Type confirmation text
+            description: Type "CONFIRM REASSIGN" in the confirmation input. Verify the confirm button becomes enabled.
+            sequence: 2
+            imageFileName: null
+          - name: Confirm reassignment
+            description: Click confirm. Verify the officer is changed and active tasks are transferred.
+            sequence: 3
+            imageFileName: null
+      - name: Admin Manages Inventory Request Orders
+        description: Admin views and filters inventory requests on the orders management page.
+        preconditions: User has Office Services admin access.
+        status: draft
+        sequence: 14
+        steps:
+          - name: Navigate to Orders page
+            description: Navigate to Office Services > Orders. Verify the page loads with three tabs - New, Ready for Pick Up,
+              Completed.
+            sequence: 0
+            imageFileName: null
+          - name: View New tab
+            description: Click "New" tab. Verify it shows requests with APPROVED and ASSIGNED statuses.
+            sequence: 1
+            imageFileName: null
+          - name: View Ready for Pick Up tab
+            description: Click "Ready for Pick Up" tab. Verify it shows PROCESSED status requests.
+            sequence: 2
+            imageFileName: null
+          - name: View Completed tab
+            description: Click "Completed" tab. Verify it shows RECEIVED status requests.
+            sequence: 3
+            imageFileName: null
+          - name: Filter by department
+            description: Use the department dropdown filter. Verify the table filters to show only requests from the selected
+              department.
+            sequence: 4
+            imageFileName: null
+          - name: Filter by date range
+            description: Set a date range filter on "Requested On". Verify only requests within the range are shown.
+            sequence: 5
+            imageFileName: null
+          - name: Search by reference or item
+            description: Use the search field to search by IR reference number or item name. Verify results update accordingly.
+            sequence: 6
+            imageFileName: null
+          - name: View request PDF
+            description: Click the "IR" button on a request row. Verify the PDF viewer opens with the formatted request document.
+            sequence: 7
+            imageFileName: null
+          - name: Navigate to request ticket
+            description: Click the "Ticket" button on a request row. Verify navigation to the ticket detail page.
+            sequence: 8
+            imageFileName: null
+  - name: Room Booking
+    description: Complete meeting room booking lifecycle including room discovery, availability checking, booking creation
+      with office service requests, approval workflow, editing, cancellation, and post-booking evaluation.
+    module: Office Services
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Room availability browsing, room booking creation, office service requests (refreshments, presentation, extra
+      tables/chairs, cleanup), HOD approval, auto-approval for top management, booking editing, booking deletion,
+      post-booking evaluation, invited user management, Outlook calendar sync.
+    outOfScope: Room CRUD management (creating/editing rooms), room facility management.
+    sequence: 1
+    uatFlows:
+      - name: Browse Room Availability
+        description: User views available meeting rooms and their time slots for a selected date.
+        preconditions: User is logged in and meeting rooms are configured in the system.
         status: ready_for_test
         sequence: 0
         steps:
-          - name: Click Submit Button
-            description: asdfasfd
+          - name: Navigate to new booking page
+            description: Navigate to My Bookings > New Booking. Click the "Rooms" tab. Verify the page shows a calendar selector and
+              room availability cards.
             sequence: 0
-            imagePath: null
-  - name: asdfasdf
-    description: fasdfas
-    module: asdfasd
+            imageFileName: 0bd1ebff-78a1-4abe-81ef-5e1d781b535b-test-html-to-image
+          - name: Select a date
+            description: Click on a date in the 7-day calendar selector. Verify room availability cards update for the selected
+              date.
+            sequence: 1
+            imageFileName: null
+          - name: Navigate to next week
+            description: Click the right arrow to navigate to the next week. Verify the calendar updates with new dates.
+            sequence: 2
+            imageFileName: null
+          - name: View room card details
+            description: Verify each room card shows room image, room name, location, facilities list (with name and quantity),
+              available time slots (green), and booked time slots (with booker name).
+            sequence: 3
+            imageFileName: null
+          - name: Identify personal bookings
+            description: Verify that your own bookings are shown with a "Booked by me" badge, while others show the booker's name.
+            sequence: 4
+            imageFileName: null
+          - name: Click unavailable room
+            description: Click on a room card that has no available slots. Verify a warning message is shown indicating no available
+              slots.
+            sequence: 5
+            imageFileName: null
+      - name: Create Room Booking
+        description: User creates a new room booking with all required and optional fields.
+        preconditions: User is on the new booking page, Rooms tab, with available rooms displayed.
+        status: draft
+        sequence: 1
+        steps:
+          - name: Click on an available room
+            description: Click on a room card that has available time slots. Verify the RoomBookingForm dialog opens with room name
+              and facilities displayed.
+            sequence: 0
+            imageFileName: null
+          - name: Enter meeting purpose
+            description: Fill in the "Purpose" text input field with the meeting reason. Verify the field is required.
+            sequence: 1
+            imageFileName: null
+          - name: Enter meeting description
+            description: Fill in the "Description" textarea with meeting details. Verify the field is required.
+            sequence: 2
+            imageFileName: null
+          - name: Select start time
+            description: Open the "Start Time" dropdown. Verify only available time slots are shown (15-minute increments, 7 AM - 7
+              PM range). Select a start time.
+            sequence: 3
+            imageFileName: null
+          - name: Select end time
+            description: Open the "End Time" dropdown. Verify it shows times that are at least 30 minutes after the start time and
+              within available ranges. Select an end time.
+            sequence: 4
+            imageFileName: null
+          - name: Link a referenced ticket (optional)
+            description: Search for and select a referenced ticket from the searchable dropdown. Verify the ticket reference
+              appears.
+            sequence: 5
+            imageFileName: null
+          - name: Invite users (optional)
+            description: Open the "Invite Users" multi-select dropdown. Search for and select multiple users. Verify selected users
+              are shown as chips.
+            sequence: 6
+            imageFileName: null
+          - name: Request refreshments
+            description: Check the "Require Refreshment" checkbox. Verify it is checked.
+            sequence: 7
+            imageFileName: null
+          - name: Request presentation setup
+            description: Check the "Require Presentation Setup" checkbox. Verify it is checked (triggers IT HOD task).
+            sequence: 8
+            imageFileName: null
+          - name: Request extra tables
+            description: Check the "Require Extra Tables" checkbox. Verify a quantity input appears. Enter a quantity (e.g., 3).
+              Verify validation requires quantity > 0.
+            sequence: 9
+            imageFileName: null
+          - name: Request extra chairs
+            description: Check the "Require Extra Chairs" checkbox. Verify a quantity input appears. Enter a quantity. Verify
+              validation requires quantity > 0.
+            sequence: 10
+            imageFileName: null
+          - name: Request extra cleanup
+            description: Check the "Require Extra Cleanup" checkbox. Verify it is checked.
+            sequence: 11
+            imageFileName: null
+          - name: Enter additional remarks
+            description: Type additional notes in the "Additional Remarks" textarea.
+            sequence: 12
+            imageFileName: null
+          - name: Add attachments (optional)
+            description: Click the file upload component and select one or more files. Verify files are attached.
+            sequence: 13
+            imageFileName: null
+          - name: Accept terms and conditions
+            description: Click the "terms and conditions" link. Verify the Terms & Conditions dialog opens showing general terms,
+              room usage, equipment, conduct, and cancellation policies. Close the dialog. Check the "I agree" checkbox.
+            sequence: 14
+            imageFileName: null
+          - name: Submit booking
+            description: Click "Create Booking". Verify a success toast appears with message about pending approval. Verify a "View
+              Booking" action link in the toast navigates to My Bookings.
+            sequence: 15
+            imageFileName: null
+      - name: Room Booking Auto-Approval (Top Management)
+        description: A top-management user creates a room booking and it is automatically approved.
+        preconditions: User has "top-management" role or their HOD has "top-management" role.
+        status: draft
+        sequence: 2
+        steps:
+          - name: Create room booking as top-management user
+            description: Log in as a user with top-management role. Create a room booking following the standard flow.
+            sequence: 0
+            imageFileName: null
+          - name: Verify auto-approval
+            description: Verify the booking status is immediately set to APPROVED (not PENDING). Verify no approval task is created
+              for HOD.
+            sequence: 1
+            imageFileName: null
+          - name: Verify event schedule created
+            description: Navigate to My Calendar. Verify the room booking appears as a purple event on the booking date.
+            sequence: 2
+            imageFileName: null
+          - name: Verify service tasks created
+            description: If office services were requested (refreshment, presentation, tables, etc.), verify the appropriate tasks
+              were automatically created for tea lady, IT HOD, or Office Service HOD.
+            sequence: 3
+            imageFileName: null
+          - name: Verify Outlook sync (if connected)
+            description: If the user has Outlook connected, verify the event appears in Outlook calendar.
+            sequence: 4
+            imageFileName: null
+      - name: Room Booking HOD Approval
+        description: HOD reviews and approves a pending room booking.
+        preconditions: A room booking is in PENDING status. HOD is logged in.
+        status: draft
+        sequence: 3
+        steps:
+          - name: Receive notification
+            description: HOD receives a notification about the pending room booking approval.
+            sequence: 0
+            imageFileName: null
+          - name: Navigate to approval task
+            description: Navigate to the room booking ticket. Verify the RoomBookingApprovalCard shows booking details including
+              room, date, time, requester, reason, and invited users.
+            sequence: 1
+            imageFileName: null
+          - name: Approve the booking
+            description: Click "Approve" on the active approval task. Confirm the approval. Verify the booking status changes to
+              APPROVED.
+            sequence: 2
+            imageFileName: null
+          - name: Verify requester notification
+            description: Verify the requester receives an in-app notification and approval email.
+            sequence: 3
+            imageFileName: null
+          - name: Verify invited users notification
+            description: Verify invited users receive email invitations for the meeting.
+            sequence: 4
+            imageFileName: null
+          - name: Verify calendar event
+            description: Verify the event schedule is created and synced to Outlook (if requester has Outlook connected).
+            sequence: 5
+            imageFileName: null
+      - name: HOD Rejects Room Booking
+        description: HOD reviews and rejects a pending room booking.
+        preconditions: A room booking is in PENDING status.
+        status: draft
+        sequence: 4
+        steps:
+          - name: Navigate to approval task
+            description: Navigate to the room booking ticket and open the approval task.
+            sequence: 0
+            imageFileName: null
+          - name: Reject the booking
+            description: Click "Reject". Enter a rejection reason in the dialog. Confirm rejection. Verify the booking status
+              changes to REJECTED.
+            sequence: 1
+            imageFileName: null
+          - name: Verify requester notification
+            description: Verify the requester receives a rejection notification and email.
+            sequence: 2
+            imageFileName: null
+      - name: Check Room Availability
+        description: Verify the room availability checking mechanism prevents double bookings.
+        preconditions: A room booking already exists for a specific date and time.
+        status: draft
+        sequence: 5
+        steps:
+          - name: View existing booking on room card
+            description: Navigate to new booking and select the date with the existing booking. Verify the booked time slot is shown
+              on the room card.
+            sequence: 0
+            imageFileName: null
+          - name: Attempt overlapping booking
+            description: Click on the same room and attempt to select a time slot that overlaps with the existing booking. Verify
+              the conflicting time slots are not available in the dropdown.
+            sequence: 1
+            imageFileName: null
+          - name: Verify non-overlapping booking works
+            description: Select a time slot that does not overlap with existing bookings. Verify the booking can be submitted
+              successfully.
+            sequence: 2
+            imageFileName: null
+      - name: Edit Room Booking
+        description: User edits an existing room booking's details.
+        preconditions: User has an active (non-completed) room booking.
+        status: draft
+        sequence: 6
+        steps:
+          - name: Navigate to My Bookings
+            description: Navigate to My Bookings > Meeting Room Bookings tab. Locate the booking to edit.
+            sequence: 0
+            imageFileName: null
+          - name: Click Edit button
+            description: Click the Edit button on the booking card. Verify the EditRoomBookingDialog opens with current booking
+              details pre-populated.
+            sequence: 1
+            imageFileName: null
+          - name: Change booking date
+            description: Change the booking date using the date input. Verify the available time slots update for the new date.
+            sequence: 2
+            imageFileName: null
+          - name: Change time slots
+            description: Select new start and end times from the available slots. Verify only non-conflicting slots are available
+              (excluding current booking).
+            sequence: 3
+            imageFileName: null
+          - name: Update meeting purpose
+            description: Modify the meeting purpose textarea. Verify the field accepts the new value.
+            sequence: 4
+            imageFileName: null
+          - name: Update invited users
+            description: Add or remove invited users from the multi-select dropdown. Verify changes are reflected.
+            sequence: 5
+            imageFileName: null
+          - name: Submit update
+            description: Click "Update Booking". Verify a success toast appears and the booking card reflects the changes.
+            sequence: 6
+            imageFileName: null
+          - name: Verify calendar event updated
+            description: Navigate to My Calendar. Verify the event schedule reflects the updated booking details.
+            sequence: 7
+            imageFileName: null
+      - name: Delete Room Booking
+        description: User cancels/deletes an existing room booking.
+        preconditions: User has an active room booking.
+        status: draft
+        sequence: 7
+        steps:
+          - name: Navigate to My Bookings
+            description: Navigate to My Bookings > Meeting Room Bookings tab. Locate the booking to delete.
+            sequence: 0
+            imageFileName: null
+          - name: Click Delete button
+            description: Click the Delete button on the booking card. Verify the DeleteRoomBookingDialog opens showing Room, Date,
+              Time, and Purpose.
+            sequence: 1
+            imageFileName: null
+          - name: Confirm deletion
+            description: Click "Delete" in the confirmation dialog. Verify the booking is removed from the list.
+            sequence: 2
+            imageFileName: null
+          - name: Verify calendar event removed
+            description: Navigate to My Calendar. Verify the event is no longer displayed on the calendar.
+            sequence: 3
+            imageFileName: null
+          - name: Verify Outlook event removed
+            description: If user has Outlook connected, verify the event is removed from Outlook calendar.
+            sequence: 4
+            imageFileName: null
+      - name: Admin Manages Room Bookings
+        description: Admin views and manages room bookings from the Office Services bookings page.
+        preconditions: Admin has Office Services access.
+        status: draft
+        sequence: 8
+        steps:
+          - name: Navigate to Bookings page
+            description: Navigate to Office Services > Bookings. Click the "Rooms" tab. Verify a calendar and room booking list is
+              displayed.
+            sequence: 0
+            imageFileName: null
+          - name: Select a date
+            description: Click a date on the calendar. Verify dates with bookings show red indicator dots. Verify the booking list
+              updates for the selected date.
+            sequence: 1
+            imageFileName: null
+          - name: View booking details
+            description: Review a booking card showing room name, location badge, status badge, time slot, booked by, purpose, and
+              invited users count.
+            sequence: 2
+            imageFileName: null
+          - name: Edit a booking
+            description: Click "Edit Booking" on a booking card. Verify the EditRoomBookingDialog opens. Make changes and save.
+            sequence: 3
+            imageFileName: null
+          - name: Cancel a booking
+            description: Click "Cancel" on a booking card. Verify the DeleteRoomBookingDialog opens. Confirm deletion.
+            sequence: 4
+            imageFileName: null
+      - name: Post-Booking Evaluation
+        description: User provides feedback after a completed room booking.
+        preconditions: A room booking has been completed (booking date/time has passed) and an evaluation task is active.
+        status: draft
+        sequence: 9
+        steps:
+          - name: Receive evaluation notification
+            description: After the booking date passes, verify the requester receives a notification for the evaluation task.
+            sequence: 0
+            imageFileName: null
+          - name: Navigate to evaluation task
+            description: Navigate to the room booking ticket. Verify an EVALUATE task is active.
+            sequence: 1
+            imageFileName: null
+          - name: Open evaluation dialog
+            description: Click "Evaluate Booking". Verify the evaluation dialog opens with booking details and a feedback textarea.
+            sequence: 2
+            imageFileName: null
+          - name: Enter feedback
+            description: Type evaluation feedback about the room booking experience. Verify the field is required.
+            sequence: 3
+            imageFileName: null
+          - name: Submit evaluation
+            description: Submit the evaluation. Verify the task is completed and feedback is saved.
+            sequence: 4
+            imageFileName: null
+  - name: Vehicle Booking
+    description: Complete vehicle booking lifecycle including vehicle browsing, availability checking, booking creation with
+      driver selection, approval workflow, key management, fuel tracking, booking cancellation, and post-trip
+      evaluation.
+    module: Office Services
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Vehicle availability browsing, vehicle booking creation (single-day and multi-day), driver type selection
+      (self-drive, KKIP employee, OS driver), approval workflow, auto-approval for top management, key release, key
+      return with dashboard photo, fuel/mileage tracking, booking cancellation, post-trip evaluation with fine/accident
+      reporting, Shell card requests, terms and conditions.
+    outOfScope: Vehicle registration, vehicle disposal, vehicle depreciation, vehicle purchase workflow.
+    sequence: 2
+    uatFlows:
+      - name: Browse Vehicle Availability
+        description: User views available vehicles and their time slots for a selected date.
+        preconditions: User is logged in and vehicles are configured in the system.
+        status: draft
+        sequence: 0
+        steps:
+          - name: Navigate to new booking page
+            description: Navigate to My Bookings > New Booking. Click the "Vehicles" tab. Verify the page shows a calendar selector
+              and vehicle availability cards.
+            sequence: 0
+            imageFileName: null
+          - name: Select a booking date
+            description: Click on a date in the calendar selector. Verify vehicle cards update showing availability for the selected
+              date.
+            sequence: 1
+            imageFileName: null
+          - name: Search for a vehicle
+            description: Type a vehicle model name or license plate in the search field. Verify cards filter to matching vehicles.
+            sequence: 2
+            imageFileName: null
+          - name: View vehicle card details
+            description: Verify each vehicle card shows vehicle image, model name, license plate, available time slots (green), and
+              booked slots (with booker name and status).
+            sequence: 3
+            imageFileName: null
+          - name: Identify vehicle status indicators
+            description: Verify vehicles show status indicators - "Under Maintenance" (orange), "Exclusively used by [Entity]"
+              (yellow), or "Available for Booking" (green).
+            sequence: 4
+            imageFileName: null
+          - name: Attempt to book maintenance vehicle
+            description: Click on a vehicle marked "Under Maintenance". Verify a warning is shown that the vehicle cannot be booked.
+            sequence: 5
+            imageFileName: null
+      - name: Create Vehicle Booking - Self-Drive Same Day
+        description: User creates a same-day vehicle booking as a self-driver.
+        preconditions: User is on the Vehicles tab with available vehicles displayed.
+        status: draft
+        sequence: 1
+        steps:
+          - name: Click on an available vehicle
+            description: Click on a vehicle card with available slots. Verify the VehicleBookingForm dialog opens.
+            sequence: 0
+            imageFileName: null
+          - name: Select purpose
+            description: Open the "Purpose" dropdown and select a purpose (e.g., "Meeting Client", "Site Inspection"). Verify the
+              selection is applied.
+            sequence: 1
+            imageFileName: null
+          - name: Select Others purpose
+            description: Select "Others" from the purpose dropdown. Verify a custom text input appears. Enter a custom purpose.
+            sequence: 2
+            imageFileName: null
+          - name: Enter description
+            description: Fill in the "Description" textarea with trip details. Verify the field is required.
+            sequence: 3
+            imageFileName: null
+          - name: Enter location
+            description: Fill in the "Location" text input with the trip destination. Verify the field is required.
+            sequence: 4
+            imageFileName: null
+          - name: Link referenced ticket (optional)
+            description: Search for and select a referenced ticket from the searchable dropdown.
+            sequence: 5
+            imageFileName: null
+          - name: Verify same-day checkbox
+            description: Verify "Returning on the same day?" checkbox is checked by default. Leave it checked.
+            sequence: 6
+            imageFileName: null
+          - name: Select pick up time
+            description: Open the "Car Pick Up Time" dropdown and select a time from available slots.
+            sequence: 7
+            imageFileName: null
+          - name: Select return time
+            description: Open the "Car Return Time" dropdown. Verify it shows times after the pick up time. Select a return time.
+            sequence: 8
+            imageFileName: null
+          - name: Verify availability status
+            description: Verify the real-time availability indicator shows "Vehicle is available" in green.
+            sequence: 9
+            imageFileName: null
+          - name: Select self-drive
+            description: Select "I am the driver" from the Driver Option dropdown. Verify the driver is set to the current user.
+            sequence: 10
+            imageFileName: null
+          - name: Add attachments (optional)
+            description: Optionally attach files using the file input.
+            sequence: 11
+            imageFileName: null
+          - name: Invite users (optional)
+            description: Optionally select users to invite from the multi-select dropdown.
+            sequence: 12
+            imageFileName: null
+          - name: Accept terms and conditions
+            description: Click the "terms and conditions" link to review vehicle T&Cs. Close the dialog. Check the "I agree"
+              checkbox.
+            sequence: 13
+            imageFileName: null
+          - name: Submit booking
+            description: Click "Create Booking". Verify a success toast with "pending approval" message appears.
+            sequence: 14
+            imageFileName: null
+      - name: Create Vehicle Booking - Employee Driver Multi-Day
+        description: User creates a multi-day vehicle booking with a KKIP employee driver.
+        preconditions: User is on the Vehicles tab with available vehicles.
+        status: draft
+        sequence: 2
+        steps:
+          - name: Open vehicle booking form
+            description: Click on an available vehicle card to open the booking form.
+            sequence: 0
+            imageFileName: null
+          - name: Fill purpose and details
+            description: Select a purpose, enter description and location.
+            sequence: 1
+            imageFileName: null
+          - name: Uncheck same-day return
+            description: Uncheck "Returning on the same day?" checkbox. Verify a "Return Date" date picker appears.
+            sequence: 2
+            imageFileName: null
+          - name: Select return date
+            description: Select a return date that is after the booking date. Verify the date picker enforces minimum date.
+            sequence: 3
+            imageFileName: null
+          - name: Select pick up and return times
+            description: Select pick up and return times.
+            sequence: 4
+            imageFileName: null
+          - name: Verify multi-day availability check
+            description: Verify the system shows "Checking availability..." and then either "Vehicle is available" or lists
+              conflicts for the entire date range.
+            sequence: 5
+            imageFileName: null
+          - name: Select KKIP Employee driver
+            description: Select "KKIP Employee" from the Driver Option. Verify a searchable employee dropdown appears.
+            sequence: 6
+            imageFileName: null
+          - name: Search and select employee driver
+            description: Search for an employee by name and select them as the driver.
+            sequence: 7
+            imageFileName: null
+          - name: Submit multi-day booking
+            description: Accept terms and submit. Verify the booking is created with the selected date range and employee driver.
+            sequence: 8
+            imageFileName: null
+      - name: Create Vehicle Booking - OS Driver
+        description: User creates a vehicle booking requesting an OS (outsourced) driver.
+        preconditions: User is on the Vehicles tab.
+        status: draft
+        sequence: 3
+        steps:
+          - name: Create booking with OS Driver
+            description: Fill in the booking form and select "Require OS Driver" from the Driver Option.
+            sequence: 0
+            imageFileName: null
+          - name: Submit booking
+            description: Accept terms and submit. Verify the booking is created without a driver assigned.
+            sequence: 1
+            imageFileName: null
+          - name: Verify OS HOD notification
+            description: Verify the Office Service HOD receives a notification to assign a driver.
+            sequence: 2
+            imageFileName: null
+      - name: Vehicle Booking Conflict Detection
+        description: Verify the system prevents double-booking of vehicles.
+        preconditions: A vehicle booking already exists for a specific date and time.
+        status: draft
+        sequence: 4
+        steps:
+          - name: Attempt overlapping booking
+            description: Select the same vehicle and date. Attempt to select overlapping time slots. Verify the conflicting time
+              slots are not available.
+            sequence: 0
+            imageFileName: null
+          - name: Multi-day conflict detection
+            description: Create a multi-day booking overlapping with an existing booking on one of the days. Verify "Conflicts
+              Found" displays with red conflict details showing date, time, booker, and reason.
+            sequence: 1
+            imageFileName: null
+      - name: Vehicle Booking Auto-Approval (Top Management)
+        description: Top management user creates a vehicle booking that is automatically approved.
+        preconditions: User has top-management role.
+        status: draft
+        sequence: 5
+        steps:
+          - name: Create booking as top-management
+            description: Log in as top-management user. Create a vehicle booking.
+            sequence: 0
+            imageFileName: null
+          - name: Verify auto-approval
+            description: Verify the booking is immediately APPROVED without a pending approval task.
+            sequence: 1
+            imageFileName: null
+          - name: Verify calendar event
+            description: Verify the vehicle booking appears as a blue event on the calendar.
+            sequence: 2
+            imageFileName: null
+      - name: Vehicle Booking HOD Approval
+        description: HOD reviews and approves a pending vehicle booking.
+        preconditions: A vehicle booking is PENDING. HOD is logged in.
+        status: draft
+        sequence: 6
+        steps:
+          - name: Navigate to approval task
+            description: Navigate to the vehicle booking ticket. Verify the VehicleBookingApprovalCard shows booking details
+              including vehicle, date, time, location, driver type, invited users, reason, and description.
+            sequence: 0
+            imageFileName: null
+          - name: Approve the booking
+            description: Click "Approve" on the active approval task. Confirm approval. Verify status changes to APPROVED.
+            sequence: 1
+            imageFileName: null
+          - name: Verify notifications
+            description: Verify the requester receives approval notification.
+            sequence: 2
+            imageFileName: null
+      - name: Vehicle Booking HOD Rejection
+        description: HOD rejects a pending vehicle booking.
+        preconditions: A vehicle booking is PENDING.
+        status: draft
+        sequence: 7
+        steps:
+          - name: Navigate to approval task
+            description: Navigate to the vehicle booking ticket.
+            sequence: 0
+            imageFileName: null
+          - name: Reject with reason
+            description: Click "Reject" on the approval task. Enter rejection reason in the dialog. Confirm. Verify the booking is
+              rejected.
+            sequence: 1
+            imageFileName: null
+      - name: OS Driver Assignment by Office Service HOD
+        description: Office Service HOD assigns an OS driver to a vehicle booking.
+        preconditions: A vehicle booking with driverType OS_DRIVER is approved and awaiting driver assignment.
+        status: draft
+        sequence: 8
+        steps:
+          - name: Navigate to driver assignment task
+            description: Office Service HOD navigates to the vehicle booking ticket. Verify a driver assignment task is active.
+            sequence: 0
+            imageFileName: null
+          - name: Select driver
+            description: Click "Assign Driver". Select a driver from the searchable dropdown (OS department users). Confirm.
+            sequence: 1
+            imageFileName: null
+          - name: Verify driver assigned
+            description: Verify the booking now shows the assigned driver name.
+            sequence: 2
+            imageFileName: null
+      - name: Admin Releases Vehicle Keys
+        description: Admin releases vehicle keys to the user before the trip.
+        preconditions: Vehicle booking is APPROVED. Admin is on the Bookings page.
+        status: draft
+        sequence: 9
+        steps:
+          - name: Navigate to Bookings page
+            description: Navigate to Office Services > Bookings > Vehicles tab. Select the booking date on the calendar.
+            sequence: 0
+            imageFileName: null
+          - name: Verify booking card shows key status
+            description: Verify the booking card shows "Keys Not Released" status.
+            sequence: 1
+            imageFileName: null
+          - name: Click Release Keys
+            description: Click "Release Keys" on the booking card. Verify the AdminReleaseKeysVehicleBookingDialog opens showing
+              booking details (car, date, time).
+            sequence: 2
+            imageFileName: null
+          - name: Select user to release keys to
+            description: Use the searchable select to find and select the user receiving the keys.
+            sequence: 3
+            imageFileName: null
+          - name: Enter mileage before
+            description: Enter the current odometer reading in the "Mileage Before" number input.
+            sequence: 4
+            imageFileName: null
+          - name: Select fuel level before
+            description: Select the current fuel/battery level (0%, 25%, 50%, 75%, 100%) from the dropdown.
+            sequence: 5
+            imageFileName: null
+          - name: Request Shell card (optional)
+            description: Check "Require Shell Card" checkbox if the user needs a fuel card.
+            sequence: 6
+            imageFileName: null
+          - name: Confirm key release
+            description: Click "Release Keys". Verify a success toast appears and the booking card updates to show keys released.
+            sequence: 7
+            imageFileName: null
+      - name: Admin Processes Vehicle Key Return
+        description: Admin processes key return after the trip with dashboard photo and mileage/fuel data.
+        preconditions: Vehicle keys have been released for this booking. Admin is on the Bookings page.
+        status: draft
+        sequence: 10
+        steps:
+          - name: Click Return Key
+            description: Click "Return Key" on the booking card. Verify the AdminReturnKeysVehicleBookingDialog opens.
+            sequence: 0
+            imageFileName: null
+          - name: Read instructions
+            description: Verify the blue note reads "Please upload a clear photo of the vehicle dashboard showing odometer reading
+              and fuel level".
+            sequence: 1
+            imageFileName: null
+          - name: Select key recipient
+            description: Use the searchable select to choose who the keys are being returned to.
+            sequence: 2
+            imageFileName: null
+          - name: Upload dashboard photo
+            description: Upload a dashboard photo using the file input. Verify the file is accepted (single file only).
+            sequence: 3
+            imageFileName: null
+          - name: Enter mileage after
+            description: Enter the final odometer reading in the "Mileage After" number input.
+            sequence: 4
+            imageFileName: null
+          - name: Select fuel level after
+            description: Select the final fuel/battery level from the dropdown (0%, 25%, 50%, 75%, 100%).
+            sequence: 5
+            imageFileName: null
+          - name: Confirm key return
+            description: Click "Return Keys". Verify a success toast appears and the vehicle's fuel amount is updated in the system.
+            sequence: 6
+            imageFileName: null
+      - name: Admin Edits Vehicle Booking Details
+        description: Admin edits time, driver, or other details of an existing vehicle booking.
+        preconditions: Admin is on the Bookings page with an active vehicle booking.
+        status: draft
+        sequence: 11
+        steps:
+          - name: Edit time
+            description: Click "Edit Time" on a booking card. Verify the EditVehicleBookingDialog opens. Change start and end times.
+              Enter a reason. Click "Update". Verify the booking updates.
+            sequence: 0
+            imageFileName: null
+          - name: Change driver
+            description: Click "Change Driver" on a booking card. Verify the AdminEditDriverVehicleBookingDialog opens. Select a new
+              driver. Enter a reason. Click "Update". Verify the driver updates.
+            sequence: 1
+            imageFileName: null
+          - name: Edit purpose and location
+            description: Click "Edit Time" dialog again. Change the purpose selection and location. Enter a reason. Click "Update
+              Booking". Verify changes are saved.
+            sequence: 2
+            imageFileName: null
+      - name: Admin Cancels Vehicle Booking
+        description: Admin cancels an existing vehicle booking.
+        preconditions: Admin is on the Bookings page with an active vehicle booking.
+        status: draft
+        sequence: 12
+        steps:
+          - name: Click Cancel
+            description: Click "Cancel" on a booking card. Verify the AdminDeleteVehicleBookingDialog opens showing vehicle, ID,
+              date, time, and booked by.
+            sequence: 0
+            imageFileName: null
+          - name: Enter cancellation reason
+            description: Enter a reason in the textarea. Verify the "Cancel Booking" button becomes enabled only after a reason is
+              provided.
+            sequence: 1
+            imageFileName: null
+          - name: Confirm cancellation
+            description: Click "Cancel Booking". Verify the booking is removed from the list and marked as CANCELLED.
+            sequence: 2
+            imageFileName: null
+      - name: Post-Trip Vehicle Booking Evaluation
+        description: User completes a post-trip evaluation with optional fine/accident reporting.
+        preconditions: Vehicle has been returned (keys returned). Evaluation task is active.
+        status: draft
+        sequence: 13
+        steps:
+          - name: Navigate to evaluation task
+            description: Navigate to the vehicle booking ticket. Verify an EVALUATE task is active.
+            sequence: 0
+            imageFileName: null
+          - name: Open evaluation dialog
+            description: Click "Evaluate Booking". Verify the VehicleBookingEvaluationDialog opens with booking details and feedback
+              fields.
+            sequence: 1
+            imageFileName: null
+          - name: Enter feedback
+            description: Type general trip feedback in the textarea (max 2000 characters).
+            sequence: 2
+            imageFileName: null
+          - name: Report a fine
+            description: Check the "Report a fine?" checkbox. Verify a "Fine Details" textarea appears. Enter fine details. Verify
+              the field is required when checked.
+            sequence: 3
+            imageFileName: null
+          - name: Report an accident
+            description: Check the "Report an accident?" checkbox. Verify an "Accident Details" textarea appears. Enter accident
+              details. Verify the field is required when checked.
+            sequence: 4
+            imageFileName: null
+          - name: Submit evaluation
+            description: Click submit. Verify the evaluation is saved and the task is completed.
+            sequence: 5
+            imageFileName: null
+      - name: Driver Views Assigned Bookings
+        description: Driver views their assigned vehicle bookings for the day.
+        preconditions: User is assigned as a driver for one or more vehicle bookings.
+        status: draft
+        sequence: 14
+        steps:
+          - name: Navigate to Driver Bookings
+            description: Navigate to Office Services > Driver Bookings. Verify the page shows a calendar selector and booking cards.
+            sequence: 0
+            imageFileName: null
+          - name: Select a date
+            description: Select a date on the calendar. Verify booking cards update to show only non-completed bookings assigned to
+              the current driver.
+            sequence: 1
+            imageFileName: null
+          - name: View booking details
+            description: Review the booking card showing vehicle, time, fuel level, booked by, and key status.
+            sequence: 2
+            imageFileName: null
+          - name: Release keys as driver
+            description: Click "Release Keys" on a booking where keys haven't been released. Complete the key release flow.
+            sequence: 3
+            imageFileName: null
+  - name: Vehicle Management
+    description: Vehicle fleet management including viewing vehicle inventory, checking vehicle details, maintenance status,
+      insurance/road tax tracking, and managing vehicle usage type.
+    module: Office Services
     priority: medium
     status: draft
-    ecosystem: asdfasdf
-    inScope: asdfasdf
-    outOfScope: asdfasdf
-    sequence: 0
-    uatFlows: []
+    ecosystem: Admin Desktop App + Backend
+    inScope: Vehicle inventory browsing, vehicle search and sorting, vehicle detail viewing (overview, maintenance, warranty
+      tabs), changing vehicle usage type (bookable vs exclusive), vehicle status indicators, insurance/road tax expiry
+      tracking.
+    outOfScope: Vehicle registration (asset management), vehicle depreciation, vehicle disposal, vehicle purchase workflow.
+    sequence: 3
+    uatFlows:
+      - name: Browse Vehicle Inventory
+        description: Admin views the vehicle fleet with search and sorting capabilities.
+        preconditions: User has Office Services access.
+        status: draft
+        sequence: 0
+        steps:
+          - name: Navigate to Vehicle Management
+            description: Navigate to Office Services > Vehicle Management. Verify the page shows vehicle cards.
+            sequence: 0
+            imageFileName: null
+          - name: Search by model
+            description: Enter a vehicle model name in the search field. Verify cards filter to matching vehicles.
+            sequence: 1
+            imageFileName: null
+          - name: Search by license plate
+            description: Clear search and enter a license plate number. Verify the matching vehicle card appears.
+            sequence: 2
+            imageFileName: null
+          - name: Sort by Purchase Year Newest
+            description: Select "Purchase Year (Newest)" sort option. Verify vehicles are sorted with newest first.
+            sequence: 3
+            imageFileName: null
+          - name: Sort by Insurance Date
+            description: Select "Insurance Date (Latest)" sort option. Verify vehicles are sorted by insurance expiry date.
+            sequence: 4
+            imageFileName: null
+          - name: Sort by Road Tax Date
+            description: Select "Road Tax Date (Latest)" sort option. Verify vehicles are sorted by road tax validity.
+            sequence: 5
+            imageFileName: null
+      - name: View Vehicle Details
+        description: Admin views detailed information about a specific vehicle.
+        preconditions: Admin is on the Vehicle Management page.
+        status: draft
+        sequence: 1
+        steps:
+          - name: Click on a vehicle card
+            description: Click on a vehicle card. Verify the VehicleDetailsDialog opens with three tabs - Overview, Maintenance,
+              Warranty.
+            sequence: 0
+            imageFileName: null
+          - name: Review Overview tab
+            description: Verify the Overview tab shows Model, License Plate, Manufacture Year, Mileage Reading, Fuel Amount Level,
+              and status badges.
+            sequence: 1
+            imageFileName: null
+          - name: Check insurance expiry indicator
+            description: Verify the insurance expiration date is color-coded - red if expired, amber if expiring soon, otherwise
+              normal.
+            sequence: 2
+            imageFileName: null
+          - name: Check road tax validity indicator
+            description: Verify the road tax validity date is color-coded similarly to insurance.
+            sequence: 3
+            imageFileName: null
+          - name: Switch to Maintenance tab
+            description: Click "Maintenance" tab. Verify maintenance schedule and service history information is displayed.
+            sequence: 4
+            imageFileName: null
+          - name: Switch to Warranty tab
+            description: Click "Warranty" tab. Verify warranty information is displayed.
+            sequence: 5
+            imageFileName: null
+      - name: Change Vehicle Usage Type
+        description: Admin changes a vehicle between bookable and exclusively used.
+        preconditions: Admin has a vehicle selected in the details dialog.
+        status: draft
+        sequence: 2
+        steps:
+          - name: Click Change Usage
+            description: Click the "Change Usage" button in the vehicle details dialog. Verify a sub-dialog opens with usage
+              options.
+            sequence: 0
+            imageFileName: null
+          - name: Set to Exclusively Used
+            description: Select "Exclusively Used By Specific Entity". Verify a text input appears for the entity name. Enter an
+              entity name.
+            sequence: 1
+            imageFileName: null
+          - name: Confirm change
+            description: Confirm the change. Verify the vehicle card now shows "Exclusively used by [Entity]" badge in yellow and
+              the vehicle is no longer available for general booking.
+            sequence: 2
+            imageFileName: null
+          - name: Revert to Available for Booking
+            description: Repeat the flow and select "Available for KKIP Staff Booking". Confirm. Verify the badge changes to
+              "Available for Booking" in green.
+            sequence: 3
+            imageFileName: null
+      - name: Verify Vehicle Status Indicators
+        description: Verify different vehicle status badges display correctly.
+        preconditions: Vehicles with different statuses exist in the system.
+        status: draft
+        sequence: 3
+        steps:
+          - name: Under Maintenance badge
+            description: Locate a vehicle marked as under maintenance. Verify it shows an "Under Maintenance" badge in orange.
+            sequence: 0
+            imageFileName: null
+          - name: Exclusively used badge
+            description: Locate a vehicle set as exclusively used. Verify it shows "Exclusively used by [Entity]" badge in yellow.
+            sequence: 1
+            imageFileName: null
+          - name: Available for booking badge
+            description: Locate a vehicle available for booking. Verify it shows "Available for Booking" badge in green.
+            sequence: 2
+            imageFileName: null
+  - name: Fuel Log Management
+    description: Recording and tracking fuel/charging logs for vehicles.
+    module: Office Services
+    priority: medium
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Creating fuel logs, viewing fuel log history, filtering fuel logs, updating fuel logs.
+    outOfScope: Fuel cost reporting, fuel budget management.
+    sequence: 4
+    uatFlows:
+      - name: Create Fuel Log
+        description: Admin creates a fuel log entry for a vehicle.
+        preconditions: User has access to fuel log management and vehicles exist in the system.
+        status: draft
+        sequence: 0
+        steps:
+          - name: Navigate to fuel log creation
+            description: Navigate to the fuel log management section. Click to create a new fuel log entry.
+            sequence: 0
+            imageFileName: null
+          - name: Select vehicle
+            description: Select the vehicle (asset) for this fuel log from the dropdown.
+            sequence: 1
+            imageFileName: null
+          - name: Select fuel type
+            description: Select fuel type - "RON-95" or "DIESEL".
+            sequence: 2
+            imageFileName: null
+          - name: Enter fuel details
+            description: Enter Fuel Amount (liters), Fuel Price (per liter), and Shell Invoice ID.
+            sequence: 3
+            imageFileName: null
+          - name: Enter fueled by
+            description: Select the user who fueled the vehicle and enter their name.
+            sequence: 4
+            imageFileName: null
+          - name: Set fueled date
+            description: Set the date when fueling occurred. Verify it defaults to current date/time if not set.
+            sequence: 5
+            imageFileName: null
+          - name: Submit fuel log
+            description: Submit the fuel log. Verify the entry is created and appears in the fuel log list.
+            sequence: 6
+            imageFileName: null
+      - name: View and Filter Fuel Logs
+        description: View fuel log history with filtering options.
+        preconditions: Fuel log entries exist in the system.
+        status: draft
+        sequence: 1
+        steps:
+          - name: View fuel log list
+            description: Navigate to fuel logs. Verify the list shows entries with Asset, Date, Fuel Type, Amount, Price, Invoice
+              ID, and Fueled By.
+            sequence: 0
+            imageFileName: null
+          - name: Filter by vehicle
+            description: Filter by a specific vehicle/asset ID. Verify only logs for that vehicle are shown.
+            sequence: 1
+            imageFileName: null
+          - name: Filter by fuel type
+            description: Filter by fuel type (RON-95 or DIESEL). Verify results filter accordingly.
+            sequence: 2
+            imageFileName: null
+          - name: Filter by date range
+            description: Set a date range filter. Verify only logs within the range are shown.
+            sequence: 3
+            imageFileName: null
+  - name: Calendar & Event Scheduling
+    description: Personal and company calendar views with event management, availability configuration, Outlook integration,
+      and event invitation handling.
+    module: Calendar
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: My Calendar view with event list, Company Calendar with timeline and list views, event creation, event editing,
+      event deletion, event invitation management (accept/reject), weekly availability configuration, date-specific
+      availability overrides, Outlook calendar integration (connect/disconnect), event type color coding, multi-user
+      timeline view.
+    outOfScope: Recurring events, external calendar imports (Google Calendar).
+    sequence: 5
+    uatFlows:
+      - name: My Calendar View
+        description: User views their personal calendar with events and availability.
+        preconditions: User is logged in.
+        status: draft
+        sequence: 0
+        steps:
+          - name: Navigate to Calendar
+            description: Navigate to My Calendar page. Verify the page shows "My Calendar" tab active with a sidebar (monthly
+              calendar picker) and main content area.
+            sequence: 0
+            imageFileName: null
+          - name: View monthly calendar picker
+            description: Verify the sidebar shows a monthly calendar with indicator dots on dates that have events.
+            sequence: 1
+            imageFileName: null
+          - name: Select a date
+            description: Click on a date in the calendar picker. Verify the main area header updates to show the selected date
+              formatted as "EEEE, MMMM d, yyyy" and events for that date are listed.
+            sequence: 2
+            imageFileName: null
+          - name: View weekly availability in sidebar
+            description: Verify the sidebar shows the current weekly availability schedule (Monday-Sunday with time ranges).
+            sequence: 3
+            imageFileName: null
+          - name: View event cards
+            description: Verify event cards display event name, duration badge, time range with clock icon, location with map pin
+              icon (if applicable), and event description.
+            sequence: 4
+            imageFileName: null
+          - name: Verify event type color coding
+            description: Verify events are color-coded by type - Gray (OTHERS), Blue (ASSET-BOOKING/vehicle), Purple (ROOM-BOOKING),
+              Amber (USER-BOOKING).
+            sequence: 5
+            imageFileName: null
+      - name: Create Calendar Event
+        description: User creates a new custom calendar event.
+        preconditions: User is on the My Calendar page.
+        status: draft
+        sequence: 1
+        steps:
+          - name: Click New Event
+            description: Click the "New Event" button. Verify the CreateEventDialog opens with quick booking links and event form.
+            sequence: 0
+            imageFileName: null
+          - name: View quick booking links
+            description: Verify the dialog shows three quick booking buttons in a blue section - "Book Vehicle", "Book Meeting
+              Room", "Book User". (These navigate to the respective booking pages.)
+            sequence: 1
+            imageFileName: null
+          - name: Enter event name
+            description: Fill in the "Event Name" text input. Verify the field is required.
+            sequence: 2
+            imageFileName: null
+          - name: Select event date
+            description: Select a date for the event. Verify only future dates can be selected.
+            sequence: 3
+            imageFileName: null
+          - name: Select start time
+            description: Select a start time from the dropdown.
+            sequence: 4
+            imageFileName: null
+          - name: Select end time
+            description: Select an end time (must be after start time).
+            sequence: 5
+            imageFileName: null
+          - name: Enter location (optional)
+            description: Optionally enter a location for the event.
+            sequence: 6
+            imageFileName: null
+          - name: Enter description (optional)
+            description: Optionally enter an event description in the textarea.
+            sequence: 7
+            imageFileName: null
+          - name: Invite users (optional)
+            description: Select users to invite from the multi-select dropdown. Verify the dropdown becomes available after times
+              are selected.
+            sequence: 8
+            imageFileName: null
+          - name: Click Create Event
+            description: Click "Create Event". Verify an EventPreviewDialog appears with event details for confirmation.
+            sequence: 9
+            imageFileName: null
+          - name: Confirm event creation
+            description: Confirm in the preview dialog. Verify the event is created and appears on the calendar.
+            sequence: 10
+            imageFileName: null
+          - name: Verify Outlook sync
+            description: If user has Outlook connected, verify the event appears in Outlook calendar.
+            sequence: 11
+            imageFileName: null
+      - name: Edit Calendar Event
+        description: User edits an existing calendar event.
+        preconditions: User has created an event and is viewing it on the calendar.
+        status: draft
+        sequence: 2
+        steps:
+          - name: Click Edit on event card
+            description: Click the "Edit" button on an event card (only visible for future events owned by the user). Verify the
+              EditEventDialog opens with current event data pre-populated.
+            sequence: 0
+            imageFileName: null
+          - name: Modify event details
+            description: Change the event name, date, time, location, or description. Verify all fields accept new values.
+            sequence: 1
+            imageFileName: null
+          - name: Update invited users
+            description: Add or remove invited users from the multi-select dropdown.
+            sequence: 2
+            imageFileName: null
+          - name: Save changes
+            description: Click save. Verify the event updates on the calendar and Outlook sync updates (if connected).
+            sequence: 3
+            imageFileName: null
+      - name: Delete Calendar Event
+        description: User deletes a calendar event.
+        preconditions: User has an event they own on the calendar.
+        status: draft
+        sequence: 3
+        steps:
+          - name: Click Delete on event card
+            description: Click the "Delete" button on an event card. Verify the DeleteEventDialog opens asking for confirmation.
+            sequence: 0
+            imageFileName: null
+          - name: Confirm deletion
+            description: Confirm the deletion. Verify the event is removed from the calendar.
+            sequence: 1
+            imageFileName: null
+          - name: Verify Outlook removal
+            description: If user has Outlook connected, verify the event is removed from Outlook.
+            sequence: 2
+            imageFileName: null
+      - name: Respond to Event Invitations
+        description: User accepts or rejects event invitations.
+        preconditions: User has been invited to an event by another user.
+        status: draft
+        sequence: 4
+        steps:
+          - name: View invitation on calendar
+            description: Navigate to My Calendar and select the event date. Verify the event card shows with "Pending" invitation
+              status badge.
+            sequence: 0
+            imageFileName: null
+          - name: Accept invitation
+            description: Click the "Accept" button on the event card. Verify the status changes to "Accepted" with a green badge.
+            sequence: 1
+            imageFileName: null
+          - name: Reject invitation
+            description: For another event, click "Reject". Verify the status changes to "Rejected" with a red badge.
+            sequence: 2
+            imageFileName: null
+          - name: View invitation statuses
+            description: As the event organizer, click "Show Accepts" on the event card. Verify the MeetingInvitePreviewDialog opens
+              showing all invitees with their status (Accepted/Rejected/Pending) and color-coded badges.
+            sequence: 3
+            imageFileName: null
+      - name: Company Calendar Timeline View
+        description: User views multiple colleagues' schedules in a timeline format.
+        preconditions: User has access to Company Calendar.
+        status: draft
+        sequence: 5
+        steps:
+          - name: Switch to Company Calendar tab
+            description: Click "Company Calendar" tab. Verify the page shows a user selection dropdown and view toggle buttons
+              (Timeline/List).
+            sequence: 0
+            imageFileName: null
+          - name: Select team members
+            description: Use the "Select Team Members" dropdown to choose multiple colleagues. Verify their calendars load.
+            sequence: 1
+            imageFileName: null
+          - name: View Timeline mode
+            description: Click the Timeline view toggle. Verify a horizontal timeline is shown with 7 AM - 6 PM range, user columns
+              (280px each), and hour grid lines.
+            sequence: 2
+            imageFileName: null
+          - name: Verify current time indicator
+            description: If viewing today's date, verify a red line with circle dot shows the current time position.
+            sequence: 3
+            imageFileName: null
+          - name: View event blocks
+            description: Verify events appear as colored blocks in each user's column, positioned by time and color-coded by event
+              type.
+            sequence: 4
+            imageFileName: null
+          - name: Hover over event block
+            description: Hover over an event block. Verify a tooltip appears with full event details (name, time, location).
+            sequence: 5
+            imageFileName: null
+          - name: Switch to List view
+            description: Click the List view toggle. Verify events are displayed as a list for each selected user.
+            sequence: 6
+            imageFileName: null
+      - name: Set Weekly Availability
+        description: User configures their weekly recurring availability schedule.
+        preconditions: User is on the Calendar page.
+        status: draft
+        sequence: 6
+        steps:
+          - name: Click Set Weekly Hours
+            description: Click "Set Weekly Hours" button in the calendar sidebar. Verify the GeneralAvailabilityDialog opens.
+            sequence: 0
+            imageFileName: null
+          - name: Enable availability for a day
+            description: Toggle Monday availability on. Verify time slot inputs appear.
+            sequence: 1
+            imageFileName: null
+          - name: Set time ranges
+            description: Set start time (e.g., 9:00 AM) and end time (e.g., 5:00 PM) for the day. Verify times are accepted.
+            sequence: 2
+            imageFileName: null
+          - name: Add multiple time slots
+            description: Click "Add Slot" to add a second time range for the same day (e.g., morning and afternoon with lunch
+              break). Verify both slots appear.
+            sequence: 3
+            imageFileName: null
+          - name: Disable a day
+            description: Toggle Sunday availability off. Verify time slot inputs are hidden.
+            sequence: 4
+            imageFileName: null
+          - name: Save weekly availability
+            description: Save the configuration. Verify the sidebar updates to show the new weekly schedule.
+            sequence: 5
+            imageFileName: null
+      - name: Set Date-Specific Availability Overrides
+        description: User configures availability overrides for specific dates.
+        preconditions: User is on the Calendar page.
+        status: draft
+        sequence: 7
+        steps:
+          - name: Click Date-Specific Hours
+            description: Click "Date-Specific Hours" button in the sidebar. Verify the SpecificAvailabilityDialog opens with a
+              split-screen layout.
+            sequence: 0
+            imageFileName: null
+          - name: Select a date
+            description: Click a date on the calendar picker in the left panel. Verify the right panel shows time slot editor for
+              that date.
+            sequence: 1
+            imageFileName: null
+          - name: Set custom hours
+            description: Set custom time ranges for the selected date. Verify times are saved.
+            sequence: 2
+            imageFileName: null
+          - name: Mark a date as unavailable
+            description: Select another date and mark it as completely unavailable. Verify the date is highlighted on the calendar.
+            sequence: 3
+            imageFileName: null
+          - name: View dates with overrides
+            description: Verify the left panel highlights dates with overrides and shows a list of override dates (up to 5 shown,
+              with "...and X more" if more exist).
+            sequence: 4
+            imageFileName: null
+          - name: Clear a date override
+            description: Select a date with an override and clear it. Verify the date returns to using the general weekly schedule.
+            sequence: 5
+            imageFileName: null
+      - name: Outlook Calendar Integration
+        description: User connects and disconnects their Microsoft Outlook calendar.
+        preconditions: User has a Microsoft account.
+        status: draft
+        sequence: 8
+        steps:
+          - name: Navigate to Outlook settings
+            description: Navigate to user settings and locate the OutlookCard component showing "Microsoft Calendar Integration".
+              Verify it shows current connection status.
+            sequence: 0
+            imageFileName: null
+          - name: Verify disconnected state
+            description: Verify the card shows "Not Connected" with a Shield icon in gray and a "Connect to Outlook" button in blue.
+            sequence: 1
+            imageFileName: null
+          - name: Initiate Outlook connection
+            description: Click "Connect to Outlook". Verify a popup window opens for Microsoft OAuth authentication.
+            sequence: 2
+            imageFileName: null
+          - name: Complete OAuth flow
+            description: Sign in with Microsoft credentials in the popup and authorize. Verify the popup closes and the status
+              changes to "Connected" with a green CheckCircle icon.
+            sequence: 3
+            imageFileName: null
+          - name: Verify calendar sync
+            description: Create a new event. Verify it syncs to Outlook calendar. Verify Outlook events appear on the KKIP calendar.
+            sequence: 4
+            imageFileName: null
+          - name: Disconnect Outlook
+            description: Click "Disconnect Outlook" (red button). Verify the status changes to "Not Connected" and events stop
+              syncing.
+            sequence: 5
+            imageFileName: null
+  - name: User Booking (Appointment Scheduling)
+    description: User-to-user appointment booking including discovering available users, creating meeting requests,
+      accepting/rejecting requests, and managing booking requests.
+    module: Calendar
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: User availability browsing, user booking creation (in-person and virtual), booking request approval/rejection,
+      booking requests management page (sent and received tabs), booking editing, booking deletion, Outlook calendar
+      sync on acceptance.
+    outOfScope: Recurring appointments, group bookings (multi-user target).
+    sequence: 6
+    uatFlows:
+      - name: Browse User Availability
+        description: User views available employees and their time slots for scheduling meetings.
+        preconditions: User is logged in and other users have configured their availability.
+        status: draft
+        sequence: 0
+        steps:
+          - name: Navigate to User Booking tab
+            description: Navigate to My Bookings > New Booking. Click the "Users" (Appointment) tab. Verify a calendar selector and
+              user availability cards are displayed.
+            sequence: 0
+            imageFileName: null
+          - name: Select a date
+            description: Click on a date in the calendar selector. Verify user cards update to show availability for the selected
+              date.
+            sequence: 1
+            imageFileName: null
+          - name: Search for a user
+            description: Type a user name, department, or designation in the search field. Verify cards filter to matching users.
+            sequence: 2
+            imageFileName: null
+          - name: View user card details
+            description: Verify each user card shows profile picture, user name, designation (with briefcase icon), department (with
+              building icon), available time slots (green), and booked time slots (red with status badges).
+            sequence: 3
+            imageFileName: null
+          - name: View booked slot details
+            description: Verify booked slots show time range, status badge (Pending/Accepted/Rejected with colors), and booker name
+              if not booked by current user.
+            sequence: 4
+            imageFileName: null
+      - name: Create In-Person User Booking
+        description: User creates an in-person meeting request with another user.
+        preconditions: User is on the Users tab with available users displayed.
+        status: draft
+        sequence: 1
+        steps:
+          - name: Click on a user card
+            description: Click on a user card with available time slots. Verify the UserBookingForm dialog opens showing user header
+              with profile pic, name, designation, and department.
+            sequence: 0
+            imageFileName: null
+          - name: Enter meeting purpose
+            description: Fill in the "Purpose" text input. Verify the field is required.
+            sequence: 1
+            imageFileName: null
+          - name: Select In-Person meeting type
+            description: Select "In-Person Meeting" from the Meeting Type dropdown. Verify a Location field appears.
+            sequence: 2
+            imageFileName: null
+          - name: Enter location
+            description: Fill in the location for the in-person meeting.
+            sequence: 3
+            imageFileName: null
+          - name: Select start time
+            description: Select a start time from the available time slots dropdown.
+            sequence: 4
+            imageFileName: null
+          - name: Select end time
+            description: Select an end time from the available end times.
+            sequence: 5
+            imageFileName: null
+          - name: Enter notes (optional)
+            description: Optionally enter additional notes in the textarea.
+            sequence: 6
+            imageFileName: null
+          - name: Review info box
+            description: Verify the blue info box states "This booking request will be sent to [user name] for approval. You'll be
+              notified once they respond."
+            sequence: 7
+            imageFileName: null
+          - name: Send booking request
+            description: Click "Send Booking Request". Verify a success toast appears and the form closes.
+            sequence: 8
+            imageFileName: null
+          - name: Verify request appears in My Requests
+            description: Navigate to Booking Requests page. Verify the request appears in the "My Requests" tab with PENDING status
+              and "Awaiting Response" badge.
+            sequence: 9
+            imageFileName: null
+      - name: Create Virtual User Booking
+        description: User creates a virtual meeting request.
+        preconditions: User is on the Users tab.
+        status: draft
+        sequence: 2
+        steps:
+          - name: Open user booking form
+            description: Click on a user card to open the booking form.
+            sequence: 0
+            imageFileName: null
+          - name: Select Virtual meeting type
+            description: Select "Virtual Meeting" from the Meeting Type dropdown. Verify no location field is shown.
+            sequence: 1
+            imageFileName: null
+          - name: Fill in remaining fields and submit
+            description: Enter purpose, select times, and submit. Verify the booking is created as a virtual meeting.
+            sequence: 2
+            imageFileName: null
+      - name: Respond to User Booking Request
+        description: Target user accepts or rejects a booking request.
+        preconditions: A user booking request has been sent to the current user.
+        status: draft
+        sequence: 3
+        steps:
+          - name: View pending request on calendar
+            description: Navigate to My Calendar and select the booking date. Verify the user booking appears as an amber event with
+              "Pending Response" and requester name in a blue box.
+            sequence: 0
+            imageFileName: null
+          - name: Accept the request
+            description: Click "Accept" on the booking event card. Verify the status changes to "You Accepted" with a green badge.
+            sequence: 1
+            imageFileName: null
+          - name: Verify event schedule created
+            description: Verify an EventSchedule of type USER-BOOKING is created and appears on both users' calendars.
+            sequence: 2
+            imageFileName: null
+          - name: Verify Outlook sync
+            description: If the requester has Outlook connected, verify the meeting appears in their Outlook calendar with the
+              target user as an attendee.
+            sequence: 3
+            imageFileName: null
+          - name: Verify requester notification
+            description: Log in as the requester. Verify they received a notification that the booking was accepted.
+            sequence: 4
+            imageFileName: null
+      - name: Reject User Booking Request
+        description: Target user rejects a booking request.
+        preconditions: A pending user booking request exists.
+        status: draft
+        sequence: 4
+        steps:
+          - name: Click Reject on event card
+            description: Click "Reject" on the pending booking event card. Verify the status changes to "You Rejected" with a red
+              badge.
+            sequence: 0
+            imageFileName: null
+          - name: Verify no event schedule created
+            description: Verify no EventSchedule is created for the rejected booking.
+            sequence: 1
+            imageFileName: null
+          - name: Verify requester notification
+            description: Verify the requester receives a notification of rejection.
+            sequence: 2
+            imageFileName: null
+      - name: Manage Booking Requests
+        description: User manages sent and received booking requests.
+        preconditions: User has both sent and received booking requests.
+        status: draft
+        sequence: 5
+        steps:
+          - name: Navigate to Booking Requests
+            description: Navigate to Booking Requests page. Verify the page shows "To Approve (X)" and "My Requests (X)" tabs with
+              request counts.
+            sequence: 0
+            imageFileName: null
+          - name: View received requests (To Approve tab)
+            description: Click "To Approve" tab. Verify requests are grouped by status - Pending (orange, clock icon), Accepted
+              (green, checkmark), Rejected (red, X mark).
+            sequence: 1
+            imageFileName: null
+          - name: Review pending request details
+            description: 'Verify each pending request shows purpose, "Requested by: [name]", date and time, location (if in-person),
+              and Accept/Reject buttons.'
+            sequence: 2
+            imageFileName: null
+          - name: View sent requests (My Requests tab)
+            description: 'Click "My Requests" tab. Verify sent requests show "Meeting with: [name]" and "Awaiting Response" badge
+              for pending ones.'
+            sequence: 3
+            imageFileName: null
+          - name: Verify empty state
+            description: If no requests exist in a category, verify "No booking requests found" message is displayed.
+            sequence: 4
+            imageFileName: null
+      - name: Edit User Booking
+        description: User edits an existing user booking's details.
+        preconditions: User has created a user booking that hasn't been completed.
+        status: draft
+        sequence: 6
+        steps:
+          - name: Find booking on calendar
+            description: Navigate to My Calendar and locate the user booking event.
+            sequence: 0
+            imageFileName: null
+          - name: Edit booking details
+            description: Click Edit on the event. Modify time, purpose, meeting type, or location. Save changes.
+            sequence: 1
+            imageFileName: null
+          - name: Verify updates reflected
+            description: Verify the booking and associated event schedule are updated. If Outlook synced, verify Outlook event
+              updates.
+            sequence: 2
+            imageFileName: null
+      - name: Delete User Booking
+        description: User deletes an existing user booking.
+        preconditions: User has a user booking.
+        status: draft
+        sequence: 7
+        steps:
+          - name: Find booking on calendar
+            description: Navigate to My Calendar and locate the user booking event.
+            sequence: 0
+            imageFileName: null
+          - name: Click Delete
+            description: Click Delete on the event card. Verify the DeleteUserBookingDialog opens showing meeting partner, date,
+              time, purpose, meeting type, and location.
+            sequence: 1
+            imageFileName: null
+          - name: Confirm deletion
+            description: Confirm the deletion. Verify the booking is removed from both users' calendars.
+            sequence: 2
+            imageFileName: null

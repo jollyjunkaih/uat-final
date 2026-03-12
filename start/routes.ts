@@ -123,10 +123,11 @@ router
     // Steps
     router.get('api/steps', [StepsController, 'index'])
     router.post('api/steps', [StepsController, 'store'])
+    router.post('api/steps/reorder', [StepsController, 'reorder'])
     router.get('api/steps/:id', [StepsController, 'show'])
     router.patch('api/steps/:id', [StepsController, 'update'])
     router.delete('api/steps/:id', [StepsController, 'destroy'])
-    router.post('api/steps/reorder', [StepsController, 'reorder'])
+    router.get('api/steps/:id/image', [StepsController, 'getImage'])
     router.post('api/steps/:id/image', [StepsController, 'uploadImage'])
     router.delete('api/steps/:id/image', [StepsController, 'deleteImage'])
 
@@ -159,6 +160,7 @@ router
     // YAML Import
     router.post('api/yaml/import/prd/:projectId', [YamlImportController, 'importPrd'])
     router.post('api/yaml/import/uat/:projectId', [YamlImportController, 'importUat'])
+    router.post('api/yaml/refetch/:projectId', [YamlImportController, 'refetchFromDisk'])
 
     // Project tree (features + UAT flows + events in one request)
     router.get('api/projects/:id/tree', [ProjectsController, 'tree'])
@@ -176,6 +178,16 @@ router.get('uploads/*', async (ctx) => {
   const { join } = await import('node:path')
   const app = (await import('@adonisjs/core/services/app')).default
   const fullPath = join(app.makePath('storage/uploads'), filePath)
+  return ctx.response.download(fullPath)
+})
+
+// Serve photos from YAML project directories
+router.get('photos/:projectDir/*', async (ctx) => {
+  const projectDir = ctx.params.projectDir
+  const filePath = ctx.params['*'].join('/')
+  const { join } = await import('node:path')
+  const app = (await import('@adonisjs/core/services/app')).default
+  const fullPath = join(app.makePath('yaml'), projectDir, 'photos', filePath)
   return ctx.response.download(fullPath)
 })
 

@@ -46,10 +46,11 @@ export type ScannedRoutes = {
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'steps.index': { paramsTuple?: []; params?: {} }
     'steps.store': { paramsTuple?: []; params?: {} }
+    'steps.reorder': { paramsTuple?: []; params?: {} }
     'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.reorder': { paramsTuple?: []; params?: {} }
+    'steps.get_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.upload_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.delete_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.store': { paramsTuple?: []; params?: {} }
@@ -73,6 +74,7 @@ export type ScannedRoutes = {
     'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -102,6 +104,7 @@ export type ScannedRoutes = {
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'steps.index': { paramsTuple?: []; params?: {} }
     'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.get_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'prd.competitors_index': { paramsTuple?: []; params?: {} }
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
@@ -135,6 +138,7 @@ export type ScannedRoutes = {
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'steps.index': { paramsTuple?: []; params?: {} }
     'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.get_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'prd.competitors_index': { paramsTuple?: []; params?: {} }
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
@@ -171,6 +175,7 @@ export type ScannedRoutes = {
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
     'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   PATCH: {

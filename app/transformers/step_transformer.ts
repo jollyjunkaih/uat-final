@@ -9,7 +9,7 @@ export default class StepTransformer extends BaseTransformer<Step> {
       'name',
       'description',
       'sequence',
-      'imagePath',
+      'imageFileName',
       'createdAt',
       'updatedAt',
       'deletedAt',

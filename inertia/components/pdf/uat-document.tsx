@@ -288,9 +288,9 @@ export default function UatDocument({ projectName, project, features, logoUrl }:
                         {step.description && (
                           <Text style={styles.stepDescription}>{step.description}</Text>
                         )}
-                        {step.imagePath && (
+                        {step.imageFileName && (
                           <Image
-                            src={`/${step.imagePath}`}
+                            src={`/api/steps/${step.id}/image`}
                             style={styles.stepImage}
                           />
                         )}

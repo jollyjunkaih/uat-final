@@ -7,6 +7,7 @@ import {
   reorderStepsValidator,
 } from '#validators/step_validator'
 import YamlSyncService from '#services/yaml_sync_service'
+import Project from '#models/project'
 
 export default class StepsController {
   async index(ctx: HttpContext) {
@@ -90,20 +91,43 @@ export default class StepsController {
 
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromStep(id)
+    const project = await Project.findOrFail(projectId)
 
     const service = new StepService()
-    const step = await service.uploadImage(id, projectId, file)
+    const step = await service.uploadImage(id, project.name, projectId, file)
     yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: StepTransformer.transform(step) })
+  }
+
+  async getImage(ctx: HttpContext) {
+    const id = ctx.params.id
+    const service = new StepService()
+    const step = await service.findById(id)
+
+    if (!step.imageFileName) {
+      return ctx.response.notFound({ error: 'No image for this step' })
+    }
+
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromStep(id)
+    const project = await Project.findOrFail(projectId)
+
+    const filePath = await service.getImagePath(step.imageFileName, project.name, projectId)
+    if (!filePath) {
+      return ctx.response.notFound({ error: 'Image file not found' })
+    }
+
+    return ctx.response.download(filePath)
   }
 
   async deleteImage(ctx: HttpContext) {
     const id = ctx.params.id
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromStep(id)
+    const project = await Project.findOrFail(projectId)
 
     const service = new StepService()
-    const step = await service.deleteImage(id)
+    const step = await service.deleteImage(id, project.name, projectId)
     yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: StepTransformer.transform(step) })
   }

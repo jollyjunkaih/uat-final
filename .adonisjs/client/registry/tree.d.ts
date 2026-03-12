@@ -72,10 +72,11 @@ export interface ApiDefinition {
   steps: {
     index: typeof routes['steps.index']
     store: typeof routes['steps.store']
+    reorder: typeof routes['steps.reorder']
     show: typeof routes['steps.show']
     update: typeof routes['steps.update']
     destroy: typeof routes['steps.destroy']
-    reorder: typeof routes['steps.reorder']
+    getImage: typeof routes['steps.get_image']
     uploadImage: typeof routes['steps.upload_image']
     deleteImage: typeof routes['steps.delete_image']
   }
@@ -105,6 +106,7 @@ export interface ApiDefinition {
   yamlImport: {
     importPrd: typeof routes['yaml_import.import_prd']
     importUat: typeof routes['yaml_import.import_uat']
+    refetchFromDisk: typeof routes['yaml_import.refetch_from_disk']
   }
   publicView: {
     show: typeof routes['public_view.show']

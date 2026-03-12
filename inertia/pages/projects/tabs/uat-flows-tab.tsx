@@ -259,10 +259,10 @@ function StepsSection({ flow, projectId }: { flow: UatFlow; projectId: string })
                     {step.description && (
                       <p className="mt-1 ml-7 text-xs text-muted-foreground">{step.description}</p>
                     )}
-                    {step.imagePath && (
+                    {step.imageFileName && (
                       <div className="mt-2 ml-7">
                         <img
-                          src={`/uploads/${step.imagePath.replace('storage/uploads/', '')}`}
+                          src={`/api/steps/${step.id}/image`}
                           alt={`Step ${index + 1}`}
                           className="max-h-48 rounded border border-border object-contain"
                         />
@@ -284,11 +284,11 @@ function StepsSection({ flow, projectId }: { flow: UatFlow; projectId: string })
                     <button
                       onClick={() => fileInputRefs.current[step.id]?.click()}
                       className="rounded px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
-                      title={step.imagePath ? 'Replace image' : 'Upload image'}
+                      title={step.imageFileName ? 'Replace image' : 'Upload image'}
                     >
                       {uploadImage.isPending ? '...' : 'Img'}
                     </button>
-                    {step.imagePath && (
+                    {step.imageFileName && (
                       <button
                         onClick={() => handleImageDelete(step)}
                         className="rounded px-1 py-0.5 text-xs text-red-500 hover:bg-red-50 hover:text-red-700"

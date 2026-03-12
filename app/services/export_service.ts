@@ -228,13 +228,13 @@ export default class ExportService {
             sections.push(new Paragraph({ text: step.description }))
           }
 
-          const imgPath = step.imagePath || step.image_path
-          if (imgPath) {
+          const imgName = step.imageFileName || step.image_file_name
+          if (imgName) {
             sections.push(
               new Paragraph({
                 children: [
                   new TextRun({ text: 'Image: ', bold: true }),
-                  new TextRun(imgPath),
+                  new TextRun(imgName),
                 ],
               })
             )
@@ -294,8 +294,8 @@ export default class ExportService {
             const step = steps[i]
             lines.push(`    Step ${i + 1}: ${step.name}`)
             if (step.description) lines.push(`      ${step.description}`)
-            const imgPath = step.imagePath || step.image_path
-            if (imgPath) lines.push(`      Image: ${imgPath}`)
+            const imgName = step.imageFileName || step.image_file_name
+            if (imgName) lines.push(`      Image: ${imgName}`)
           }
           lines.push('')
         }

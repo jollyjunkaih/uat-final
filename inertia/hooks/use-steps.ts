@@ -7,7 +7,7 @@ export interface Step {
   name: string
   description: string | null
   sequence: number
-  imagePath: string | null
+  imageFileName: string | null
   createdAt: string
   updatedAt: string | null
   deletedAt: string | null

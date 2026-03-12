@@ -144,7 +144,7 @@ export default class YamlSyncService {
             name: step.name,
             description: step.description,
             sequence: step.sequence,
-            imagePath: step.imagePath,
+            imageFileName: step.imageFileName,
           })),
         })),
       })),

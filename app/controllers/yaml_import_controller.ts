@@ -1,6 +1,10 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import { readFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
 import YamlImportService from '#services/yaml_import_service'
 import YamlSyncService from '#services/yaml_sync_service'
+import Project from '#models/project'
+import { slugify } from '#utils/slugify'
 
 export default class YamlImportController {
   async importPrd(ctx: HttpContext) {
@@ -47,8 +51,33 @@ export default class YamlImportController {
     return ctx.response.json({ data: { success: true } })
   }
 
+  async refetchFromDisk(ctx: HttpContext) {
+    const projectId = ctx.params.projectId
+    const project = await Project.findOrFail(projectId)
+
+    const slug = slugify(project.name) || 'unnamed'
+    const shortId = projectId.substring(0, 8)
+    const projectDir = join(process.cwd(), 'yaml', `${slug}-${shortId}`)
+
+    const prdPath = join(projectDir, 'prd.yaml')
+    const uatPath = join(projectDir, 'uat.yaml')
+
+    const importService = new YamlImportService()
+
+    if (existsSync(prdPath)) {
+      const prdContent = readFileSync(prdPath, 'utf-8')
+      await importService.importPrd(projectId, prdContent)
+    }
+
+    if (existsSync(uatPath)) {
+      const uatContent = readFileSync(uatPath, 'utf-8')
+      await importService.importUat(projectId, uatContent)
+    }
+
+    return ctx.response.json({ data: { success: true } })
+  }
+
   private async readUploadedFile(file: import('@adonisjs/core/bodyparser').MultipartFile): Promise<string> {
-    const { readFileSync } = await import('node:fs')
     return readFileSync(file.tmpPath!, 'utf-8')
   }
 }

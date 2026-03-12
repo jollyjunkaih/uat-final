@@ -22,7 +22,7 @@ export default class Step extends BaseModel {
   declare sequence: number
 
   @column()
-  declare imagePath: string | null
+  declare imageFileName: string | null
 
   @column.dateTime()
   declare deletedAt: DateTime | null

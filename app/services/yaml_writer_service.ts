@@ -99,7 +99,7 @@ export interface UatYamlData {
         name: string
         description: string | null
         sequence: number
-        imagePath: string | null
+        imageFileName: string | null
       }>
     }>
   }>

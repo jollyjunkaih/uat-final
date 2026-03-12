@@ -8,7 +8,7 @@ export interface TreeStep {
   name: string
   description: string | null
   sequence: number
-  imagePath: string | null
+  imageFileName: string | null
 }
 
 export interface TreeUatFlow {
