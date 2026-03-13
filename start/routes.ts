@@ -165,6 +165,9 @@ router
     // Project tree (features + UAT flows + events in one request)
     router.get('api/projects/:id/tree', [ProjectsController, 'tree'])
 
+    // PDF generation
+    router.get('api/projects/:id/uat-pdf', [ProjectsController, 'uatPdf'])
+
     // PRD View (Inertia page)
     router.get('projects/:id/prd', [ProjectsController, 'show']).as('projects.prd')
     // UAT View (Inertia page)

@@ -134,7 +134,7 @@ export default class YamlWriterService {
       ...data,
     }
 
-    writeFileSync(join(dir, 'prd.yaml'), stringify(yamlContent, { lineWidth: 120 }), 'utf-8')
+    writeFileSync(join(dir, 'prd.yaml'), stringify(yamlContent, { lineWidth: 0 }), 'utf-8')
   }
 
   writeUat(projectName: string, projectId: string, data: UatYamlData): void {
@@ -147,7 +147,7 @@ export default class YamlWriterService {
       ...data,
     }
 
-    writeFileSync(join(dir, 'uat.yaml'), stringify(yamlContent, { lineWidth: 120 }), 'utf-8')
+    writeFileSync(join(dir, 'uat.yaml'), stringify(yamlContent, { lineWidth: 0 }), 'utf-8')
   }
 
   removeProjectDirectory(projectName: string, projectId: string): void {

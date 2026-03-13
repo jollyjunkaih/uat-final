@@ -1,68 +1,31 @@
-import { useMemo } from 'react'
-import { useProjectTree } from '~/hooks/use-project-tree'
-import { pdf } from '@react-pdf/renderer'
-import { BlobProvider } from '@react-pdf/renderer'
-import UatDocument from '~/components/pdf/uat-document'
-import logoSrc from '~/public/byte of bread logo.png'
-import type { Data } from '@generated/data'
+import { useState } from 'react'
 
 interface UatViewTabProps {
   projectId: string
   projectName: string
-  project: Data.Project
+  project: Record<string, unknown>
 }
 
-export default function UatViewTab({ projectId, projectName, project }: UatViewTabProps) {
-  const { data, isLoading } = useProjectTree(projectId)
-  const features = data?.data || []
-
-  const document = useMemo(
-    () => (
-      <UatDocument
-        projectName={projectName}
-        project={project as unknown as Record<string, unknown>}
-        features={features}
-        logoUrl={logoSrc}
-      />
-    ),
-    [projectName, project, features]
-  )
+export default function UatViewTab({ projectId, projectName }: UatViewTabProps) {
+  const [loading, setLoading] = useState(false)
+  const pdfUrl = `/api/projects/${projectId}/uat-pdf`
 
   async function handleDownload() {
-    const blob = await pdf(document).toBlob()
-    const url = URL.createObjectURL(blob)
-    const a = Object.assign(window.document.createElement('a'), {
-      href: url,
-      download: `${projectName.replace(/\s+/g, '_')}_UAT.pdf`,
-    })
-    a.click()
-    URL.revokeObjectURL(url)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="rounded-lg border border-border bg-card p-6">
-        <div className="flex items-center justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
-        </div>
-      </div>
-    )
-  }
-
-  if (features.length === 0) {
-    return (
-      <div className="rounded-lg border border-border bg-card p-6">
-        <h3 className="text-lg font-semibold text-foreground">UAT View</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          User Acceptance Testing document with all functions and test cases.
-        </p>
-        <div className="mt-6 rounded-md border border-dashed border-border bg-muted/30 px-4 py-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            No features defined yet. Add features and functions to generate your UAT document.
-          </p>
-        </div>
-      </div>
-    )
+    setLoading(true)
+    try {
+      const res = await fetch(pdfUrl)
+      if (!res.ok) throw new Error('Failed to generate PDF')
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = Object.assign(document.createElement('a'), {
+        href: url,
+        download: `${projectName.replace(/\s+/g, '_')}_UAT.pdf`,
+      })
+      a.click()
+      URL.revokeObjectURL(url)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -76,7 +39,8 @@ export default function UatViewTab({ projectId, projectName, project }: UatViewT
         </div>
         <button
           onClick={handleDownload}
-          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+          disabled={loading}
+          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -93,30 +57,16 @@ export default function UatViewTab({ projectId, projectName, project }: UatViewT
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          Download PDF
+          {loading ? 'Generating...' : 'Download PDF'}
         </button>
       </div>
 
-      <BlobProvider document={document}>
-        {({ url, loading }) => {
-          if (loading) {
-            return (
-              <div className="flex items-center justify-center py-12">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
-              </div>
-            )
-          }
-          if (!url) return null
-          return (
-            <iframe
-              src={url}
-              className="w-full rounded-lg border border-border"
-              style={{ height: '80vh' }}
-              title="UAT Document Preview"
-            />
-          )
-        }}
-      </BlobProvider>
+      <iframe
+        src={pdfUrl}
+        className="w-full rounded-lg border border-border"
+        style={{ height: '80vh' }}
+        title="UAT Document Preview"
+      />
     </div>
   )
 }

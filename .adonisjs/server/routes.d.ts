@@ -76,6 +76,7 @@ export type ScannedRoutes = {
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -111,6 +112,7 @@ export type ScannedRoutes = {
     'prd.open_questions_index': { paramsTuple?: []; params?: {} }
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -145,6 +147,7 @@ export type ScannedRoutes = {
     'prd.open_questions_index': { paramsTuple?: []; params?: {} }
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }

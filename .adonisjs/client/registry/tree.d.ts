@@ -22,6 +22,7 @@ export interface ApiDefinition {
     update: typeof routes['projects.update']
     destroy: typeof routes['projects.destroy']
     tree: typeof routes['projects.tree']
+    uatPdf: typeof routes['projects.uat_pdf']
     prd: typeof routes['projects.prd']
     uat: typeof routes['projects.uat']
   }

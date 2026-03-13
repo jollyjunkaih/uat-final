@@ -871,6 +871,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['tree']>>>
     }
   }
+  'projects.uat_pdf': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/projects/:id/uat-pdf'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['uatPdf']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['uatPdf']>>>
+    }
+  }
   'projects.prd': {
     methods: ["GET","HEAD"]
     pattern: '/projects/:id/prd'

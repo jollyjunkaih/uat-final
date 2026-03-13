@@ -5,6 +5,7 @@ import FeatureTransformer from '#transformers/feature_transformer'
 import Feature from '#models/feature'
 import { createProjectValidator, updateProjectValidator } from '#validators/project_validator'
 import YamlSyncService from '#services/yaml_sync_service'
+import UatPdfService from '#services/pdf/uat_pdf_service'
 
 export default class ProjectsController {
   async index(ctx: HttpContext) {
@@ -50,6 +51,15 @@ export default class ProjectsController {
     new YamlSyncService().removeProject(id).catch(() => {})
     await service.delete(id)
     return ctx.response.redirect().toPath('/projects')
+  }
+
+  async uatPdf(ctx: HttpContext) {
+    const id = ctx.params.id
+    const service = new UatPdfService()
+    const buffer = await service.generate(id)
+    ctx.response.header('Content-Type', 'application/pdf')
+    ctx.response.header('Content-Disposition', 'inline; filename="uat.pdf"')
+    return ctx.response.send(buffer)
   }
 
   async tree(ctx: HttpContext) {
