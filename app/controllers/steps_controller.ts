@@ -1,6 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import StepService from '#services/step_service'
+import StepImageService from '#services/step_image_service'
 import StepTransformer from '#transformers/step_transformer'
+import StepImageTransformer from '#transformers/step_image_transformer'
 import {
   createStepValidator,
   updateStepValidator,
@@ -74,60 +76,117 @@ export default class StepsController {
     return ctx.response.json({ data: { success: true } })
   }
 
-  async uploadImage(ctx: HttpContext) {
-    const id = ctx.params.id
+  // --- Step Images ---
+
+  async listImages(ctx: HttpContext) {
+    const stepId = ctx.params.stepId
+    const service = new StepImageService()
+    const images = await service.findByStepId(stepId)
+    return ctx.response.json({ data: images.map((img) => StepImageTransformer.transform(img)) })
+  }
+
+  async uploadPhoto(ctx: HttpContext) {
+    const stepId = ctx.params.stepId
     const file = ctx.request.file('image', {
       size: '10mb',
-      extnames: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'],
+      extnames: ['jpg', 'jpeg', 'png', 'webp', 'svg'],
     })
 
     if (!file) {
       return ctx.response.badRequest({ error: 'No image file provided' })
     }
-
     if (file.hasErrors) {
       return ctx.response.badRequest({ error: file.errors[0]?.message || 'Invalid file' })
     }
 
     const yamlSync = new YamlSyncService()
-    const projectId = await yamlSync.getProjectIdFromStep(id)
+    const projectId = await yamlSync.getProjectIdFromStep(stepId)
     const project = await Project.findOrFail(projectId)
 
-    const service = new StepService()
-    const step = await service.uploadImage(id, project.name, projectId, file)
+    const service = new StepImageService()
+    const image = await service.uploadPhoto(stepId, project.name, projectId, file)
+    yamlSync.syncUat(projectId).catch(() => {})
+    return ctx.response.json({ data: StepImageTransformer.transform(image) })
+  }
+
+  async deleteStepImage(ctx: HttpContext) {
+    const imageId = ctx.params.id
+    const service = new StepImageService()
+    const image = await service.findById(imageId)
+
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromStep(image.stepId)
+    const project = await Project.findOrFail(projectId)
+
+    await service.deleteImage(imageId, project.name, projectId)
+    yamlSync.syncUat(projectId).catch(() => {})
+    return ctx.response.json({ data: { success: true } })
+  }
+
+  async getStepImageFile(ctx: HttpContext) {
+    const imageId = ctx.params.id
+    const service = new StepImageService()
+    const image = await service.findById(imageId)
+
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromStep(image.stepId)
+    const project = await Project.findOrFail(projectId)
+
+    const filePath = await service.getImageFilePath(imageId, project.name, projectId)
+    if (!filePath) {
+      return ctx.response.notFound({ error: 'Image file not found' })
+    }
+    return ctx.response.download(filePath)
+  }
+
+  // --- GIF ---
+
+  async uploadGif(ctx: HttpContext) {
+    const stepId = ctx.params.stepId
+    const file = ctx.request.file('gif', {
+      size: '50mb',
+      extnames: ['gif'],
+    })
+
+    if (!file) {
+      return ctx.response.badRequest({ error: 'No GIF file provided' })
+    }
+    if (file.hasErrors) {
+      return ctx.response.badRequest({ error: file.errors[0]?.message || 'Invalid file' })
+    }
+
+    const yamlSync = new YamlSyncService()
+    const projectId = await yamlSync.getProjectIdFromStep(stepId)
+    const project = await Project.findOrFail(projectId)
+
+    const service = new StepImageService()
+    const step = await service.uploadGif(stepId, project.name, projectId, file)
     yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: StepTransformer.transform(step) })
   }
 
-  async getImage(ctx: HttpContext) {
-    const id = ctx.params.id
-    const service = new StepService()
-    const step = await service.findById(id)
-
-    if (!step.imageFileName) {
-      return ctx.response.notFound({ error: 'No image for this step' })
-    }
-
+  async getGif(ctx: HttpContext) {
+    const stepId = ctx.params.stepId
     const yamlSync = new YamlSyncService()
-    const projectId = await yamlSync.getProjectIdFromStep(id)
+    const projectId = await yamlSync.getProjectIdFromStep(stepId)
     const project = await Project.findOrFail(projectId)
 
-    const filePath = await service.getImagePath(step.imageFileName, project.name, projectId)
-    if (!filePath) {
-      return ctx.response.notFound({ error: 'Image file not found' })
+    const service = new StepImageService()
+    const gifPath = await service.getGifPath(stepId, project.name, projectId)
+    if (!gifPath) {
+      return ctx.response.notFound({ error: 'No GIF for this step' })
     }
-
-    return ctx.response.download(filePath)
+    return ctx.response.download(gifPath)
   }
 
-  async deleteImage(ctx: HttpContext) {
-    const id = ctx.params.id
+  async deleteGif(ctx: HttpContext) {
+    const stepId = ctx.params.stepId
     const yamlSync = new YamlSyncService()
-    const projectId = await yamlSync.getProjectIdFromStep(id)
+    const projectId = await yamlSync.getProjectIdFromStep(stepId)
     const project = await Project.findOrFail(projectId)
 
-    const service = new StepService()
-    const step = await service.deleteImage(id, project.name, projectId)
+    const service = new StepImageService()
+    const step = await service.deleteGif(stepId, project.name, projectId)
     yamlSync.syncUat(projectId).catch(() => {})
     return ctx.response.json({ data: StepTransformer.transform(step) })
   }

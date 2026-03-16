@@ -127,9 +127,17 @@ router
     router.get('api/steps/:id', [StepsController, 'show'])
     router.patch('api/steps/:id', [StepsController, 'update'])
     router.delete('api/steps/:id', [StepsController, 'destroy'])
-    router.get('api/steps/:id/image', [StepsController, 'getImage'])
-    router.post('api/steps/:id/image', [StepsController, 'uploadImage'])
-    router.delete('api/steps/:id/image', [StepsController, 'deleteImage'])
+
+    // Step Images
+    router.get('api/steps/:stepId/images', [StepsController, 'listImages'])
+    router.post('api/steps/:stepId/images', [StepsController, 'uploadPhoto'])
+    router.delete('api/step-images/:id', [StepsController, 'deleteStepImage'])
+    router.get('api/step-images/:id/file', [StepsController, 'getStepImageFile'])
+
+    // Step GIF
+    router.post('api/steps/:stepId/gif', [StepsController, 'uploadGif'])
+    router.get('api/steps/:stepId/gif', [StepsController, 'getGif'])
+    router.delete('api/steps/:stepId/gif', [StepsController, 'deleteGif'])
 
     // Uploads
     router.post('api/uploads', [UploadsController, 'store'])
