@@ -110,6 +110,9 @@ export default class YamlSyncService {
           .whereNull('deleted_at')
           .preload('steps', (stepQuery) => {
             stepQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+              .preload('stepImages', (imgQuery) => {
+                imgQuery.orderBy('sequence', 'asc')
+              })
           })
           .orderBy('sequence', 'asc')
       })
@@ -144,7 +147,8 @@ export default class YamlSyncService {
             name: step.name,
             description: step.description,
             sequence: step.sequence,
-            imageFileName: step.imageFileName,
+            gifFileName: step.gifFileName,
+            imageFileNames: (step.stepImages || []).map((img) => img.fileName),
           })),
         })),
       })),

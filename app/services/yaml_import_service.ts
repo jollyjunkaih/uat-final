@@ -7,6 +7,7 @@ import PrdCompetitor from '#models/prd_competitor'
 import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
 import PrdContact from '#models/prd_contact'
+import StepImage from '#models/step_image'
 import type { PrdYamlData, UatYamlData } from '#services/yaml_writer_service'
 
 export default class YamlImportService {
@@ -171,13 +172,30 @@ export default class YamlImportService {
 
         if (flowData.steps?.length) {
           for (const stepData of flowData.steps) {
-            await Step.create({
+            const step = await Step.create({
               uatFlowId: flow.id,
               name: stepData.name,
               description: stepData.description ?? null,
               sequence: stepData.sequence,
-              imageFileName: stepData.imageFileName ?? null,
+              gifFileName: (stepData as any).gifFileName ?? null,
             })
+
+            // Support new imageFileNames array format
+            const imageFileNames: string[] = (stepData as any).imageFileNames ?? []
+
+            // Backward compatibility: old imageFileName (singular) format
+            if (imageFileNames.length === 0 && (stepData as any).imageFileName) {
+              imageFileNames.push((stepData as any).imageFileName)
+            }
+
+            for (let imgIdx = 0; imgIdx < imageFileNames.length; imgIdx++) {
+              await StepImage.create({
+                stepId: step.id,
+                fileName: imageFileNames[imgIdx],
+                sequence: imgIdx + 1,
+                source: 'upload',
+              })
+            }
           }
         }
       }
