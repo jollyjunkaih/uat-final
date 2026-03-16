@@ -12,6 +12,7 @@ import type FeatureTransformer from '#transformers/feature_transformer'
 import type ProjectTransformer from '#transformers/project_transformer'
 import type SignOffLinkTransformer from '#transformers/sign_off_link_transformer'
 import type SignOffRecordTransformer from '#transformers/sign_off_record_transformer'
+import type StepImageTransformer from '#transformers/step_image_transformer'
 import type StepTransformer from '#transformers/step_transformer'
 import type TestCaseTransformer from '#transformers/test_case_transformer'
 import type TriggerLinkTransformer from '#transformers/trigger_link_transformer'
@@ -46,6 +47,10 @@ export namespace Data {
   export type SignOffRecord = InferData<SignOffRecordTransformer>
   export namespace SignOffRecord {
     export type Variants = InferVariants<SignOffRecordTransformer>
+  }
+  export type StepImage = InferData<StepImageTransformer>
+  export namespace StepImage {
+    export type Variants = InferVariants<StepImageTransformer>
   }
   export type Step = InferData<StepTransformer>
   export namespace Step {

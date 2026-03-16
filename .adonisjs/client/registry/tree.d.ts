@@ -77,9 +77,13 @@ export interface ApiDefinition {
     show: typeof routes['steps.show']
     update: typeof routes['steps.update']
     destroy: typeof routes['steps.destroy']
-    getImage: typeof routes['steps.get_image']
-    uploadImage: typeof routes['steps.upload_image']
-    deleteImage: typeof routes['steps.delete_image']
+    listImages: typeof routes['steps.list_images']
+    uploadPhoto: typeof routes['steps.upload_photo']
+    deleteStepImage: typeof routes['steps.delete_step_image']
+    getStepImageFile: typeof routes['steps.get_step_image_file']
+    uploadGif: typeof routes['steps.upload_gif']
+    getGif: typeof routes['steps.get_gif']
+    deleteGif: typeof routes['steps.delete_gif']
   }
   uploads: {
     store: typeof routes['uploads.store']

@@ -50,9 +50,13 @@ export type ScannedRoutes = {
     'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.get_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.upload_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.delete_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.list_images': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.upload_photo': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.delete_step_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.get_step_image_file': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.upload_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.get_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.delete_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'uploads.store': { paramsTuple?: []; params?: {} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'uploads.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -105,7 +109,9 @@ export type ScannedRoutes = {
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'steps.index': { paramsTuple?: []; params?: {} }
     'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.get_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.list_images': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.get_step_image_file': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.get_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'prd.competitors_index': { paramsTuple?: []; params?: {} }
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
@@ -140,7 +146,9 @@ export type ScannedRoutes = {
     'integration.get_status': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'steps.index': { paramsTuple?: []; params?: {} }
     'steps.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.get_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.list_images': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.get_step_image_file': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.get_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'uploads.index': { paramsTuple?: []; params?: {} }
     'prd.competitors_index': { paramsTuple?: []; params?: {} }
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
@@ -170,7 +178,8 @@ export type ScannedRoutes = {
     'integration.sync_triggers': { paramsTuple?: []; params?: {} }
     'steps.store': { paramsTuple?: []; params?: {} }
     'steps.reorder': { paramsTuple?: []; params?: {} }
-    'steps.upload_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.upload_photo': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
+    'steps.upload_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'uploads.store': { paramsTuple?: []; params?: {} }
     'prd.competitors_store': { paramsTuple?: []; params?: {} }
     'prd.milestones_store': { paramsTuple?: []; params?: {} }
@@ -197,7 +206,8 @@ export type ScannedRoutes = {
     'features.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'steps.delete_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.delete_step_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'steps.delete_gif': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'uploads.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.competitors_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.milestones_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

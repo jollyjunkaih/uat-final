@@ -349,8 +349,27 @@ export class SignOffRecordSchema extends BaseModel {
   declare versionId: string
 }
 
+export class StepImageSchema extends BaseModel {
+  static $columns = ['createdAt', 'fileName', 'id', 'sequence', 'source', 'stepId', 'updatedAt'] as const
+  $columns = StepImageSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fileName: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare sequence: number
+  @column()
+  declare source: string
+  @column()
+  declare stepId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class StepSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'imageFileName', 'name', 'sequence', 'uatFlowId', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'description', 'gifFileName', 'id', 'name', 'sequence', 'uatFlowId', 'updatedAt'] as const
   $columns = StepSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -358,10 +377,10 @@ export class StepSchema extends BaseModel {
   declare deletedAt: DateTime | null
   @column()
   declare description: string | null
+  @column()
+  declare gifFileName: string | null
   @column({ isPrimary: true })
   declare id: string
-  @column()
-  declare imageFileName: string | null
   @column()
   declare name: string
   @column()

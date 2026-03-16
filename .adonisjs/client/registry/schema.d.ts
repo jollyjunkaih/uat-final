@@ -559,40 +559,88 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['destroy']>>>
     }
   }
-  'steps.get_image': {
+  'steps.list_images': {
     methods: ["GET","HEAD"]
-    pattern: '/api/steps/:id/image'
+    pattern: '/api/steps/:stepId/images'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      params: { stepId: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getImage']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getImage']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['listImages']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['listImages']>>>
     }
   }
-  'steps.upload_image': {
+  'steps.upload_photo': {
     methods: ["POST"]
-    pattern: '/api/steps/:id/image'
+    pattern: '/api/steps/:stepId/images'
     types: {
       body: {}
       paramsTuple: [ParamValue]
-      params: { id: ParamValue }
+      params: { stepId: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadImage']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadImage']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadPhoto']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadPhoto']>>>
     }
   }
-  'steps.delete_image': {
+  'steps.delete_step_image': {
     methods: ["DELETE"]
-    pattern: '/api/steps/:id/image'
+    pattern: '/api/step-images/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteImage']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteImage']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteStepImage']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteStepImage']>>>
+    }
+  }
+  'steps.get_step_image_file': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/step-images/:id/file'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getStepImageFile']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getStepImageFile']>>>
+    }
+  }
+  'steps.upload_gif': {
+    methods: ["POST"]
+    pattern: '/api/steps/:stepId/gif'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { stepId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadGif']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['uploadGif']>>>
+    }
+  }
+  'steps.get_gif': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/steps/:stepId/gif'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { stepId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getGif']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['getGif']>>>
+    }
+  }
+  'steps.delete_gif': {
+    methods: ["DELETE"]
+    pattern: '/api/steps/:stepId/gif'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { stepId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteGif']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/steps_controller').default['deleteGif']>>>
     }
   }
   'uploads.store': {

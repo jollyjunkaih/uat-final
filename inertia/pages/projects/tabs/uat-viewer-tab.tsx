@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { apiFetch } from '~/lib/api'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '~/components/ui/tabs'
+import { cn } from '~/lib/utils'
 
 interface TreeStep {
   id: string
@@ -13,6 +15,7 @@ interface TreeStep {
 interface TreeFlow {
   id: string
   name: string
+  description: string | null
   steps: TreeStep[]
 }
 
@@ -22,49 +25,20 @@ interface TreeFeature {
   uatFlows: TreeFlow[]
 }
 
-interface FlatStep {
-  step: TreeStep
-  flowName: string
-  featureName: string
-  globalIndex: number
-}
-
 interface UatViewerTabProps {
   projectId: string
 }
 
-export default function UatViewerTab({ projectId }: UatViewerTabProps) {
+/* ─── Step Slideshow (per function) ─── */
+
+function StepSlideshow({ steps }: { steps: TreeStep[] }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['project-tree', projectId],
-    queryFn: () => apiFetch<{ data: { features: TreeFeature[] } }>(`/api/projects/${projectId}/tree`),
-  })
-
-  // Flatten all steps across features/flows
-  const flatSteps: FlatStep[] = []
-  if (data?.data?.features) {
-    let idx = 0
-    for (const feature of data.data.features) {
-      for (const flow of feature.uatFlows || []) {
-        for (const step of flow.steps || []) {
-          flatSteps.push({
-            step,
-            flowName: flow.name,
-            featureName: feature.name,
-            globalIndex: idx++,
-          })
-        }
-      }
-    }
-  }
-
-  const totalSteps = flatSteps.length
-  const current = flatSteps[currentIndex] || null
+  const total = steps.length
+  const step = steps[currentIndex]
 
   const goNext = useCallback(() => {
-    setCurrentIndex((prev) => Math.min(prev + 1, totalSteps - 1))
-  }, [totalSteps])
+    setCurrentIndex((prev) => Math.min(prev + 1, total - 1))
+  }, [total])
 
   const goPrev = useCallback(() => {
     setCurrentIndex((prev) => Math.max(prev - 1, 0))
@@ -72,12 +46,170 @@ export default function UatViewerTab({ projectId }: UatViewerTabProps) {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      // Only handle if no input/textarea is focused
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
       if (e.key === 'ArrowRight') goNext()
       if (e.key === 'ArrowLeft') goPrev()
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [goNext, goPrev])
+
+  if (total === 0) {
+    return (
+      <p className="py-4 text-center text-sm text-muted-foreground">
+        No steps in this function yet.
+      </p>
+    )
+  }
+
+  return (
+    <div className="space-y-3">
+      {/* Step header */}
+      <div className="flex items-center justify-between">
+        <div className="min-w-0 flex-1">
+          <h4 className="text-sm font-semibold text-foreground">
+            {currentIndex + 1}. {step.name}
+          </h4>
+          {step.description && (
+            <p className="mt-0.5 text-xs text-muted-foreground">{step.description}</p>
+          )}
+        </div>
+        <span className="ml-3 shrink-0 text-xs tabular-nums text-muted-foreground">
+          {currentIndex + 1} / {total}
+        </span>
+      </div>
+
+      {/* GIF display */}
+      <div
+        className="flex items-center justify-center rounded-lg border border-border bg-muted/20"
+        style={{ minHeight: '320px' }}
+      >
+        {step.gifFileName ? (
+          <img
+            key={step.id}
+            src={`/api/steps/${step.id}/gif`}
+            alt={`GIF for ${step.name}`}
+            className="max-h-120 max-w-full rounded-lg object-contain"
+          />
+        ) : (
+          <div className="text-center text-muted-foreground">
+            <p className="text-sm">No GIF uploaded for this step</p>
+          </div>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={goPrev}
+          disabled={currentIndex === 0}
+          className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          &larr; Prev
+        </button>
+
+        <div className="flex items-center gap-1">
+          {steps.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={cn(
+                'h-1.5 rounded-full transition-all',
+                idx === currentIndex
+                  ? 'w-4 bg-primary'
+                  : 'w-1.5 bg-border hover:bg-muted-foreground'
+              )}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={goNext}
+          disabled={currentIndex === total - 1}
+          className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          Next &rarr;
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Function Accordion ─── */
+
+function FlowAccordion({ flows }: { flows: TreeFlow[] }) {
+  const [openId, setOpenId] = useState<string | null>(flows[0]?.id ?? null)
+
+  if (flows.length === 0) {
+    return (
+      <p className="py-4 text-center text-sm text-muted-foreground">
+        No functions in this feature yet.
+      </p>
+    )
+  }
+
+  return (
+    <div className="divide-y divide-border rounded-lg border border-border">
+      {flows.map((flow) => {
+        const isOpen = openId === flow.id
+        return (
+          <div key={flow.id}>
+            <button
+              type="button"
+              onClick={() => setOpenId(isOpen ? null : flow.id)}
+              className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-accent/50"
+            >
+              <div className="min-w-0 flex-1">
+                <span className="text-sm font-medium text-foreground">{flow.name}</span>
+                {flow.description && (
+                  <span className="ml-2 text-xs text-muted-foreground">{flow.description}</span>
+                )}
+              </div>
+              <div className="ml-3 flex shrink-0 items-center gap-2">
+                <span className="text-xs text-muted-foreground">
+                  {flow.steps?.length ?? 0} step{(flow.steps?.length ?? 0) !== 1 ? 's' : ''}
+                </span>
+                <svg
+                  className={cn(
+                    'h-4 w-4 text-muted-foreground transition-transform',
+                    isOpen && 'rotate-180'
+                  )}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </div>
+            </button>
+
+            {isOpen && (
+              <div className="border-t border-border bg-muted/10 px-4 py-4">
+                <StepSlideshow steps={flow.steps || []} />
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+/* ─── Main UAT Viewer ─── */
+
+export default function UatViewerTab({ projectId }: UatViewerTabProps) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['project-tree', projectId],
+    queryFn: () => apiFetch<{ data: TreeFeature[] }>(`/api/projects/${projectId}/tree`),
+  })
+
+  const features = data?.data ?? []
 
   if (isLoading) {
     return (
@@ -87,92 +219,31 @@ export default function UatViewerTab({ projectId }: UatViewerTabProps) {
     )
   }
 
-  if (totalSteps === 0) {
+  if (features.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-6 text-center">
         <p className="text-sm text-muted-foreground">
-          No steps found. Add features, functions, and steps first.
+          No features found. Add features, functions, and steps first.
         </p>
       </div>
     )
   }
 
   return (
-    <div className="rounded-lg border border-border bg-card">
-      {/* Breadcrumb */}
-      {current && (
-        <div className="border-b border-border px-6 py-3">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>{current.featureName}</span>
-            <span>&gt;</span>
-            <span>{current.flowName}</span>
-            <span>&gt;</span>
-            <span className="font-medium text-foreground">
-              Step {currentIndex + 1} of {totalSteps}
-            </span>
-          </div>
-        </div>
-      )}
+    <Tabs defaultValue={features[0].id}>
+      <TabsList>
+        {features.map((feature) => (
+          <TabsTrigger key={feature.id} value={feature.id}>
+            {feature.name}
+          </TabsTrigger>
+        ))}
+      </TabsList>
 
-      {/* Main content */}
-      {current && (
-        <div className="p-6">
-          <div className="mb-6 text-center">
-            <h3 className="text-xl font-semibold text-foreground">{current.step.name}</h3>
-            {current.step.description && (
-              <p className="mt-2 text-sm text-muted-foreground">{current.step.description}</p>
-            )}
-          </div>
-
-          {/* GIF display */}
-          <div className="flex items-center justify-center rounded-lg border border-border bg-muted/20 p-4" style={{ minHeight: '400px' }}>
-            {current.step.gifFileName ? (
-              <img
-                key={current.step.id}
-                src={`/api/steps/${current.step.id}/gif`}
-                alt={`GIF for ${current.step.name}`}
-                className="max-h-[500px] max-w-full rounded-lg object-contain"
-              />
-            ) : (
-              <div className="text-center text-muted-foreground">
-                <p className="text-lg">No GIF available for this step</p>
-                <p className="mt-1 text-sm">Upload a GIF in the Functions tab</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Navigation */}
-      <div className="flex items-center justify-between border-t border-border px-6 py-4">
-        <button
-          onClick={goPrev}
-          disabled={currentIndex === 0}
-          className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          <span>&larr;</span> Previous
-        </button>
-
-        <div className="flex items-center gap-1">
-          {flatSteps.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                idx === currentIndex ? 'bg-primary' : 'bg-border hover:bg-muted-foreground'
-              }`}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={goNext}
-          disabled={currentIndex === totalSteps - 1}
-          className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          Next <span>&rarr;</span>
-        </button>
-      </div>
-    </div>
+      {features.map((feature) => (
+        <TabsContent key={feature.id} value={feature.id}>
+          <FlowAccordion flows={feature.uatFlows || []} />
+        </TabsContent>
+      ))}
+    </Tabs>
   )
 }

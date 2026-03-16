@@ -282,23 +282,47 @@ const routes = {
     tokens: [{"old":"/api/steps/:id","type":0,"val":"api","end":""},{"old":"/api/steps/:id","type":0,"val":"steps","end":""},{"old":"/api/steps/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['steps.destroy']['types'],
   },
-  'steps.get_image': {
+  'steps.list_images': {
     methods: ["GET","HEAD"],
-    pattern: '/api/steps/:id/image',
-    tokens: [{"old":"/api/steps/:id/image","type":0,"val":"api","end":""},{"old":"/api/steps/:id/image","type":0,"val":"steps","end":""},{"old":"/api/steps/:id/image","type":1,"val":"id","end":""},{"old":"/api/steps/:id/image","type":0,"val":"image","end":""}],
-    types: placeholder as Registry['steps.get_image']['types'],
+    pattern: '/api/steps/:stepId/images',
+    tokens: [{"old":"/api/steps/:stepId/images","type":0,"val":"api","end":""},{"old":"/api/steps/:stepId/images","type":0,"val":"steps","end":""},{"old":"/api/steps/:stepId/images","type":1,"val":"stepId","end":""},{"old":"/api/steps/:stepId/images","type":0,"val":"images","end":""}],
+    types: placeholder as Registry['steps.list_images']['types'],
   },
-  'steps.upload_image': {
+  'steps.upload_photo': {
     methods: ["POST"],
-    pattern: '/api/steps/:id/image',
-    tokens: [{"old":"/api/steps/:id/image","type":0,"val":"api","end":""},{"old":"/api/steps/:id/image","type":0,"val":"steps","end":""},{"old":"/api/steps/:id/image","type":1,"val":"id","end":""},{"old":"/api/steps/:id/image","type":0,"val":"image","end":""}],
-    types: placeholder as Registry['steps.upload_image']['types'],
+    pattern: '/api/steps/:stepId/images',
+    tokens: [{"old":"/api/steps/:stepId/images","type":0,"val":"api","end":""},{"old":"/api/steps/:stepId/images","type":0,"val":"steps","end":""},{"old":"/api/steps/:stepId/images","type":1,"val":"stepId","end":""},{"old":"/api/steps/:stepId/images","type":0,"val":"images","end":""}],
+    types: placeholder as Registry['steps.upload_photo']['types'],
   },
-  'steps.delete_image': {
+  'steps.delete_step_image': {
     methods: ["DELETE"],
-    pattern: '/api/steps/:id/image',
-    tokens: [{"old":"/api/steps/:id/image","type":0,"val":"api","end":""},{"old":"/api/steps/:id/image","type":0,"val":"steps","end":""},{"old":"/api/steps/:id/image","type":1,"val":"id","end":""},{"old":"/api/steps/:id/image","type":0,"val":"image","end":""}],
-    types: placeholder as Registry['steps.delete_image']['types'],
+    pattern: '/api/step-images/:id',
+    tokens: [{"old":"/api/step-images/:id","type":0,"val":"api","end":""},{"old":"/api/step-images/:id","type":0,"val":"step-images","end":""},{"old":"/api/step-images/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['steps.delete_step_image']['types'],
+  },
+  'steps.get_step_image_file': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/step-images/:id/file',
+    tokens: [{"old":"/api/step-images/:id/file","type":0,"val":"api","end":""},{"old":"/api/step-images/:id/file","type":0,"val":"step-images","end":""},{"old":"/api/step-images/:id/file","type":1,"val":"id","end":""},{"old":"/api/step-images/:id/file","type":0,"val":"file","end":""}],
+    types: placeholder as Registry['steps.get_step_image_file']['types'],
+  },
+  'steps.upload_gif': {
+    methods: ["POST"],
+    pattern: '/api/steps/:stepId/gif',
+    tokens: [{"old":"/api/steps/:stepId/gif","type":0,"val":"api","end":""},{"old":"/api/steps/:stepId/gif","type":0,"val":"steps","end":""},{"old":"/api/steps/:stepId/gif","type":1,"val":"stepId","end":""},{"old":"/api/steps/:stepId/gif","type":0,"val":"gif","end":""}],
+    types: placeholder as Registry['steps.upload_gif']['types'],
+  },
+  'steps.get_gif': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/steps/:stepId/gif',
+    tokens: [{"old":"/api/steps/:stepId/gif","type":0,"val":"api","end":""},{"old":"/api/steps/:stepId/gif","type":0,"val":"steps","end":""},{"old":"/api/steps/:stepId/gif","type":1,"val":"stepId","end":""},{"old":"/api/steps/:stepId/gif","type":0,"val":"gif","end":""}],
+    types: placeholder as Registry['steps.get_gif']['types'],
+  },
+  'steps.delete_gif': {
+    methods: ["DELETE"],
+    pattern: '/api/steps/:stepId/gif',
+    tokens: [{"old":"/api/steps/:stepId/gif","type":0,"val":"api","end":""},{"old":"/api/steps/:stepId/gif","type":0,"val":"steps","end":""},{"old":"/api/steps/:stepId/gif","type":1,"val":"stepId","end":""},{"old":"/api/steps/:stepId/gif","type":0,"val":"gif","end":""}],
+    types: placeholder as Registry['steps.delete_gif']['types'],
   },
   'uploads.store': {
     methods: ["POST"],

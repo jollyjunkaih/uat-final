@@ -25,6 +25,7 @@ declare module '@adonisjs/inertia/types' {
     'projects/tabs/prd-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/prd-view-tab.tsx'))['default']>
     'projects/tabs/uat-flows-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-flows-tab.tsx'))['default']>
     'projects/tabs/uat-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-view-tab.tsx'))['default']>
+    'projects/tabs/uat-viewer-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-viewer-tab.tsx'))['default']>
     'projects/tabs/versions-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/versions-tab.tsx'))['default']>
     'settings/index': ExtractProps<(typeof import('../../inertia/pages/settings/index.tsx'))['default']>
     'share/confirmed': ExtractProps<(typeof import('../../inertia/pages/share/confirmed.tsx'))['default']>
