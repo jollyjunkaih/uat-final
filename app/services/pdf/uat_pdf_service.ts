@@ -21,6 +21,9 @@ export default class UatPdfService {
           .whereNull('deleted_at')
           .preload('steps', (stepQuery) => {
             stepQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+              .preload('stepImages', (imgQuery) => {
+                imgQuery.orderBy('sequence', 'asc')
+              })
           })
           .orderBy('sequence', 'asc')
       })
@@ -48,9 +51,7 @@ export default class UatPdfService {
                 name: step.name,
                 description: step.description,
                 sequence: step.sequence,
-                imagePath: step.imageFileName
-                  ? await this.resolveImagePath(photosDir, step.imageFileName)
-                  : null,
+                imagePaths: await this.resolveStepImagePaths(photosDir, step.stepImages || []),
               }))
             ),
           }))
@@ -75,6 +76,19 @@ export default class UatPdfService {
     })
 
     return renderToBuffer(element as any)
+  }
+
+  private async resolveStepImagePaths(
+    photosDir: string,
+    stepImages: { fileName: string }[]
+  ): Promise<string[]> {
+    if (!existsSync(photosDir) || stepImages.length === 0) return []
+    const paths: string[] = []
+    for (const img of stepImages) {
+      const resolved = await this.resolveImagePath(photosDir, img.fileName)
+      if (resolved) paths.push(resolved)
+    }
+    return paths
   }
 
   private async resolveImagePath(

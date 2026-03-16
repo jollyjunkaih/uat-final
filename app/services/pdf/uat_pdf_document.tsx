@@ -139,6 +139,44 @@ const styles = StyleSheet.create({
     borderColor: '#e2e8f0',
     borderRadius: 4,
   },
+  imageGrid: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  imageGridRow: {
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    marginBottom: 4,
+  },
+  imageGridItem: {
+    alignItems: 'center' as const,
+  },
+  imageGridLabel: {
+    fontSize: 7,
+    color: '#64748b',
+    textAlign: 'center' as const,
+    marginBottom: 2,
+  },
+  imageGridImage: {
+    width: 220,
+    maxHeight: 160,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 4,
+  },
+  imageGridArrowRight: {
+    fontSize: 14,
+    color: '#94a3b8',
+    marginHorizontal: 8,
+    paddingTop: 10,
+  },
+  imageGridArrowDown: {
+    fontSize: 14,
+    color: '#94a3b8',
+    textAlign: 'center' as const,
+    marginVertical: 2,
+    paddingLeft: 100,
+  },
   noSteps: {
     fontSize: 9,
     color: '#94a3b8',
@@ -188,7 +226,7 @@ export interface PdfStep {
   name: string
   description: string | null
   sequence: number
-  imagePath: string | null
+  imagePaths: string[]
 }
 
 export interface PdfUatFlow {
@@ -312,18 +350,46 @@ export default function UatPdfDocument({
 
                   {flow.steps && flow.steps.length > 0 ? (
                     flow.steps.map((step, idx) => (
-                      <View key={step.id} style={styles.stepContainer} wrap={false}>
-                        <Text style={styles.stepTitle}>
-                          Step {idx + 1}: {step.name}
-                        </Text>
-                        {step.description && (
-                          <Text style={styles.stepDescription}>{step.description}</Text>
-                        )}
-                        {step.imagePath && (
-                          <Image
-                            src={step.imagePath}
-                            style={styles.stepImage}
-                          />
+                      <View key={step.id} style={styles.stepContainer}>
+                        <View wrap={false}>
+                          <Text style={styles.stepTitle}>
+                            Step {idx + 1}: {step.name}
+                          </Text>
+                          {step.description && (
+                            <Text style={styles.stepDescription}>{step.description}</Text>
+                          )}
+                        </View>
+                        {step.imagePaths.length > 0 && (
+                          <View style={styles.imageGrid}>
+                            {(() => {
+                              const rows: string[][] = []
+                              for (let i = 0; i < step.imagePaths.length; i += 2) {
+                                rows.push(step.imagePaths.slice(i, i + 2))
+                              }
+                              return rows.map((row, rowIdx) => (
+                                <View key={rowIdx}>
+                                  {rowIdx > 0 && (
+                                    <Text style={styles.imageGridArrowDown}>&#8595;</Text>
+                                  )}
+                                  <View style={styles.imageGridRow}>
+                                    {row.map((imgPath, colIdx) => (
+                                      <View key={colIdx} style={{ flexDirection: 'row' as const, alignItems: 'center' as const }}>
+                                        {colIdx > 0 && (
+                                          <Text style={styles.imageGridArrowRight}>&#8594;</Text>
+                                        )}
+                                        <View style={styles.imageGridItem}>
+                                          <Text style={styles.imageGridLabel}>
+                                            ({rowIdx * 2 + colIdx + 1})
+                                          </Text>
+                                          <Image src={imgPath} style={styles.imageGridImage} />
+                                        </View>
+                                      </View>
+                                    ))}
+                                  </View>
+                                </View>
+                              ))
+                            })()}
+                          </View>
                         )}
                       </View>
                     ))
