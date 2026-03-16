@@ -2,7 +2,7 @@ import { useState, useRef, type FormEvent } from 'react'
 import { toast } from 'sonner'
 import { useFeatures, type Feature } from '~/hooks/use-features'
 import { useUatFlows, useCreateUatFlow, useUpdateUatFlow, useDeleteUatFlow, type UatFlow } from '~/hooks/use-uat-flows'
-import { useSteps, useCreateStep, useUpdateStep, useDeleteStep, useUploadStepImage, useDeleteStepImage, type Step } from '~/hooks/use-steps'
+import { useSteps, useStepImages, useCreateStep, useUpdateStep, useDeleteStep, useUploadStepPhoto, useDeleteStepImage, useUploadStepGif, useDeleteStepGif, type Step, type StepImage } from '~/hooks/use-steps'
 import { StatusBadge } from '~/components/status-badge'
 import { PriorityBadge } from '~/components/priority-badge'
 import { cn } from '~/lib/utils'
@@ -142,17 +142,50 @@ function StepForm({
   )
 }
 
+function StepImagesDisplay({ step, flow, projectId }: { step: Step; flow: UatFlow; projectId: string }) {
+  const { data } = useStepImages(step.id)
+  const deleteImage = useDeleteStepImage(projectId)
+  const images = data?.data || []
+
+  if (images.length === 0) return null
+
+  return (
+    <div className="mt-2 ml-7 flex flex-wrap gap-2">
+      {images.map((img) => (
+        <div key={img.id} className="relative group">
+          <img
+            src={`/api/step-images/${img.id}/file`}
+            alt={`Step image ${img.sequence}`}
+            className="h-20 w-20 rounded border border-border object-cover"
+          />
+          <span className="absolute bottom-0 left-0 rounded-tr bg-black/60 px-1 text-[10px] text-white">
+            ({img.sequence})
+          </span>
+          <button
+            onClick={() => deleteImage.mutate({ imageId: img.id, stepId: step.id, uatFlowId: flow.id })}
+            className="absolute -top-1 -right-1 hidden group-hover:flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white"
+          >
+            x
+          </button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function StepsSection({ flow, projectId }: { flow: UatFlow; projectId: string }) {
   const { data, isLoading } = useSteps(flow.id)
   const createStep = useCreateStep(projectId)
   const updateStep = useUpdateStep(projectId)
   const deleteStep = useDeleteStep(projectId)
-  const uploadImage = useUploadStepImage(projectId)
-  const deleteImage = useDeleteStepImage(projectId)
+  const uploadPhoto = useUploadStepPhoto(projectId)
+  const uploadGif = useUploadStepGif(projectId)
+  const deleteGif = useDeleteStepGif(projectId)
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
+  const photoInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
+  const gifInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
   const steps = data?.data || []
 
@@ -186,21 +219,31 @@ function StepsSection({ flow, projectId }: { flow: UatFlow; projectId: string })
     )
   }
 
-  function handleImageUpload(step: Step, file: File) {
-    uploadImage.mutate(
+  function handlePhotoUpload(step: Step, file: File) {
+    uploadPhoto.mutate(
       { stepId: step.id, uatFlowId: flow.id, file },
       {
-        onSuccess: () => toast.success('Image uploaded'),
+        onSuccess: () => toast.success('Photo uploaded'),
         onError: (err) => toast.error(err.message),
       }
     )
   }
 
-  function handleImageDelete(step: Step) {
-    deleteImage.mutate(
+  function handleGifUpload(step: Step, file: File) {
+    uploadGif.mutate(
+      { stepId: step.id, uatFlowId: flow.id, file },
+      {
+        onSuccess: () => toast.success('GIF uploaded & frames extracted'),
+        onError: (err) => toast.error(err.message),
+      }
+    )
+  }
+
+  function handleGifDelete(step: Step) {
+    deleteGif.mutate(
       { stepId: step.id, uatFlowId: flow.id },
       {
-        onSuccess: () => toast.success('Image removed'),
+        onSuccess: () => toast.success('GIF removed'),
         onError: (err) => toast.error(err.message),
       }
     )
@@ -255,46 +298,63 @@ function StepsSection({ flow, projectId }: { flow: UatFlow; projectId: string })
                         {index + 1}
                       </span>
                       <span className="text-sm font-medium text-foreground">{step.name}</span>
+                      {step.gifFileName && (
+                        <span className="rounded bg-purple-100 px-1.5 py-0.5 text-[10px] font-medium text-purple-700">
+                          GIF
+                        </span>
+                      )}
                     </div>
                     {step.description && (
                       <p className="mt-1 ml-7 text-xs text-muted-foreground">{step.description}</p>
                     )}
-                    {step.imageFileName && (
-                      <div className="mt-2 ml-7">
-                        <img
-                          src={`/api/steps/${step.id}/image`}
-                          alt={`Step ${index + 1}`}
-                          className="max-h-48 rounded border border-border object-contain"
-                        />
-                      </div>
-                    )}
+                    <StepImagesDisplay step={step} flow={flow} projectId={projectId} />
                   </div>
                   <div className="ml-3 flex items-center gap-1">
+                    {/* Photo upload */}
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png,image/webp,image/svg+xml"
                       className="hidden"
-                      ref={(el) => { fileInputRefs.current[step.id] = el }}
+                      ref={(el) => { photoInputRefs.current[step.id] = el }}
                       onChange={(e) => {
                         const file = e.target.files?.[0]
-                        if (file) handleImageUpload(step, file)
+                        if (file) handlePhotoUpload(step, file)
                         e.target.value = ''
                       }}
                     />
                     <button
-                      onClick={() => fileInputRefs.current[step.id]?.click()}
+                      onClick={() => photoInputRefs.current[step.id]?.click()}
                       className="rounded px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
-                      title={step.imageFileName ? 'Replace image' : 'Upload image'}
+                      title="Upload photo"
                     >
-                      {uploadImage.isPending ? '...' : 'Img'}
+                      {uploadPhoto.isPending ? '...' : 'Photo'}
                     </button>
-                    {step.imageFileName && (
+                    {/* GIF upload */}
+                    <input
+                      type="file"
+                      accept="image/gif"
+                      className="hidden"
+                      ref={(el) => { gifInputRefs.current[step.id] = el }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleGifUpload(step, file)
+                        e.target.value = ''
+                      }}
+                    />
+                    <button
+                      onClick={() => gifInputRefs.current[step.id]?.click()}
+                      className="rounded px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                      title="Upload GIF"
+                    >
+                      {uploadGif.isPending ? '...' : 'GIF'}
+                    </button>
+                    {step.gifFileName && (
                       <button
-                        onClick={() => handleImageDelete(step)}
+                        onClick={() => handleGifDelete(step)}
                         className="rounded px-1 py-0.5 text-xs text-red-500 hover:bg-red-50 hover:text-red-700"
-                        title="Remove image"
+                        title="Remove GIF"
                       >
-                        x
+                        xGIF
                       </button>
                     )}
                     <button onClick={() => setEditingId(step.id)} className="text-xs text-primary hover:underline">Edit</button>
