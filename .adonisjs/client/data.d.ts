@@ -21,6 +21,7 @@ import type UploadTransformer from '#transformers/upload_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 import type VersionTransformer from '#transformers/version_transformer'
 import type ViewOnlyLinkTransformer from '#transformers/view_only_link_transformer'
+import type UserGuideSectionTransformer from '#transformers/user_guide_section_transformer'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
@@ -83,6 +84,10 @@ export namespace Data {
   export type ViewOnlyLink = InferData<ViewOnlyLinkTransformer>
   export namespace ViewOnlyLink {
     export type Variants = InferVariants<ViewOnlyLinkTransformer>
+  }
+  export type UserGuideSection = InferData<UserGuideSectionTransformer>
+  export namespace UserGuideSection {
+    export type Variants = InferVariants<UserGuideSectionTransformer>
   }
   export type SharedProps = InferSharedProps<InertiaMiddleware>
 }

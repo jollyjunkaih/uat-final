@@ -31,6 +31,7 @@ const StepsController = () => import('#controllers/steps_controller')
 const UploadsController = () => import('#controllers/uploads_controller')
 const PrdController = () => import('#controllers/prd_controller')
 const YamlImportController = () => import('#controllers/yaml_import_controller')
+const UserGuideController = () => import('#controllers/user_guide_controller')
 
 // Home
 router.on('/').renderInertia('home', {}).as('home')
@@ -165,9 +166,18 @@ router
     router.patch('api/prd/contacts/:id', [PrdController, 'contactsUpdate'])
     router.delete('api/prd/contacts/:id', [PrdController, 'contactsDestroy'])
 
+    // User Guide
+    router.get('api/user-guide', [UserGuideController, 'index'])
+    router.get('api/user-guide/grouped/:projectId', [UserGuideController, 'grouped'])
+    router.post('api/user-guide', [UserGuideController, 'store'])
+    router.get('api/user-guide/:id', [UserGuideController, 'show'])
+    router.patch('api/user-guide/:id', [UserGuideController, 'update'])
+    router.delete('api/user-guide/:id', [UserGuideController, 'destroy'])
+
     // YAML Import
     router.post('api/yaml/import/prd/:projectId', [YamlImportController, 'importPrd'])
     router.post('api/yaml/import/uat/:projectId', [YamlImportController, 'importUat'])
+    router.post('api/yaml/import/user-guide/:projectId', [YamlImportController, 'importUserGuide'])
     router.post('api/yaml/refetch/:projectId', [YamlImportController, 'refetchFromDisk'])
 
     // Project tree (features + UAT flows + events in one request)

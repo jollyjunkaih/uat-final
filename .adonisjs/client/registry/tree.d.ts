@@ -108,9 +108,18 @@ export interface ApiDefinition {
     contactsUpdate: typeof routes['prd.contacts_update']
     contactsDestroy: typeof routes['prd.contacts_destroy']
   }
+  userGuide: {
+    index: typeof routes['user_guide.index']
+    grouped: typeof routes['user_guide.grouped']
+    store: typeof routes['user_guide.store']
+    show: typeof routes['user_guide.show']
+    update: typeof routes['user_guide.update']
+    destroy: typeof routes['user_guide.destroy']
+  }
   yamlImport: {
     importPrd: typeof routes['yaml_import.import_prd']
     importUat: typeof routes['yaml_import.import_uat']
+    importUserGuide: typeof routes['yaml_import.import_user_guide']
     refetchFromDisk: typeof routes['yaml_import.refetch_from_disk']
   }
   publicView: {

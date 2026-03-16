@@ -51,6 +51,25 @@ export default class YamlImportController {
     return ctx.response.json({ data: { success: true } })
   }
 
+  async importUserGuide(ctx: HttpContext) {
+    const projectId = ctx.params.projectId
+    const file = ctx.request.file('file', { extnames: ['yaml', 'yml'], size: '2mb' })
+
+    if (!file) {
+      return ctx.response.badRequest({ error: 'A YAML file is required' })
+    }
+
+    if (file.hasErrors) {
+      return ctx.response.badRequest({ error: file.errors })
+    }
+
+    const content = await this.readUploadedFile(file)
+    const importService = new YamlImportService()
+    await importService.importUserGuide(projectId, content)
+
+    return ctx.response.json({ data: { success: true } })
+  }
+
   async refetchFromDisk(ctx: HttpContext) {
     const projectId = ctx.params.projectId
     const project = await Project.findOrFail(projectId)
@@ -61,6 +80,7 @@ export default class YamlImportController {
 
     const prdPath = join(projectDir, 'prd.yaml')
     const uatPath = join(projectDir, 'uat.yaml')
+    const userGuidePath = join(projectDir, 'user-guide.yaml')
 
     const importService = new YamlImportService()
 
@@ -72,6 +92,11 @@ export default class YamlImportController {
     if (existsSync(uatPath)) {
       const uatContent = readFileSync(uatPath, 'utf-8')
       await importService.importUat(projectId, uatContent)
+    }
+
+    if (existsSync(userGuidePath)) {
+      const userGuideContent = readFileSync(userGuidePath, 'utf-8')
+      await importService.importUserGuide(projectId, userGuideContent)
     }
 
     return ctx.response.json({ data: { success: true } })

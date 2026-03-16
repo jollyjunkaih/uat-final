@@ -495,6 +495,41 @@ export class UploadSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class UserGuideSectionSchema extends BaseModel {
+  static $columns = ['content', 'createdAt', 'deletedAt', 'id', 'module', 'projectId', 'roleDescription', 'roleName', 'roleSequence', 'roleSlug', 'sequence', 'slug', 'status', 'title', 'updatedAt'] as const
+  $columns = UserGuideSectionSchema.$columns
+  @column()
+  declare content: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare module: string | null
+  @column()
+  declare projectId: string
+  @column()
+  declare roleDescription: string | null
+  @column()
+  declare roleName: string
+  @column()
+  declare roleSequence: number
+  @column()
+  declare roleSlug: string
+  @column()
+  declare sequence: number
+  @column()
+  declare slug: string
+  @column()
+  declare status: string
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'role', 'updatedAt'] as const
   $columns = UserSchema.$columns

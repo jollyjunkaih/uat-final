@@ -438,6 +438,42 @@ const routes = {
     tokens: [{"old":"/api/prd/contacts/:id","type":0,"val":"api","end":""},{"old":"/api/prd/contacts/:id","type":0,"val":"prd","end":""},{"old":"/api/prd/contacts/:id","type":0,"val":"contacts","end":""},{"old":"/api/prd/contacts/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['prd.contacts_destroy']['types'],
   },
+  'user_guide.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/user-guide',
+    tokens: [{"old":"/api/user-guide","type":0,"val":"api","end":""},{"old":"/api/user-guide","type":0,"val":"user-guide","end":""}],
+    types: placeholder as Registry['user_guide.index']['types'],
+  },
+  'user_guide.grouped': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/user-guide/grouped/:projectId',
+    tokens: [{"old":"/api/user-guide/grouped/:projectId","type":0,"val":"api","end":""},{"old":"/api/user-guide/grouped/:projectId","type":0,"val":"user-guide","end":""},{"old":"/api/user-guide/grouped/:projectId","type":0,"val":"grouped","end":""},{"old":"/api/user-guide/grouped/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['user_guide.grouped']['types'],
+  },
+  'user_guide.store': {
+    methods: ["POST"],
+    pattern: '/api/user-guide',
+    tokens: [{"old":"/api/user-guide","type":0,"val":"api","end":""},{"old":"/api/user-guide","type":0,"val":"user-guide","end":""}],
+    types: placeholder as Registry['user_guide.store']['types'],
+  },
+  'user_guide.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/user-guide/:id',
+    tokens: [{"old":"/api/user-guide/:id","type":0,"val":"api","end":""},{"old":"/api/user-guide/:id","type":0,"val":"user-guide","end":""},{"old":"/api/user-guide/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['user_guide.show']['types'],
+  },
+  'user_guide.update': {
+    methods: ["PATCH"],
+    pattern: '/api/user-guide/:id',
+    tokens: [{"old":"/api/user-guide/:id","type":0,"val":"api","end":""},{"old":"/api/user-guide/:id","type":0,"val":"user-guide","end":""},{"old":"/api/user-guide/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['user_guide.update']['types'],
+  },
+  'user_guide.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/user-guide/:id',
+    tokens: [{"old":"/api/user-guide/:id","type":0,"val":"api","end":""},{"old":"/api/user-guide/:id","type":0,"val":"user-guide","end":""},{"old":"/api/user-guide/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['user_guide.destroy']['types'],
+  },
   'yaml_import.import_prd': {
     methods: ["POST"],
     pattern: '/api/yaml/import/prd/:projectId',
@@ -449,6 +485,12 @@ const routes = {
     pattern: '/api/yaml/import/uat/:projectId',
     tokens: [{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"import","end":""},{"old":"/api/yaml/import/uat/:projectId","type":0,"val":"uat","end":""},{"old":"/api/yaml/import/uat/:projectId","type":1,"val":"projectId","end":""}],
     types: placeholder as Registry['yaml_import.import_uat']['types'],
+  },
+  'yaml_import.import_user_guide': {
+    methods: ["POST"],
+    pattern: '/api/yaml/import/user-guide/:projectId',
+    tokens: [{"old":"/api/yaml/import/user-guide/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/import/user-guide/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/import/user-guide/:projectId","type":0,"val":"import","end":""},{"old":"/api/yaml/import/user-guide/:projectId","type":0,"val":"user-guide","end":""},{"old":"/api/yaml/import/user-guide/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['yaml_import.import_user_guide']['types'],
   },
   'yaml_import.refetch_from_disk': {
     methods: ["POST"],

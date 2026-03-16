@@ -76,8 +76,15 @@ export type ScannedRoutes = {
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
     'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.index': { paramsTuple?: []; params?: {} }
+    'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'user_guide.store': { paramsTuple?: []; params?: {} }
+    'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.import_user_guide': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -117,6 +124,9 @@ export type ScannedRoutes = {
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
     'prd.open_questions_index': { paramsTuple?: []; params?: {} }
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
+    'user_guide.index': { paramsTuple?: []; params?: {} }
+    'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -154,6 +164,9 @@ export type ScannedRoutes = {
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
     'prd.open_questions_index': { paramsTuple?: []; params?: {} }
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
+    'user_guide.index': { paramsTuple?: []; params?: {} }
+    'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -185,8 +198,10 @@ export type ScannedRoutes = {
     'prd.milestones_store': { paramsTuple?: []; params?: {} }
     'prd.open_questions_store': { paramsTuple?: []; params?: {} }
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
+    'user_guide.store': { paramsTuple?: []; params?: {} }
     'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.import_user_guide': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
@@ -200,6 +215,7 @@ export type ScannedRoutes = {
     'prd.milestones_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.open_questions_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -213,6 +229,7 @@ export type ScannedRoutes = {
     'prd.milestones_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.open_questions_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

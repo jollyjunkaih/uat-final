@@ -8,6 +8,7 @@ import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
 import PrdContact from '#models/prd_contact'
 import StepImage from '#models/step_image'
+import UserGuideService from '#services/user_guide_service'
 import type { PrdYamlData, UatYamlData } from '#services/yaml_writer_service'
 
 export default class YamlImportService {
@@ -200,5 +201,18 @@ export default class YamlImportService {
         }
       }
     }
+  }
+
+  async importUserGuide(projectId: string, yamlContent: string): Promise<void> {
+    const parsed = parse(yamlContent)
+    if (!parsed) throw new Error('Invalid YAML content')
+
+    await Project.findOrFail(projectId)
+
+    const roles = parsed.roles
+    if (!roles?.length) return
+
+    const service = new UserGuideService()
+    await service.importFromYaml(projectId, { roles })
   }
 }

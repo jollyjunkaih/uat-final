@@ -871,6 +871,78 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/prd_controller').default['contactsDestroy']>>>
     }
   }
+  'user_guide.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/user-guide'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['index']>>>
+    }
+  }
+  'user_guide.grouped': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/user-guide/grouped/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['grouped']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['grouped']>>>
+    }
+  }
+  'user_guide.store': {
+    methods: ["POST"]
+    pattern: '/api/user-guide'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_guide_validator').createUserGuideSectionValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_guide_validator').createUserGuideSectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user_guide.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/user-guide/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['show']>>>
+    }
+  }
+  'user_guide.update': {
+    methods: ["PATCH"]
+    pattern: '/api/user-guide/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_guide_validator').updateUserGuideSectionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_guide_validator').updateUserGuideSectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user_guide.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/user-guide/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['destroy']>>>
+    }
+  }
   'yaml_import.import_prd': {
     methods: ["POST"]
     pattern: '/api/yaml/import/prd/:projectId'
@@ -893,6 +965,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUat']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUat']>>>
+    }
+  }
+  'yaml_import.import_user_guide': {
+    methods: ["POST"]
+    pattern: '/api/yaml/import/user-guide/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUserGuide']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['importUserGuide']>>>
     }
   }
   'yaml_import.refetch_from_disk': {
