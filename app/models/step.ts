@@ -1,7 +1,8 @@
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import UatFlow from '#models/uat_flow'
+import StepImage from '#models/step_image'
 
 export default class Step extends BaseModel {
   static table = 'steps'
@@ -22,7 +23,7 @@ export default class Step extends BaseModel {
   declare sequence: number
 
   @column()
-  declare imageFileName: string | null
+  declare gifFileName: string | null
 
   @column.dateTime()
   declare deletedAt: DateTime | null
@@ -35,4 +36,7 @@ export default class Step extends BaseModel {
 
   @belongsTo(() => UatFlow)
   declare uatFlow: BelongsTo<typeof UatFlow>
+
+  @hasMany(() => StepImage)
+  declare stepImages: HasMany<typeof StepImage>
 }
