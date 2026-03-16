@@ -41,7 +41,7 @@ export default class FeatureTransformer extends BaseTransformer<Feature> {
             name: step.name,
             description: step.description,
             sequence: step.sequence,
-            imageFileName: step.imageFileName,
+            gifFileName: step.gifFileName,
           }))
         }
         return flowData
