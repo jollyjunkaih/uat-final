@@ -30,6 +30,7 @@ interface RoleGroup {
 
 interface UserGuideViewTabProps {
   projectId: string
+  projectName?: string
 }
 
 function SectionCard({ section }: { section: GuideSection }) {
@@ -166,8 +167,27 @@ function RoleAccordion({
   )
 }
 
-export default function UserGuideViewTab({ projectId }: UserGuideViewTabProps) {
+export default function UserGuideViewTab({ projectId, projectName }: UserGuideViewTabProps) {
   const [openRole, setOpenRole] = useState<string | null>(null)
+  const [pdfLoading, setPdfLoading] = useState(false)
+
+  async function handleDownloadPdf() {
+    setPdfLoading(true)
+    try {
+      const res = await fetch(`/api/user-guide/pdf/${projectId}`)
+      if (!res.ok) throw new Error('Failed to generate PDF')
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = Object.assign(document.createElement('a'), {
+        href: url,
+        download: `${(projectName || 'project').replace(/\s+/g, '_')}_User_Guide.pdf`,
+      })
+      a.click()
+      URL.revokeObjectURL(url)
+    } finally {
+      setPdfLoading(false)
+    }
+  }
 
   const { data, isLoading } = useQuery({
     queryKey: ['user-guide-grouped', projectId],
@@ -227,6 +247,18 @@ export default function UserGuideViewTab({ projectId }: UserGuideViewTabProps) {
             {roles.length} role{roles.length !== 1 ? 's' : ''} &middot;{' '}
             {roles.reduce((acc, r) => acc + r.sections.length, 0)} sections
           </span>
+          <button
+            onClick={handleDownloadPdf}
+            disabled={pdfLoading}
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            {pdfLoading ? 'Generating...' : 'Download PDF'}
+          </button>
         </div>
       </div>
 

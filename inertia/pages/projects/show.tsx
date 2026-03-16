@@ -73,7 +73,7 @@ function TabContent({
     case 'uat-viewer':
       return <UatViewerTab projectId={project.id} />
     case 'user-guide':
-      return <UserGuideViewTab projectId={project.id} />
+      return <UserGuideViewTab projectId={project.id} projectName={project.name} />
     case 'user-guide-edit':
       return <UserGuideEditTab projectId={project.id} />
     case 'versions':

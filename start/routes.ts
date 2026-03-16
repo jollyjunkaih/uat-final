@@ -185,6 +185,7 @@ router
 
     // PDF generation
     router.get('api/projects/:id/uat-pdf', [ProjectsController, 'uatPdf'])
+    router.get('api/user-guide/pdf/:projectId', [UserGuideController, 'pdf'])
 
     // PRD View (Inertia page)
     router.get('projects/:id/prd', [ProjectsController, 'show']).as('projects.prd')

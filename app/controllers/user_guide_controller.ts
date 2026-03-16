@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import UserGuideService from '#services/user_guide_service'
 import UserGuideSectionTransformer from '#transformers/user_guide_section_transformer'
+import UserGuidePdfService from '#services/pdf/user_guide_pdf_service'
 import {
   createUserGuideSectionValidator,
   updateUserGuideSectionValidator,
@@ -88,5 +89,17 @@ export default class UserGuideController {
     const service = new UserGuideService()
     await service.delete(id)
     return ctx.response.json({ message: 'Section deleted' })
+  }
+
+  /**
+   * Generate PDF for user guide
+   */
+  async pdf(ctx: HttpContext) {
+    const projectId = ctx.params.projectId
+    const service = new UserGuidePdfService()
+    const buffer = await service.generate(projectId)
+    ctx.response.header('Content-Type', 'application/pdf')
+    ctx.response.header('Content-Disposition', 'inline; filename="user-guide.pdf"')
+    return ctx.response.send(buffer)
   }
 }
