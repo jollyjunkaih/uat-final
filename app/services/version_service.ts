@@ -69,6 +69,9 @@ export default class VersionService {
       .preload('uatFlows', (uatFlowQuery) => {
         uatFlowQuery.whereNull('deleted_at').preload('steps', (stepQuery) => {
           stepQuery.whereNull('deleted_at').orderBy('sequence', 'asc')
+            .preload('stepImages', (imgQuery) => {
+              imgQuery.orderBy('sequence', 'asc')
+            })
         }).orderBy('sequence', 'asc')
       })
       .orderBy('sequence', 'asc')
