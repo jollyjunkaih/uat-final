@@ -11,12 +11,13 @@ import PrdViewTab from './tabs/prd-view-tab'
 import UatViewTab from './tabs/uat-view-tab'
 import VersionsTab from './tabs/versions-tab'
 import PrdEditTab from './tabs/prd-edit-tab'
+import UatViewerTab from './tabs/uat-viewer-tab'
 
 interface ProjectShowProps {
   project: Data.Project
 }
 
-type Tab = 'features' | 'uat-flows' | 'prd-edit' | 'prd-view' | 'uat-view' | 'versions'
+type Tab = 'features' | 'uat-flows' | 'prd-edit' | 'prd-view' | 'uat-view' | 'uat-viewer' | 'versions'
 
 const tabs: { key: Tab; label: string }[] = [
   { key: 'features', label: 'Features' },
@@ -24,6 +25,7 @@ const tabs: { key: Tab; label: string }[] = [
   { key: 'prd-edit', label: 'PRD Edit' },
   { key: 'prd-view', label: 'PRD View' },
   { key: 'uat-view', label: 'UAT View' },
+  { key: 'uat-viewer', label: 'UAT Viewer' },
   { key: 'versions', label: 'Versions' },
 ]
 
@@ -64,6 +66,8 @@ function TabContent({
       return <PrdViewTab projectId={project.id} projectName={project.name} project={project} />
     case 'uat-view':
       return <UatViewTab projectId={project.id} projectName={project.name} project={project} />
+    case 'uat-viewer':
+      return <UatViewerTab projectId={project.id} />
     case 'versions':
       return <VersionsTab projectId={project.id} />
   }
@@ -72,7 +76,7 @@ function TabContent({
 function getInitialTab(): Tab {
   const params = new URLSearchParams(window.location.search)
   const tab = params.get('tab')
-  const validTabs: Tab[] = ['features', 'uat-flows', 'prd-edit', 'prd-view', 'uat-view', 'versions']
+  const validTabs: Tab[] = ['features', 'uat-flows', 'prd-edit', 'prd-view', 'uat-view', 'uat-viewer', 'versions']
   return validTabs.includes(tab as Tab) ? (tab as Tab) : 'features'
 }
 
