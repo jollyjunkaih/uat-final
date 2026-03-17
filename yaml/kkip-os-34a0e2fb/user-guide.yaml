@@ -115,13 +115,13 @@ roles:
         sequence: 5
         steps:
           - instruction: Once your supplies are ready for pickup, you will receive a notification. Navigate to the inventory request ticket.
-            imageFileName: null
+            imageFileName: r0-s5-step0-grn-notification
             sequence: 0
           - instruction: A RECEIVING task will be active. Click "Complete GRN" to open the GRN dialog showing items with Expected Quantity and editable Quantity Received fields.
-            imageFileName: null
+            imageFileName: r0-s5-step1-complete-grn-dialog
             sequence: 1
           - instruction: Enter the quantity received for each item (cannot exceed expected amounts). Submit the GRN to mark the request as RECEIVED.
-            imageFileName: null
+            imageFileName: r0-s5-step2-submit-grn
             sequence: 2
 
       - title: Office Supplies - Providing Feedback
@@ -130,13 +130,13 @@ roles:
         sequence: 6
         steps:
           - instruction: After receiving your supplies, a FEEDBACK task becomes active on the request ticket. Click "Leave Feedback" to open the feedback dialog.
-            imageFileName: null
+            imageFileName: r0-s6-step0-feedback-task
             sequence: 0
           - instruction: Rate the service from 1 to 5 stars and enter your feedback comments in the textarea. Both fields are required.
-            imageFileName: null
+            imageFileName: r0-s6-step1-rate-service
             sequence: 1
           - instruction: Click "Submit Feedback" to complete the process.
-            imageFileName: null
+            imageFileName: r0-s6-step2-submit-feedback
             sequence: 2
 
       - title: Room Booking - Browsing Room Availability
@@ -271,16 +271,16 @@ roles:
         sequence: 14
         steps:
           - instruction: After vehicle key return, an EVALUATE task becomes active. Click "Evaluate Booking" to open the evaluation dialog.
-            imageFileName: null
+            imageFileName: r0-s14-step0-evaluate-task
             sequence: 0
           - instruction: Enter general trip feedback (max 2000 characters).
-            imageFileName: null
+            imageFileName: r0-s14-step1-enter-feedback
             sequence: 1
           - instruction: Optionally check "Report a fine?" or "Report an accident?" to provide additional details. Both detail fields become required when their checkbox is checked.
-            imageFileName: null
+            imageFileName: r0-s14-step2-report-fine-accident
             sequence: 2
           - instruction: Submit the evaluation to complete the process.
-            imageFileName: null
+            imageFileName: r0-s14-step3-submit-evaluation
             sequence: 3
 
       - title: Calendar - Viewing Your Calendar
@@ -319,7 +319,7 @@ roles:
             imageFileName: r0-s15-step0-my-calendar-view
             sequence: 3
           - instruction: Events sync with Outlook if connected.
-            imageFileName: null
+            imageFileName: r0-s16-step4-outlook-sync
             sequence: 4
 
       - title: Calendar - Responding to Event Invitations
@@ -386,13 +386,13 @@ roles:
         sequence: 1
         steps:
           - instruction: When assigned to an inventory request, navigate to the request ticket. An EXECUTE task named "Prepare Office Supplies" will be active.
-            imageFileName: null
+            imageFileName: r1-s1-step0-prepare-supplies-task
             sequence: 0
           - instruction: Click "Confirm Order Ready" to open the preparation dialog with item details.
-            imageFileName: null
+            imageFileName: r1-s1-step1-confirm-order-ready
             sequence: 1
           - instruction: Click "Notify Requester" to confirm supplies are ready for pickup. The request status changes to PROCESSED and the requester receives a notification.
-            imageFileName: null
+            imageFileName: r1-s1-step2-notify-requester
             sequence: 2
 
       - title: Inventory Requests - Reassigning Requests
@@ -521,13 +521,13 @@ roles:
         sequence: 9
         steps:
           - instruction: When a vehicle booking requests an OS (outsourced) driver, a driver assignment task is created. Navigate to the booking ticket.
-            imageFileName: null
+            imageFileName: r1-s9-step0-driver-assignment-task
             sequence: 0
           - instruction: Click "Assign Driver" to open a dialog showing a searchable dropdown filtered to OS department users.
-            imageFileName: null
+            imageFileName: r1-s9-step1-assign-driver-dialog
             sequence: 1
           - instruction: Select a driver and confirm the assignment. The booking updates to show the assigned driver name.
-            imageFileName: null
+            imageFileName: r1-s9-step2-confirm-assignment
             sequence: 2
 
       - title: Driver Bookings View
@@ -585,10 +585,10 @@ roles:
             imageFileName: r2-s0-step2-review-dialog
             sequence: 1
           - instruction: The requester receives a revision task. They can click "Revise Inventory Request" to open the edit dialog, modify items/quantities/reason, and resubmit.
-            imageFileName: null
+            imageFileName: r2-s1-step2-requester-revise
             sequence: 2
           - instruction: A new approval task is then created for you.
-            imageFileName: null
+            imageFileName: r2-s1-step3-new-approval-task
             sequence: 3
 
       - title: Inventory Requests - Rejecting Requests
@@ -603,7 +603,7 @@ roles:
             imageFileName: r2-s0-step2-review-dialog
             sequence: 1
           - instruction: The request is marked as rejected and the requester is notified.
-            imageFileName: null
+            imageFileName: r2-s2-step2-rejected-notification
             sequence: 2
 
       - title: Inventory Requests - Modifying and Approving
@@ -615,10 +615,10 @@ roles:
             imageFileName: r2-s0-step2-review-dialog
             sequence: 0
           - instruction: Change quantities using +/- buttons or direct input, add an update reason.
-            imageFileName: null
+            imageFileName: r2-s3-step1-modify-quantities
             sequence: 1
           - instruction: Click "Update and Approve". The request is updated with new quantities and approved simultaneously.
-            imageFileName: null
+            imageFileName: r2-s3-step2-update-and-approve
             sequence: 2
 
       - title: Inventory Requests - Department Orders View
@@ -645,16 +645,16 @@ roles:
         sequence: 5
         steps:
           - instruction: When a department member creates a room booking, you receive a notification. Navigate to the room booking ticket.
-            imageFileName: null
+            imageFileName: r2-s5-step0-room-booking-notification
             sequence: 0
           - instruction: The RoomBookingApprovalCard shows details including room, date, time, requester, reason, and invited users.
-            imageFileName: null
+            imageFileName: r2-s5-step1-room-approval-card
             sequence: 1
           - instruction: Click "Approve" to approve the booking. The requester receives notification and email, invited users receive email invitations, and the calendar event is created.
-            imageFileName: null
+            imageFileName: r2-s5-step2-approve-room-booking
             sequence: 2
           - instruction: Click "Reject" to reject with a reason — the requester is notified.
-            imageFileName: null
+            imageFileName: r2-s5-step3-reject-room-booking
             sequence: 3
 
       - title: Vehicle Booking - Approving Bookings
@@ -663,16 +663,16 @@ roles:
         sequence: 6
         steps:
           - instruction: When a department member creates a vehicle booking, you receive a notification. Navigate to the vehicle booking ticket.
-            imageFileName: null
+            imageFileName: r2-s6-step0-vehicle-booking-notification
             sequence: 0
           - instruction: The VehicleBookingApprovalCard shows details including vehicle, date, time, location, driver type, invited users, reason, and description.
-            imageFileName: null
+            imageFileName: r2-s6-step1-vehicle-approval-card
             sequence: 1
           - instruction: Click "Approve" to approve (status changes to APPROVED, requester is notified). Click "Reject" to reject with a reason.
-            imageFileName: null
+            imageFileName: r2-s6-step2-approve-vehicle-booking
             sequence: 2
           - instruction: Note — bookings by top management users or users whose HOD has top-management role are auto-approved.
-            imageFileName: null
+            imageFileName: r2-s6-step3-auto-approve-note
             sequence: 3
 
       - title: Assigning Officers to Approved Requests
@@ -681,11 +681,11 @@ roles:
         sequence: 7
         steps:
           - instruction: After approving an inventory request, the Office Service HOD assigns an officer. Navigate to the request ticket where a CONSULT task is active.
-            imageFileName: null
+            imageFileName: r2-s7-step0-assign-officer-task
             sequence: 0
           - instruction: Click "Assign Officer" to open a dialog showing a list of Office Service officers (radio group).
-            imageFileName: null
+            imageFileName: r2-s7-step1-assign-officer-dialog
             sequence: 1
           - instruction: Select an officer and confirm. The request status changes to ASSIGNED and the officer's name appears on the request.
-            imageFileName: null
+            imageFileName: r2-s7-step2-confirm-assignment
             sequence: 2
