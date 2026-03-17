@@ -135,12 +135,18 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
     flex: 1,
   },
-  stepImage: {
-    fontSize: 7,
-    color: '#94a3b8',
-    fontStyle: 'italic',
+  stepImageContainer: {
     marginLeft: 22,
-    marginBottom: 2,
+    marginBottom: 6,
+    marginTop: 4,
+  },
+  stepImage: {
+    width: '100%',
+    maxHeight: 300,
+    objectFit: 'contain' as const,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
   },
   noSections: {
     fontSize: 9,
@@ -175,6 +181,7 @@ export interface PdfGuideStep {
   id: string
   instruction: string
   imageFileName: string | null
+  imagePath: string | null
   sequence: number
 }
 
@@ -281,8 +288,10 @@ export default function UserGuidePdfDocument({
                           <Text style={styles.stepNumber}>{stepIdx + 1}.</Text>
                           <Text style={styles.stepInstruction}>{step.instruction}</Text>
                         </View>
-                        {step.imageFileName && (
-                          <Text style={styles.stepImage}>[Image: {step.imageFileName}]</Text>
+                        {step.imagePath && (
+                          <View style={styles.stepImageContainer}>
+                            <Image src={step.imagePath} style={styles.stepImage} />
+                          </View>
                         )}
                       </View>
                     ))}

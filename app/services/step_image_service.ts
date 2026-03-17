@@ -45,9 +45,7 @@ export default class StepImageService {
   }
 
   async findByStepId(stepId: string): Promise<StepImage[]> {
-    return StepImage.query()
-      .where('step_id', stepId)
-      .orderBy('sequence', 'asc')
+    return StepImage.query().where('step_id', stepId).orderBy('sequence', 'asc')
   }
 
   async findById(id: string): Promise<StepImage> {
@@ -55,9 +53,7 @@ export default class StepImageService {
   }
 
   async getNextSequence(stepId: string): Promise<number> {
-    const result = await StepImage.query()
-      .where('step_id', stepId)
-      .max('sequence as maxSeq')
+    const result = await StepImage.query().where('step_id', stepId).max('sequence as maxSeq')
     const maxSeq = result[0]?.$extras?.maxSeq
     return (maxSeq ?? 0) + 1
   }
@@ -110,9 +106,7 @@ export default class StepImageService {
   }
 
   async recompactSequences(stepId: string): Promise<void> {
-    const images = await StepImage.query()
-      .where('step_id', stepId)
-      .orderBy('sequence', 'asc')
+    const images = await StepImage.query().where('step_id', stepId).orderBy('sequence', 'asc')
 
     for (let i = 0; i < images.length; i++) {
       if (images[i].sequence !== i + 1) {
@@ -163,37 +157,32 @@ export default class StepImageService {
     const metadata = await sharp(gifPath, { animated: true }).metadata()
     const pageCount = Math.min(metadata.pages || 1, 100)
 
-    await StepImage.query()
-      .where('step_id', stepId)
-      .where('source', 'gif_extraction')
-      .delete()
+    await StepImage.query().where('step_id', stepId).where('source', 'gif_extraction').delete()
 
-    for (let i = 0; i < pageCount; i++) {
-      const frameBaseName = `${randomUUID()}-frame-${i + 1}`
-      const framePath = join(photosDir, `${frameBaseName}.jpg`)
+    const startSequence = await this.getNextSequence(stepId)
+    await Promise.all(
+      Array.from({ length: pageCount }, async (_, i) => {
+        const frameBaseName = `${randomUUID()}-frame-${i + 1}`
+        const framePath = join(photosDir, `${frameBaseName}.jpg`)
 
-      await sharp(gifPath, { page: i })
-        .flatten({ background: { r: 255, g: 255, b: 255 } })
-        .jpeg({ quality: 95 })
-        .toFile(framePath)
+        await sharp(gifPath, { page: i })
+          .flatten({ background: { r: 255, g: 255, b: 255 } })
+          .jpeg({ quality: 95 })
+          .toFile(framePath)
 
-      const sequence = await this.getNextSequence(stepId)
-      await StepImage.create({
-        stepId,
-        fileName: frameBaseName,
-        sequence,
-        source: 'gif_extraction' as const,
+        await StepImage.create({
+          stepId,
+          fileName: frameBaseName,
+          sequence: startSequence + i,
+          source: 'gif_extraction' as const,
+        })
       })
-    }
+    )
 
     return step
   }
 
-  async deleteGif(
-    stepId: string,
-    projectName: string,
-    projectId: string
-  ): Promise<Step> {
+  async deleteGif(stepId: string, projectName: string, projectId: string): Promise<Step> {
     const step = await Step.findOrFail(stepId)
     const photosDir = this.getPhotosDir(projectName, projectId)
 
@@ -208,11 +197,7 @@ export default class StepImageService {
     return step
   }
 
-  async getGifPath(
-    stepId: string,
-    projectName: string,
-    projectId: string
-  ): Promise<string | null> {
+  async getGifPath(stepId: string, projectName: string, projectId: string): Promise<string | null> {
     const step = await Step.findOrFail(stepId)
     if (!step.gifFileName) return null
 
@@ -308,28 +293,27 @@ export default class StepImageService {
     const metadata = await sharp(destGifPath, { animated: true }).metadata()
     const pageCount = Math.min(metadata.pages || 1, 100)
 
-    await StepImage.query()
-      .where('step_id', step.id)
-      .where('source', 'gif_extraction')
-      .delete()
+    await StepImage.query().where('step_id', step.id).where('source', 'gif_extraction').delete()
 
-    for (let i = 0; i < pageCount; i++) {
-      const frameBaseName = `${randomUUID()}-frame-${i + 1}`
-      const framePath = join(photosDir, `${frameBaseName}.jpg`)
+    const startSequence = await this.getNextSequence(step.id)
+    await Promise.all(
+      Array.from({ length: pageCount }, async (_, i) => {
+        const frameBaseName = `${randomUUID()}-frame-${i + 1}`
+        const framePath = join(photosDir, `${frameBaseName}.jpg`)
 
-      await sharp(destGifPath, { page: i })
-        .flatten({ background: { r: 255, g: 255, b: 255 } })
-        .jpeg({ quality: 95 })
-        .toFile(framePath)
+        await sharp(destGifPath, { page: i })
+          .flatten({ background: { r: 255, g: 255, b: 255 } })
+          .jpeg({ quality: 95 })
+          .toFile(framePath)
 
-      const sequence = await this.getNextSequence(step.id)
-      await StepImage.create({
-        stepId: step.id,
-        fileName: frameBaseName,
-        sequence,
-        source: 'gif_extraction' as const,
+        await StepImage.create({
+          stepId: step.id,
+          fileName: frameBaseName,
+          sequence: startSequence + i,
+          source: 'gif_extraction' as const,
+        })
       })
-    }
+    )
 
     return pageCount
   }
@@ -434,20 +418,19 @@ export default class StepImageService {
       .where('step_id', step.id)
       .where('source', 'gif_extraction')
 
-    for (const img of extractedImages) {
-      const filePath = await this.findImageFile(photosDir, img.fileName)
-      if (filePath) {
-        try {
-          await unlink(filePath)
-        } catch {
-          // ignore
+    await Promise.all(
+      extractedImages.map(async (img) => {
+        const filePath = await this.findImageFile(photosDir, img.fileName)
+        if (filePath) {
+          try {
+            await unlink(filePath)
+          } catch {
+            // ignore
+          }
         }
-      }
-    }
+      })
+    )
 
-    await StepImage.query()
-      .where('step_id', step.id)
-      .where('source', 'gif_extraction')
-      .delete()
+    await StepImage.query().where('step_id', step.id).where('source', 'gif_extraction').delete()
   }
 }
