@@ -247,14 +247,14 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: '#1e293b',
     padding: 6,
-    height: 100,
+    height: 160,
     justifyContent: 'center' as const,
   },
   signatureLine: {
     borderBottomWidth: 1,
     borderBottomColor: '#cbd5e1',
     minWidth: 80,
-    marginTop: 120,
+    marginTop: 180,
   },
 })
 
