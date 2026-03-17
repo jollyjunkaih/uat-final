@@ -456,6 +456,12 @@ const routes = {
     tokens: [{"old":"/api/user-guide","type":0,"val":"api","end":""},{"old":"/api/user-guide","type":0,"val":"user-guide","end":""}],
     types: placeholder as Registry['user_guide.store']['types'],
   },
+  'user_guide.step_image': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/user-guide/step-image/:stepId',
+    tokens: [{"old":"/api/user-guide/step-image/:stepId","type":0,"val":"api","end":""},{"old":"/api/user-guide/step-image/:stepId","type":0,"val":"user-guide","end":""},{"old":"/api/user-guide/step-image/:stepId","type":0,"val":"step-image","end":""},{"old":"/api/user-guide/step-image/:stepId","type":1,"val":"stepId","end":""}],
+    types: placeholder as Registry['user_guide.step_image']['types'],
+  },
   'user_guide.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/user-guide/:id',

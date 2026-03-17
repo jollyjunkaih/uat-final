@@ -907,6 +907,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'user_guide.step_image': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/user-guide/step-image/:stepId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { stepId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['stepImage']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['stepImage']>>>
+    }
+  }
   'user_guide.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/user-guide/:id'

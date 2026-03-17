@@ -170,6 +170,7 @@ router
     router.get('api/user-guide', [UserGuideController, 'index'])
     router.get('api/user-guide/grouped/:projectId', [UserGuideController, 'grouped'])
     router.post('api/user-guide', [UserGuideController, 'store'])
+    router.get('api/user-guide/step-image/:stepId', [UserGuideController, 'stepImage'])
     router.get('api/user-guide/:id', [UserGuideController, 'show'])
     router.patch('api/user-guide/:id', [UserGuideController, 'update'])
     router.delete('api/user-guide/:id', [UserGuideController, 'destroy'])

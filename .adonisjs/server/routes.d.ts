@@ -79,6 +79,7 @@ export type ScannedRoutes = {
     'user_guide.index': { paramsTuple?: []; params?: {} }
     'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'user_guide.store': { paramsTuple?: []; params?: {} }
+    'user_guide.step_image': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_guide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_guide.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -129,6 +130,7 @@ export type ScannedRoutes = {
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
     'user_guide.index': { paramsTuple?: []; params?: {} }
     'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'user_guide.step_image': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -170,6 +172,7 @@ export type ScannedRoutes = {
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
     'user_guide.index': { paramsTuple?: []; params?: {} }
     'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'user_guide.step_image': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
     'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

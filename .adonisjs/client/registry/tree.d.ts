@@ -112,6 +112,7 @@ export interface ApiDefinition {
     index: typeof routes['user_guide.index']
     grouped: typeof routes['user_guide.grouped']
     store: typeof routes['user_guide.store']
+    stepImage: typeof routes['user_guide.step_image']
     show: typeof routes['user_guide.show']
     update: typeof routes['user_guide.update']
     destroy: typeof routes['user_guide.destroy']

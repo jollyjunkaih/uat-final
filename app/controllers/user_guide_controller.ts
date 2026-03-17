@@ -1,5 +1,12 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import { join } from 'node:path'
+import { readdir } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import UserGuideService from '#services/user_guide_service'
+import UserGuideStep from '#models/user_guide_step'
+import UserGuideSection from '#models/user_guide_section'
+import Project from '#models/project'
+import YamlWriterService from '#services/yaml_writer_service'
 import UserGuideSectionTransformer from '#transformers/user_guide_section_transformer'
 import UserGuidePdfService from '#services/pdf/user_guide_pdf_service'
 import {
@@ -101,5 +108,40 @@ export default class UserGuideController {
     ctx.response.header('Content-Type', 'application/pdf')
     ctx.response.header('Content-Disposition', 'inline; filename="user-guide.pdf"')
     return ctx.response.send(buffer)
+  }
+
+  /**
+   * Serve the image file for a user guide step (GIF or static image)
+   */
+  async stepImage(ctx: HttpContext) {
+    const stepId = ctx.params.stepId
+    const step = await UserGuideStep.findOrFail(stepId)
+
+    if (!step.imageFileName) {
+      return ctx.response.notFound({ error: 'No image for this step' })
+    }
+
+    const section = await UserGuideSection.findOrFail(step.sectionId)
+    const project = await Project.findOrFail(section.projectId)
+
+    const writer = new YamlWriterService()
+    const projectDir = writer.getProjectDir(project.name, project.id)
+
+    // Check gifs/docs/ first (original GIFs), then photos/docs/ (extracted frames)
+    for (const subDir of ['gifs/docs', 'photos/docs']) {
+      const dir = join(projectDir, subDir)
+      if (!existsSync(dir)) continue
+      const files = await readdir(dir)
+      const match = files.find((f) => {
+        const dotIdx = f.lastIndexOf('.')
+        const base = dotIdx > 0 ? f.substring(0, dotIdx) : f
+        return base === step.imageFileName
+      })
+      if (match) {
+        return ctx.response.download(join(dir, match))
+      }
+    }
+
+    return ctx.response.notFound({ error: 'Image file not found on disk' })
   }
 }
