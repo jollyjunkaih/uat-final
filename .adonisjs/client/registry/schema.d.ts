@@ -991,6 +991,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['refetchFromDisk']>>>
     }
   }
+  'yaml_import.convert_gifs': {
+    methods: ["POST"]
+    pattern: '/api/yaml/convert-gifs/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['convertGifs']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['convertGifs']>>>
+    }
+  }
+  'yaml_import.convert_gifs_all': {
+    methods: ["POST"]
+    pattern: '/api/yaml/convert-gifs-all'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['convertGifsAll']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/yaml_import_controller').default['convertGifsAll']>>>
+    }
+  }
   'projects.tree': {
     methods: ["GET","HEAD"]
     pattern: '/api/projects/:id/tree'

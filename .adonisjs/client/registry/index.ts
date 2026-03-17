@@ -498,6 +498,18 @@ const routes = {
     tokens: [{"old":"/api/yaml/refetch/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/refetch/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/refetch/:projectId","type":0,"val":"refetch","end":""},{"old":"/api/yaml/refetch/:projectId","type":1,"val":"projectId","end":""}],
     types: placeholder as Registry['yaml_import.refetch_from_disk']['types'],
   },
+  'yaml_import.convert_gifs': {
+    methods: ["POST"],
+    pattern: '/api/yaml/convert-gifs/:projectId',
+    tokens: [{"old":"/api/yaml/convert-gifs/:projectId","type":0,"val":"api","end":""},{"old":"/api/yaml/convert-gifs/:projectId","type":0,"val":"yaml","end":""},{"old":"/api/yaml/convert-gifs/:projectId","type":0,"val":"convert-gifs","end":""},{"old":"/api/yaml/convert-gifs/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['yaml_import.convert_gifs']['types'],
+  },
+  'yaml_import.convert_gifs_all': {
+    methods: ["POST"],
+    pattern: '/api/yaml/convert-gifs-all',
+    tokens: [{"old":"/api/yaml/convert-gifs-all","type":0,"val":"api","end":""},{"old":"/api/yaml/convert-gifs-all","type":0,"val":"yaml","end":""},{"old":"/api/yaml/convert-gifs-all","type":0,"val":"convert-gifs-all","end":""}],
+    types: placeholder as Registry['yaml_import.convert_gifs_all']['types'],
+  },
   'projects.tree': {
     methods: ["GET","HEAD"],
     pattern: '/api/projects/:id/tree',

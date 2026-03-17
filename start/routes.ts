@@ -179,6 +179,8 @@ router
     router.post('api/yaml/import/uat/:projectId', [YamlImportController, 'importUat'])
     router.post('api/yaml/import/user-guide/:projectId', [YamlImportController, 'importUserGuide'])
     router.post('api/yaml/refetch/:projectId', [YamlImportController, 'refetchFromDisk'])
+    router.post('api/yaml/convert-gifs/:projectId', [YamlImportController, 'convertGifs'])
+    router.post('api/yaml/convert-gifs-all', [YamlImportController, 'convertGifsAll'])
 
     // Project tree (features + UAT flows + events in one request)
     router.get('api/projects/:id/tree', [ProjectsController, 'tree'])

@@ -1,15 +1,37 @@
 import StepImage from '#models/step_image'
 import Step from '#models/step'
+import Feature from '#models/feature'
+import UatFlow from '#models/uat_flow'
+import Project from '#models/project'
 import { randomUUID } from 'node:crypto'
-import { unlink, mkdir, readdir } from 'node:fs/promises'
+import { copyFile, unlink, mkdir, readdir } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { join, parse as parsePath } from 'node:path'
 import type { MultipartFile } from '@adonisjs/core/bodyparser'
 import YamlWriterService from '#services/yaml_writer_service'
 
+export type ImageCategory = 'uat' | 'docs'
+
 export default class StepImageService {
-  private getPhotosDir(projectName: string, projectId: string): string {
+  private getProjectDir(projectName: string, projectId: string): string {
     const writer = new YamlWriterService()
-    return join(writer.getProjectDir(projectName, projectId), 'photos')
+    return writer.getProjectDir(projectName, projectId)
+  }
+
+  private getPhotosDir(
+    projectName: string,
+    projectId: string,
+    category: ImageCategory = 'uat'
+  ): string {
+    return join(this.getProjectDir(projectName, projectId), 'photos', category)
+  }
+
+  private getGifsDir(
+    projectName: string,
+    projectId: string,
+    category: ImageCategory = 'uat'
+  ): string {
+    return join(this.getProjectDir(projectName, projectId), 'gifs', category)
   }
 
   async findImageFile(photosDir: string, fileName: string): Promise<string | null> {
@@ -196,6 +218,204 @@ export default class StepImageService {
 
     const photosDir = this.getPhotosDir(projectName, projectId)
     return this.findImageFile(photosDir, step.gifFileName)
+  }
+
+  /**
+   * Parse a GIF filename like "f1-flow0-step2-slug.gif" into feature/flow/step indices.
+   * Returns null if the filename doesn't match.
+   */
+  private parseGifFileName(
+    fileName: string
+  ): { featureSeq: number; flowSeq: number; stepSeq: number } | null {
+    const match = fileName.match(/^f(\d+)-flow(\d+)(?:-\d+)?-step(\d+)/)
+    if (match) {
+      return {
+        featureSeq: Number.parseInt(match[1], 10) - 1, // f1 = sequence 0
+        flowSeq: Number.parseInt(match[2], 10),
+        stepSeq: Number.parseInt(match[3], 10),
+      }
+    }
+    // Flow-level GIFs without step (e.g. "f2-flow0-browse-room.gif") → assign to step 0
+    const flowMatch = fileName.match(/^f(\d+)-flow(\d+)/)
+    if (flowMatch) {
+      return {
+        featureSeq: Number.parseInt(flowMatch[1], 10) - 1,
+        flowSeq: Number.parseInt(flowMatch[2], 10),
+        stepSeq: 0,
+      }
+    }
+    return null
+  }
+
+  /**
+   * Find a step in the DB by feature/flow/step sequence numbers for a given project.
+   */
+  private async findStepBySequences(
+    projectId: string,
+    featureSeq: number,
+    flowSeq: number,
+    stepSeq: number
+  ): Promise<Step | null> {
+    const feature = await Feature.query()
+      .where('project_id', projectId)
+      .where('sequence', featureSeq)
+      .whereNull('deleted_at')
+      .first()
+    if (!feature) return null
+
+    const flow = await UatFlow.query()
+      .where('feature_id', feature.id)
+      .where('sequence', flowSeq)
+      .whereNull('deleted_at')
+      .first()
+    if (!flow) return null
+
+    return Step.query()
+      .where('uat_flow_id', flow.id)
+      .where('sequence', stepSeq)
+      .whereNull('deleted_at')
+      .first()
+  }
+
+  /**
+   * Process a single GIF file from disk for a given step:
+   * copies to photos/, extracts frames, creates StepImage DB records, sets step.gifFileName.
+   */
+  private async processGifFile(
+    gifPath: string,
+    gifFileName: string,
+    step: Step,
+    photosDir: string
+  ): Promise<number> {
+    // Clean up existing GIF data for this step
+    if (step.gifFileName) {
+      await this.deleteGifFiles(step, photosDir)
+    }
+
+    const parsed = parsePath(gifFileName)
+    const baseName = `${randomUUID()}-${parsed.name}`
+    const fullName = `${baseName}${parsed.ext}`
+
+    // Copy GIF to photos directory
+    await copyFile(gifPath, join(photosDir, fullName))
+
+    step.gifFileName = baseName
+    await step.save()
+
+    // Extract frames
+    const sharp = (await import('sharp')).default
+    const destGifPath = join(photosDir, fullName)
+    const metadata = await sharp(destGifPath, { animated: true }).metadata()
+    const pageCount = Math.min(metadata.pages || 1, 100)
+
+    await StepImage.query()
+      .where('step_id', step.id)
+      .where('source', 'gif_extraction')
+      .delete()
+
+    for (let i = 0; i < pageCount; i++) {
+      const frameBaseName = `${randomUUID()}-frame-${i + 1}`
+      const framePath = join(photosDir, `${frameBaseName}.jpg`)
+
+      await sharp(destGifPath, { page: i })
+        .flatten({ background: { r: 255, g: 255, b: 255 } })
+        .jpeg({ quality: 95 })
+        .toFile(framePath)
+
+      const sequence = await this.getNextSequence(step.id)
+      await StepImage.create({
+        stepId: step.id,
+        fileName: frameBaseName,
+        sequence,
+        source: 'gif_extraction' as const,
+      })
+    }
+
+    return pageCount
+  }
+
+  /**
+   * Convert all GIFs in a project's gifs/ directory into photos + DB records.
+   * Goes through all projects if no projectId is given.
+   */
+  async convertGifsForAllProjects(): Promise<{
+    results: Array<{ projectName: string; processed: number; skipped: string[]; errors: string[] }>
+  }> {
+    const projects = await Project.query().whereNull('deleted_at')
+    const results: Array<{
+      projectName: string
+      processed: number
+      skipped: string[]
+      errors: string[]
+    }> = []
+
+    for (const project of projects) {
+      const result = await this.convertGifsForProject(project.id, project.name)
+      results.push({ projectName: project.name, ...result })
+    }
+
+    return { results }
+  }
+
+  /**
+   * Convert all GIFs in a single project's gifs/ directory.
+   */
+  async convertGifsForProject(
+    projectId: string,
+    projectName: string,
+    category: ImageCategory = 'uat'
+  ): Promise<{ processed: number; skipped: string[]; errors: string[] }> {
+    const gifsDir = this.getGifsDir(projectName, projectId, category)
+    const photosDir = this.getPhotosDir(projectName, projectId, category)
+
+    const skipped: string[] = []
+    const errors: string[] = []
+    let processed = 0
+
+    if (!existsSync(gifsDir)) {
+      return { processed, skipped, errors }
+    }
+
+    await mkdir(photosDir, { recursive: true })
+
+    const files = await readdir(gifsDir)
+    const gifFiles = files.filter((f) => f.toLowerCase().endsWith('.gif'))
+
+    for (const gifFile of gifFiles) {
+      const parsed = this.parseGifFileName(gifFile)
+      if (!parsed) {
+        skipped.push(`${gifFile} (could not parse filename)`)
+        continue
+      }
+
+      const step = await this.findStepBySequences(
+        projectId,
+        parsed.featureSeq,
+        parsed.flowSeq,
+        parsed.stepSeq
+      )
+      if (!step) {
+        skipped.push(
+          `${gifFile} (no step found for f${parsed.featureSeq + 1}-flow${parsed.flowSeq}-step${parsed.stepSeq})`
+        )
+        continue
+      }
+
+      try {
+        const frameCount = await this.processGifFile(
+          join(gifsDir, gifFile),
+          gifFile,
+          step,
+          photosDir
+        )
+        processed++
+        console.log(`  ${gifFile} → ${frameCount} frames → step "${step.name}"`)
+      } catch (err) {
+        errors.push(`${gifFile}: ${err instanceof Error ? err.message : String(err)}`)
+      }
+    }
+
+    return { processed, skipped, errors }
   }
 
   private async deleteGifFiles(step: Step, photosDir: string): Promise<void> {

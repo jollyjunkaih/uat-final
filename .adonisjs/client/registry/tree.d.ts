@@ -122,6 +122,8 @@ export interface ApiDefinition {
     importUat: typeof routes['yaml_import.import_uat']
     importUserGuide: typeof routes['yaml_import.import_user_guide']
     refetchFromDisk: typeof routes['yaml_import.refetch_from_disk']
+    convertGifs: typeof routes['yaml_import.convert_gifs']
+    convertGifsAll: typeof routes['yaml_import.convert_gifs_all']
   }
   publicView: {
     show: typeof routes['public_view.show']

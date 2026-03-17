@@ -3,6 +3,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import YamlImportService from '#services/yaml_import_service'
 import YamlSyncService from '#services/yaml_sync_service'
+import StepImageService from '#services/step_image_service'
 import Project from '#models/project'
 import { slugify } from '#utils/slugify'
 
@@ -100,6 +101,37 @@ export default class YamlImportController {
     }
 
     return ctx.response.json({ data: { success: true } })
+  }
+
+  async convertGifs(ctx: HttpContext) {
+    const projectId = ctx.params.projectId
+    const project = await Project.findOrFail(projectId)
+
+    const service = new StepImageService()
+    const result = await service.convertGifsForProject(project.id, project.name)
+
+    // Re-sync YAML from DB to ensure consistency
+    new YamlSyncService().syncUat(projectId).catch(() => {})
+
+    return ctx.response.json({ data: result })
+  }
+
+  async convertGifsAll(ctx: HttpContext) {
+    const service = new StepImageService()
+    const { results } = await service.convertGifsForAllProjects()
+
+    // Re-sync all affected projects
+    const syncService = new YamlSyncService()
+    for (const r of results) {
+      if (r.processed > 0) {
+        const project = await Project.query().where('name', r.projectName).first()
+        if (project) {
+          syncService.syncUat(project.id).catch(() => {})
+        }
+      }
+    }
+
+    return ctx.response.json({ data: { results } })
   }
 
   private async readUploadedFile(file: import('@adonisjs/core/bodyparser').MultipartFile): Promise<string> {

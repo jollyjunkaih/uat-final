@@ -31,7 +31,7 @@ export default class UatPdfService {
 
     const writer = new YamlWriterService()
     const projectDir = writer.getProjectDir(project.name, projectId)
-    const photosDir = join(projectDir, 'photos')
+    const photosDir = join(projectDir, 'photos', 'uat')
 
     const pdfFeatures: PdfFeature[] = await Promise.all(
       features.map(async (feature) => ({

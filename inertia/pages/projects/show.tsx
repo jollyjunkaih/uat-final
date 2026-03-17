@@ -125,6 +125,28 @@ export default function ProjectShow({ project }: ProjectShowProps) {
     },
   })
 
+  const convertGifsMutation = useMutation({
+    mutationFn: () =>
+      apiFetch<{ data: { processed: number; skipped: string[]; errors: string[] } }>(
+        `/api/yaml/convert-gifs/${project.id}`,
+        { method: 'POST' }
+      ),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries()
+      const result = data.data
+      toast.success(`Converted ${result.processed} GIF(s)`)
+      if (result.skipped.length > 0) {
+        toast.warning(`Skipped ${result.skipped.length} file(s)`)
+      }
+      if (result.errors.length > 0) {
+        toast.error(`${result.errors.length} error(s) during conversion`)
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to convert GIFs')
+    },
+  })
+
   function switchTab(tab: Tab) {
     setActiveTab(tab)
     const url = new URL(window.location.href)
@@ -224,18 +246,32 @@ export default function ProjectShow({ project }: ProjectShowProps) {
         </div>
       </div>
 
-      <button
-        onClick={() => refetchMutation.mutate()}
-        disabled={refetchMutation.isPending}
-        className={cn(
-          'fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl',
-          refetchMutation.isPending
-            ? 'cursor-not-allowed bg-gray-400'
-            : 'bg-blue-600 hover:bg-blue-700'
-        )}
-      >
-        {refetchMutation.isPending ? 'Refetching...' : 'REFETCH'}
-      </button>
+      <div className="fixed bottom-6 right-6 z-50 flex gap-2">
+        <button
+          onClick={() => convertGifsMutation.mutate()}
+          disabled={convertGifsMutation.isPending}
+          className={cn(
+            'rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl',
+            convertGifsMutation.isPending
+              ? 'cursor-not-allowed bg-gray-400'
+              : 'bg-purple-600 hover:bg-purple-700'
+          )}
+        >
+          {convertGifsMutation.isPending ? 'Converting...' : 'CONVERT GIFS'}
+        </button>
+        <button
+          onClick={() => refetchMutation.mutate()}
+          disabled={refetchMutation.isPending}
+          className={cn(
+            'rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl',
+            refetchMutation.isPending
+              ? 'cursor-not-allowed bg-gray-400'
+              : 'bg-blue-600 hover:bg-blue-700'
+          )}
+        >
+          {refetchMutation.isPending ? 'Refetching...' : 'REFETCH'}
+        </button>
+      </div>
     </div>
   )
 }

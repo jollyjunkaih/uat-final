@@ -86,6 +86,8 @@ export type ScannedRoutes = {
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_user_guide': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.convert_gifs': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.convert_gifs_all': { paramsTuple?: []; params?: {} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_guide.pdf': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
@@ -206,6 +208,8 @@ export type ScannedRoutes = {
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_user_guide': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.convert_gifs': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
+    'yaml_import.convert_gifs_all': { paramsTuple?: []; params?: {} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   PATCH: {
