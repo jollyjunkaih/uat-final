@@ -22,16 +22,16 @@ roles:
         sequence: 0
         steps:
           - instruction: Navigate to "User Modules" > "New Office Supplies Order" or go directly to /user/office-supplies.
-            imageFileName: null
+            imageFileName: r0-s0-step0-navigate-office-supplies
             sequence: 0
           - instruction: The page displays a table of all office supply items with columns for Item Code, Name, Image, Availability, and Actions.
-            imageFileName: null
+            imageFileName: r0-s0-step1-catalog-table-columns
             sequence: 1
           - instruction: Search for items by typing an item name or code into the search field. The table supports pagination — use "Next" and "Previous" to navigate pages.
-            imageFileName: null
+            imageFileName: r0-s0-step2-search-items
             sequence: 2
           - instruction: Stocked items show the available quantity and UOM, along with an "Add" button. Non-stocked items display "Not currently stocked" text and a "Request" button.
-            imageFileName: null
+            imageFileName: r0-s0-step3-stocked-vs-nonstocked
             sequence: 3
 
       - title: Office Supplies - Adding Items to Cart
@@ -40,16 +40,16 @@ roles:
         sequence: 1
         steps:
           - instruction: Click the "Add" button on a stocked item to open the "Add Item to Cart" dialog showing Item Code, Item Name, Available badge with quantity/UOM, and a quantity input field.
-            imageFileName: null
+            imageFileName: r0-s1-step0-add-item-dialog
             sequence: 0
           - instruction: Enter a valid quantity within the available range and click "Add to Cart". A success toast "Item added to cart" confirms the action.
-            imageFileName: null
+            imageFileName: r0-s1-step1-add-to-cart
             sequence: 1
           - instruction: If you try to exceed available stock, an error toast "Cannot add X more. Only Y available." will appear.
-            imageFileName: null
+            imageFileName: r0-s1-step2-exceed-stock-error
             sequence: 2
           - instruction: If an item is already in the cart, the dialog shows an "In Cart" badge with the existing quantity. The total (existing + new) cannot exceed available stock.
-            imageFileName: null
+            imageFileName: r0-s1-step3-item-already-in-cart
             sequence: 3
 
       - title: Office Supplies - Viewing and Managing Your Cart
@@ -58,19 +58,19 @@ roles:
         sequence: 2
         steps:
           - instruction: Click the "View Cart" button (shopping cart icon with badge) in the page header to open the "Office Supplies Cart" dialog.
-            imageFileName: null
+            imageFileName: r0-s2-step0-open-cart
             sequence: 0
           - instruction: The cart displays a table with Item Code, Item Name, Warehouse, Requested quantity (editable), and a delete button.
-            imageFileName: null
+            imageFileName: r0-s2-step0-open-cart
             sequence: 1
           - instruction: Modify quantities directly (cannot exceed available stock or go below 1) and remove items using the trash icon.
-            imageFileName: null
+            imageFileName: r0-s2-step0-open-cart
             sequence: 2
           - instruction: Enter a reason for your request in the required "Reason for Request" textarea. Optionally link a referenced ticket using the searchable dropdown.
-            imageFileName: null
+            imageFileName: r0-s2-step3-enter-reason
             sequence: 3
           - instruction: The "Preview Order" button is only enabled when the cart has items and a reason is provided.
-            imageFileName: null
+            imageFileName: r0-s2-step3-enter-reason
             sequence: 4
 
       - title: Office Supplies - Previewing and Submitting a Request
@@ -79,16 +79,16 @@ roles:
         sequence: 3
         steps:
           - instruction: Click "Preview Order" to open the "Office Supplies Request Preview" dialog with KKIP letterhead, heading, draft reference number, your name, department, and date.
-            imageFileName: null
+            imageFileName: r0-s3-step0-preview-order
             sequence: 0
           - instruction: Review the items table showing No, Item Code, Item Name, Warehouse, and Quantity. Verify the "Reason for Request" section.
-            imageFileName: null
+            imageFileName: r0-s3-step1-review-items-table
             sequence: 1
           - instruction: Click "Submit Request" when satisfied. A success toast confirms submission and you are redirected to the home page.
-            imageFileName: null
+            imageFileName: r0-s3-step2-submit-request
             sequence: 2
           - instruction: A new INVENTORY-REQUEST ticket is automatically created in the Helpdesk system.
-            imageFileName: null
+            imageFileName: r0-s3-step3-verify-ticket
             sequence: 3
 
       - title: Office Supplies - Requesting Non-Stocked Items
@@ -97,16 +97,16 @@ roles:
         sequence: 4
         steps:
           - instruction: For items marked as "Not currently stocked", click the "Request" button to open the "Create Department Request" dialog.
-            imageFileName: null
+            imageFileName: r0-s4-step0-request-nonstocked-item
             sequence: 0
           - instruction: The Target Department is pre-filled with "Office Service" and the Title with "Office Supplies Inventory Request".
-            imageFileName: null
+            imageFileName: r0-s4-step0-request-nonstocked-item
             sequence: 1
           - instruction: Fill in the required description of the item you need. Select an urgency level from Normal (default), Urgent, Highly Urgent, or Extremely Urgent.
-            imageFileName: null
+            imageFileName: r0-s4-step2-fill-description
             sequence: 2
           - instruction: Optionally link a referenced ticket and attach supporting files. Click submit to create the department request.
-            imageFileName: null
+            imageFileName: r0-s4-step3-select-urgency
             sequence: 3
 
       - title: Office Supplies - Completing Goods Received Note (GRN)
@@ -145,16 +145,16 @@ roles:
         sequence: 7
         steps:
           - instruction: Navigate to My Bookings > New Booking and click the "Meeting Room Booking" tab.
-            imageFileName: null
+            imageFileName: r0-s7-step0-browse-room-availability
             sequence: 0
           - instruction: The page shows a 7-day calendar selector and room availability cards in a 3-column grid. Click on a date to view room availability for that day.
-            imageFileName: null
+            imageFileName: r0-s7-step0-browse-room-availability
             sequence: 1
           - instruction: Use the arrow buttons to navigate between weeks. Each room card shows the room image, name, location, facilities, available time slots, and booked slots.
-            imageFileName: null
+            imageFileName: r0-s7-step0-browse-room-availability
             sequence: 2
           - instruction: Your own bookings display a green "Booked by me" badge. If a room is fully booked for the selected date, clicking it shows a warning toast.
-            imageFileName: null
+            imageFileName: r0-s7-step0-browse-room-availability
             sequence: 3
 
       - title: Room Booking - Creating a Room Booking
@@ -163,22 +163,22 @@ roles:
         sequence: 8
         steps:
           - instruction: Click on a room card with available slots to open the booking form dialog.
-            imageFileName: null
+            imageFileName: r0-s8-step0-room-booking-form
             sequence: 0
           - instruction: Fill in the required Meeting Purpose and Description fields.
-            imageFileName: null
+            imageFileName: r0-s8-step0-room-booking-form
             sequence: 1
           - instruction: Select Start Time and End Time from the dropdowns (15-minute increments, 7 AM - 7 PM). Only available time slots are shown. Minimum booking duration is 30 minutes.
-            imageFileName: null
+            imageFileName: r0-s8-step0-room-booking-form
             sequence: 2
           - instruction: Optionally fill in Referenced Ticket, Invite Users, and office service requests (Refreshments, Presentation Setup, Extra Tables/Chairs, Extra Cleanup). Add attachments and remarks as needed.
-            imageFileName: null
+            imageFileName: r0-s8-step0-room-booking-form
             sequence: 3
           - instruction: Review and accept the Terms and Conditions, then click "Create Booking".
-            imageFileName: null
+            imageFileName: r0-s8-step0-room-booking-form
             sequence: 4
           - instruction: A success toast confirms submission. If you are not in top management, the booking goes to your HOD for approval. Top management bookings are auto-approved.
-            imageFileName: null
+            imageFileName: r0-s8-step0-room-booking-form
             sequence: 5
 
       - title: Room Booking - Managing Your Bookings
@@ -187,13 +187,13 @@ roles:
         sequence: 9
         steps:
           - instruction: Navigate to My Bookings > "Meeting Room Bookings" tab to view your bookings.
-            imageFileName: null
+            imageFileName: r0-s9-step0-my-room-bookings
             sequence: 0
           - instruction: Edit a booking by clicking "Edit Booking" on the card — this opens a dialog with pre-populated fields for date, time, purpose, and invited users. Room selection cannot be changed.
-            imageFileName: null
+            imageFileName: r0-s9-step0-my-room-bookings
             sequence: 1
           - instruction: To cancel a booking, click the red "Cancel" button. A confirmation dialog shows the booking details. Click "Delete" to permanently remove the booking.
-            imageFileName: null
+            imageFileName: r0-s9-step0-my-room-bookings
             sequence: 2
 
       - title: Room Booking - Post-Booking Evaluation
@@ -202,13 +202,13 @@ roles:
         sequence: 10
         steps:
           - instruction: After your booking date passes, an EVALUATE task becomes active. You will receive a notification.
-            imageFileName: null
+            imageFileName: r0-s10-step0-post-booking-evaluation
             sequence: 0
           - instruction: Navigate to the room booking ticket and click "Evaluate Booking".
-            imageFileName: null
+            imageFileName: r0-s10-step0-post-booking-evaluation
             sequence: 1
           - instruction: Enter your feedback about the room booking experience in the required textarea and submit the evaluation.
-            imageFileName: null
+            imageFileName: r0-s10-step0-post-booking-evaluation
             sequence: 2
 
       - title: Vehicle Booking - Browsing Vehicle Availability
@@ -217,16 +217,16 @@ roles:
         sequence: 11
         steps:
           - instruction: Navigate to My Bookings > New Booking > "Vehicle Booking" tab.
-            imageFileName: null
+            imageFileName: r0-s11-step0-browse-vehicle-availability
             sequence: 0
           - instruction: The page shows a 7-day calendar selector and vehicle availability cards in a 4-column grid. Click on a date to view vehicle availability.
-            imageFileName: null
+            imageFileName: r0-s11-step0-browse-vehicle-availability
             sequence: 1
           - instruction: Use the search field to find vehicles by model name or license plate. Each card shows the vehicle image, model, license plate, available slots, and booked slots.
-            imageFileName: null
+            imageFileName: r0-s11-step0-browse-vehicle-availability
             sequence: 2
           - instruction: Vehicles may show status indicators — "Under Maintenance" (orange, not bookable), "Exclusively used by [Entity]" (yellow), or "Available for Booking" (green).
-            imageFileName: null
+            imageFileName: r0-s11-step0-browse-vehicle-availability
             sequence: 3
 
       - title: Vehicle Booking - Creating a Booking (Same Day / Multi-Day)
@@ -235,19 +235,19 @@ roles:
         sequence: 12
         steps:
           - instruction: Click on an available vehicle to open the booking form.
-            imageFileName: null
+            imageFileName: r0-s12-step0-vehicle-booking-form
             sequence: 0
           - instruction: Select a Purpose from the dropdown (Meeting Client, Site Inspection, Dispatch, etc.) or choose "Others" to enter a custom reason. Fill in the required Description and Location fields.
-            imageFileName: null
+            imageFileName: r0-s12-step0-vehicle-booking-form
             sequence: 1
           - instruction: For same-day bookings, leave "Returning on the same day?" checked and select pickup and return times. For multi-day bookings, uncheck the same-day option and select a return date.
-            imageFileName: null
+            imageFileName: r0-s12-step0-vehicle-booking-form
             sequence: 2
           - instruction: Choose a Driver Option — "I am the driver" (self-drive), "KKIP Employee" (search and select), or "Require OS Driver" (Office Service assigns later).
-            imageFileName: null
+            imageFileName: r0-s12-step0-vehicle-booking-form
             sequence: 3
           - instruction: Optionally attach files, invite users, and link a referenced ticket. Accept the terms and conditions and click "Create Booking".
-            imageFileName: null
+            imageFileName: r0-s12-step0-vehicle-booking-form
             sequence: 4
 
       - title: Vehicle Booking - Managing Your Bookings
@@ -256,13 +256,13 @@ roles:
         sequence: 13
         steps:
           - instruction: Navigate to My Bookings > "Vehicle Bookings" tab with "Active" and "Completed" sub-tabs.
-            imageFileName: null
+            imageFileName: r0-s13-step0-my-vehicle-bookings
             sequence: 0
           - instruction: Active bookings show vehicle details and action buttons. Click "New Vehicle Booking" to create a new booking.
-            imageFileName: null
+            imageFileName: r0-s13-step0-my-vehicle-bookings
             sequence: 1
           - instruction: If keys have been released but not returned, a "Return Keys" button appears. Complete the key return flow including uploading a dashboard photo, entering mileage, and selecting fuel level.
-            imageFileName: null
+            imageFileName: r0-s13-step0-my-vehicle-bookings
             sequence: 2
 
       - title: Vehicle Booking - Post-Trip Evaluation
@@ -289,16 +289,16 @@ roles:
         sequence: 15
         steps:
           - instruction: Navigate to My Calendar to view your personal calendar.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 0
           - instruction: The sidebar shows a monthly calendar picker (dates with events have indicator dots), availability buttons, and your weekly availability schedule.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 1
           - instruction: Select a date to see events for that day. Events are color-coded by type — standard (OTHERS), blue (vehicle bookings), purple (room bookings), amber (user bookings).
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 2
           - instruction: If you have no events, a green "You're free today!" message appears. If you have pending booking requests, a banner shows at the top with a "View Requests" link.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 3
 
       - title: Calendar - Creating and Managing Events
@@ -307,16 +307,16 @@ roles:
         sequence: 16
         steps:
           - instruction: Click "New Event" to create a custom calendar event. The dialog offers quick booking links for Vehicle, Meeting Room, and User bookings.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 0
           - instruction: Fill in the Event Name (required), date, start/end times (15-minute intervals), and optional location and description.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 1
           - instruction: After selecting times, you can invite users. Click "Create Event" to preview, then confirm to create.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 2
           - instruction: Edit events by clicking "Edit" on the event card (available for future events you own). Delete events by clicking the red "Delete" button and confirming.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 3
           - instruction: Events sync with Outlook if connected.
             imageFileName: null
@@ -328,13 +328,13 @@ roles:
         sequence: 17
         steps:
           - instruction: When invited to an event, it appears on your calendar with a "Pending" status badge in orange.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 0
           - instruction: Click "Accept" to accept (badge turns green) or "Reject" to decline (badge turns red).
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 1
           - instruction: Event organizers can click "Show Accepts" to view invitation statuses for all invitees, with color-coded badges for Pending, Accepted, and Rejected.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 2
 
       - title: Calendar - Setting Your Availability
@@ -343,16 +343,16 @@ roles:
         sequence: 18
         steps:
           - instruction: Click "Set Weekly Hours" in the calendar sidebar to configure your recurring weekly availability.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 0
           - instruction: Enable days, set time ranges (default 9 AM - 5 PM), and add multiple slots per day. Save to update your weekly schedule.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 1
           - instruction: Click "Date-Specific Hours" to override availability for specific dates. Select a date, add custom hours, or mark it as unavailable.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 2
           - instruction: Dates with overrides are highlighted on the calendar.
-            imageFileName: null
+            imageFileName: r0-s15-step0-my-calendar-view
             sequence: 3
 
   - name: Office Service Officer
@@ -368,16 +368,16 @@ roles:
         sequence: 0
         steps:
           - instruction: Navigate to Office Services > Orders to view the "Office Supplies Orders" page.
-            imageFileName: null
+            imageFileName: r1-s0-step0-admin-orders
             sequence: 0
           - instruction: The page has three tabs — "New" (APPROVED and ASSIGNED requests), "Ready for Pick Up" (PROCESSED), and "Completed" (RECEIVED).
-            imageFileName: null
+            imageFileName: r1-s0-step0-admin-orders
             sequence: 1
           - instruction: The table shows Reference (IR number), Requested On, Requested By, Officer Assigned (with reassign button), Department, Item Names, and Actions.
-            imageFileName: null
+            imageFileName: r1-s0-step0-admin-orders
             sequence: 2
           - instruction: Use the department dropdown and date range filters to narrow results. Click the "IR" eye icon to view the request PDF, or click the ticket icon to navigate to the linked ticket.
-            imageFileName: null
+            imageFileName: r1-s0-step3-dept-filter
             sequence: 3
 
       - title: Inventory Requests - Preparing Supplies
@@ -401,13 +401,13 @@ roles:
         sequence: 2
         steps:
           - instruction: On the Orders page, click the reassign button (UserPlus icon) in the "Officer Assigned" column. This button only appears when you are not the current officer and the request has no feedback.
-            imageFileName: null
+            imageFileName: r1-s0-step0-admin-orders
             sequence: 0
           - instruction: The reassignment dialog shows the IR Reference, Current Officer, and your name as the New Officer.
-            imageFileName: null
+            imageFileName: r1-s0-step0-admin-orders
             sequence: 1
           - instruction: Type "CONFIRM REASSIGN" exactly to enable the "Reassign to Me" button. Click to confirm and all active tasks transfer to you.
-            imageFileName: null
+            imageFileName: r1-s0-step0-admin-orders
             sequence: 2
 
       - title: Vehicle Bookings - Managing Keys
@@ -416,19 +416,19 @@ roles:
         sequence: 3
         steps:
           - instruction: Navigate to Office Services > Bookings > "Vehicles" tab. Select a booking date on the calendar sidebar (dates with bookings show red dots).
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 0
           - instruction: To release keys — click "Release Keys" on a booking card. Select the user receiving the keys, optionally enter mileage and fuel level before, and check "Require Shell Card" if needed.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 1
           - instruction: Click "Release Keys" to confirm the key release.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 2
           - instruction: To process key returns — click "Return Key" (blue button). Select who the keys are being returned to, upload a clear dashboard photo showing odometer and fuel level.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 3
           - instruction: Enter mileage after and select fuel level after (required). Click "Return Keys" to complete.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 4
 
       - title: Vehicle Bookings - Editing and Cancelling
@@ -437,13 +437,13 @@ roles:
         sequence: 4
         steps:
           - instruction: Edit booking times by clicking "Edit Time". Change start and end times (minimum 30-minute slots) and provide a reason for the change.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 0
           - instruction: Change drivers by clicking "Change Driver". Select a new driver from the filtered list and provide a reason for the change.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 1
           - instruction: Cancel bookings by clicking the red "Cancel" button. Enter a cancellation reason in the textarea and confirm. The booking is removed and marked as CANCELLED.
-            imageFileName: null
+            imageFileName: r1-s3-step0-admin-vehicle-bookings
             sequence: 2
 
       - title: Room Bookings - Admin Management
@@ -452,13 +452,13 @@ roles:
         sequence: 5
         steps:
           - instruction: Navigate to Office Services > Bookings > "Rooms" tab. A calendar sidebar and booking card list are displayed.
-            imageFileName: null
+            imageFileName: r1-s5-step0-admin-room-bookings
             sequence: 0
           - instruction: Select a date to view bookings (dates with bookings show red dots).
-            imageFileName: null
+            imageFileName: r1-s5-step0-admin-room-bookings
             sequence: 1
           - instruction: Each booking card shows room name, location, status badge, time slot, booker name, meeting purpose, and invited users count. You can edit or cancel bookings from this view.
-            imageFileName: null
+            imageFileName: r1-s5-step0-admin-room-bookings
             sequence: 2
 
       - title: Vehicle Management - Fleet Overview
@@ -467,16 +467,16 @@ roles:
         sequence: 6
         steps:
           - instruction: Navigate to Office Services > Vehicle Management to view the fleet. Vehicles display as cards in a 3-column grid.
-            imageFileName: null
+            imageFileName: r1-s6-step0-vehicle-fleet
             sequence: 0
           - instruction: Each card shows image, model, license plate, manufacturing year, mileage, insurance expiry, and road tax expiry.
-            imageFileName: null
+            imageFileName: r1-s6-step0-vehicle-fleet
             sequence: 1
           - instruction: Search by model or license plate. Sort by Purchase Year, Insurance Date, or Road Tax Date (ascending or descending).
-            imageFileName: null
+            imageFileName: r1-s6-step0-vehicle-fleet
             sequence: 2
           - instruction: Insurance and road tax dates are color-coded — red (expired), amber (expiring within 30 days), or normal.
-            imageFileName: null
+            imageFileName: r1-s6-step0-vehicle-fleet
             sequence: 3
 
       - title: Vehicle Management - Vehicle Details and Maintenance
@@ -485,19 +485,19 @@ roles:
         sequence: 7
         steps:
           - instruction: Click a vehicle card to open the details dialog with Overview and Maintenance tabs.
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 0
           - instruction: Overview shows Basic Information (Model, Manufacture Year, Purchase Year), Status (Mileage, Last Serviced, Insurance Valid Until, Road Tax Valid Until), and document sections for Insurance and Road Tax.
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 1
           - instruction: Click "Edit Details" to modify editable fields.
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 2
           - instruction: Maintenance tab provides "Request Service" (Regular Service, Maintenance, or Emergency Repair) and "Put in Repair Mode" / "Remove from Repair Mode" toggle.
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 3
           - instruction: Vehicles in repair mode show an orange "Under Maintenance" badge and cannot be booked.
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 4
 
       - title: Vehicle Management - Usage Type
@@ -506,13 +506,13 @@ roles:
         sequence: 8
         steps:
           - instruction: Click "Change Usage" in the vehicle details to toggle between "Available for KKIP Staff Booking" and "Exclusively Used By Specific Entity".
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 0
           - instruction: When selecting exclusive use, enter the entity name (e.g., "CEO Office", "IT Department").
-            imageFileName: null
+            imageFileName: r1-s7-step0-vehicle-details
             sequence: 1
           - instruction: Available vehicles show a green "Available for Booking" badge. Exclusive vehicles show a yellow "Exclusively used by [Entity]" badge.
-            imageFileName: null
+            imageFileName: r1-s6-step0-vehicle-fleet
             sequence: 2
 
       - title: OS Driver Assignment
@@ -536,16 +536,16 @@ roles:
         sequence: 10
         steps:
           - instruction: Navigate to Office Services > Driver Bookings to view bookings assigned to you as a driver.
-            imageFileName: null
+            imageFileName: r1-s10-step0-driver-bookings
             sequence: 0
           - instruction: Select a date on the calendar to see non-completed bookings for that day.
-            imageFileName: null
+            imageFileName: r1-s10-step0-driver-bookings
             sequence: 1
           - instruction: Booking cards show vehicle image, model, license plate, time, booker name, driver name, fuel level, and key status.
-            imageFileName: null
+            imageFileName: r1-s10-step0-driver-bookings
             sequence: 2
           - instruction: You can release keys from this view using the same key release flow as the admin bookings page.
-            imageFileName: null
+            imageFileName: r1-s10-step0-driver-bookings
             sequence: 3
 
   - name: Requesting HOD
@@ -561,16 +561,16 @@ roles:
         sequence: 0
         steps:
           - instruction: When a department member submits an inventory request, it enters PENDING-APPROVAL status. Navigate to the request ticket (via notifications or Helpdesk).
-            imageFileName: null
+            imageFileName: r2-s0-step0-navigate-approval-ticket
             sequence: 0
           - instruction: The InventoryRequestProgressCard shows the request at the "Approval" step with a 4-step progress bar (Submitted, Approved, Executed, Received).
-            imageFileName: null
+            imageFileName: r2-s0-step0-navigate-approval-ticket
             sequence: 1
           - instruction: Click "Review" to open the review dialog with a PDF preview on the left and action buttons on the right.
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 2
           - instruction: Click "Approve" to approve the request. The status changes to APPROVED and the requester receives a notification. An Office Service officer will then be assigned.
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 3
 
       - title: Inventory Requests - Requesting Changes
@@ -579,10 +579,10 @@ roles:
         sequence: 1
         steps:
           - instruction: In the review dialog, click "Return" to request modifications. A dialog appears with a textarea for "Changes Requested".
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 0
           - instruction: Enter the reason and click "Send".
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 1
           - instruction: The requester receives a revision task. They can click "Revise Inventory Request" to open the edit dialog, modify items/quantities/reason, and resubmit.
             imageFileName: null
@@ -597,10 +597,10 @@ roles:
         sequence: 2
         steps:
           - instruction: In the review dialog, click the red "Reject" button.
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 0
           - instruction: Enter a rejection reason in the dialog and click "Send".
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 1
           - instruction: The request is marked as rejected and the requester is notified.
             imageFileName: null
@@ -612,7 +612,7 @@ roles:
         sequence: 3
         steps:
           - instruction: You can adjust items before approving. In the review dialog, click "Modify" to open the edit dialog with current items pre-populated.
-            imageFileName: null
+            imageFileName: r2-s0-step2-review-dialog
             sequence: 0
           - instruction: Change quantities using +/- buttons or direct input, add an update reason.
             imageFileName: null
@@ -627,16 +627,16 @@ roles:
         sequence: 4
         steps:
           - instruction: Navigate to Department > Office Supplies Orders to monitor your department's requests.
-            imageFileName: null
+            imageFileName: r2-s4-step0-dept-orders
             sequence: 0
           - instruction: The page has four tabs — "Pending Approval", "Processing", "Ready for Pick Up", and "Completed".
-            imageFileName: null
+            imageFileName: r2-s4-step1-tabs-navigation
             sequence: 1
           - instruction: Use the requester and date range filters to narrow results. You can view request PDFs and navigate to linked tickets.
-            imageFileName: null
+            imageFileName: r2-s4-step2-filters
             sequence: 2
           - instruction: Note — the reassign button is not available in this view.
-            imageFileName: null
+            imageFileName: r2-s4-step1-tabs-navigation
             sequence: 3
 
       - title: Room Booking - Approving Bookings
