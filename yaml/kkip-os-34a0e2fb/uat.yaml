@@ -1,5 +1,5 @@
 _projectId: 34a0e2fb-b208-41a4-ad99-edb75a5ab7eb
-_generatedAt: 2026-03-17T06:44:46.317Z
+_generatedAt: 2026-03-17T07:09:40.402Z
 metadata:
   testingStartDate: null
   testingStartTime: null
@@ -27,42 +27,53 @@ features:
           - name: Navigate to E-Office Supplies page
             description: Click on "User Modules" dropdown in the top navigation bar, then select "New Office Supplies Order". Alternatively, navigate directly to /user/office-supplies. Verify the page loads with heading "Office Supplies Request" and a table of office supply items.
             sequence: 0
-            gifFileName: 43bfb511-7da7-4c51-84bc-70a9b24fc347-f1-flow0-step0-navigate-eoffice-supplies
+            gifFileName: a3c02430-c493-4a7e-a9bf-3b197b611492-f1-flow0-step0-navigate-eoffice-supplies
             imageFileNames:
               - f1-flow0-step0-navigate-eoffice-supplies
               - de6ed1c5-fbf7-40c4-856c-5bda295b0238-frame-1
               - d1a82ac3-964b-4a71-bd9e-d4448cbf5e1b-frame-2
               - 6cd275b7-72d6-425c-aa7c-0e84f1c69ea0-frame-3
               - 27157436-edba-4869-a60f-a83da5aff41b-frame-4
+              - 98ef31c3-8cd9-4b4c-af61-a100a384b989-frame-1
+              - 174c6988-cf56-4423-bdca-6a5741ed535d-frame-2
+              - 9676395e-b454-4910-882a-fc0bc7eb6174-frame-3
+              - 97f07c8f-464b-4545-b854-e7f92f1bbb60-frame-4
           - name: Verify table columns
             description: Confirm the table displays columns - Item Code, Name, Image, Availability, and Actions. Stocked items show available quantity and UOM. Non-stocked items show italic "Not currently stocked" text.
             sequence: 1
-            gifFileName: 607ab4bc-e351-408d-94c7-d12dfad1b414-f1-flow0-step1-verify-table-columns
+            gifFileName: b081e464-eddc-48e5-b144-729ebdf3b6c2-f1-flow0-step1-verify-table-columns
             imageFileNames:
               - f1-flow0-step0-navigate-eoffice-supplies
               - 42db9ee5-d5eb-4857-ae8c-92427b33e90a-frame-1
+              - 700a0f03-4821-48d7-8e99-9da98a14bcdc-frame-1
           - name: Search for an item by name
             description: Type an item name into the search field (placeholder "Search by item name or code..."). Verify the table filters to show matching results.
             sequence: 2
-            gifFileName: 507224b0-fe12-41e9-926a-61c254107f55-f1-flow0-step2-search-item-by-name
+            gifFileName: 2ce07920-1e02-4032-8519-a070c1297460-f1-flow0-step2-search-item-by-name
             imageFileNames:
               - f1-flow0-step2-search-item-by-name
               - 3051c991-776a-4875-b15b-4d4649896e27-frame-1
               - 43259230-7eae-48d6-aa3b-6163312e2875-frame-2
               - e35f9236-8df0-4595-a2d7-5da055833116-frame-3
+              - 436c263a-e0e5-4002-8725-b79d9eadbf29-frame-1
+              - f89887d8-d8ff-4abf-b1ea-2cb635141039-frame-2
+              - 55055665-59a2-4749-99c5-ac99d4e201ec-frame-3
           - name: Search for an item by code
             description: Clear the search field and type an item code. Verify the table filters accordingly.
             sequence: 3
-            gifFileName: cd2343d8-a078-42c8-9f93-ed7837189733-f1-flow0-step3-search-item-by-code
+            gifFileName: f1b4765c-0972-4aae-96fe-b903ad782178-f1-flow0-step3-search-item-by-code
             imageFileNames:
               - f1-flow0-step3-search-item-by-code
               - 82498971-cc4a-47eb-b11f-1f5a99f37134-frame-1
               - 8ee98c47-5e87-4a0f-a89f-3b62a4707b13-frame-2
               - 2ff9a909-6344-4d5f-96ea-b017547aa6a9-frame-3
+              - b656a8ed-552f-4c79-9487-8d2fabb666ca-frame-1
+              - 8a19a7bf-ffbd-4c3e-910b-f769a2dabee5-frame-2
+              - 90e7043b-2262-4c39-aefd-7c99bb872280-frame-3
           - name: Verify pagination
             description: If more than one page of items exists, click "Next" to navigate to the next page. Verify page counter "Page X of Y" updates and "Showing X to Y of Z items" text updates.
             sequence: 4
-            gifFileName: 79eb9868-dd5a-468f-b91a-95a9ca57e99a-f1-flow0-step4-verify-pagination
+            gifFileName: 3a80163f-8d7d-4f5d-b0df-5e817b6c8cd7-f1-flow0-step4-verify-pagination
             imageFileNames:
               - f1-flow0-step4-verify-pagination
               - 5e33959a-27ba-4e43-a6cf-ee5f0abb8381-frame-1
@@ -76,15 +87,29 @@ features:
               - d24c6102-b915-45e9-9e6e-5d0d8a8dc480-frame-9
               - 455c533b-af08-46cf-bed9-a551561fa8b4-frame-10
               - 676602d4-0a21-4578-8841-7228273dedbe-frame-11
+              - 3cbeb5a1-9071-457e-adc0-5ee5c1847397-frame-1
+              - b13aafde-b52f-45d2-9d4a-c2a16a7dfc20-frame-2
+              - c798f430-efe6-4522-a437-13323819a966-frame-3
+              - e60ed827-9a6e-4b73-b75e-59c7cbeacbf0-frame-4
+              - e7e860a5-fae7-4181-8802-842171e8f677-frame-5
+              - 714f5c21-2bed-47ef-aecf-658f10e81e9a-frame-6
+              - 15addf66-6e4a-455e-b4ad-3a89bedc1c58-frame-7
+              - 0cd94160-accf-4e1b-8a00-f0c142ed6880-frame-8
+              - 2f3bbf78-11c3-436c-8031-ab64a88dafbf-frame-9
+              - 60e65537-0919-4ca1-bd80-32c707d2a9cc-frame-10
+              - 36abeb6d-3e9a-4a84-81a3-d19b196e6cf5-frame-11
           - name: Verify action buttons for stocked vs non-stocked items
             description: Verify stocked items show an "Add" button (plus icon) for adding to cart. Verify non-stocked items show a "Request" button that opens the Create Department Request dialog.
             sequence: 5
-            gifFileName: cfb3f01a-deea-4edd-a930-454eeb4680b5-f1-flow0-step5-action-buttons
+            gifFileName: ffd839be-9a1c-4212-a416-0d4b21f2efd4-f1-flow0-step5-action-buttons
             imageFileNames:
               - f1-flow0-step0-navigate-eoffice-supplies
               - 5a3e649a-d9c5-499c-97e5-41263cae9d2f-frame-1
               - 3de9b650-bc32-436e-bae4-cdafbc3bdb58-frame-2
               - 468caa9c-ea27-42a6-8d2e-3851e55df164-frame-3
+              - 4983d26c-80d2-4e59-8f82-aa1b9b4971ce-frame-1
+              - 186b6a92-c29d-48e1-b8c8-a1789d6f8836-frame-2
+              - 3b740be3-ea3c-46e7-b928-26b5adc18745-frame-3
       - name: Add Items to Cart
         description: User adds stocked items to the cart with specified quantities.
         preconditions: User is on the E-Office Supplies page with stocked items available.
@@ -94,31 +119,37 @@ features:
           - name: Click Add button on a stocked item
             description: Click the "Add" button on a stocked item row. Verify the "Add Item to Cart" dialog opens showing Item Code, Item Name, an "Available" badge with quantity and UOM, and a quantity input field labeled "Quantity to Add (UOM)".
             sequence: 0
-            gifFileName: 8465eaae-1834-443b-9670-2a3ff652f38a-f1-flow1-step0-add-item-dialog
+            gifFileName: b9711b1c-4d67-4beb-886b-d1dc62926d4c-f1-flow1-step0-add-item-dialog
             imageFileNames:
               - f1-flow1-add-items-to-cart
               - a4977868-3c21-46c1-ba98-9735df3f436a-frame-1
               - c0be621c-ea5a-4202-a21b-35938b126185-frame-2
+              - 8f788448-33eb-478a-86a8-bd3cee5efac9-frame-1
+              - 74f00cad-bb68-4a6e-a5da-41c117a4d294-frame-2
           - name: Enter valid quantity
             description: Enter a quantity within the available range (e.g., 5 if 10 available). Verify no validation error is shown.
             sequence: 1
-            gifFileName: 54239b1e-c8ab-4975-80a3-afe3af88e819-f1-flow1-step1-enter-quantity
+            gifFileName: 07aee1d9-f20d-445f-ad49-dad9c13e9f57-f1-flow1-step1-enter-quantity
             imageFileNames:
               - f1-flow1-add-items-to-cart
               - acb7f837-2bef-4c9f-83ba-b5c0ac2f76b8-frame-1
               - 92dcf909-247b-457e-917a-4ea7c6150753-frame-2
+              - c2f3bcbc-4bd6-4c42-ab0d-0eedabe0b123-frame-1
+              - 7bd2fb72-d755-4c61-abb6-0ae5d3321f2f-frame-2
           - name: Submit add to cart
             description: Click "Add to Cart" button. Verify the dialog closes and the cart counter badge in the header increments. Verify a success toast "Item added to cart" appears.
             sequence: 2
-            gifFileName: 54648e76-7bf3-4f68-abf9-338158f19561-f1-flow1-step2-submit-add-to-cart
+            gifFileName: 4961ced2-378e-4d21-a8cc-af4fa53dfdde-f1-flow1-step2-submit-add-to-cart
             imageFileNames:
               - f1-flow1-add-items-to-cart
               - b93ab2f6-8b98-4dda-aeb0-7fbd7d1381a0-frame-1
               - 71a3bd1a-4902-465f-862d-cf623e555c6f-frame-2
+              - 89531354-b1d6-486f-8b95-721c498fd938-frame-1
+              - 0840fe1c-92c7-43ff-b6dd-bf8569b18e2d-frame-2
           - name: Add another item to cart
             description: Click "Add" on a different stocked item, enter quantity, and add to cart. Verify the cart counter updates to show 2 items.
             sequence: 3
-            gifFileName: 433c8735-362a-4a8f-bdbd-d613f969e61f-f1-flow1-step3-add-another-item
+            gifFileName: b07174a5-505a-4723-a444-d55f050ef355-f1-flow1-step3-add-another-item
             imageFileNames:
               - f1-flow1-add-items-to-cart
               - d45f9b15-9812-4580-a41f-1fee6c37d3c5-frame-1
@@ -129,10 +160,18 @@ features:
               - 91d81b44-1055-4a25-851f-663e6dc83280-frame-6
               - 842002df-14d6-40be-91c5-1daa461c8865-frame-7
               - f21e85ac-15b9-42e1-9ec7-637aed551a1e-frame-8
+              - b78cfd82-1703-4f30-b0e0-7bd6a0ce1011-frame-1
+              - 630a9bdb-3b8a-4fd5-9a35-e6c1bc1bfea7-frame-2
+              - c890f71b-4379-44d1-b008-dce66faa2bc6-frame-3
+              - 47f2272f-f85c-40b1-b268-9f112b353b5d-frame-4
+              - 98b43364-2f65-4060-aa87-b5e487f4c5e1-frame-5
+              - 98aab6b3-39db-4907-b6da-5828c2324790-frame-6
+              - 91e4273b-6d43-4475-989e-245e33977625-frame-7
+              - 56462a64-e6fe-436e-8c85-393d2919aa40-frame-8
           - name: Attempt to exceed available quantity
             description: Click "Add" on an item and enter a quantity exceeding available stock. Verify an error toast "Cannot add X more. Only Y available." appears and submission is prevented.
             sequence: 4
-            gifFileName: b99399ab-1c7c-4edb-b44e-808acc7a2dd2-f1-flow1-step4-exceed-quantity
+            gifFileName: b11e9289-f95e-4372-a8ae-4e7b4ec75f19-f1-flow1-step4-exceed-quantity
             imageFileNames:
               - f1-flow1-add-items-to-cart
               - bd4ef652-3e90-479a-9611-1cbaaeda989c-frame-1
@@ -140,10 +179,15 @@ features:
               - 8588b9ce-2e12-403c-8da3-684eda4314ca-frame-3
               - d199b5a2-5dc5-4be2-ba5f-3472d829a195-frame-4
               - b511e698-6f2f-4fb8-a063-07e6c698b3f6-frame-5
+              - 1278187e-3d77-4022-825a-4a37c0b3e88a-frame-1
+              - e7ea283c-6426-4cee-a6fe-809e971203a7-frame-2
+              - 113044a0-ce14-4c19-8baa-02701a34dde2-frame-3
+              - 56d5c90d-d611-4a4b-bd5b-a736ae5c932e-frame-4
+              - 756dd28b-952d-410d-bf36-231154049400-frame-5
           - name: Add same item again
             description: Click "Add" on an item already in cart. Verify the dialog shows an "In Cart" badge with existing cart quantity. Confirm the total (existing + new) cannot exceed available stock.
             sequence: 5
-            gifFileName: 1aa31959-48ab-4769-877d-793e3bcf945e-f1-flow1-step5-add-same-item
+            gifFileName: 35f6805b-b116-40f4-b649-9ded33f8a430-f1-flow1-step5-add-same-item
             imageFileNames:
               - f1-flow1-add-items-to-cart
               - c9be50e6-19da-4b57-9a3c-ff33c4ab5f7d-frame-1
@@ -151,6 +195,11 @@ features:
               - 4dabf7fd-a8ff-49ee-8355-e3350d8438b2-frame-3
               - 0885a7de-aeed-43e7-afa8-c8c044a49b96-frame-4
               - 16a2d784-cddd-430e-9456-d8f84813b9c4-frame-5
+              - e7fbea04-8f4f-4dab-9c4c-fc773526468f-frame-1
+              - 0453dab3-5078-445f-9195-73eb8b225618-frame-2
+              - d6a2e8aa-308a-4d56-adf6-6b5f4ce3efa4-frame-3
+              - 25f7c34a-5f9e-41a9-b630-c855c3eb1bdd-frame-4
+              - 061f8111-6bc6-476c-8581-57db57ae10c8-frame-5
       - name: Request Non-Stocked Item via Department Request
         description: User submits a department request for a non-stocked item.
         preconditions: User is on the E-Office Supplies page with non-stocked items visible.
@@ -160,7 +209,7 @@ features:
           - name: Click Request button on non-stocked item
             description: Click the "Request" button on a non-stocked item row. Verify the "Create Department Request" dialog opens with fields pre-filled.
             sequence: 0
-            gifFileName: 8dd50b34-ade7-4e3d-b121-a1be7269f18a-f1-flow2-step0-request-nonstocked-item
+            gifFileName: 56149a84-4fbc-4ade-b297-871ce7037f23-f1-flow2-step0-request-nonstocked-item
             imageFileNames:
               - f1-flow2-request-nonstocked-item
               - 234e72d2-8d6b-4c04-b150-b03f42a459c4-frame-1
@@ -168,6 +217,11 @@ features:
               - 4bbdb902-4233-41c7-b2ae-a44c620f47bd-frame-3
               - 03c41aa6-b892-4556-981b-cfa3936ef413-frame-4
               - 38e9d869-2c2c-4d43-902a-8c83b1bfc976-frame-5
+              - b860654d-681f-4c0b-a42b-a942cd3e10d0-frame-1
+              - eefa6fa7-f196-4f6d-bc02-d7c6c4d9edfe-frame-2
+              - 893d0a23-1b5c-44cc-a0e5-40a811fa0489-frame-3
+              - 7b20bd8f-cd88-454f-add5-18dd78a8e6f1-frame-4
+              - f1ee4947-588c-45b8-a2ce-4889097c435c-frame-5
           - name: Verify pre-filled fields
             description: Verify "Target Department" is pre-filled with "Office Service" and "Title" is pre-filled with "Office Supplies Inventory Request".
             sequence: 1
@@ -177,18 +231,21 @@ features:
           - name: Fill in description
             description: Enter a description of the requested item. Verify the field is required.
             sequence: 2
-            gifFileName: 46c0a8e2-db90-44ab-b2cb-0625f85cb1c1-f1-flow2-step2-fill-description
+            gifFileName: f41e86e5-b6e5-4d55-b72c-72da199d900b-f1-flow2-step2-fill-description
             imageFileNames:
               - f1-flow2-request-nonstocked-item
               - f93ef31a-773e-4f01-baf1-25ba44eb4f6c-frame-1
               - e097da47-5756-4fe6-80a6-d81643dbb7ff-frame-2
+              - d6df64be-cea7-43ff-a683-374e8d46a185-frame-1
+              - 274cb1a2-926a-4ff5-9040-4fdc9324c48a-frame-2
           - name: Select urgency level
             description: Select an urgency level from the dropdown options - Normal (default), Urgent, Highly Urgent, or Extremely Urgent.
             sequence: 3
-            gifFileName: 39554336-c116-4f77-b217-c81e13eb88b6-f1-flow2-step3-urgency-level
+            gifFileName: 8e7be085-9da5-4010-a06e-4408ac48e6c7-f1-flow2-step3-urgency-level
             imageFileNames:
               - f1-flow2-request-nonstocked-item
               - 89f45837-11c5-49aa-afa5-ec68c5f87c3f-frame-1
+              - ac73370f-d696-428f-aa3f-ea756fe140d8-frame-1
           - name: Link a referenced ticket (optional)
             description: Optionally search for and select a referenced ticket from the searchable dropdown.
             sequence: 4
@@ -216,7 +273,7 @@ features:
           - name: Open cart dialog
             description: Click the "View Cart" button (shopping cart icon with badge) in the page header. Verify the "Office Supplies Cart" dialog opens showing item count and total quantity badge (e.g., "3 Items (15 total qty)").
             sequence: 0
-            gifFileName: acb5f9d4-ea6c-4c9e-b609-e6c088b9e799-f1-flow3-step0-open-cart
+            gifFileName: 0047bc07-79fa-48eb-beb0-0f70b9b68452-f1-flow3-step0-open-cart
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - 7435be39-e0f4-4698-9941-17095ac321fd-frame-1
@@ -224,6 +281,11 @@ features:
               - fe415973-cec3-4aa0-9bef-80d6529e58a7-frame-3
               - b907aa94-cfa7-432c-ad5d-5e31a422ff0b-frame-4
               - fb8350c0-ed81-4e9f-8f74-90fc014c16fa-frame-5
+              - 5f5bdef9-1976-4013-b8dd-1637347421df-frame-1
+              - 4bed8353-8f06-41d4-8b2d-6a6a77ee61d0-frame-2
+              - d700b6e3-11c9-40e9-8c84-b0c4b581f115-frame-3
+              - 80a1e812-37f6-44d3-95d9-4a9b0189bf77-frame-4
+              - 2fb91a30-fd1f-4424-a098-85f0a1f3871d-frame-5
           - name: Verify Cart Items card
             description: Verify the "Cart Items" card shows a table with columns - Item Code, Item Name, Warehouse, Requested (editable quantity input), and Actions (delete button with trash icon).
             sequence: 1
@@ -245,11 +307,13 @@ features:
           - name: Enter reason for request
             description: In the "Reason for Request" card, type a reason in the textarea (placeholder "Enter the reason for requesting these items..."). This is a required field.
             sequence: 4
-            gifFileName: c6636f74-1771-4e75-9971-98759bf04bf8-f1-flow3-step4-enter-reason
+            gifFileName: 987119d4-8b9c-4ffe-b97a-1a689c0b3ebd-f1-flow3-step4-enter-reason
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - a6c07423-53ef-4ba0-b72c-ca86f3f5f80a-frame-1
               - 8a7a1285-5fae-4e3d-8a51-8ac1d8dfb353-frame-2
+              - 4fc78d8d-7740-4d27-b51f-9dbc9570a782-frame-1
+              - 05252b4c-b55e-4058-bdc3-9dac5bbd5c8c-frame-2
           - name: Link a referenced ticket (optional)
             description: In the "Referenced Ticket (Optional)" card, use the searchable dropdown (placeholder "Search by reference number...") to find and select a ticket. Verify the ticket appears as "#reference - ticket name".
             sequence: 5
@@ -271,7 +335,7 @@ features:
           - name: Click Preview Order
             description: Click "Preview Order" from the cart dialog. Verify the "Office Supplies Request Preview" dialog opens showing KKIP letterhead, centered heading "OFFICE SUPPLIES REQUEST", Request No (K1-IR-DRAFT in blue), Requester name (blue), Department (yellow), and Date.
             sequence: 0
-            gifFileName: 56d72f81-74b6-456b-9add-4dc4f376acc8-f1-flow4-step0-preview-order
+            gifFileName: cf68cf47-1b2a-4b52-9b5b-de51983d9be2-f1-flow4-step0-preview-order
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - 5b3b8a2c-8a88-48f1-9c57-b4fa58414693-frame-1
@@ -279,40 +343,55 @@ features:
               - 4d5414b0-eb84-4afa-8164-fe051cb4698b-frame-3
               - 830ed446-c6e1-4617-ab28-a0f2cfd13a64-frame-4
               - 561bfebb-918e-4cd8-8a2b-05f7d5a29e86-frame-5
+              - ed44072c-6851-4eba-88ff-7eeba28c4fc6-frame-1
+              - 8a56407e-2383-4578-b1d8-9c3d5e0631d6-frame-2
+              - 2c8d5271-7a7b-4280-90a9-a0f9264be018-frame-3
+              - 925ec255-df3e-42f7-9450-11982a7c0293-frame-4
+              - 554e0435-8b3d-474e-967d-f48d17327e42-frame-5
           - name: Review items table
             description: Verify the items table shows columns No, Item Code (yellow, monospace), Item Name (yellow), Warehouse (yellow), and Qty (green with count and UOM). Verify all cart items are listed correctly.
             sequence: 1
-            gifFileName: 9456367e-19ee-46f8-957d-9d450fc7fd19-f1-flow4-step1-review-items-table
+            gifFileName: a3ee0eca-efe2-4952-b7a0-f66446e32d8a-f1-flow4-step1-review-items-table
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - 87d6e0a8-5193-4f84-8be1-a9fbe574423d-frame-1
               - 5cf03064-580e-49b9-9d9f-f89e7aa14c88-frame-2
+              - 86725db5-193d-4d92-a0ca-371472ab5260-frame-1
+              - a56e73d3-2b16-46a8-951e-ae7e44608c28-frame-2
           - name: Review reason for request
             description: Verify the "Reason for Request" section displays the entered reason in a yellow background box.
             sequence: 2
-            gifFileName: 552e8c73-e84b-4ead-a23e-79d438b4ccde-f1-flow4-step2-review-reason
+            gifFileName: ed4f20b3-9c23-4e51-a812-f555dc3f4e52-f1-flow4-step2-review-reason
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - 8a9cbaee-2cf2-4fd0-a162-da9af2729e96-frame-1
               - 533a61f5-9c28-4b0d-9fd8-2fc5ae024c21-frame-2
+              - bcba581f-362d-4297-a40d-a16a66c6f675-frame-1
+              - 0cf90492-3519-48e6-9c1a-a8eba72423a6-frame-2
           - name: Submit request
             description: Click "Submit Request". Verify a success toast "Office supplies request submitted successfully" appears. Verify the user is navigated to the home page (/user/home).
             sequence: 3
-            gifFileName: 06c969d9-504b-45ad-ad03-ceb2fd404992-f1-flow4-step3-submit-request
+            gifFileName: 93edcd0e-f706-4cb0-9825-7bab28e23d1f-f1-flow4-step3-submit-request
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - bfdf2cbe-fb27-4382-ad2d-b0724d70dbb4-frame-1
               - 6656de75-69e4-4c80-9ca7-2549e6f37459-frame-2
+              - fef7bc0f-4f08-4455-9fb0-64c7ededfbd3-frame-1
+              - cab7a209-f72a-4092-9e8f-dc489d771d6d-frame-2
           - name: Verify ticket creation
             description: Navigate to Helpdesk Tickets. Verify a new ticket of type INVENTORY-REQUEST is created with the correct reference number.
             sequence: 4
-            gifFileName: 5c287c17-26a3-41d5-a18b-1157fbb59578-f1-flow4-step4-verify-ticket
+            gifFileName: 14f23d55-ee1a-43f1-8602-7d6a394c11f6-f1-flow4-step4-verify-ticket
             imageFileNames:
               - f1-flow3-4-cart-and-preview
               - 46d216ce-9a64-4bb3-b3d6-21f15b23b8a2-frame-1
               - 5b0dbc64-1e9a-41a4-b98c-e54cc1352261-frame-2
               - 76d868a9-6ede-475d-9722-b68c4a05ed2f-frame-3
               - b150f20f-91d7-4965-a048-e75ed4004ac4-frame-4
+              - 47a22810-e36f-4d1b-841b-300add8db80e-frame-1
+              - 6bf79658-0da7-4baf-8849-e41bd06530d5-frame-2
+              - 272ee7b9-18cd-4c52-a71f-97234d711980-frame-3
+              - c0016bfe-3010-4a7b-81f7-dbd10b45e38b-frame-4
       - name: HOD Approves Inventory Request
         description: Department HOD reviews and approves an inventory request.
         preconditions: An inventory request has been submitted and is in PENDING-APPROVAL status. HOD is logged in.
@@ -322,19 +401,25 @@ features:
           - name: Navigate to ticket
             description: HOD navigates to the inventory request ticket (via notifications or Helpdesk). Verify the InventoryRequestProgressCard shows the request is at the "Approval" step with a 4-step progress bar (Submitted, Approved, Executed, Received).
             sequence: 0
-            gifFileName: 0f6415b5-44b6-4545-a791-c70c95ceadac-f1-flow5-step0-navigate-ticket
+            gifFileName: 21c446ad-f40c-4e73-abee-ea7cbfad19ce-f1-flow5-step0-navigate-ticket
             imageFileNames:
               - 0b9876ef-a491-434e-848b-7e8cb040a226-frame-1
               - 94426a5f-313f-465c-b6fa-bd982c953231-frame-2
+              - 25a30f4c-8667-4668-ae9b-459ee6f4d80c-frame-1
+              - 497d0d1d-448b-49a5-9005-24cc48d27e5c-frame-2
           - name: Click Review button
             description: Click "Review" on the active approval task. Verify the InventoryRequestReviewDialog opens with PDF preview on the left and action buttons on the right.
             sequence: 1
-            gifFileName: 0f6ce9b5-c4d1-457e-b57d-d6ad41f88a70-f1-flow5-step1-click-review
+            gifFileName: 13995de0-cbc2-4d0f-b29a-cccdb4ed2a0c-f1-flow5-step1-click-review
             imageFileNames:
               - f3b95bf3-7019-4586-8d74-0a8eca9e2e4e-frame-1
               - 6f94e054-e631-4941-9793-eae0aa68e525-frame-2
               - 60425e47-6f9b-41da-8105-2c31735be913-frame-3
               - cc4ac156-bc15-49ca-92ef-7687342efe48-frame-4
+              - 831778bc-9a4a-4926-b313-5a3828a1e7b2-frame-1
+              - abea2813-f986-4db2-9282-52d2dc7a356c-frame-2
+              - 8f012add-13d1-4dd3-81e6-948473fcfaff-frame-3
+              - 4f915c55-a62c-4f73-8538-5bd0f7c2458e-frame-4
           - name: Review request PDF
             description: Verify the PDF shows request details including items, quantities, requester, department, and reason.
             sequence: 2
@@ -593,7 +678,7 @@ features:
           - name: Navigate to Orders page
             description: Click on "Office Services" dropdown in the top navigation bar, then select "Orders".. Verify the page loads with title "Office Supplies Orders" and three tabs - "New", "Ready for Pick Up", "Completed".
             sequence: 0
-            gifFileName: 8a61aa0d-5178-4362-8be2-840988f6cad9-f1-flow15-step0-7-admin-orders
+            gifFileName: 119fb4fb-aa29-4a20-afd7-59f05b79d4fb-f1-flow15-step0-7-admin-orders
             imageFileNames:
               - a62eb56c-af52-4a30-a685-facb280fa1f6-frame-1
               - b7c502ff-0a8a-41c5-8997-f3e747765297-frame-2
@@ -605,6 +690,16 @@ features:
               - 81662108-4110-4ca6-b123-167c99c48b3c-frame-8
               - 3873fdfe-34b4-4057-b328-fffbc296ff7f-frame-9
               - abf64795-0386-4a59-8d0b-48d81d838754-frame-10
+              - 357b27d6-a970-4eae-a461-4076d12de7c2-frame-1
+              - ee8a28dc-c030-42f5-bd03-70040a030761-frame-2
+              - c4c46e36-77a0-4603-a969-e73d9f5947d7-frame-3
+              - eab556ac-79c1-411a-b92b-5741241cff51-frame-4
+              - e6ec060e-1aea-4eba-ac4f-a3f823b1f67e-frame-5
+              - 1eca4be5-6597-4669-b48e-a63f242d437e-frame-6
+              - ae30cb16-bd19-4cb8-b64e-8dff14a64d8a-frame-7
+              - 991497e6-3d80-4f85-b7fe-9d175b8e40c0-frame-8
+              - b1853037-7ba1-42fd-9967-5e30b8346a10-frame-9
+              - 7b5b7c6c-dbd2-4b63-a1b0-246a30feaa53-frame-10
           - name: View New tab
             description: Click "New" tab. Verify it shows requests with APPROVED and ASSIGNED statuses.
             sequence: 1
@@ -628,7 +723,7 @@ features:
           - name: Filter by department
             description: Use the department dropdown filter. Verify the table filters to show only requests from the selected department.
             sequence: 5
-            gifFileName: 520128b4-41a2-4a9d-a85a-a7c5f5183bfe-f1-flow15-step5-dept-filter
+            gifFileName: 8fc49f6d-175b-4374-ab64-a71c73271c63-f1-flow15-step5-dept-filter
             imageFileNames:
               - 828156e3-fe13-4268-b788-2c587e441ff1-frame-1
               - 904593cf-af78-4f62-a5d1-be21197cb6ff-frame-2
@@ -637,6 +732,13 @@ features:
               - 33ad3313-f6c6-4ffb-91f7-1f2e8430a96f-frame-5
               - fe0697de-1ba5-4237-9aad-1f690d5b7d1f-frame-6
               - cc8b6aad-1a6a-4f70-a23a-913e33a1a516-frame-7
+              - 76fdf2f3-08d9-45df-9dfc-f4db19af7d4b-frame-1
+              - eacc4e40-36d5-4198-bda5-1efa3f3804a9-frame-2
+              - 636af776-9c0a-4cea-bde4-f6fbb9cbbe64-frame-3
+              - 1a902753-7718-42af-a2cc-afd45debd782-frame-4
+              - 339b761d-96c3-42ef-9dcd-de45e5654886-frame-5
+              - c95491fe-401e-4ab4-a132-e11678a1eff9-frame-6
+              - 6a0211b2-7480-450d-b5aa-a74bb17af2c6-frame-7
           - name: Filter by date range
             description: Set a date range filter on "Requested On". Verify only requests within the range are shown.
             sequence: 6
@@ -661,16 +763,20 @@ features:
           - name: Navigate to Department Office Supplies Orders
             description: Navigate to Department > Office Supplies Orders. Verify the page loads with title "Office Supplies Orders" and four tabs - "Pending Approval", "Processing", "Ready for Pick Up", "Completed".
             sequence: 0
-            gifFileName: 0f506382-c349-430a-a3d2-14a7a7704a5f-f1-flow16-step0-dept-office-supplies-orders
+            gifFileName: ff2b1f85-91d4-4f24-8213-46356760c091-f1-flow16-step0-dept-office-supplies-orders
             imageFileNames:
               - bf073727-db41-45f8-b08b-04f2bd4bcaa8-frame-1
               - 7307113c-337a-4994-b43f-bba5867507fc-frame-2
               - e98ba030-f3dc-44e3-b3f3-b0e9d7ce550a-frame-3
               - 84e2b3ae-4c61-42c1-9eb4-8a6e5a6342fb-frame-4
+              - 7a3d468a-13ee-403e-b61a-a5eb2dfa74c0-frame-1
+              - 3a7ece77-4a37-41b7-b737-f995645c0d5a-frame-2
+              - d4346f31-d3a7-41ad-8ae9-804ccca900a5-frame-3
+              - 92908c75-54a6-447d-9ecc-20fd640c3141-frame-4
           - name: View Pending Approval tab
             description: Click "Pending Approval" tab. Verify it shows requests with APPROVED and ASSIGNED statuses from the department.
             sequence: 1
-            gifFileName: c53f7e94-0475-4afe-8bd1-709503de0985-f1-flow16-step1-4-tabs-navigation
+            gifFileName: 1d0503b3-d9ce-49a7-96de-f2b81be9a4b7-f1-flow16-step1-4-tabs-navigation
             imageFileNames:
               - 04afc146-7779-4bc7-af34-df863abec07b-frame-1
               - 4402005a-664f-40fe-8ac2-10ac2f1e7fcf-frame-2
@@ -680,6 +786,14 @@ features:
               - 34c9de93-c74e-43fb-ba2a-d844d88f2090-frame-6
               - c4fd35a8-9344-465b-9f7a-834483d669a4-frame-7
               - 43f1cfb4-fef5-4c37-b1f1-07391f0970ec-frame-8
+              - 61fef109-a8e2-4cc5-9060-81e856324dbc-frame-1
+              - 051e33a5-e50c-424c-88b8-c1f3de3415d3-frame-2
+              - 1c324f65-9726-4003-ace9-ea23b7ea01a8-frame-3
+              - d797ab57-90d7-4ceb-b3fe-147bc3a91af3-frame-4
+              - 68ad2d68-d5f4-4e0d-909d-aaec6407db3f-frame-5
+              - 305f40db-4c59-4d87-88cf-dfa61882ae5e-frame-6
+              - 1c7bb6f9-5876-489f-84b0-7a714f1f0c92-frame-7
+              - 99f73998-b0cb-4d5b-87a9-baeb13b7b6ab-frame-8
           - name: View Processing tab
             description: Click "Processing" tab. Verify it shows requests with PROCESSING status.
             sequence: 2
@@ -698,12 +812,16 @@ features:
           - name: Filter by requester
             description: Use the requester dropdown filter to filter by a specific department member.
             sequence: 5
-            gifFileName: 40fdfcbe-34c6-4de4-a44c-0bdc505e7a64-f1-flow16-step5-6-filters
+            gifFileName: 3801114d-6662-49c8-a2c8-56beb8cec86d-f1-flow16-step5-6-filters
             imageFileNames:
               - fbf12935-a4ff-4a52-bf2c-d5e8ae63bb41-frame-1
               - c061ce4c-eb8c-4657-9b21-d6b647b3f87c-frame-2
               - a7be9248-d2df-4867-9d95-ac66d4f987b0-frame-3
               - 1dd24026-1f92-4fb7-a093-4aa52bc5b896-frame-4
+              - 86ab6a46-820c-4d8d-80a1-2c43b36e257b-frame-1
+              - 1f535f2e-dcf2-4ed4-be14-90fa9f080829-frame-2
+              - 975e3de3-b62c-4698-b607-805b10d1bc5b-frame-3
+              - 19d843c2-f8e9-4976-9fd5-b023e0711ca9-frame-4
           - name: Filter by date range
             description: Set a date range filter on "Requested On". Verify results filter accordingly.
             sequence: 6
@@ -733,7 +851,7 @@ features:
           - name: Navigate to new booking page
             description: Navigate to My Bookings > New Booking. Click the "Meeting Room Booking" tab. Verify the page shows a 7-day calendar selector and room availability cards in a 3-column grid.
             sequence: 0
-            gifFileName: 19280289-d0ae-4de5-ab7d-3d1a174d0717-f2-flow0-browse-room-availability
+            gifFileName: 3ffff35d-0bf2-4fc8-8471-c2f83be7358e-f2-flow0-browse-room-availability
             imageFileNames:
               - f2-flow0-browse-room-availability
               - f6de46d3-2e54-4eac-8091-319d2f47a138-frame-1
@@ -749,6 +867,19 @@ features:
               - 315404c9-6e28-42c0-83c9-fe4012606ad4-frame-11
               - a48c50fb-3539-4c0b-aa34-908b3d97a0a2-frame-12
               - 8f3bc8e6-0f41-4bae-a586-5050e26b1612-frame-13
+              - 0b83fc79-4cc2-4fc9-8499-0e96273adc14-frame-1
+              - 24fe0582-421e-4411-90e2-ea8f368df43a-frame-2
+              - 343f1f1a-8204-4eaf-80cd-c7e5f9ecb1c3-frame-3
+              - 782d57da-41a6-4780-8ff7-3c21ca6ab27d-frame-4
+              - 0ddfe4c0-2f08-4642-9c40-8df5b952048f-frame-5
+              - dff85917-66a1-40ab-9f14-44fe11517677-frame-6
+              - 14d706a2-c90d-4de9-898e-831ff50a9f8f-frame-7
+              - 2d57edeb-f20b-473d-95e1-35029e5449e5-frame-8
+              - 0b3424a4-a727-4d19-bf33-c955514df64d-frame-9
+              - efd9a270-d3f5-4374-b86c-c15612484060-frame-10
+              - 0b14fcfb-ee0d-4b0a-9dc0-58fda358eb55-frame-11
+              - a2800fe4-3363-41f4-8c94-1f674c4446ef-frame-12
+              - a5f0e073-f69d-466f-ae16-aab834301d93-frame-13
           - name: Select a date
             description: Click on a date in the 7-day calendar selector. Verify room availability cards update for the selected date.
             sequence: 1
@@ -788,7 +919,7 @@ features:
           - name: Click on an available room
             description: Click on a room card that has available time slots. Verify a dialog opens with the room booking form showing header "Booking Details (Room Name)" and room facilities display.
             sequence: 0
-            gifFileName: 13487142-e209-4e68-a6dc-8717cccf5a08-f2-flow1-room-booking-form
+            gifFileName: da02323f-048c-44be-8ae4-0712d57039cb-f2-flow1-room-booking-form
             imageFileNames:
               - f2-flow1-room-booking-form
               - 35c7d6d3-6c04-4aef-ba4d-7d5d23b37198-frame-1
@@ -815,6 +946,30 @@ features:
               - eae527f6-1ec9-4a8f-9fd3-ece5ea308bfa-frame-22
               - c94e4984-5de5-4434-81da-6af031e4e1a4-frame-23
               - 1769a8f3-c777-49c8-b55a-c3cc3cc79662-frame-24
+              - 2c6f9113-9063-4ada-a923-5333ad2f6861-frame-1
+              - de2aba13-ae96-443c-9bf0-31df8152e5b7-frame-2
+              - 45cae671-86c8-414a-81ad-f02a04c6c9c7-frame-3
+              - 811d2ffc-9727-46aa-8b6e-f0654dc2b76d-frame-4
+              - 771ea758-60b7-4ee1-99ad-0c0d65e11d31-frame-5
+              - f3b9ce87-7dd9-4a9a-803d-2eef5a6049db-frame-6
+              - 66692694-a102-4a35-8791-d95c6848604d-frame-7
+              - 338884a7-5efc-4c29-88fe-e436a4bb6cf7-frame-8
+              - 61274aeb-5761-4599-be96-dc7a531f1842-frame-9
+              - ef4d332f-bf10-4beb-82a6-cb96e2f61d28-frame-10
+              - ff0914d9-40e4-4c31-a941-fa60ee9b0894-frame-11
+              - 00f6a9f8-6395-4f95-bd63-e94d17b0ef90-frame-12
+              - c790c727-3971-4cfb-83c4-d776c6d808cf-frame-13
+              - 3c186e11-d594-4fe2-8d64-8246760e94de-frame-14
+              - 91a489b2-8e12-433f-b727-98193dc415a8-frame-15
+              - 670b1af7-8c62-4c52-bcb5-a2437521d14c-frame-16
+              - ae5fbad4-2866-40cb-92d1-bd6884f360fe-frame-17
+              - d3a766c8-d1f6-41e1-82cd-b78ba2f48114-frame-18
+              - 3c4a8b5c-327f-4208-aebd-45f3eaa6acd6-frame-19
+              - 0101673c-c60f-4ea0-b208-0854d9bd0401-frame-20
+              - d213550b-b901-412f-9c0e-57d3435e9031-frame-21
+              - 1961c81d-0bb4-4317-9c1c-cdc0a67b4a3e-frame-22
+              - 0ac4ce6c-da85-4aee-92c4-0ef928d94a4a-frame-23
+              - 17aafe7c-fda7-4e7b-bb44-fedf3481c3ae-frame-24
           - name: Enter meeting purpose
             description: Fill in the "Purpose" text input field with the meeting reason. Verify the field is required (validation "Reason is required").
             sequence: 1
@@ -914,7 +1069,7 @@ features:
           - name: Create room booking as top-management user
             description: Log in as a user with top-management role. Create a room booking following the standard flow.
             sequence: 0
-            gifFileName: 2b6844da-fdbd-4411-add8-2c81cceaf6ee-f2-flow2-my-calendar-view
+            gifFileName: 2f11b47b-4102-4706-bfbb-9f15eea7d473-f2-flow2-my-calendar-view
             imageFileNames:
               - 5a00efc8-f002-41ab-aded-653030e1549f-frame-1
               - 1f24e5df-3783-43ee-86d7-0f0a94c030d6-frame-2
@@ -925,6 +1080,15 @@ features:
               - 12379ed9-8f7f-4778-b6d8-38878f2b4eef-frame-7
               - 682a6727-bafd-4ba8-b636-4e9013c2725d-frame-8
               - 13ebf3e8-c929-4686-88ce-cea5f74c94ce-frame-9
+              - 75611482-169b-48c6-b4aa-779ff72980c2-frame-1
+              - 2df7cd8d-81d4-457e-b3b9-7c3b2779f225-frame-2
+              - 4026fb29-9510-4efd-83d3-625ae8758858-frame-3
+              - edcc1206-f04e-4e62-b921-e98f9e701513-frame-4
+              - 23077b9d-b38c-41c0-ad6e-14b5cb276400-frame-5
+              - 1c426bd6-c3eb-4dc1-9ed1-995b29ae1d31-frame-6
+              - 550e986f-632b-4752-8bc7-861782f49b0b-frame-7
+              - d229174e-e973-470d-bff2-76fd65b237fb-frame-8
+              - efda8e58-64e0-4c64-b897-dc7225c36c75-frame-9
           - name: Verify auto-approval
             description: Verify the booking status is immediately set to APPROVED (not PENDING). Verify no approval task is created for HOD.
             sequence: 1
@@ -1011,7 +1175,7 @@ features:
           - name: View existing booking on room card
             description: Navigate to new booking and select the date with the existing booking. Verify the booked time slot is shown in the "Booked" section of the room card with the booker name.
             sequence: 0
-            gifFileName: 8eaa7112-08fa-4b78-a466-fc105fe3f451-f2-flow5-check-room-availability
+            gifFileName: 172d944c-9811-4bc3-a797-3ea37cce8554-f2-flow5-check-room-availability
             imageFileNames:
               - c4014f0d-c4ff-45c0-9f99-b923a13dd0e7-frame-1
               - cd95aa99-9ce1-4a4a-9527-26f53805737a-frame-2
@@ -1024,6 +1188,17 @@ features:
               - ab7fa14c-ca6e-4ee1-82a9-8231bad89c15-frame-9
               - d9a2bcf9-b59c-4335-9f87-0444e3fb5ac2-frame-10
               - 4a1404d8-1ecb-4fff-a191-4d822d851f0c-frame-11
+              - 1b827f74-5f5d-4ace-8b56-32aabae0a0f4-frame-1
+              - 449d6a6a-d532-41f0-a714-062b8ba22205-frame-2
+              - b416946e-9a8a-45ae-a2b7-fdcdc953f1a1-frame-3
+              - 4a46afaf-653b-4e16-8337-5899415daee4-frame-4
+              - 380d5c31-bcf6-400e-8835-ff84ab78d577-frame-5
+              - 2ec207e5-31d6-46b9-b686-de8644efc50f-frame-6
+              - 99553511-ad7e-43db-a171-19ad73928368-frame-7
+              - f16825f5-024e-4ce9-acf4-7997d1dce0ff-frame-8
+              - 10e883d4-39c6-450b-abb5-10e415762b3f-frame-9
+              - 009c4e3d-6501-4fc5-8fcb-063309ab7c72-frame-10
+              - 1483818f-6917-4580-b6be-107d69c95299-frame-11
           - name: Attempt overlapping booking
             description: Click on the same room and attempt to select a time slot that overlaps with the existing booking. Verify the conflicting time slots are not available in the start/end time dropdowns.
             sequence: 1
@@ -1048,7 +1223,7 @@ features:
           - name: Navigate to My Bookings
             description: Navigate to My Bookings > "Meeting Room Bookings" tab. Locate the booking to edit.
             sequence: 0
-            gifFileName: d0feacc8-b402-4f91-84c6-18cf940dfa27-f2-flow6-my-room-bookings
+            gifFileName: ae2763df-ef6b-4df9-9111-d13e49bd8a8f-f2-flow6-my-room-bookings
             imageFileNames:
               - f2-flow6-my-room-bookings
               - 4de0edc7-59bf-4f92-9638-d5d6233f6e69-frame-1
@@ -1063,6 +1238,18 @@ features:
               - 88b9cde9-b4b8-45d9-82e8-88c2cf60b076-frame-10
               - cdf2e91e-6937-4adb-b57f-4b9cdac8b05a-frame-11
               - d4e14df4-de8f-48dd-b164-72d9f5967e77-frame-12
+              - 7d9bb646-df5b-41f8-b7f0-83cc382805df-frame-1
+              - 1054e782-77d1-49d8-8154-7529301b2e81-frame-2
+              - c969cf08-4018-448b-8e8c-705f231aa875-frame-3
+              - 3c5bb496-43cf-4423-926a-d50e8c4f9563-frame-4
+              - 4535ad51-79d1-4e8e-988a-f9c605f6bf8f-frame-5
+              - 172e8dc7-8de2-43e5-a845-88e899c882b7-frame-6
+              - c0167ee2-10c5-419e-82be-a3f4f9fc8ed0-frame-7
+              - 33255d7a-8fa0-48d9-8762-90cd31da4658-frame-8
+              - 87cfe0f7-9ec5-445e-821a-80acf04bf020-frame-9
+              - 0f148f87-fa8e-4c6e-b953-365d26a410a2-frame-10
+              - 4f7a7a1c-5306-4692-a64d-085b5551312b-frame-11
+              - 41e880f7-7ff0-4a0e-ba4c-66b951a43ce2-frame-12
           - name: Click Edit Booking button
             description: Click the "Edit Booking" button on the booking card. Verify the "Edit Room Booking" dialog opens with current booking details pre-populated.
             sequence: 1
@@ -1204,7 +1391,7 @@ features:
           - name: Receive evaluation notification
             description: After the booking date passes, verify the requester receives a notification for the evaluation task.
             sequence: 0
-            gifFileName: f1eef7c1-851f-4b86-a2ba-7e5413891f8b-f2-flow9-bookings-management
+            gifFileName: 1ad175ca-8fe1-403e-b063-eb40ceeda2ba-f2-flow9-bookings-management
             imageFileNames:
               - 1ce06e73-98fb-420f-a277-6b26d52cdd56-frame-1
               - 8858684e-6221-47d5-a294-4e4e18455bb0-frame-2
@@ -1216,6 +1403,16 @@ features:
               - 51efbbbf-cdd1-4b81-9c85-3ad746d29a8b-frame-8
               - 270045c1-45d3-4db8-abb5-9859c0fc7b7b-frame-9
               - e2117471-323f-4b68-9c1e-f076bdc9298f-frame-10
+              - 74f0a85f-b636-4b6f-be8e-8cf76c7fa6ef-frame-1
+              - 92684e2e-0121-4a15-b42e-ab185dfc6450-frame-2
+              - 783c842e-4885-45c8-89e5-0e1ac107f559-frame-3
+              - 3f2d9d7f-bf08-4a4e-85d2-87c46ada65f3-frame-4
+              - ead0aaa9-c765-4d43-8077-895e6b925020-frame-5
+              - d0a3069d-2289-4028-ae8c-e89553831709-frame-6
+              - 22b8b913-3470-4638-978b-63f721c6a437-frame-7
+              - b02a2688-f8f0-47bc-91d4-d9ef26e1ef0a-frame-8
+              - 9435cf1a-1571-4755-b613-7b415a654b79-frame-9
+              - 817ee358-7388-4e75-b6f7-8d7f50748ce1-frame-10
           - name: Navigate to evaluation task
             description: Navigate to the room booking ticket. Verify an EVALUATE task is active.
             sequence: 1
@@ -1255,7 +1452,7 @@ features:
           - name: Navigate to new booking page
             description: Navigate to My Bookings > New Booking. Click the "Vehicle Booking" tab. Verify the page shows a 7-day calendar selector and vehicle availability cards in a 4-column grid.
             sequence: 0
-            gifFileName: 72f903c3-ee74-4082-b96d-be3c08f6710f-f3-flow0-1-vehicle-booking
+            gifFileName: e605510e-482a-4475-ba1b-184485b17c92-f3-flow0-1-vehicle-booking
             imageFileNames:
               - f3-flow0-browse-vehicle-availability
               - 8875fe25-1d64-4a37-aa21-7cb995f937d0-frame-1
@@ -1271,6 +1468,19 @@ features:
               - a85736f6-f02e-4abe-92f9-839e4872193e-frame-11
               - 20b8d39e-ae0b-4bcc-a9c8-acae92ad18ef-frame-12
               - 30a6d9af-d9b1-4e89-afe2-29cebfbbaa46-frame-13
+              - 90968b11-6d5d-45d9-b4aa-242470024116-frame-1
+              - c60c121a-b412-43fd-abbb-ca830adf17b3-frame-2
+              - db121bf4-d333-49b4-bd1a-fea645389abd-frame-3
+              - 71e18b3b-de31-4356-92c3-6e5606556d69-frame-4
+              - bc01a2d3-6f51-4d65-bd53-1dda055479f4-frame-5
+              - 589cadaa-24b8-4ea8-95b6-194cbc60ddd0-frame-6
+              - a94e2736-ce01-4c2f-8ac1-d6a639985095-frame-7
+              - 9ccea16a-d7da-4b3d-81f0-3e11285cb36f-frame-8
+              - 3462c529-62d5-4dd9-ba63-f5f866300175-frame-9
+              - 9ef820a1-9e2f-406b-b475-a1359a37b292-frame-10
+              - 95bfccf8-406a-4eff-b3f4-4bf6676e23c9-frame-11
+              - 85a60253-fdca-4f81-a954-eee1ff88143a-frame-12
+              - 370c131a-332e-491d-92e6-5caf832ff942-frame-13
           - name: Select a booking date
             description: Click on a date in the calendar selector. Verify vehicle cards update showing availability for the selected date.
             sequence: 1
@@ -1587,7 +1797,7 @@ features:
           - name: Navigate to Bookings page
             description: Navigate to Office Services > Bookings > "Vehicles" tab. Select the booking date on the calendar sidebar. Verify dates with bookings show red indicator dots.
             sequence: 0
-            gifFileName: 6043d413-9814-4db1-80b5-9d8832583353-f3-flow9-admin-vehicle-bookings
+            gifFileName: 05150396-b7d7-4c12-88cf-cc74cd907418-f3-flow9-admin-vehicle-bookings
             imageFileNames:
               - f3-flow9-admin-vehicle-bookings
               - bb433f4d-0dc4-4611-873b-3013d35dc58a-frame-1
@@ -1601,6 +1811,17 @@ features:
               - d8519a5b-1984-44c7-a9ee-7419bef5ebe9-frame-9
               - cfb5b3a2-8ae8-4a6b-9cc0-efcae9227463-frame-10
               - d6172519-d1cb-4b80-be86-7b8c789112a6-frame-11
+              - 668f7183-7d95-4875-be13-c3ab97920089-frame-1
+              - d653ab24-cfc2-43da-8787-b0b1824b5d78-frame-2
+              - 700f5df4-21af-4542-a1ac-f15b971eaba4-frame-3
+              - c492546e-887b-478d-ae63-02af9c92310b-frame-4
+              - 43bcc372-2234-4fc5-a0f9-50a789bd8d30-frame-5
+              - d375d86e-12df-4a14-9f33-6fd857a6423f-frame-6
+              - b3cec44c-4ffa-4bd3-8dcc-2fb99ff27171-frame-7
+              - 57cb7d2a-6924-497c-bad9-21cc43c2144f-frame-8
+              - 7b57c3db-02ab-40ed-9406-5eae3d5640b6-frame-9
+              - b45c56ee-b410-42b7-8d8a-189ff6055f09-frame-10
+              - 5ca766f1-7c9f-4d2c-b33a-25ffc1d0abe1-frame-11
           - name: Verify booking card shows key status
             description: 'Verify the booking card shows "Keys: Not Released" badge in yellow styling.'
             sequence: 1
@@ -1776,12 +1997,15 @@ features:
           - name: Navigate to Driver Bookings
             description: Navigate to Office Services > Driver Bookings. Verify the page shows a calendar selector and booking cards for the selected date.
             sequence: 0
-            gifFileName: d4fee389-bad2-4dd4-97d8-d54dd0a3cfcd-f3-flow14-driver-bookings
+            gifFileName: 51515b93-82b8-4f1e-855e-ead3eb9ab005-f3-flow14-driver-bookings
             imageFileNames:
               - f3-flow14-driver-bookings
               - d3d40f97-fd5a-4b03-9560-2836f67e0227-frame-1
               - 7f5d2541-d403-4bfd-942f-c028106260ed-frame-2
               - adfdd0bf-7c00-4d66-8a92-c5465432f57f-frame-3
+              - 2917785a-e661-49a5-882f-61a845f6e262-frame-1
+              - 61386332-afbc-4245-a295-3cc120fdf76a-frame-2
+              - 213cfeb0-05be-4ec6-9b00-36a8d8aec3a7-frame-3
           - name: Select a date
             description: Select a date on the calendar. Verify booking cards update to show only non-completed bookings assigned to the current driver for that date.
             sequence: 1
@@ -1809,12 +2033,15 @@ features:
           - name: Navigate to My Bookings
             description: Navigate to My Bookings page. Verify the "Vehicle Bookings" tab is available with "Active" and "Completed" sub-tabs.
             sequence: 0
-            gifFileName: 7cc3d51f-0036-4301-87e6-6e46eb19b15e-f3-flow15-my-bookings-vehicle
+            gifFileName: 5ebefb37-39c7-41f9-8881-8ba479d45f4e-f3-flow15-my-bookings-vehicle
             imageFileNames:
               - f2-flow6-my-room-bookings
               - c8064cc9-d0a9-41ea-8982-cc634bad26f7-frame-1
               - ba547ee5-e39b-4620-b877-265814b34df2-frame-2
               - 1f846440-b0c6-410c-b332-368f3c3c33cd-frame-3
+              - 82f9f00d-fcde-43fc-9649-385b246d4aea-frame-1
+              - 7b331c0c-9e49-4c8b-8686-a64e4a5ec68b-frame-2
+              - f486d15f-76ce-4085-97a2-e9888a7dadf4-frame-3
           - name: View active bookings
             description: Click "Active" sub-tab. Verify active vehicle bookings are shown as cards with vehicle image (200px), number plate badge, model name, time (12-hour format), booked by, driver assigned, and action buttons.
             sequence: 1
@@ -1864,7 +2091,7 @@ features:
           - name: Navigate to Vehicle Management
             description: Click on "Office Services" dropdown in the top navigation bar, then select "Vehicle Management".. Verify the page shows vehicle cards in a 3-column responsive grid layout.
             sequence: 0
-            gifFileName: 17524162-a007-45ed-a74f-8e278fda5f06-f4-flow0-1-vehicle-management
+            gifFileName: 2e5098f1-613c-4df2-b93e-404d484b0852-f4-flow0-1-vehicle-management
             imageFileNames:
               - f4-flow0-vehicle-management
               - e798f7ce-2aa7-4d5f-8315-c2be82e59b83-frame-1
@@ -1877,6 +2104,16 @@ features:
               - 34fe72d7-ba1f-4786-b83f-fe04acb3df21-frame-8
               - d05f49cc-cb48-411c-a8c6-924d480d2b60-frame-9
               - 1bcd387e-1b22-450a-a07d-01eadca3355f-frame-10
+              - 89c3a03c-6646-422a-8cae-4d61e7c83bb3-frame-1
+              - a3019c6b-3163-4190-bc93-b820fef2ed29-frame-2
+              - 476b2aff-af77-4c39-8c4d-0e399d1574c6-frame-3
+              - e45e498c-cacd-4c56-91d5-a3160b2b508a-frame-4
+              - 02de02f8-7d65-4cbf-8100-61e35c6822c6-frame-5
+              - a4ab8052-a623-47bc-b2ac-34e1d96b85ed-frame-6
+              - bf130ea5-989e-4483-b691-a694efab1fa3-frame-7
+              - 9d8aa9e5-5b38-4681-83d5-85d607b62e30-frame-8
+              - 04ffba82-5aa3-4279-85cd-7831e1298927-frame-9
+              - 605b68be-5385-4c29-a980-69b98d6e0b28-frame-10
           - name: Verify vehicle card information
             description: Verify each vehicle card shows vehicle image, model name, license plate, manufacturing year, current mileage (formatted with commas and "km"), insurance expiration date (color-coded), and road tax expiration date (color-coded).
             sequence: 1
