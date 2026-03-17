@@ -30,6 +30,7 @@ const NewAccountController = () => import('#controllers/new_account_controller')
 const StepsController = () => import('#controllers/steps_controller')
 const UploadsController = () => import('#controllers/uploads_controller')
 const PrdController = () => import('#controllers/prd_controller')
+const SignatorController = () => import('#controllers/signator_controller')
 const YamlImportController = () => import('#controllers/yaml_import_controller')
 const UserGuideController = () => import('#controllers/user_guide_controller')
 
@@ -165,6 +166,12 @@ router
     router.post('api/prd/contacts', [PrdController, 'contactsStore'])
     router.patch('api/prd/contacts/:id', [PrdController, 'contactsUpdate'])
     router.delete('api/prd/contacts/:id', [PrdController, 'contactsDestroy'])
+
+    // Signators
+    router.get('api/signators', [SignatorController, 'index'])
+    router.post('api/signators', [SignatorController, 'store'])
+    router.patch('api/signators/:id', [SignatorController, 'update'])
+    router.delete('api/signators/:id', [SignatorController, 'destroy'])
 
     // User Guide
     router.get('api/user-guide', [UserGuideController, 'index'])

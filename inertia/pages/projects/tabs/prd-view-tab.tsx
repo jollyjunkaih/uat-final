@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useProjectTree } from '~/hooks/use-project-tree'
 import { useCompetitors, useMilestones, useOpenQuestions, useContacts } from '~/hooks/use-prd-data'
 import { useUploads } from '~/hooks/use-uploads'
+import { useSignators } from '~/hooks/use-signators'
 import { pdf } from '@react-pdf/renderer'
 import { BlobProvider } from '@react-pdf/renderer'
 import PrdDocument from '~/components/pdf/prd-document'
@@ -21,6 +22,7 @@ export default function PrdViewTab({ projectId, projectName, project }: PrdViewT
   const { data: questionsData, isLoading: qLoading } = useOpenQuestions(projectId)
   const { data: contactsData, isLoading: ctLoading } = useContacts(projectId)
   const { data: uploadsData, isLoading: upLoading } = useUploads(projectId)
+  const { data: signatorsData, isLoading: sigLoading } = useSignators(projectId)
 
   const features = treeData?.data || []
   const competitors = competitorsData?.data || []
@@ -28,8 +30,11 @@ export default function PrdViewTab({ projectId, projectName, project }: PrdViewT
   const openQuestions = questionsData?.data || []
   const contacts = contactsData?.data || []
   const uploads = uploadsData?.data || []
+  const allSignators = signatorsData?.data || []
+  const prdSignatorIds: string[] = (project as any).prdSignatorIds || []
+  const prdSignators = allSignators.filter((s) => prdSignatorIds.includes(s.id))
 
-  const isLoading = treeLoading || compLoading || msLoading || qLoading || ctLoading || upLoading
+  const isLoading = treeLoading || compLoading || msLoading || qLoading || ctLoading || upLoading || sigLoading
 
   const document = useMemo(
     () => (
@@ -43,9 +48,10 @@ export default function PrdViewTab({ projectId, projectName, project }: PrdViewT
         contacts={contacts}
         uploads={uploads}
         logoUrl={logoSrc}
+        prdSignators={prdSignators}
       />
     ),
-    [projectName, project, features, competitors, milestones, openQuestions, contacts, uploads]
+    [projectName, project, features, competitors, milestones, openQuestions, contacts, uploads, prdSignators]
   )
 
   async function handleDownload() {

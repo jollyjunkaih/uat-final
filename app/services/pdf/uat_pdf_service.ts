@@ -5,6 +5,7 @@ import { readdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import Project from '#models/project'
 import Feature from '#models/feature'
+import Signator from '#models/signator'
 import UatPdfDocument from './uat_pdf_document.js'
 import type { PdfFeature } from './uat_pdf_document.js'
 import YamlWriterService from '#services/yaml_writer_service'
@@ -61,6 +62,21 @@ export default class UatPdfService {
 
     const logoPath = join(process.cwd(), 'inertia', 'public', 'byte of bread logo.png')
 
+    // Load signators for UAT stages
+    const uatAcceptanceIds: string[] = (project.uatAcceptanceSignatorIds as string[]) || []
+    const uatImplementationIds: string[] = (project.uatImplementationSignatorIds as string[]) || []
+    const allUatSignatorIds = [...new Set([...uatAcceptanceIds, ...uatImplementationIds])]
+    const signators = allUatSignatorIds.length > 0
+      ? await Signator.query().whereIn('id', allUatSignatorIds)
+      : []
+
+    const uatAcceptanceSignators = signators
+      .filter((s) => uatAcceptanceIds.includes(s.id))
+      .map((s) => ({ name: s.name, title: s.title }))
+    const uatImplementationSignators = signators
+      .filter((s) => uatImplementationIds.includes(s.id))
+      .map((s) => ({ name: s.name, title: s.title }))
+
     const element = React.createElement(UatPdfDocument, {
       projectName: project.name,
       testingStartDate: project.testingStartDate,
@@ -73,6 +89,8 @@ export default class UatPdfService {
       generalComments: project.generalComments,
       features: pdfFeatures,
       logoPath,
+      uatAcceptanceSignators,
+      uatImplementationSignators,
     })
 
     return renderToBuffer(element as any)

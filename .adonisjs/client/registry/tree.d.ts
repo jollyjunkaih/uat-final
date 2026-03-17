@@ -108,6 +108,12 @@ export interface ApiDefinition {
     contactsUpdate: typeof routes['prd.contacts_update']
     contactsDestroy: typeof routes['prd.contacts_destroy']
   }
+  signator: {
+    index: typeof routes['signator.index']
+    store: typeof routes['signator.store']
+    update: typeof routes['signator.update']
+    destroy: typeof routes['signator.destroy']
+  }
   userGuide: {
     index: typeof routes['user_guide.index']
     grouped: typeof routes['user_guide.grouped']

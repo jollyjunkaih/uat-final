@@ -18,6 +18,9 @@ export const updateProjectValidator = vine.compile(
     prdRequiredSignatures: vine.number().min(1).optional(),
     uatAcceptanceRequiredSignatures: vine.number().min(1).optional(),
     uatImplementationRequiredSignatures: vine.number().min(1).optional(),
+    prdSignatorIds: vine.array(vine.string()).optional(),
+    uatAcceptanceSignatorIds: vine.array(vine.string()).optional(),
+    uatImplementationSignatorIds: vine.array(vine.string()).optional(),
     integrationEnabled: vine.boolean().optional(),
     integrationConfig: vine.any().optional(),
 

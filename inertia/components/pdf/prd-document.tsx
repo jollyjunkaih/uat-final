@@ -208,6 +208,54 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
     fontStyle: 'italic',
   },
+  signatureSection: {
+    marginTop: 24,
+    marginBottom: 12,
+  },
+  signatureSectionTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    marginBottom: 10,
+    paddingBottom: 6,
+    borderBottomWidth: 2,
+    borderBottomColor: '#2563eb',
+  },
+  signatureTableHeader: {
+    flexDirection: 'row' as const,
+    backgroundColor: '#f1f5f9',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  signatureTableRow: {
+    flexDirection: 'row' as const,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#e2e8f0',
+    minHeight: 36,
+  },
+  signatureHeaderCell: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#475569',
+    padding: 6,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  signatureCell: {
+    fontSize: 9,
+    color: '#1e293b',
+    padding: 6,
+    height: 100,
+    justifyContent: 'center' as const,
+  },
+  signatureLine: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#cbd5e1',
+    minWidth: 80,
+    marginTop: 120,
+  },
 })
 
 function getPriorityStyle(priority: string) {
@@ -258,6 +306,12 @@ function FieldCol({ label, value }: { label: string; value?: string | null }) {
   )
 }
 
+export interface PrdSignator {
+  id: string
+  name: string
+  title: string | null
+}
+
 export interface PrdDocumentProps {
   projectName: string
   project: Record<string, unknown>
@@ -268,6 +322,7 @@ export interface PrdDocumentProps {
   contacts: PrdContact[]
   uploads: Upload[]
   logoUrl: string
+  prdSignators?: PrdSignator[]
 }
 
 export default function PrdDocument({
@@ -280,6 +335,7 @@ export default function PrdDocument({
   contacts,
   uploads,
   logoUrl,
+  prdSignators = [],
 }: PrdDocumentProps) {
   const p = project as Record<string, string | string[] | null | undefined>
   const date = new Date().toLocaleDateString('en-US', {
@@ -419,9 +475,7 @@ export default function PrdDocument({
           </View>
         ))}
 
-        {features.length === 0 && (
-          <Text style={styles.emptyText}>No features defined yet.</Text>
-        )}
+        {features.length === 0 && <Text style={styles.emptyText}>No features defined yet.</Text>}
 
         {/* User Interaction */}
         <Text style={styles.sectionTitle}>5. User Interaction</Text>
@@ -472,9 +526,7 @@ export default function PrdDocument({
                 <Text style={[styles.tableCell, { width: '28%' }]}>{m.department}</Text>
                 <Text style={[styles.tableCell, { width: '20%' }]}>{m.startDate || '—'}</Text>
                 <Text style={[styles.tableCell, { width: '20%' }]}>{m.status || '—'}</Text>
-                <Text style={[styles.tableCell, { width: '24%' }]}>
-                  {m.completionDate || '—'}
-                </Text>
+                <Text style={[styles.tableCell, { width: '24%' }]}>{m.completionDate || '—'}</Text>
               </View>
             ))}
           </View>
@@ -551,11 +603,43 @@ export default function PrdDocument({
           <Text style={styles.emptyText}>No contacts defined.</Text>
         )}
 
+        {prdSignators.length > 0 && (
+          <View style={styles.signatureSection} wrap={false}>
+            <Text style={styles.signatureSectionTitle}>13. Required Signatures</Text>
+            <View>
+              <View style={styles.signatureTableHeader}>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Name</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Title</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Signature</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Date</Text>
+              </View>
+              {prdSignators.map((s) => (
+                <View key={s.id} style={styles.signatureTableRow}>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <Text>{s.name}</Text>
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <Text>{s.title || '—'}</Text>
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <View style={styles.signatureLine} />
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <View style={styles.signatureLine} />
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
         <View style={styles.footer} fixed>
           <Text style={styles.footerText}>{projectName} — Product Requirements Document</Text>
           <Text
             style={styles.footerText}
-            render={({ pageNumber, totalPages }) => `${date}  |  Page ${pageNumber} of ${totalPages}`}
+            render={({ pageNumber, totalPages }) =>
+              `${date}  |  Page ${pageNumber} of ${totalPages}`
+            }
           />
         </View>
       </Page>

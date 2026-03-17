@@ -26,6 +26,9 @@ declare module '@adonisjs/inertia/types' {
     'projects/tabs/uat-flows-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-flows-tab.tsx'))['default']>
     'projects/tabs/uat-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-view-tab.tsx'))['default']>
     'projects/tabs/uat-viewer-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/uat-viewer-tab.tsx'))['default']>
+    'projects/tabs/user-guide-edit-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-edit-tab.tsx'))['default']>
+    'projects/tabs/user-guide-pdf-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-pdf-tab.tsx'))['default']>
+    'projects/tabs/user-guide-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-view-tab.tsx'))['default']>
     'projects/tabs/versions-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/versions-tab.tsx'))['default']>
     'settings/index': ExtractProps<(typeof import('../../inertia/pages/settings/index.tsx'))['default']>
     'share/confirmed': ExtractProps<(typeof import('../../inertia/pages/share/confirmed.tsx'))['default']>
@@ -36,8 +39,5 @@ declare module '@adonisjs/inertia/types' {
     'sign-off/panel': ExtractProps<(typeof import('../../inertia/pages/sign-off/panel.tsx'))['default']>
     'versions/index': ExtractProps<(typeof import('../../inertia/pages/versions/index.tsx'))['default']>
     'versions/show': ExtractProps<(typeof import('../../inertia/pages/versions/show.tsx'))['default']>
-    'projects/tabs/user-guide-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-view-tab.tsx'))['default']>
-    'projects/tabs/user-guide-edit-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-edit-tab.tsx'))['default']>
-    'projects/tabs/user-guide-pdf-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-pdf-tab.tsx'))['default']>
   }
 }

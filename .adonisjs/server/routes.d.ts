@@ -76,6 +76,10 @@ export type ScannedRoutes = {
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
     'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'signator.index': { paramsTuple?: []; params?: {} }
+    'signator.store': { paramsTuple?: []; params?: {} }
+    'signator.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'signator.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_guide.index': { paramsTuple?: []; params?: {} }
     'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'user_guide.store': { paramsTuple?: []; params?: {} }
@@ -128,6 +132,7 @@ export type ScannedRoutes = {
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
     'prd.open_questions_index': { paramsTuple?: []; params?: {} }
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
+    'signator.index': { paramsTuple?: []; params?: {} }
     'user_guide.index': { paramsTuple?: []; params?: {} }
     'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'user_guide.step_image': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
@@ -170,6 +175,7 @@ export type ScannedRoutes = {
     'prd.milestones_index': { paramsTuple?: []; params?: {} }
     'prd.open_questions_index': { paramsTuple?: []; params?: {} }
     'prd.contacts_index': { paramsTuple?: []; params?: {} }
+    'signator.index': { paramsTuple?: []; params?: {} }
     'user_guide.index': { paramsTuple?: []; params?: {} }
     'user_guide.grouped': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'user_guide.step_image': { paramsTuple: [ParamValue]; params: {'stepId': ParamValue} }
@@ -206,6 +212,7 @@ export type ScannedRoutes = {
     'prd.milestones_store': { paramsTuple?: []; params?: {} }
     'prd.open_questions_store': { paramsTuple?: []; params?: {} }
     'prd.contacts_store': { paramsTuple?: []; params?: {} }
+    'signator.store': { paramsTuple?: []; params?: {} }
     'user_guide.store': { paramsTuple?: []; params?: {} }
     'yaml_import.import_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.import_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
@@ -225,6 +232,7 @@ export type ScannedRoutes = {
     'prd.milestones_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.open_questions_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'signator.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_guide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
@@ -239,6 +247,7 @@ export type ScannedRoutes = {
     'prd.milestones_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.open_questions_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'prd.contacts_destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'signator.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_guide.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }

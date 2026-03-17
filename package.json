@@ -16,7 +16,11 @@
     "migrate": "node ace migration:run",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit && tsc --noEmit --project inertia/tsconfig.json",
-    "convert-gifs": "node ace convert:gifs"
+    "convert-gifs": "node ace convert:gifs",
+    "docs:setup": "cd docs-site && npm install",
+    "docs:build": "node scripts/build-docs.mjs",
+    "docs:deploy": "node scripts/build-docs.mjs --deploy",
+    "docs:preview": "node scripts/build-docs.mjs --no-git && cd docs-site && npx astro preview"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",

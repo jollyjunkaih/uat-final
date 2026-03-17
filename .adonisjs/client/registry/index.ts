@@ -438,6 +438,30 @@ const routes = {
     tokens: [{"old":"/api/prd/contacts/:id","type":0,"val":"api","end":""},{"old":"/api/prd/contacts/:id","type":0,"val":"prd","end":""},{"old":"/api/prd/contacts/:id","type":0,"val":"contacts","end":""},{"old":"/api/prd/contacts/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['prd.contacts_destroy']['types'],
   },
+  'signator.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/signators',
+    tokens: [{"old":"/api/signators","type":0,"val":"api","end":""},{"old":"/api/signators","type":0,"val":"signators","end":""}],
+    types: placeholder as Registry['signator.index']['types'],
+  },
+  'signator.store': {
+    methods: ["POST"],
+    pattern: '/api/signators',
+    tokens: [{"old":"/api/signators","type":0,"val":"api","end":""},{"old":"/api/signators","type":0,"val":"signators","end":""}],
+    types: placeholder as Registry['signator.store']['types'],
+  },
+  'signator.update': {
+    methods: ["PATCH"],
+    pattern: '/api/signators/:id',
+    tokens: [{"old":"/api/signators/:id","type":0,"val":"api","end":""},{"old":"/api/signators/:id","type":0,"val":"signators","end":""},{"old":"/api/signators/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['signator.update']['types'],
+  },
+  'signator.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/signators/:id',
+    tokens: [{"old":"/api/signators/:id","type":0,"val":"api","end":""},{"old":"/api/signators/:id","type":0,"val":"signators","end":""},{"old":"/api/signators/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['signator.destroy']['types'],
+  },
   'user_guide.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/user-guide',

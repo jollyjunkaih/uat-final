@@ -10,6 +10,7 @@ import PrdCompetitor from '#models/prd_competitor'
 import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
 import PrdContact from '#models/prd_contact'
+import Signator from '#models/signator'
 
 export default class Project extends BaseModel {
   @column({ isPrimary: true })
@@ -32,6 +33,27 @@ export default class Project extends BaseModel {
 
   @column()
   declare uatImplementationRequiredSignatures: number
+
+  @column({
+    prepare: (value: string[]) => JSON.stringify(value || []),
+    consume: (value: string | string[]) =>
+      typeof value === 'string' ? JSON.parse(value) : value || [],
+  })
+  declare prdSignatorIds: string[]
+
+  @column({
+    prepare: (value: string[]) => JSON.stringify(value || []),
+    consume: (value: string | string[]) =>
+      typeof value === 'string' ? JSON.parse(value) : value || [],
+  })
+  declare uatAcceptanceSignatorIds: string[]
+
+  @column({
+    prepare: (value: string[]) => JSON.stringify(value || []),
+    consume: (value: string | string[]) =>
+      typeof value === 'string' ? JSON.parse(value) : value || [],
+  })
+  declare uatImplementationSignatorIds: string[]
 
   @column()
   declare integrationEnabled: boolean
@@ -197,4 +219,7 @@ export default class Project extends BaseModel {
 
   @hasMany(() => PrdContact)
   declare contacts: HasMany<typeof PrdContact>
+
+  @hasMany(() => Signator)
+  declare signators: HasMany<typeof Signator>
 }

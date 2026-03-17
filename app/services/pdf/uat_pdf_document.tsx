@@ -189,6 +189,56 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     marginBottom: 8,
   },
+  signatureSection: {
+    marginTop: 24,
+    marginBottom: 12,
+  },
+  signatureSectionTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    marginBottom: 10,
+    paddingBottom: 4,
+    borderBottomWidth: 2,
+    borderBottomColor: '#7c3aed',
+  },
+  signatureTable: {
+    marginBottom: 8,
+  },
+  signatureTableHeader: {
+    flexDirection: 'row' as const,
+    backgroundColor: '#f1f5f9',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  signatureTableRow: {
+    flexDirection: 'row' as const,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#e2e8f0',
+    minHeight: 36,
+  },
+  signatureHeaderCell: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#475569',
+    padding: 6,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  signatureCell: {
+    fontSize: 9,
+    color: '#1e293b',
+    padding: 6,
+    justifyContent: 'center' as const,
+  },
+  signatureLine: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#cbd5e1',
+    minWidth: 80,
+    marginTop: 12,
+  },
   sectionTitle: {
     fontSize: 12,
     fontWeight: 'bold',
@@ -220,6 +270,11 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
   },
 })
+
+export interface PdfSignator {
+  name: string
+  title: string | null
+}
 
 export interface PdfStep {
   id: string
@@ -255,6 +310,8 @@ export interface UatPdfProps {
   generalComments: string | null
   features: PdfFeature[]
   logoPath: string
+  uatAcceptanceSignators?: PdfSignator[]
+  uatImplementationSignators?: PdfSignator[]
 }
 
 export default function UatPdfDocument({
@@ -267,6 +324,8 @@ export default function UatPdfDocument({
   generalComments,
   features,
   logoPath,
+  uatAcceptanceSignators = [],
+  uatImplementationSignators = [],
 }: UatPdfProps) {
   const date = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -412,6 +471,66 @@ export default function UatPdfDocument({
           <View>
             <Text style={styles.sectionTitle}>General Questions / Comments</Text>
             <Text style={styles.commentText}>{generalComments}</Text>
+          </View>
+        )}
+
+        {uatAcceptanceSignators.length > 0 && (
+          <View style={styles.signatureSection} wrap={false}>
+            <Text style={styles.signatureSectionTitle}>UAT Acceptance Signatures</Text>
+            <View style={styles.signatureTable}>
+              <View style={styles.signatureTableHeader}>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Name</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Title</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Signature</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Date</Text>
+              </View>
+              {uatAcceptanceSignators.map((s, i) => (
+                <View key={i} style={styles.signatureTableRow}>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <Text>{s.name}</Text>
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <Text>{s.title || '—'}</Text>
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <View style={styles.signatureLine} />
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <View style={styles.signatureLine} />
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {uatImplementationSignators.length > 0 && (
+          <View style={styles.signatureSection} wrap={false}>
+            <Text style={styles.signatureSectionTitle}>UAT Implementation Signatures</Text>
+            <View style={styles.signatureTable}>
+              <View style={styles.signatureTableHeader}>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Name</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Title</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Signature</Text>
+                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Date</Text>
+              </View>
+              {uatImplementationSignators.map((s, i) => (
+                <View key={i} style={styles.signatureTableRow}>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <Text>{s.name}</Text>
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <Text>{s.title || '—'}</Text>
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <View style={styles.signatureLine} />
+                  </View>
+                  <View style={[styles.signatureCell, { width: '25%' }]}>
+                    <View style={styles.signatureLine} />
+                  </View>
+                </View>
+              ))}
+            </View>
           </View>
         )}
 

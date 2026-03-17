@@ -2,9 +2,66 @@ import { router } from '@inertiajs/react'
 import { useState, FormEvent } from 'react'
 import { type Data } from '@generated/data'
 import { Link } from '@adonisjs/inertia/react'
+import { useSignators, useCreateSignator, useUpdateSignator, useDeleteSignator } from '~/hooks/use-signators'
+import type { Signator } from '~/hooks/use-signators'
+import { toast } from 'sonner'
 
 interface SettingsProps {
   project: Data.Project
+}
+
+function SignatorCheckboxList({
+  label,
+  description,
+  signators,
+  selectedIds,
+  onChange,
+}: {
+  label: string
+  description: string
+  signators: Signator[]
+  selectedIds: string[]
+  onChange: (ids: string[]) => void
+}) {
+  function toggle(id: string) {
+    if (selectedIds.includes(id)) {
+      onChange(selectedIds.filter((sid) => sid !== id))
+    } else {
+      onChange([...selectedIds, id])
+    }
+  }
+
+  return (
+    <div className="mt-3">
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      <p className="text-xs text-muted-foreground mb-2">{description}</p>
+      {signators.length === 0 ? (
+        <p className="text-xs italic text-muted-foreground">
+          No signatories created yet. Add them in the Signatories section below.
+        </p>
+      ) : (
+        <div className="space-y-1 rounded-md border border-input bg-background p-2 max-h-40 overflow-y-auto">
+          {signators.map((s) => (
+            <label
+              key={s.id}
+              className="flex items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-accent cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                checked={selectedIds.includes(s.id)}
+                onChange={() => toggle(s.id)}
+                className="h-4 w-4 rounded border-input text-primary focus:ring-ring"
+              />
+              <span className="text-foreground">{s.name}</span>
+              {s.title && (
+                <span className="text-muted-foreground text-xs">— {s.title}</span>
+              )}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function Settings({ project }: SettingsProps) {
@@ -12,6 +69,9 @@ export default function Settings({ project }: SettingsProps) {
     prdRequiredSignatures: project.prdRequiredSignatures,
     uatAcceptanceRequiredSignatures: project.uatAcceptanceRequiredSignatures,
     uatImplementationRequiredSignatures: project.uatImplementationRequiredSignatures,
+    prdSignatorIds: (project as any).prdSignatorIds || [],
+    uatAcceptanceSignatorIds: (project as any).uatAcceptanceSignatorIds || [],
+    uatImplementationSignatorIds: (project as any).uatImplementationSignatorIds || [],
     integrationEnabled: project.integrationEnabled,
     integrationConfig: project.integrationConfig
       ? JSON.stringify(project.integrationConfig, null, 2)
@@ -19,6 +79,70 @@ export default function Settings({ project }: SettingsProps) {
   })
   const [submitting, setSubmitting] = useState(false)
   const [saved, setSaved] = useState(false)
+
+  // Signator CRUD
+  const { data: signatorsData } = useSignators(project.id)
+  const signators = signatorsData?.data || []
+  const createSignator = useCreateSignator(project.id)
+  const updateSignator = useUpdateSignator(project.id)
+  const deleteSignator = useDeleteSignator(project.id)
+
+  const [newName, setNewName] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editName, setEditName] = useState('')
+  const [editTitle, setEditTitle] = useState('')
+
+  function handleAddSignator() {
+    if (!newName.trim()) return
+    createSignator.mutate(
+      { projectId: project.id, name: newName.trim(), title: newTitle.trim() || undefined },
+      {
+        onSuccess: () => {
+          setNewName('')
+          setNewTitle('')
+          toast.success('Signatory added')
+        },
+        onError: (err) => toast.error(err.message),
+      }
+    )
+  }
+
+  function startEdit(s: Signator) {
+    setEditingId(s.id)
+    setEditName(s.name)
+    setEditTitle(s.title || '')
+  }
+
+  function handleSaveEdit() {
+    if (!editingId || !editName.trim()) return
+    updateSignator.mutate(
+      { id: editingId, name: editName.trim(), title: editTitle.trim() || null },
+      {
+        onSuccess: () => {
+          setEditingId(null)
+          toast.success('Signatory updated')
+        },
+        onError: (err) => toast.error(err.message),
+      }
+    )
+  }
+
+  function handleDelete(id: string) {
+    deleteSignator.mutate(id, {
+      onSuccess: () => {
+        // Remove from any assignment arrays
+        setFormData((prev) => ({
+          ...prev,
+          prdSignatorIds: prev.prdSignatorIds.filter((sid: string) => sid !== id),
+          uatAcceptanceSignatorIds: prev.uatAcceptanceSignatorIds.filter((sid: string) => sid !== id),
+          uatImplementationSignatorIds: prev.uatImplementationSignatorIds.filter((sid: string) => sid !== id),
+        }))
+        toast.success('Signatory deleted')
+      },
+      onError: (err) => toast.error(err.message),
+    })
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -41,6 +165,11 @@ export default function Settings({ project }: SettingsProps) {
     })
   }
 
+  const inputClass =
+    'mt-2 block w-32 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring'
+  const smallInputClass =
+    'block w-full rounded-md border border-input bg-background px-2 py-1.5 text-sm text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring'
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       <div className="flex items-center gap-3">
@@ -54,14 +183,15 @@ export default function Settings({ project }: SettingsProps) {
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Settings</h1>
       </div>
       <p className="mt-1 text-muted-foreground">
-        Configure approval chains and integrations for this project.
+        Configure approval chains, signatories, and integrations for this project.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-8">
+        {/* Approval Chain */}
         <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-foreground">Approval Chain</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Set the number of required signatures for each document type and stage.
+            Set the number of required signatures and assign signatories for each document type and stage.
           </p>
 
           <div className="mt-6 space-y-5">
@@ -80,7 +210,14 @@ export default function Settings({ project }: SettingsProps) {
                 onChange={(e) =>
                   setFormData({ ...formData, prdRequiredSignatures: parseInt(e.target.value) || 0 })
                 }
-                className="mt-2 block w-32 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                className={inputClass}
+              />
+              <SignatorCheckboxList
+                label="Assigned PRD Signatories"
+                description="Select who needs to sign off on PRD versions."
+                signators={signators}
+                selectedIds={formData.prdSignatorIds}
+                onChange={(ids) => setFormData({ ...formData, prdSignatorIds: ids })}
               />
             </div>
 
@@ -105,7 +242,14 @@ export default function Settings({ project }: SettingsProps) {
                     uatAcceptanceRequiredSignatures: parseInt(e.target.value) || 0,
                   })
                 }
-                className="mt-2 block w-32 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                className={inputClass}
+              />
+              <SignatorCheckboxList
+                label="Assigned UAT Acceptance Signatories"
+                description="Select who needs to sign off on UAT acceptance."
+                signators={signators}
+                selectedIds={formData.uatAcceptanceSignatorIds}
+                onChange={(ids) => setFormData({ ...formData, uatAcceptanceSignatorIds: ids })}
               />
             </div>
 
@@ -130,12 +274,141 @@ export default function Settings({ project }: SettingsProps) {
                     uatImplementationRequiredSignatures: parseInt(e.target.value) || 0,
                   })
                 }
-                className="mt-2 block w-32 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                className={inputClass}
+              />
+              <SignatorCheckboxList
+                label="Assigned UAT Implementation Signatories"
+                description="Select who needs to sign off on UAT implementation."
+                signators={signators}
+                selectedIds={formData.uatImplementationSignatorIds}
+                onChange={(ids) =>
+                  setFormData({ ...formData, uatImplementationSignatorIds: ids })
+                }
               />
             </div>
           </div>
         </section>
 
+        {/* Signatories Management */}
+        <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-foreground">Signatories</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Manage the people who can be assigned as signatories. Add them here, then assign them to
+            approval stages above.
+          </p>
+
+          <div className="mt-4 space-y-2">
+            {signators.map((s) => (
+              <div
+                key={s.id}
+                className="flex items-center gap-3 rounded-md border border-border bg-background px-3 py-2"
+              >
+                {editingId === s.id ? (
+                  <>
+                    <input
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      placeholder="Name"
+                      className={smallInputClass + ' flex-1'}
+                    />
+                    <input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      placeholder="Title (optional)"
+                      className={smallInputClass + ' flex-1'}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSaveEdit}
+                      disabled={updateSignator.isPending}
+                      className="rounded px-2 py-1 text-xs font-medium text-primary hover:bg-accent"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingId(null)}
+                      className="rounded px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-accent"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <span className="flex-1 text-sm font-medium text-foreground">{s.name}</span>
+                    {s.title && (
+                      <span className="text-sm text-muted-foreground">{s.title}</span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => startEdit(s)}
+                      className="rounded px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(s.id)}
+                      disabled={deleteSignator.isPending}
+                      className="rounded px-2 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </div>
+            ))}
+
+            {signators.length === 0 && (
+              <p className="text-sm italic text-muted-foreground py-2">
+                No signatories added yet.
+              </p>
+            )}
+          </div>
+
+          <div className="mt-4 flex items-end gap-2">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-foreground">Name</label>
+              <input
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                placeholder="Signatory name"
+                className={smallInputClass + ' mt-1'}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    handleAddSignator()
+                  }
+                }}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-foreground">Title</label>
+              <input
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="Title (optional)"
+                className={smallInputClass + ' mt-1'}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    handleAddSignator()
+                  }
+                }}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={handleAddSignator}
+              disabled={createSignator.isPending || !newName.trim()}
+              className="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 disabled:opacity-50"
+            >
+              Add
+            </button>
+          </div>
+        </section>
+
+        {/* Integration */}
         <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-foreground">Integration</h2>
           <p className="mt-1 text-sm text-muted-foreground">

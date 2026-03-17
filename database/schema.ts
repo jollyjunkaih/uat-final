@@ -187,7 +187,7 @@ export class PrdOpenQuestionSchema extends BaseModel {
 }
 
 export class ProjectSchema extends BaseModel {
-  static $columns = ['additionalResources', 'additionalVisualIdentity', 'bom', 'brandingAdjectives', 'brandingTone', 'cloudApplication', 'companyName', 'contributors', 'createdAt', 'deletedAt', 'description', 'diagramsSchematics', 'firmwareFunctions', 'formFactor', 'generalComments', 'id', 'integrationConfig', 'integrationEnabled', 'locationsOfSale', 'materials', 'moduleList', 'name', 'objective', 'ownerId', 'packagingPresentation', 'prdDate', 'prdRequiredSignatures', 'prdVersion', 'preparedBy', 'productName', 'projectManager', 'servicingUpdates', 'smartphoneApplication', 'status', 'successMetrics', 'targetAudience', 'targetMarket', 'targetReleaseDate', 'testerNames', 'testingEndDate', 'testingEndTime', 'testingStartDate', 'testingStartTime', 'touchpoint', 'uatAcceptanceRequiredSignatures', 'uatImplementationRequiredSignatures', 'updatedAt', 'userFeedback', 'userInteractions', 'visualIdentity'] as const
+  static $columns = ['additionalResources', 'additionalVisualIdentity', 'bom', 'brandingAdjectives', 'brandingTone', 'cloudApplication', 'companyName', 'contributors', 'createdAt', 'deletedAt', 'description', 'diagramsSchematics', 'firmwareFunctions', 'formFactor', 'generalComments', 'id', 'integrationConfig', 'integrationEnabled', 'locationsOfSale', 'materials', 'moduleList', 'name', 'objective', 'ownerId', 'packagingPresentation', 'prdDate', 'prdRequiredSignatures', 'prdSignatorIds', 'prdVersion', 'preparedBy', 'productName', 'projectManager', 'servicingUpdates', 'smartphoneApplication', 'status', 'successMetrics', 'targetAudience', 'targetMarket', 'targetReleaseDate', 'testerNames', 'testingEndDate', 'testingEndTime', 'testingStartDate', 'testingStartTime', 'touchpoint', 'uatAcceptanceRequiredSignatures', 'uatAcceptanceSignatorIds', 'uatImplementationRequiredSignatures', 'uatImplementationSignatorIds', 'updatedAt', 'userFeedback', 'userInteractions', 'visualIdentity'] as const
   $columns = ProjectSchema.$columns
   @column()
   declare additionalResources: string | null
@@ -244,6 +244,8 @@ export class ProjectSchema extends BaseModel {
   @column()
   declare prdRequiredSignatures: number
   @column()
+  declare prdSignatorIds: any
+  @column()
   declare prdVersion: string | null
   @column()
   declare preparedBy: string | null
@@ -280,7 +282,11 @@ export class ProjectSchema extends BaseModel {
   @column()
   declare uatAcceptanceRequiredSignatures: number
   @column()
+  declare uatAcceptanceSignatorIds: any
+  @column()
   declare uatImplementationRequiredSignatures: number
+  @column()
+  declare uatImplementationSignatorIds: any
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
@@ -347,6 +353,25 @@ export class SignOffRecordSchema extends BaseModel {
   declare updatedAt: DateTime | null
   @column()
   declare versionId: string
+}
+
+export class SignatorSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'projectId', 'sequence', 'title', 'updatedAt'] as const
+  $columns = SignatorSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare name: string
+  @column()
+  declare projectId: string
+  @column()
+  declare sequence: number
+  @column()
+  declare title: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
 }
 
 export class StepImageSchema extends BaseModel {
