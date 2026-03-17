@@ -212,7 +212,54 @@ export default class YamlImportService {
     const roles = parsed.roles
     if (!roles?.length) return
 
+    // Transform YAML roles to match the new steps-based schema
+    const transformed = roles.map((role: any) => ({
+      name: role.name,
+      slug: role.slug,
+      description: role.description || null,
+      sequence: role.sequence,
+      sections: (role.sections || []).map((section: any) => ({
+        title: section.title,
+        slug: section.slug,
+        module: section.module || null,
+        sequence: section.sequence,
+        steps: this.extractSteps(section),
+      })),
+    }))
+
     const service = new UserGuideService()
-    await service.importFromYaml(projectId, { roles })
+    await service.importFromYaml(projectId, { roles: transformed })
+  }
+
+  /**
+   * Extract steps from a YAML section.
+   * Supports new `steps` array format and legacy `content` string (split by paragraphs).
+   */
+  private extractSteps(
+    section: any
+  ): Array<{ instruction: string; imageFileName?: string | null; sequence: number }> {
+    // New format: steps array
+    if (Array.isArray(section.steps)) {
+      return section.steps.map((step: any, idx: number) => ({
+        instruction: step.instruction,
+        imageFileName: step.imageFileName || null,
+        sequence: step.sequence ?? idx,
+      }))
+    }
+
+    // Legacy format: content string — split by double newlines into steps
+    if (typeof section.content === 'string' && section.content.trim()) {
+      const paragraphs = section.content
+        .split(/\n\s*\n/)
+        .map((p: string) => p.trim())
+        .filter(Boolean)
+      return paragraphs.map((text: string, idx: number) => ({
+        instruction: text,
+        imageFileName: null,
+        sequence: idx,
+      }))
+    }
+
+    return []
   }
 }

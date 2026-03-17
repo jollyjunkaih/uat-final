@@ -1,4 +1,5 @@
 import UserGuideSection from '#models/user_guide_section'
+import UserGuideStep from '#models/user_guide_step'
 import { DateTime } from 'luxon'
 
 export default class UserGuideService {
@@ -22,13 +23,20 @@ export default class UserGuideService {
       query.where('status', String(params.status))
     }
 
-    query.orderBy('role_sequence', 'asc').orderBy('sequence', 'asc')
+    query
+      .preload('steps', (q) => q.orderBy('sequence', 'asc'))
+      .orderBy('role_sequence', 'asc')
+      .orderBy('sequence', 'asc')
 
     return query
   }
 
   async findById(id: string) {
-    return UserGuideSection.query().where('id', id).whereNull('deleted_at').firstOrFail()
+    return UserGuideSection.query()
+      .where('id', id)
+      .whereNull('deleted_at')
+      .preload('steps', (q) => q.orderBy('sequence', 'asc'))
+      .firstOrFail()
   }
 
   async create(data: {
@@ -41,13 +49,35 @@ export default class UserGuideService {
     slug: string
     module?: string | null
     sequence: number
-    content: string
     status?: string
+    steps?: Array<{ instruction: string; imageFileName?: string | null; sequence: number }>
   }) {
-    return UserGuideSection.create({
-      ...data,
+    const section = await UserGuideSection.create({
+      projectId: data.projectId,
+      roleName: data.roleName,
+      roleSlug: data.roleSlug,
+      roleDescription: data.roleDescription || null,
+      roleSequence: data.roleSequence,
+      title: data.title,
+      slug: data.slug,
+      module: data.module || null,
+      sequence: data.sequence,
       status: (data.status as 'draft' | 'published' | 'archived') || 'draft',
     })
+
+    if (data.steps?.length) {
+      for (const step of data.steps) {
+        await UserGuideStep.create({
+          sectionId: section.id,
+          instruction: step.instruction,
+          imageFileName: step.imageFileName || null,
+          sequence: step.sequence,
+        })
+      }
+    }
+
+    await section.load('steps', (q) => q.orderBy('sequence', 'asc'))
+    return section
   }
 
   async update(
@@ -61,13 +91,30 @@ export default class UserGuideService {
       slug: string
       module: string | null
       sequence: number
-      content: string
       status: string
+      steps: Array<{ instruction: string; imageFileName?: string | null; sequence: number }>
     }>
   ) {
     const section = await this.findById(id)
-    section.merge(data as Record<string, unknown>)
+
+    const { steps, ...sectionData } = data
+    section.merge(sectionData as Record<string, unknown>)
     await section.save()
+
+    if (steps !== undefined) {
+      // Replace all steps
+      await UserGuideStep.query().where('section_id', id).delete()
+      for (const step of steps) {
+        await UserGuideStep.create({
+          sectionId: id,
+          instruction: step.instruction,
+          imageFileName: step.imageFileName || null,
+          sequence: step.sequence,
+        })
+      }
+    }
+
+    await section.load('steps', (q) => q.orderBy('sequence', 'asc'))
     return section
   }
 
@@ -85,6 +132,7 @@ export default class UserGuideService {
     const sections = await UserGuideSection.query()
       .where('project_id', projectId)
       .whereNull('deleted_at')
+      .preload('steps', (q) => q.orderBy('sequence', 'asc'))
       .orderBy('role_sequence', 'asc')
       .orderBy('sequence', 'asc')
 
@@ -133,12 +181,16 @@ export default class UserGuideService {
           slug: string
           module?: string | null
           sequence: number
-          content: string
+          steps: Array<{
+            instruction: string
+            imageFileName?: string | null
+            sequence: number
+          }>
         }>
       }>
     }
   ) {
-    // Soft-delete existing sections for this project
+    // Soft-delete existing sections for this project (cascade deletes steps)
     await UserGuideSection.query()
       .where('project_id', projectId)
       .whereNull('deleted_at')
@@ -158,9 +210,18 @@ export default class UserGuideService {
           slug: section.slug,
           module: section.module || null,
           sequence: section.sequence,
-          content: section.content,
           status: 'draft',
         })
+
+        for (const step of section.steps) {
+          await UserGuideStep.create({
+            sectionId: record.id,
+            instruction: step.instruction,
+            imageFileName: step.imageFileName || null,
+            sequence: step.sequence,
+          })
+        }
+
         created.push(record)
       }
     }

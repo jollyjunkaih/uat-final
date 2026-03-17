@@ -510,6 +510,12 @@ const routes = {
     tokens: [{"old":"/api/projects/:id/uat-pdf","type":0,"val":"api","end":""},{"old":"/api/projects/:id/uat-pdf","type":0,"val":"projects","end":""},{"old":"/api/projects/:id/uat-pdf","type":1,"val":"id","end":""},{"old":"/api/projects/:id/uat-pdf","type":0,"val":"uat-pdf","end":""}],
     types: placeholder as Registry['projects.uat_pdf']['types'],
   },
+  'user_guide.pdf': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/user-guide/pdf/:projectId',
+    tokens: [{"old":"/api/user-guide/pdf/:projectId","type":0,"val":"api","end":""},{"old":"/api/user-guide/pdf/:projectId","type":0,"val":"user-guide","end":""},{"old":"/api/user-guide/pdf/:projectId","type":0,"val":"pdf","end":""},{"old":"/api/user-guide/pdf/:projectId","type":1,"val":"projectId","end":""}],
+    types: placeholder as Registry['user_guide.pdf']['types'],
+  },
   'projects.prd': {
     methods: ["GET","HEAD"],
     pattern: '/projects/:id/prd',

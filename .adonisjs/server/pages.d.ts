@@ -38,5 +38,6 @@ declare module '@adonisjs/inertia/types' {
     'versions/show': ExtractProps<(typeof import('../../inertia/pages/versions/show.tsx'))['default']>
     'projects/tabs/user-guide-view-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-view-tab.tsx'))['default']>
     'projects/tabs/user-guide-edit-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-edit-tab.tsx'))['default']>
+    'projects/tabs/user-guide-pdf-tab': ExtractProps<(typeof import('../../inertia/pages/projects/tabs/user-guide-pdf-tab.tsx'))['default']>
   }
 }

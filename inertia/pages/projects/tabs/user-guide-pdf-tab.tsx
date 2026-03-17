@@ -1,14 +1,13 @@
 import { useState } from 'react'
 
-interface UatViewTabProps {
+interface UserGuidePdfTabProps {
   projectId: string
   projectName: string
-  project: Record<string, unknown>
 }
 
-export default function UatViewTab({ projectId, projectName }: UatViewTabProps) {
+export default function UserGuidePdfTab({ projectId, projectName }: UserGuidePdfTabProps) {
   const [loading, setLoading] = useState(false)
-  const pdfUrl = `/api/projects/${projectId}/uat-pdf`
+  const pdfUrl = `/api/user-guide/pdf/${projectId}`
 
   async function handleDownload() {
     setLoading(true)
@@ -19,7 +18,7 @@ export default function UatViewTab({ projectId, projectName }: UatViewTabProps) 
       const url = URL.createObjectURL(blob)
       const a = Object.assign(document.createElement('a'), {
         href: url,
-        download: `${projectName.replace(/\s+/g, '_')}_UAT.pdf`,
+        download: `${projectName.replace(/\s+/g, '_')}_User_Guide.pdf`,
       })
       a.click()
       URL.revokeObjectURL(url)
@@ -32,9 +31,9 @@ export default function UatViewTab({ projectId, projectName }: UatViewTabProps) 
     <div className="rounded-lg border border-border bg-card p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">UAT PDF</h3>
+          <h3 className="text-lg font-semibold text-foreground">User Guide PDF</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            User Acceptance Testing document with all functions and test cases.
+            Role-based user guide document with all sections and instructions.
           </p>
         </div>
         <button
@@ -65,7 +64,7 @@ export default function UatViewTab({ projectId, projectName }: UatViewTabProps) 
         src={pdfUrl}
         className="w-full rounded-lg border border-border"
         style={{ height: '80vh' }}
-        title="UAT Document Preview"
+        title="User Guide PDF Preview"
       />
     </div>
   )

@@ -3,6 +3,14 @@ import { useQuery } from '@tanstack/react-query'
 import { apiFetch } from '~/lib/api'
 import { cn } from '~/lib/utils'
 
+interface GuideStep {
+  id: string
+  sectionId: string
+  instruction: string
+  imageFileName: string | null
+  sequence: number
+}
+
 interface GuideSection {
   id: string
   projectId: string
@@ -14,7 +22,7 @@ interface GuideSection {
   slug: string
   module: string | null
   sequence: number
-  content: string
+  steps: GuideStep[]
   status: string
   createdAt: string
   updatedAt: string | null
@@ -30,7 +38,6 @@ interface RoleGroup {
 
 interface UserGuideViewTabProps {
   projectId: string
-  projectName?: string
 }
 
 function SectionCard({ section }: { section: GuideSection }) {
@@ -52,6 +59,9 @@ function SectionCard({ section }: { section: GuideSection }) {
           )}
         </div>
         <div className="ml-3 flex shrink-0 items-center gap-2">
+          <span className="text-xs text-muted-foreground">
+            {section.steps?.length ?? 0} step{(section.steps?.length ?? 0) !== 1 ? 's' : ''}
+          </span>
           <span
             className={cn(
               'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium',
@@ -83,17 +93,34 @@ function SectionCard({ section }: { section: GuideSection }) {
       </button>
       {expanded && (
         <div className="border-t border-border px-5 py-4">
-          <div className="prose prose-sm max-w-none text-foreground">
-            {section.content.split('\n').map((paragraph, idx) => {
-              const trimmed = paragraph.trim()
-              if (!trimmed) return null
-              return (
-                <p key={idx} className="mb-3 text-sm leading-relaxed text-muted-foreground">
-                  {trimmed}
-                </p>
-              )
-            })}
-          </div>
+          {section.steps && section.steps.length > 0 ? (
+            <ol className="space-y-3">
+              {section.steps.map((step, idx) => (
+                <li key={step.id} className="flex gap-3">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                    {idx + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {step.instruction}
+                    </p>
+                    {step.imageFileName && (
+                      <span className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground/70">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                          <circle cx="9" cy="9" r="2" />
+                          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                        </svg>
+                        {step.imageFileName}
+                      </span>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="text-sm text-muted-foreground italic">No steps defined.</p>
+          )}
         </div>
       )}
     </div>
@@ -167,27 +194,8 @@ function RoleAccordion({
   )
 }
 
-export default function UserGuideViewTab({ projectId, projectName }: UserGuideViewTabProps) {
+export default function UserGuideViewTab({ projectId }: UserGuideViewTabProps) {
   const [openRole, setOpenRole] = useState<string | null>(null)
-  const [pdfLoading, setPdfLoading] = useState(false)
-
-  async function handleDownloadPdf() {
-    setPdfLoading(true)
-    try {
-      const res = await fetch(`/api/user-guide/pdf/${projectId}`)
-      if (!res.ok) throw new Error('Failed to generate PDF')
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = Object.assign(document.createElement('a'), {
-        href: url,
-        download: `${(projectName || 'project').replace(/\s+/g, '_')}_User_Guide.pdf`,
-      })
-      a.click()
-      URL.revokeObjectURL(url)
-    } finally {
-      setPdfLoading(false)
-    }
-  }
 
   const { data, isLoading } = useQuery({
     queryKey: ['user-guide-grouped', projectId],
@@ -247,18 +255,6 @@ export default function UserGuideViewTab({ projectId, projectName }: UserGuideVi
             {roles.length} role{roles.length !== 1 ? 's' : ''} &middot;{' '}
             {roles.reduce((acc, r) => acc + r.sections.length, 0)} sections
           </span>
-          <button
-            onClick={handleDownloadPdf}
-            disabled={pdfLoading}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            {pdfLoading ? 'Generating...' : 'Download PDF'}
-          </button>
         </div>
       </div>
 

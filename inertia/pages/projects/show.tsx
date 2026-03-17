@@ -14,22 +14,34 @@ import PrdEditTab from './tabs/prd-edit-tab'
 import UatViewerTab from './tabs/uat-viewer-tab'
 import UserGuideViewTab from './tabs/user-guide-view-tab'
 import UserGuideEditTab from './tabs/user-guide-edit-tab'
+import UserGuidePdfTab from './tabs/user-guide-pdf-tab'
 
 interface ProjectShowProps {
   project: Data.Project
 }
 
-type Tab = 'features' | 'uat-flows' | 'prd-edit' | 'prd-view' | 'uat-view' | 'uat-viewer' | 'user-guide' | 'user-guide-edit' | 'versions'
+type Tab =
+  | 'features'
+  | 'uat-flows'
+  | 'prd-edit'
+  | 'prd-view'
+  | 'uat-view'
+  | 'uat-viewer'
+  | 'user-guide'
+  | 'user-guide-edit'
+  | 'user-guide-pdf'
+  | 'versions'
 
 const tabs: { key: Tab; label: string }[] = [
   { key: 'features', label: 'Features' },
   { key: 'uat-flows', label: 'Functions' },
   { key: 'prd-edit', label: 'PRD Edit' },
   { key: 'prd-view', label: 'PRD View' },
-  { key: 'uat-view', label: 'UAT View' },
+  { key: 'uat-view', label: 'UAT PDF' },
   { key: 'uat-viewer', label: 'UAT Viewer' },
   { key: 'user-guide', label: 'User Guide' },
   { key: 'user-guide-edit', label: 'Guide Edit' },
+  { key: 'user-guide-pdf', label: 'Guide PDF' },
   { key: 'versions', label: 'Versions' },
 ]
 
@@ -52,13 +64,7 @@ function ProjectStatusBadge({ status }: { status: string }) {
   )
 }
 
-function TabContent({
-  tab,
-  project,
-}: {
-  tab: Tab
-  project: Data.Project
-}) {
+function TabContent({ tab, project }: { tab: Tab; project: Data.Project }) {
   switch (tab) {
     case 'features':
       return <FeaturesTab projectId={project.id} moduleList={project.moduleList} />
@@ -73,9 +79,11 @@ function TabContent({
     case 'uat-viewer':
       return <UatViewerTab projectId={project.id} />
     case 'user-guide':
-      return <UserGuideViewTab projectId={project.id} projectName={project.name} />
+      return <UserGuideViewTab projectId={project.id} />
     case 'user-guide-edit':
       return <UserGuideEditTab projectId={project.id} />
+    case 'user-guide-pdf':
+      return <UserGuidePdfTab projectId={project.id} projectName={project.name} />
     case 'versions':
       return <VersionsTab projectId={project.id} />
   }
@@ -84,7 +92,18 @@ function TabContent({
 function getInitialTab(): Tab {
   const params = new URLSearchParams(window.location.search)
   const tab = params.get('tab')
-  const validTabs: Tab[] = ['features', 'uat-flows', 'prd-edit', 'prd-view', 'uat-view', 'uat-viewer', 'user-guide', 'user-guide-edit', 'versions']
+  const validTabs: Tab[] = [
+    'features',
+    'uat-flows',
+    'prd-edit',
+    'prd-view',
+    'uat-view',
+    'uat-viewer',
+    'user-guide',
+    'user-guide-edit',
+    'user-guide-pdf',
+    'versions',
+  ]
   return validTabs.includes(tab as Tab) ? (tab as Tab) : 'features'
 }
 

@@ -496,10 +496,8 @@ export class UploadSchema extends BaseModel {
 }
 
 export class UserGuideSectionSchema extends BaseModel {
-  static $columns = ['content', 'createdAt', 'deletedAt', 'id', 'module', 'projectId', 'roleDescription', 'roleName', 'roleSequence', 'roleSlug', 'sequence', 'slug', 'status', 'title', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'id', 'module', 'projectId', 'roleDescription', 'roleName', 'roleSequence', 'roleSlug', 'sequence', 'slug', 'status', 'title', 'updatedAt'] as const
   $columns = UserGuideSectionSchema.$columns
-  @column()
-  declare content: string
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column.dateTime()
@@ -526,6 +524,25 @@ export class UserGuideSectionSchema extends BaseModel {
   declare status: string
   @column()
   declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class UserGuideStepSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'imageFileName', 'instruction', 'sectionId', 'sequence', 'updatedAt'] as const
+  $columns = UserGuideStepSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare imageFileName: string | null
+  @column()
+  declare instruction: string
+  @column()
+  declare sectionId: string
+  @column()
+  declare sequence: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

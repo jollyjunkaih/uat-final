@@ -116,11 +116,31 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  sectionContent: {
+  stepRow: {
+    flexDirection: 'row' as const,
+    marginBottom: 4,
+    gap: 6,
+  },
+  stepNumber: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#0891b2',
+    width: 16,
+    textAlign: 'right' as const,
+    marginTop: 1,
+  },
+  stepInstruction: {
     fontSize: 9,
     color: '#475569',
     lineHeight: 1.5,
-    marginBottom: 4,
+    flex: 1,
+  },
+  stepImage: {
+    fontSize: 7,
+    color: '#94a3b8',
+    fontStyle: 'italic',
+    marginLeft: 22,
+    marginBottom: 2,
   },
   noSections: {
     fontSize: 9,
@@ -151,12 +171,19 @@ const styles = StyleSheet.create({
   },
 })
 
+export interface PdfGuideStep {
+  id: string
+  instruction: string
+  imageFileName: string | null
+  sequence: number
+}
+
 export interface PdfGuideSection {
   id: string
   title: string
   module: string | null
   sequence: number
-  content: string
+  steps: PdfGuideStep[]
   status: string
 }
 
@@ -186,6 +213,10 @@ export default function UserGuidePdfDocument({
   })
 
   const totalSections = roles.reduce((sum, r) => sum + r.sections.length, 0)
+  const totalSteps = roles.reduce(
+    (sum, r) => sum + r.sections.reduce((s, sec) => s + sec.steps.length, 0),
+    0
+  )
 
   return (
     <Document>
@@ -211,6 +242,10 @@ export default function UserGuidePdfDocument({
             <Text style={styles.metaValue}>{totalSections}</Text>
           </View>
           <View style={styles.metaRow}>
+            <Text style={styles.metaLabel}>Total Steps:</Text>
+            <Text style={styles.metaValue}>{totalSteps}</Text>
+          </View>
+          <View style={styles.metaRow}>
             <Text style={styles.metaLabel}>Generated:</Text>
             <Text style={styles.metaValue}>{date}</Text>
           </View>
@@ -232,15 +267,25 @@ export default function UserGuidePdfDocument({
               {role.sections.length === 0 ? (
                 <Text style={styles.noSections}>No sections defined for this role.</Text>
               ) : (
-                role.sections.map((section, idx) => (
-                  <View key={section.id} style={styles.sectionContainer} wrap={false}>
+                role.sections.map((section, sIdx) => (
+                  <View key={section.id} style={styles.sectionContainer}>
                     <Text style={styles.sectionTitle}>
-                      {idx + 1}. {section.title}
+                      {sIdx + 1}. {section.title}
                     </Text>
                     {section.module && (
                       <Text style={styles.sectionModule}>{section.module}</Text>
                     )}
-                    <Text style={styles.sectionContent}>{section.content}</Text>
+                    {section.steps.map((step, stepIdx) => (
+                      <View key={step.id} wrap={false}>
+                        <View style={styles.stepRow}>
+                          <Text style={styles.stepNumber}>{stepIdx + 1}.</Text>
+                          <Text style={styles.stepInstruction}>{step.instruction}</Text>
+                        </View>
+                        {step.imageFileName && (
+                          <Text style={styles.stepImage}>[Image: {step.imageFileName}]</Text>
+                        )}
+                      </View>
+                    ))}
                   </View>
                 ))
               )}

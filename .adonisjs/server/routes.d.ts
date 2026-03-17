@@ -88,6 +88,7 @@ export type ScannedRoutes = {
     'yaml_import.refetch_from_disk': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.pdf': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -129,6 +130,7 @@ export type ScannedRoutes = {
     'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.pdf': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -169,6 +171,7 @@ export type ScannedRoutes = {
     'user_guide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.tree': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat_pdf': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_guide.pdf': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'projects.prd': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }

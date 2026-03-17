@@ -22,8 +22,13 @@ export default class UserGuidePdfService {
         title: s.title,
         module: s.module,
         sequence: s.sequence,
-        content: s.content,
         status: s.status,
+        steps: (s.steps || []).map((step) => ({
+          id: step.id,
+          instruction: step.instruction,
+          imageFileName: step.imageFileName,
+          sequence: step.sequence,
+        })),
       })),
     }))
 

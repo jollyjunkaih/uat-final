@@ -115,6 +115,7 @@ export interface ApiDefinition {
     show: typeof routes['user_guide.show']
     update: typeof routes['user_guide.update']
     destroy: typeof routes['user_guide.destroy']
+    pdf: typeof routes['user_guide.pdf']
   }
   yamlImport: {
     importPrd: typeof routes['yaml_import.import_prd']

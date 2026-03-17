@@ -4,6 +4,14 @@ import { apiFetch, apiUpload } from '~/lib/api'
 import { toast } from 'sonner'
 import { cn } from '~/lib/utils'
 
+interface GuideStep {
+  id: string
+  sectionId: string
+  instruction: string
+  imageFileName: string | null
+  sequence: number
+}
+
 interface GuideSection {
   id: string
   projectId: string
@@ -15,7 +23,7 @@ interface GuideSection {
   slug: string
   module: string | null
   sequence: number
-  content: string
+  steps: GuideStep[]
   status: string
   createdAt: string
   updatedAt: string | null
@@ -33,6 +41,85 @@ interface UserGuideEditTabProps {
   projectId: string
 }
 
+/* ── Step Editor Row ── */
+
+interface EditableStep {
+  instruction: string
+  imageFileName: string
+}
+
+function StepRow({
+  step,
+  index,
+  onChange,
+  onRemove,
+  onMoveUp,
+  onMoveDown,
+  isFirst,
+  isLast,
+}: {
+  step: EditableStep
+  index: number
+  onChange: (updated: EditableStep) => void
+  onRemove: () => void
+  onMoveUp: () => void
+  onMoveDown: () => void
+  isFirst: boolean
+  isLast: boolean
+}) {
+  return (
+    <div className="flex gap-2 items-start group">
+      <span className="mt-2.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+        {index + 1}
+      </span>
+      <div className="flex-1 space-y-1.5">
+        <textarea
+          value={step.instruction}
+          onChange={(e) => onChange({ ...step, instruction: e.target.value })}
+          rows={2}
+          placeholder="Step instruction..."
+          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm leading-relaxed focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+        />
+        <input
+          type="text"
+          value={step.imageFileName}
+          onChange={(e) => onChange({ ...step, imageFileName: e.target.value })}
+          placeholder="Image file name (optional)"
+          className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+        />
+      </div>
+      <div className="flex flex-col gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button
+          type="button"
+          onClick={onMoveUp}
+          disabled={isFirst}
+          className="rounded p-0.5 text-muted-foreground hover:text-foreground disabled:opacity-20"
+          title="Move up"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+        <button
+          type="button"
+          onClick={onMoveDown}
+          disabled={isLast}
+          className="rounded p-0.5 text-muted-foreground hover:text-foreground disabled:opacity-20"
+          title="Move down"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="rounded p-0.5 text-red-400 hover:text-red-600"
+          title="Remove step"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  )
+}
+
 /* ── Inline Section Editor ── */
 
 function SectionEditor({
@@ -45,9 +132,14 @@ function SectionEditor({
   onCancel: () => void
 }) {
   const [title, setTitle] = useState(section.title)
-  const [content, setContent] = useState(section.content)
   const [module, setModule] = useState(section.module || '')
   const [status, setStatus] = useState(section.status)
+  const [steps, setSteps] = useState<EditableStep[]>(
+    (section.steps || []).map((s) => ({
+      instruction: s.instruction,
+      imageFileName: s.imageFileName || '',
+    }))
+  )
 
   const queryClient = useQueryClient()
 
@@ -83,11 +175,38 @@ function SectionEditor({
   function handleSave() {
     updateMutation.mutate({
       title,
-      content,
       module: module || null,
       status,
+      steps: steps.map((s, idx) => ({
+        instruction: s.instruction,
+        imageFileName: s.imageFileName || null,
+        sequence: idx,
+      })),
     })
   }
+
+  function updateStep(idx: number, updated: EditableStep) {
+    setSteps((prev) => prev.map((s, i) => (i === idx ? updated : s)))
+  }
+
+  function removeStep(idx: number) {
+    setSteps((prev) => prev.filter((_, i) => i !== idx))
+  }
+
+  function moveStep(idx: number, dir: -1 | 1) {
+    setSteps((prev) => {
+      const arr = [...prev]
+      const target = idx + dir
+      ;[arr[idx], arr[target]] = [arr[target], arr[idx]]
+      return arr
+    })
+  }
+
+  function addStep() {
+    setSteps((prev) => [...prev, { instruction: '', imageFileName: '' }])
+  }
+
+  const hasSteps = steps.some((s) => s.instruction.trim())
 
   return (
     <div className="space-y-4 rounded-lg border border-blue-200 bg-blue-50/50 p-4">
@@ -128,13 +247,32 @@ function SectionEditor({
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-foreground mb-1">Content</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={12}
-          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm font-mono leading-relaxed focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-        />
+        <label className="block text-xs font-medium text-foreground mb-2">
+          Steps ({steps.length})
+        </label>
+        <div className="space-y-2">
+          {steps.map((step, idx) => (
+            <StepRow
+              key={idx}
+              step={step}
+              index={idx}
+              onChange={(updated) => updateStep(idx, updated)}
+              onRemove={() => removeStep(idx)}
+              onMoveUp={() => moveStep(idx, -1)}
+              onMoveDown={() => moveStep(idx, 1)}
+              isFirst={idx === 0}
+              isLast={idx === steps.length - 1}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={addStep}
+          className="mt-2 flex w-full items-center justify-center gap-1 rounded-md border border-dashed border-border py-2 text-xs font-medium text-muted-foreground hover:border-primary hover:text-foreground"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Step
+        </button>
       </div>
 
       <div className="flex items-center justify-between">
@@ -161,7 +299,7 @@ function SectionEditor({
           <button
             type="button"
             onClick={handleSave}
-            disabled={updateMutation.isPending || !title.trim() || !content.trim()}
+            disabled={updateMutation.isPending || !title.trim() || !hasSteps}
             className="rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
           >
             {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
@@ -189,8 +327,10 @@ function NewSectionForm({
 }) {
   const [title, setTitle] = useState('')
   const [slug, setSlug] = useState('')
-  const [content, setContent] = useState('')
   const [module, setModule] = useState('')
+  const [steps, setSteps] = useState<EditableStep[]>([
+    { instruction: '', imageFileName: '' },
+  ])
 
   const queryClient = useQueryClient()
 
@@ -221,9 +361,21 @@ function NewSectionForm({
       slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
       module: module || null,
       sequence: nextSequence,
-      content,
+      steps: steps
+        .filter((s) => s.instruction.trim())
+        .map((s, idx) => ({
+          instruction: s.instruction,
+          imageFileName: s.imageFileName || null,
+          sequence: idx,
+        })),
     })
   }
+
+  function addStep() {
+    setSteps((prev) => [...prev, { instruction: '', imageFileName: '' }])
+  }
+
+  const hasSteps = steps.some((s) => s.instruction.trim())
 
   return (
     <div className="space-y-4 rounded-lg border border-green-200 bg-green-50/50 p-4">
@@ -268,16 +420,48 @@ function NewSectionForm({
           />
         </div>
       </div>
+
       <div>
-        <label className="block text-xs font-medium text-foreground mb-1">Content *</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={8}
-          placeholder="Write the user guide content for this section..."
-          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm font-mono leading-relaxed focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-        />
+        <label className="block text-xs font-medium text-foreground mb-2">Steps *</label>
+        <div className="space-y-2">
+          {steps.map((step, idx) => (
+            <StepRow
+              key={idx}
+              step={step}
+              index={idx}
+              onChange={(updated) =>
+                setSteps((prev) => prev.map((s, i) => (i === idx ? updated : s)))
+              }
+              onRemove={() => setSteps((prev) => prev.filter((_, i) => i !== idx))}
+              onMoveUp={() => {
+                setSteps((prev) => {
+                  const arr = [...prev]
+                  ;[arr[idx], arr[idx - 1]] = [arr[idx - 1], arr[idx]]
+                  return arr
+                })
+              }}
+              onMoveDown={() => {
+                setSteps((prev) => {
+                  const arr = [...prev]
+                  ;[arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]]
+                  return arr
+                })
+              }}
+              isFirst={idx === 0}
+              isLast={idx === steps.length - 1}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={addStep}
+          className="mt-2 flex w-full items-center justify-center gap-1 rounded-md border border-dashed border-border py-2 text-xs font-medium text-muted-foreground hover:border-primary hover:text-foreground"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Step
+        </button>
       </div>
+
       <div className="flex justify-end gap-2">
         <button
           type="button"
@@ -289,7 +473,7 @@ function NewSectionForm({
         <button
           type="button"
           onClick={handleCreate}
-          disabled={createMutation.isPending || !title.trim() || !content.trim()}
+          disabled={createMutation.isPending || !title.trim() || !hasSteps}
           className="rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
         >
           {createMutation.isPending ? 'Creating...' : 'Create Section'}
@@ -350,8 +534,13 @@ function RoleEditPanel({
                   {section.status}
                 </span>
               </div>
-              <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-                {section.content.slice(0, 120)}...
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {section.steps?.length ?? 0} step{(section.steps?.length ?? 0) !== 1 ? 's' : ''}
+                {section.steps?.[0]?.instruction && (
+                  <span className="ml-1 text-muted-foreground/60">
+                    — {section.steps[0].instruction.slice(0, 80)}...
+                  </span>
+                )}
               </p>
             </div>
             <button
@@ -503,7 +692,7 @@ export default function UserGuideEditTab({ projectId }: UserGuideEditTabProps) {
       <div>
         <h3 className="text-lg font-semibold text-foreground">Edit User Guide</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Select a role and edit its guide sections. Changes are saved per-section.
+          Select a role and edit its guide sections. Each section contains ordered steps with optional images.
         </p>
       </div>
 

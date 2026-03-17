@@ -3,7 +3,7 @@ import { BaseTransformer } from '@adonisjs/core/transformers'
 
 export default class UserGuideSectionTransformer extends BaseTransformer<UserGuideSection> {
   toObject() {
-    return this.pick(this.resource, [
+    const base: Record<string, unknown> = this.pick(this.resource, [
       'id',
       'projectId',
       'roleName',
@@ -14,11 +14,22 @@ export default class UserGuideSectionTransformer extends BaseTransformer<UserGui
       'slug',
       'module',
       'sequence',
-      'content',
       'status',
       'createdAt',
       'updatedAt',
       'deletedAt',
     ])
+
+    if (this.resource.$preloaded.steps) {
+      base.steps = this.resource.steps.map((step) => ({
+        id: step.id,
+        sectionId: step.sectionId,
+        instruction: step.instruction,
+        imageFileName: step.imageFileName,
+        sequence: step.sequence,
+      }))
+    }
+
+    return base
   }
 }

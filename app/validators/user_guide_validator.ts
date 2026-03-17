@@ -1,5 +1,11 @@
 import vine from '@vinejs/vine'
 
+const stepSchema = vine.object({
+  instruction: vine.string().trim(),
+  imageFileName: vine.string().trim().maxLength(500).optional().nullable(),
+  sequence: vine.number().min(0),
+})
+
 export const createUserGuideSectionValidator = vine.compile(
   vine.object({
     projectId: vine.string(),
@@ -11,7 +17,7 @@ export const createUserGuideSectionValidator = vine.compile(
     slug: vine.string().trim().maxLength(255),
     module: vine.string().trim().maxLength(255).optional(),
     sequence: vine.number().min(0),
-    content: vine.string().trim(),
+    steps: vine.array(stepSchema).optional(),
   })
 )
 
@@ -25,7 +31,7 @@ export const updateUserGuideSectionValidator = vine.compile(
     slug: vine.string().trim().maxLength(255).optional(),
     module: vine.string().trim().maxLength(255).optional().nullable(),
     sequence: vine.number().min(0).optional(),
-    content: vine.string().trim().optional(),
     status: vine.enum(['draft', 'published', 'archived']).optional(),
+    steps: vine.array(stepSchema).optional(),
   })
 )

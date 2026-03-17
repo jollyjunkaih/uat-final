@@ -1015,6 +1015,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['uatPdf']>>>
     }
   }
+  'user_guide.pdf': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/user-guide/pdf/:projectId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { projectId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['pdf']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_guide_controller').default['pdf']>>>
+    }
+  }
   'projects.prd': {
     methods: ["GET","HEAD"]
     pattern: '/projects/:id/prd'

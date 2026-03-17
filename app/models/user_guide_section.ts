@@ -1,7 +1,8 @@
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Project from '#models/project'
+import UserGuideStep from '#models/user_guide_step'
 
 export default class UserGuideSection extends BaseModel {
   static table = 'user_guide_sections'
@@ -37,9 +38,6 @@ export default class UserGuideSection extends BaseModel {
   declare sequence: number
 
   @column()
-  declare content: string
-
-  @column()
   declare status: 'draft' | 'published' | 'archived'
 
   @column.dateTime()
@@ -53,4 +51,7 @@ export default class UserGuideSection extends BaseModel {
 
   @belongsTo(() => Project)
   declare project: BelongsTo<typeof Project>
+
+  @hasMany(() => UserGuideStep, { foreignKey: 'sectionId' })
+  declare steps: HasMany<typeof UserGuideStep>
 }
