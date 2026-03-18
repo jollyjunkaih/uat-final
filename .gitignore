@@ -27,3 +27,5 @@ yarn-error.log
 
 # Docs site (separate repo)
 docs-site/
+
+*.secret.sh

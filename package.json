@@ -17,6 +17,7 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit && tsc --noEmit --project inertia/tsconfig.json",
     "convert-gifs": "node ace convert:gifs",
+    "cloud:migrate": "bash db-migrate.secret.sh",
     "docs:setup": "cd docs-site && npm install",
     "docs:build": "node scripts/build-docs.mjs",
     "docs:deploy": "node scripts/build-docs.mjs --deploy",

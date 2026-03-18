@@ -100,6 +100,17 @@ export class FeatureSchema extends BaseModel {
   declare version: number
 }
 
+export class PlayingWithNeonSchema extends BaseModel {
+  static $columns = ['id', 'name', 'value'] as const
+  $columns = PlayingWithNeonSchema.$columns
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare value: number | null
+}
+
 export class PrdCompetitorSchema extends BaseModel {
   static $columns = ['competitorName', 'createdAt', 'id', 'productNameOrLink', 'projectId', 'sequence', 'updatedAt'] as const
   $columns = PrdCompetitorSchema.$columns
