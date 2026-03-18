@@ -123,6 +123,10 @@ export default defineConfig({
       pattern: 'public/**',
       reloadServer: false,
     },
+    {
+      pattern: 'yaml/**',
+      reloadServer: false,
+    },
   ],
 
   hooks: {
