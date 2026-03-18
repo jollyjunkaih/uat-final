@@ -35,88 +35,88 @@ roles:
           - instruction: >
               Navigate to the Helpdesk or Department module and create a new ticket targeting the Procurement department.
               Fill in the ticket title and description. Once the ticket is created, the Purchase Request form opens automatically.
-            imageFileName: r0-s0-step0-create-ticket
+            imageFileName: r0-s0-pr-create
             sequence: 0
           - instruction: >
               The Purchase Request form contains the following fields. Location (TextInput, required, default "KKIP Main Office") specifies
               where goods should be delivered. Award By (DatePicker, required, default 15 business days from today) is the target date for
               awarding the procurement. These fields appear at the top of the form.
-            imageFileName: r0-s0-step1-location-awardby
+            imageFileName: r0-s0-pr-create
             sequence: 1
           - instruction: >
               Reason (TextAreaInput, required, max length enforced) describes why the procurement is needed. Referenced Ticket (SelectInputWithSearch,
               optional) lets you link to an existing helpdesk ticket - type to search with 300ms debounce, showing "Searching..." or
               "No tickets found" messages.
-            imageFileName: r0-s0-step2-reason-ticket
+            imageFileName: r0-s0-pr-create
             sequence: 2
           - instruction: >
               Source of Funds (SelectInput, required, default "kkip") has two options - "kkip" or "government". Cost Estimation (NumberInput,
               required, minimum 1, integer only) is the estimated total cost. Approved Budget (NumberInput, required, minimum 1, integer only)
               is the budget approved for this purchase.
-            imageFileName: r0-s0-step3-budget-fields
+            imageFileName: r0-s0-pr-create
             sequence: 3
           - instruction: >
               Budget Reference (TextInput, optional) and Project Title (TextInput, optional) provide additional context for the procurement.
               These fields are displayed in the budget information section of the preview.
-            imageFileName: r0-s0-step4-budget-ref-project
+            imageFileName: r0-s0-pr-create
             sequence: 4
           - instruction: >
               If your Division HOD and Department HOD are different people, a Choose Approver field (SelectInput, required) appears with
               options "division" or "department". This determines who receives the approval task. If they are the same person, this field is hidden.
-            imageFileName: r0-s0-step5-approver-selection
+            imageFileName: r0-s0-pr-create
             sequence: 5
           - instruction: >
               The Is this an inventory restock request? checkbox (optional, default false) appears for warehouse-related purchases.
               When checked, a Warehouse to Restock dropdown (SelectInput) appears letting you select the target warehouse.
               When unchecked, the warehouse field is hidden and its value is cleared.
-            imageFileName: r0-s0-step6-inventory-restock
+            imageFileName: r0-s0-pr-create
             sequence: 6
           - instruction: >
               The Items section is a dynamic array (minimum 1 item required). Click "Add Items" to add a new row. Each item has:
               Item Name (TextInput, required if no item code assigned), Specifications (TextAreaInput, optional, large max length),
               Quantity (NumberInput, required, must be positive > 0), and UOM (SelectInputWithSearch, required if no item code, options from
               PROCUREMENT_UOM_OPTIONS list).
-            imageFileName: r0-s0-step7-items-array
+            imageFileName: r0-s0-pr-create
             sequence: 7
           - instruction: >
               For each item, you can click "Assign Item Code" to open the SelectItemDialog and search the item catalog. Once assigned,
               the item shows the catalog name and a badge with the item code. You can click "Re-Assign Item Code" to change it, or
               "Input Item Manually" to clear the assignment and type the item name manually. Items with assigned codes inherit the catalog
               name and UOM.
-            imageFileName: r0-s0-step8-item-code-assign
+            imageFileName: r0-s0-pr-create
             sequence: 8
           - instruction: >
               Attachments section uses either FileSelectInput (for new requests) or TicketFileSelectInput (if the PR is linked to an
               existing ticket). Accepted formats are PDF, PNG, JPEG, and JPG with a maximum of 20MB per file and 30MB total. Attachments
               appear as badges in the preview - existing files show blue badges, new files show green badges with "(New)" label.
-            imageFileName: r0-s0-step9-attachments
+            imageFileName: r0-s0-pr-create
             sequence: 9
           - instruction: >
               The form supports auto-save to IndexedDB when enabled. All fields including location, awardBy, isUrgent, urgentReason,
               reason, budgetReference, referencedTicketId, sourceOfFunds, costEstimation, approvedBudget, approver, projectTitle,
               isInventoryRestock, warehouseId, items, attachments, and existingFileIds are persisted. If you navigate away before
               submitting, your draft is preserved and loaded when you return. Drafts are deleted on successful submission.
-            imageFileName: r0-s0-step10-autosave
+            imageFileName: r0-s0-pr-create
             sequence: 10
           - instruction: >
               Click "Preview Purchase Request" to open the PurchaseRequestPreviewDialog. The preview shows a KKIP letterhead document
               with: Request No. (K1-PR-DRAFT for new, K1-PR-{yyMMdd}-{ref} for existing), Requester name, Location (yellow highlight),
               Project Title (yellow highlight, if provided), Date Created, Deliver By, Approver (Division HOD or Department HOD),
               and Urgent Reason (red highlight, if marked urgent).
-            imageFileName: r0-s0-step11-preview-header
+            imageFileName: r0-s0-pr-create
             sequence: 11
           - instruction: >
               The preview also shows Budget Information (if any budget field is populated): Cost Estimation, Approved Budget, Source of
               Funds, and Budget Reference - all with yellow highlighting. Below that is the Requested Items table with columns No, Item Name,
               Specifications, Quantity, and UOM (items highlighted in yellow). The Reason for Request appears with preserved whitespace
               and yellow highlighting. Attachments are listed at the bottom.
-            imageFileName: r0-s0-step12-preview-body
+            imageFileName: r0-s0-pr-create
             sequence: 12
           - instruction: >
               Click "Submit Request" in the preview dialog to submit. The button is disabled if no items exist or while submitting.
               On success, a confirmation toast appears. The PR enters PENDING-APPROVAL status and a task is created for your HOD
               (or Division HOD based on approver selection). The reference number is generated as K1-PR-{yyMMdd}-{ref}.
-            imageFileName: r0-s0-step13-submit
+            imageFileName: r0-s0-pr-create
             sequence: 13
 
       # --- PR Urgent Request ---
@@ -128,19 +128,19 @@ roles:
           - instruction: >
               On the Purchase Request form, check the "Is this request urgent?" checkbox. This immediately opens the UrgentRequestDialog
               modal where you must provide a justification for the urgency.
-            imageFileName: r0-s1-step0-urgent-checkbox
+            imageFileName: r0-s1-pr-urgent
             sequence: 0
           - instruction: >
               Enter your urgent reason in the dialog. When you confirm, the urgentReason field is set on the form. If you uncheck the
               urgent checkbox later, the urgentReason is cleared to null. The urgent reason appears in the preview with a red URGENT
               badge in the header and the reason text highlighted in red in the info grid.
-            imageFileName: r0-s1-step1-urgent-reason
+            imageFileName: r0-s1-pr-urgent
             sequence: 1
           - instruction: >
               Urgent requests follow the same approval chain but are visually flagged with the urgency level throughout the workflow.
               On the Purchase Requests listing page, urgent requests show an "Urgent" badge in the Urgency column (vs "Normal" for
               standard requests).
-            imageFileName: r0-s1-step2-urgent-badge
+            imageFileName: r0-s1-pr-urgent
             sequence: 2
 
       # --- PR Revision ---
@@ -152,19 +152,19 @@ roles:
           - instruction: >
               If your HOD or Procurement returns your PR with requested changes, you receive a notification. Navigate to the ticket
               where a REVISE task will be ACTIVE. The reviewer's comments explaining what changes are needed are visible on the task.
-            imageFileName: r0-s2-step0-revision-notification
+            imageFileName: r0-s2-pr-revise
             sequence: 0
           - instruction: >
               Click "Revise Purchase Request" to open the edit form. The form is pre-populated with all your original data including
               items, budget fields, attachments, and reason. Modify the requested fields - you can adjust quantities, update
               specifications, add or remove items, change budget figures, or update the reason.
-            imageFileName: r0-s2-step1-edit-form
+            imageFileName: r0-s2-pr-revise
             sequence: 1
           - instruction: >
               After making changes, click "Preview Update" (this button only appears when the form has changes, indicated by isDirty=true).
               The preview dialog shows "Update Request" instead of "Submit Request". On resubmission, a new approval task is created
               for the reviewer and the PR returns to the approval flow.
-            imageFileName: r0-s2-step2-resubmit
+            imageFileName: r0-s2-pr-revise
             sequence: 2
 
       # --- PR Tracking ---
@@ -177,26 +177,26 @@ roles:
               Navigate to Procurement > Purchase Requests. The page has 5 tabs: New (APPROVED status - awaiting procurement processing),
               Ongoing (PROCESSING status - being handled by procurement), Completed (COMPLETED status - fully awarded), Cancelled
               (CANCELLED status), and KIV (KIV status - kept in view / on hold).
-            imageFileName: r0-s3-step0-pr-tabs
+            imageFileName: r0-s3-pr-tracking
             sequence: 0
           - instruction: >
               Use the filter controls to narrow results: Procurement Officer (dropdown), Requesting Department (dropdown from departments
               context), Requested On (date range picker), and Urgency (boolean toggle for urgent only). The search bar accepts reference
               numbers or item names.
-            imageFileName: r0-s3-step1-pr-filters
+            imageFileName: r0-s3-pr-tracking
             sequence: 1
           - instruction: >
               The table columns are: Request Ref. (sortable by id), Requester (shows department + first name), Items (up to 3 items
               displayed with "..." for more), Date Column (header changes per tab - Approved Date, Processed Date, Awarded Date, or
               Cancelled Date - shows a badge with days elapsed and formatted date, color-coded red if > 3 days, yellow if 1-3 days),
               Urgency (Urgent/Normal badge), Officer (assigned procurement officer or "Unassigned"), and Actions.
-            imageFileName: r0-s3-step2-pr-table
+            imageFileName: r0-s3-pr-tracking
             sequence: 2
           - instruction: >
               Actions column contains: View button (eye icon) to open the PR detail, Reassign button (user icon, visible only if PR
               is not yet awarded and you have permission) to change the assigned procurement officer, and a Ticket link button to
               navigate to the associated helpdesk ticket. Pagination defaults to 40 items per page (max 100).
-            imageFileName: r0-s3-step3-pr-actions
+            imageFileName: r0-s3-pr-tracking
             sequence: 3
 
       # --- PR Cancellation ---
@@ -208,19 +208,19 @@ roles:
           - instruction: >
               To cancel a PR you own, click "Cancel Request" on the ticket view. This opens the CancelPurchaseRequestDialog with a
               destructive red warning: "This action cannot be undone. The purchase request will be permanently cancelled."
-            imageFileName: r0-s4-step0-cancel-warning
+            imageFileName: r0-s4-pr-cancel
             sequence: 0
           - instruction: >
               Fill in the Reason for Cancellation (textarea, required, non-empty) explaining why you are cancelling. Then type
               "CANCEL REQUEST" exactly in the confirmation text field. Both fields must be filled to enable the "Cancel Request" button
               (destructive red variant). Click "Keep Request" (outline variant) to abort.
-            imageFileName: r0-s4-step1-cancel-form
+            imageFileName: r0-s4-pr-cancel
             sequence: 1
           - instruction: >
               On confirmation, a CANCEL task is created with status COMPLETED and your cancellation reason as comments. The system
               invalidates queries for purchase-request, tasks, and tickets. A success toast confirms the cancellation. The PR status
               changes to CANCELLED.
-            imageFileName: r0-s4-step2-cancel-confirmed
+            imageFileName: r0-s4-pr-cancel
             sequence: 2
 
       # --- GRN ---
@@ -232,41 +232,41 @@ roles:
           - instruction: >
               When a Purchase Order is approved and issued, a GRN task is created for the requester. Navigate to the ticket where
               the GRN task is ACTIVE. Click the task to open the GoodsReceivedNoteDialog.
-            imageFileName: r0-s5-step0-grn-task
+            imageFileName: r0-s5-grn-create
             sequence: 0
           - instruction: >
               The GRN form contains: DO Reference Number (TextInput, required, min 1 character) for the Delivery Order reference,
               and Comments (TextAreaInput, optional) for any notes about the delivery.
-            imageFileName: r0-s5-step1-grn-fields
+            imageFileName: r0-s5-grn-create
             sequence: 1
           - instruction: >
               The Items Table is dynamically generated from the PO items. Fixed columns show: Item Name (read-only), Quantity Ordered
               (read-only), Already Delivered (read-only, grouped from previous GRNs), Quantity Received (NumberInput, max limited to
               orderedQty minus alreadyReceived), and UOM (read-only).
-            imageFileName: r0-s5-step2-grn-items
+            imageFileName: r0-s5-grn-create
             sequence: 2
           - instruction: >
               If the PO is linked to a warehouse (orderData.warehouseId exists), two additional columns appear: Has Expiry (Checkbox)
               and Expiry Date (DatePicker, auto-set to today when Has Expiry is checked, required only if Has Expiry is true).
-            imageFileName: r0-s5-step3-grn-expiry
+            imageFileName: r0-s5-grn-create
             sequence: 3
           - instruction: >
               Attachments section requires at least 1 file (when ticketId exists). Upload images of received items and/or the Delivery
               Order document using the TicketFileSelectInput. Files appear in SelectedFilesDisplay with individual remove buttons.
               The label reads "(Image of items and/or Delivery Order)".
-            imageFileName: r0-s5-step4-grn-attachments
+            imageFileName: r0-s5-grn-create
             sequence: 4
           - instruction: >
               If the supplier cannot fulfill the order, click "Supplier Unable to Fulfill" (destructive button, visible only when a
               task is present). A confirmation AlertDialog appears requiring you to type "CONFIRM" exactly. On confirmation, the task
               is completed with appropriate status.
-            imageFileName: r0-s5-step5-grn-unable
+            imageFileName: r0-s5-grn-create
             sequence: 5
           - instruction: >
               Click "Preview Goods Received Note" to see the GRN preview before submission. On submit, the GRN is created and
               linked to the PO. If partial delivery, the PO status changes to PARTIAL-DELIVERY. If all items are fully received,
               status changes to DELIVERY-COMPLETED.
-            imageFileName: r0-s5-step6-grn-submit
+            imageFileName: r0-s5-grn-create
             sequence: 6
 
       # --- SRN ---
@@ -278,32 +278,32 @@ roles:
           - instruction: >
               For service-type POs, a Services Received Note task is created instead of a GRN. Navigate to the ticket and open the
               ServicesReceivedNoteDialog. The form includes DO Reference Number (TextInput, required) and Comments (TextAreaInput, optional).
-            imageFileName: r0-s6-step0-srn-task
+            imageFileName: r0-s5-grn-create
             sequence: 0
           - instruction: >
               Select the Evaluation Type from 4 options: CONSULTANT, CONTRACTOR, SERVICE-PROVIDER, or SOLICITOR. Each type has
               different evaluation stage fields. If a previous SRN exists for this PO (hasExistingSrn=true), the evaluation type
               and timeline fields are locked with an info message "Evaluation Timeline Already Set".
-            imageFileName: r0-s6-step1-srn-eval-type
+            imageFileName: r0-s5-grn-create
             sequence: 1
           - instruction: >
               CONSULTANT evaluation stages: Post-Tender Stage (number), Implementation Stage (number), and Completion Stage (number).
               CONTRACTOR stages: Pre-Award Stage, Mobilization Stage, Implementation Stage Type (interval or milestones with
               sub-fields for interval number/type/repeats/startedOn or milestone entries), Completion Stage, and Defects Liability
               Period (number).
-            imageFileName: r0-s6-step2-srn-stages-1
+            imageFileName: r0-s5-grn-create
             sequence: 2
           - instruction: >
               SERVICE-PROVIDER stages: Pre-Award Stage, Initial Stage, Mid-Term Stage (with interval sub-fields: number,
               intervalType, repeats, startedOn), and Final Stage. SOLICITOR stages: Pre-Appointment Assessment, Mid-Engagement
               Evaluation, and Final Evaluation. All stage values are numeric scores.
-            imageFileName: r0-s6-step3-srn-stages-2
+            imageFileName: r0-s5-grn-create
             sequence: 3
           - instruction: >
               Upload attachments using TicketFileSelectInput with SelectedFilesDisplay. The SRN form auto-saves to IndexedDB
               every 2000ms via the srnDraftsService. The flow is: fill form, preview, submit, and see a success screen with a
               "Complete" button to close.
-            imageFileName: r0-s6-step4-srn-submit
+            imageFileName: r0-s5-grn-create
             sequence: 4
 
       # --- Invoice Upload ---
@@ -317,19 +317,19 @@ roles:
               First, select the Purchase Order from the dropdown. Only POs with status APPROVED, ACCEPTED-BY-VENDOR, PARTIAL-DELIVERY,
               or DELIVERY-COMPLETED that do not already have an invoice are shown. Options display as
               "{referenceNumber} - RM {total} ({vendorName})".
-            imageFileName: r0-s7-step0-invoice-po-select
+            imageFileName: r0-s5-grn-create
             sequence: 0
           - instruction: >
               Fill in: Supplier Reference (TextInput, required, min 1 char), Invoice Amount (NumberInput, required, positive),
               Invoice Date (DatePicker, required), External Reference (TextInput, required, min 1 char), Payment Terms (SelectInput,
               default NET30, options: NET30, NET15, NET45, NET60, COD), and Due On (DatePicker, required).
-            imageFileName: r0-s7-step1-invoice-fields
+            imageFileName: r0-s5-grn-create
             sequence: 1
           - instruction: >
               Upload the invoice document via TicketFileSelectInput (required, minimum 1 file when ticketId exists). Files appear
               in SelectedFilesDisplay with remove buttons. On submit, the invoice is created and linked to the PO. If a matching
               INVOICE SUBMISSION task exists, it is marked as COMPLETED. The PO status transitions to INVOICE-SUBMITTED.
-            imageFileName: r0-s7-step2-invoice-submit
+            imageFileName: r0-s5-grn-create
             sequence: 2
 
   # ============================================================
@@ -354,37 +354,37 @@ roles:
               Open the PurchaseRequestReviewDialog which shows a 75/25 split layout: the left panel (3/4 width) displays
               the PR as a PDF document, and the right panel (1/4 width) shows attachments, referenced ticket info, and
               action buttons.
-            imageFileName: r1-s0-step0-hod-review-dialog
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               The right panel shows: Attachments section listing all files from the PR (using AttachmentPreview components,
               or "No attachments available" if empty), and Referenced Ticket section (if the PR has a referencedTicketId)
               displayed as a card with the Ticket Number (clickable link opening in new window) and Subject line.
-            imageFileName: r1-s0-step1-hod-attachments
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Three action buttons appear at the bottom of the right panel: Approve (green, Check icon) - marks the task as
               COMPLETED with completedOn timestamp, moving the PR to APPROVED status. Decline (red, X icon) - opens a "Reason
               for Rejecting" dialog with a required textarea. Return (outline, FileEdit icon) - opens a "Changes Requested"
               dialog with a required textarea (min 1 character to enable Send button).
-            imageFileName: r1-s0-step2-hod-actions
+            imageFileName: common-my-tasks
             sequence: 2
           - instruction: >
               If you click Decline, the rejection reason dialog appears. Enter the reason (required, min 1 char) and click
               "Send". The task status is set to REJECTED and the requester is notified. The PR status changes to CANCELLED.
-            imageFileName: r1-s0-step3-hod-decline
+            imageFileName: common-my-tasks
             sequence: 3
           - instruction: >
               If you click Return, the changes requested dialog appears. Enter your comments explaining what needs to change
               (required, min 1 char) and click "Send". The task status is set to CHANGES-REQUESTED. A new REVISE task is
               created for the requester with your comments attached. The PR stays in PENDING-APPROVAL status until resubmitted.
-            imageFileName: r1-s0-step4-hod-return
+            imageFileName: common-my-tasks
             sequence: 4
           - instruction: >
               After approval, the PR status changes to APPROVED and a task is created for the Procurement department.
               The approval matrix for PRs is simple: Requestor submits, then Requesting HOD (department or division HOD)
               approves. Once approved, Procurement takes over.
-            imageFileName: r1-s0-step5-hod-approved-flow
+            imageFileName: common-my-tasks
             sequence: 5
 
       # --- PO Approval ---
@@ -398,25 +398,25 @@ roles:
               PurchaseOrderReviewDialog which has 3 tabs: Purchase Request (PR document + attachments), RFQ and QA
               (RFQ information sub-tab + Quotation Analysis sub-tab, or Master Price Agreement cards if no QA), and
               Purchase Order (PO document + action sidebar).
-            imageFileName: r1-s1-step0-po-review-tabs
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               On the Purchase Order tab, the left panel (3/5 width) shows the PO PDF document. The right panel (2/5 width)
               shows action buttons and PurchaseOrderSignatures component. The approval button label varies based on your
               role and the PO amount.
-            imageFileName: r1-s1-step1-po-review-layout
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Button label logic: If the PO total is below the Corporate HOD max amount, you see "Approve" (final approval
               at this tier). If the total exceeds your tier limit, you see "Recommend" (forwarding to the next approval tier).
               You can also click "Return" to send back with comments (opens RequestChangesDialog with required textarea).
-            imageFileName: r1-s1-step2-po-approve-labels
+            imageFileName: common-my-tasks
             sequence: 2
           - instruction: >
               Corporate approval tiers for HOD: PO amount 0-1,000 RM - HOD can approve directly. PO amount 1,001-5,000 RM -
               HOD recommends, routes to Procurement HOD. If your Division HOD is different from Department HOD, the system
               may create a GVP (Group Vice President) approval task before routing to GSVP.
-            imageFileName: r1-s1-step3-po-amount-tiers
+            imageFileName: common-my-tasks
             sequence: 3
 
       # --- Approval Tracking ---
@@ -429,13 +429,13 @@ roles:
               Navigate to Procurement > Approval Tracking to see all items pending your approval. The page has 5 tabs:
               All, Purchase Orders, Letter of Awards, QC Paper (Quotation Committee Paper), and TC Paper (Tender Committee
               Paper). Each tab filters by taskReferenceObject type. Only ACTIVE APPROVE tasks assigned to you are shown.
-            imageFileName: r1-s2-step0-approval-tracking
+            imageFileName: r1-s2-hod-approval-tracking
             sequence: 0
           - instruction: >
               Filter by Assigned User (dropdown) to see approvals assigned to specific people. The table shows custom
               columns based on task type (ApprovalTrackingTaskColumn). Search by reference number. Pagination defaults
               to 40 items per page (max 100).
-            imageFileName: r1-s2-step1-approval-filters
+            imageFileName: r1-s2-hod-approval-tracking
             sequence: 1
 
   # ============================================================
@@ -459,25 +459,25 @@ roles:
               When a PR is approved by the HOD, a consultation task is created for Procurement. Open the
               ReviewPurchaseRequestDialog which shows a 60/40 split layout: left panel (3/5 width) displays the PR as a
               PDF document, right panel (2/5 width) shows sourcing type selection and action buttons.
-            imageFileName: r2-s0-step0-review-dialog
+            imageFileName: r2-s0-po-pr-review
             sequence: 0
           - instruction: >
               The right panel contains a Sourcing Type Card with a 2x2 button grid: "Non-Contract RFQ" (opens
               CreateSimpleRFQDialog for direct RFQ creation), "Contract RFQ" (opens CreateRFTOrRFQDialog with isTender=false
               for contractual RFQ), "RFP" (DISABLED - not yet implemented), and "RFT" (opens CreateRFTOrRFQDialog with
               isTender=true for Request for Tender).
-            imageFileName: r2-s0-step1-sourcing-type
+            imageFileName: r2-s0-po-pr-review
             sequence: 1
           - instruction: >
               If the PR has a Referenced Ticket (referencedTicketId and referencedTicketRefNumber exist), a card is displayed
               showing the ticket number as a clickable link (opens in new window) and the ticket name if available.
-            imageFileName: r2-s0-step2-referenced-ticket
+            imageFileName: r2-s0-po-pr-review
             sequence: 2
           - instruction: >
               Bottom action buttons: "Split PR" opens the SplitPurchaseRequestDialog to divide items into multiple PRs.
               "Return" opens a Changes Requested dialog (textarea, min 1 char for Send button) which sets the task to
               CHANGES-REQUESTED status and creates a revision task for the requester.
-            imageFileName: r2-s0-step3-split-return
+            imageFileName: r2-s0-po-pr-review
             sequence: 3
 
       # --- Split PR ---
@@ -490,20 +490,20 @@ roles:
               The SplitPurchaseRequestDialog shows a 2-column drag-and-drop grid. The original PR group (labeled "Current"
               with a green badge) shows on the left. Click "Add New PR" to create additional PR groups (labeled "New PR {n}"
               with gray badges). Each group is a card showing the group label, badge, item count, and a drop zone.
-            imageFileName: r2-s1-step0-split-layout
+            imageFileName: r2-s1-po-split-pr
             sequence: 0
           - instruction: >
               Drag items between groups using the GripVertical handle on each item card. Items display their name,
               specification, quantity, and UOM. The drop zone shows "Drop items here" when empty. Items cannot be
               duplicated across groups. New PR groups can be deleted with the red trash icon (not available on the
               original group).
-            imageFileName: r2-s1-step1-split-drag
+            imageFileName: r2-s1-po-split-pr
             sequence: 1
           - instruction: >
               The "Split Purchase Request" button is enabled only when at least one new PR group contains items (canSubmit
               validation). On submit, the system creates new PRs with the assigned items from each new group while keeping
               the remaining items in the original PR. A success toast confirms the split.
-            imageFileName: r2-s1-step2-split-submit
+            imageFileName: r2-s1-po-split-pr
             sequence: 2
 
       # --- Create Simple RFQ (Non-Contract) ---
@@ -516,26 +516,26 @@ roles:
               The CreateSimpleRFQDialog opens from the "Non-Contract RFQ" sourcing type button. It shows a scrollable table
               of unprocessed items from the PR with columns: Select (checkbox), Item, Specification, Quantity, UOM, and Action.
               A "Select all" checkbox in the header selects/deselects all items.
-            imageFileName: r2-s2-step0-simple-rfq-table
+            imageFileName: r2-s0-po-pr-review
             sequence: 0
           - instruction: >
               For each item row: if an itemId is assigned, the item cell shows the catalog name + badge (itemCode) with
               "Re-assign Item Code" and "Input Item Manually" buttons. If no itemId, a TextInput for name appears with an
               "Assign Item Code" button. The Specification column uses TextAreaInput (max MEDIUM_TEXT_INPUT_MAX_LENGTH).
               Quantity uses NumberInput and UOM uses SelectInput with PROCUREMENT_UOM_OPTIONS.
-            imageFileName: r2-s2-step1-simple-rfq-items
+            imageFileName: r2-s0-po-pr-review
             sequence: 1
           - instruction: >
               If an item has active Material Price Agreements (MPA), a green "Price Agreement" badge with info icon appears.
               Hovering/clicking shows a popover with: Vendor Name, Reference Number, Unit Price, Effective Unit Price, UOM,
               External Reference (if exists), and Scope (specific projects/departments or "All Projects and Departments").
-            imageFileName: r2-s2-step2-mpa-popover
+            imageFileName: r2-s0-po-pr-review
             sequence: 2
           - instruction: >
               Two action buttons at the top right: "Create PO" (validates all selected items have price agreements and the
               scope covers the requesting department - opens IssuePODialog) and "Create RFQ" (validates all selected items
               have itemId assigned - opens CreateRFQDialog). Validation failures show toast messages explaining what is missing.
-            imageFileName: r2-s2-step3-create-actions
+            imageFileName: r2-s0-po-pr-review
             sequence: 3
 
       # --- Create RFQ ---
@@ -547,25 +547,25 @@ roles:
           - instruction: >
               The CreateRFQDialog shows a 2-column layout: left side (2/3 width) displays a live RFQ document preview, and
               right side (1/3 width) shows the form fields and supplier selection.
-            imageFileName: r2-s3-step0-rfq-dialog-layout
+            imageFileName: r2-s0-po-pr-review
             sequence: 0
           - instruction: >
               Form fields: Quotation Closing Date (DatePicker, required, minimum 2 days before today, default 5 business days
               from today). Additional Attachments (TicketFileSelectInput) for supplementary documents.
-            imageFileName: r2-s3-step1-rfq-fields
+            imageFileName: r2-s0-po-pr-review
             sequence: 1
           - instruction: >
               Suppliers to Invite card: Click "Select Suppliers" (shown when no suppliers selected) to open the
               SelectMultipleSupplierDialog. Selected suppliers appear as a numbered scrollable list (max-h-40). Click the
               "Edit" button (visible when suppliers are already selected) to modify the selection.
-            imageFileName: r2-s3-step2-rfq-suppliers
+            imageFileName: r2-s0-po-pr-review
             sequence: 2
           - instruction: >
               Click "Create RFQ" (top-right, disabled if creating OR no suppliers selected OR no items). On submit,
               the system creates the RFQ with adminId, validUntil date, requestId, minimumQuotes=3, items, fileIds, and
               vendorIds. A success toast appears with a "View RFQ" navigation link. The reference number format is
               K1-RFQ-{yyMMdd}-{ref}. The RFQ enters ACTIVE status.
-            imageFileName: r2-s3-step3-rfq-submit
+            imageFileName: r2-s0-po-pr-review
             sequence: 3
 
       # --- RFQ Management ---
@@ -578,25 +578,25 @@ roles:
               Navigate to Procurement > Sent RFQs. The page has 3 main tabs: "Non Contractual RFQ" (with sub-tabs
               Unprocessed/Processed/Cancelled), "Contractual RFQ" (with sub-tabs Active/Closed), and "RFT" (with sub-tabs
               Active/Closed).
-            imageFileName: r2-s4-step0-sent-rfqs-tabs
+            imageFileName: r2-s0-po-pr-review
             sequence: 0
           - instruction: >
               URL search parameters control the view: pageNumber (default 1), perPage (default 40, max 100), mainTab
               (non-contractual/contractual/rft), subTab (active/closed/parallel), rfqId (optional direct navigation),
               sort (validUntil/requestedOn/invitationToBidEndOn/id), and order (asc/desc).
-            imageFileName: r2-s4-step1-rfq-params
+            imageFileName: r2-s0-po-pr-review
             sequence: 1
           - instruction: >
               Non-Contractual RFQ tab uses AdminRFQColumns table with filter columns for Procurement officer and Closing
               date. Sort defaults to validUntil ascending. Sub-tab status mapping: Unprocessed=ACTIVE, Processed=PROCESSED,
               Cancelled=CANCELLED.
-            imageFileName: r2-s4-step2-rfq-noncontract
+            imageFileName: r2-s0-po-pr-review
             sequence: 2
           - instruction: >
               Contractual RFQ and RFT tabs use TenderColumns table with sort options "Bid Closing Date", "Requested On",
               and "RFQ ID"/"RFT ID". Filter columns for Department and Bid closing date. An order toggle button switches
               between "Ascending" and "Descending" with ArrowUpDown icon.
-            imageFileName: r2-s4-step3-rfq-contract-rft
+            imageFileName: r2-s0-po-pr-review
             sequence: 3
 
       # --- Extend RFQ Validity ---
@@ -610,14 +610,14 @@ roles:
               "Change RFQ Validity Date {rfq.referenceNumber}". A table displays Currently Invited & Submitted Suppliers
               with columns: Supplier Name and Status (green "Submitted" badge if quotation exists, yellow "Invited (Pending)"
               if no quotation).
-            imageFileName: r2-s5-step0-extend-rfq
+            imageFileName: r2-s0-po-pr-review
             sequence: 0
           - instruction: >
               The form contains: New Quotation Closing Date (DatePicker, must be in future, defaults to current validUntil
               date). Click "Change RFQ Closing Date" to update (disabled while pending). On submit, the RFQ validUntil is
               updated and a LOG task is created recording the date change. Success toast: "RFQ Validity Date changed
               successfully!"
-            imageFileName: r2-s5-step1-extend-submit
+            imageFileName: r2-s0-po-pr-review
             sequence: 1
 
       # --- Invite Additional Suppliers ---
@@ -630,19 +630,19 @@ roles:
               Open the InviteOtherSuppliersDialog from an RFQ detail. The header shows a Users icon with "Invite Additional
               Suppliers - RFQ {rfq.referenceNumber}". The Currently Invited & Submitted Suppliers table shows existing
               suppliers with their submission status (green "Submitted" or yellow "Invited (Pending)").
-            imageFileName: r2-s6-step0-invite-dialog
+            imageFileName: r2-s0-po-pr-review
             sequence: 0
           - instruction: >
               Under "Additional Suppliers to Invite", click "Search for suppliers" (when empty) or the Edit icon button
               (when suppliers are selected) to open SelectMultipleSupplierDialog. Selected suppliers appear as a numbered
               scrollable list (max-h-32).
-            imageFileName: r2-s6-step1-invite-select
+            imageFileName: r2-s0-po-pr-review
             sequence: 1
           - instruction: >
               Click "Invite {count} Additional Supplier(s)" (disabled if no new suppliers selected). On submit, the
               inviteSuppliersMutation sends additionalVendorIds. The form resets, a success toast confirms, and the
               onSubmit callback executes.
-            imageFileName: r2-s6-step2-invite-submit
+            imageFileName: r2-s0-po-pr-review
             sequence: 2
 
       # --- Quotation Analysis ---
@@ -655,51 +655,51 @@ roles:
               Navigate to the Quotation Analysis page (route: procurement/quotation-analysis) with the RFQ ID parameter.
               The page loads all quotations for the RFQ and displays a complex comparison table. The main state tracks:
               selectedQuotationItems, comments, justifications, descriptions, and additionalPOVendors.
-            imageFileName: r2-s7-step0-qa-page
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 0
           - instruction: >
               The ScrollableQuotationTable displays vendor columns side by side. Each vendor column shows: quotation items
               with prices, financial summary (discount, delivery charges, additional charges, tax, total), payment terms,
               delivery period, and terms & conditions. The vendor with the lowest total gets a "Best Price" badge (orange).
-            imageFileName: r2-s7-step1-qa-table
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 1
           - instruction: >
               For each item row per vendor, you can set: Quantity to Award (NumberInput, clamped to 0 through supplierQuantity)
               and Period to Award (NumberInput, visible only if item.period exists and quantity > 0). Selecting a quantity
               adds the item to selectedQuotationItems.
-            imageFileName: r2-s7-step2-qa-select-items
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 2
           - instruction: >
               Additional PO vendors can be added: click "Create Additional PO" on a vendor column to add them to the
               additionalPOVendors set (purple background with "New Additional PO" badge). Click "Cancel Additional PO" to
               reverse. Existing POs with editable statuses (PENDING-APPROVAL or CANCELLED) show a "View Current PO" button
               (Eye icon).
-            imageFileName: r2-s7-step3-qa-additional-po
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 3
           - instruction: >
               Below the item rows, per-vendor fields appear for selected vendors: Additional Terms in PO (TextAreaInput,
               comments, max LARGE_TEXT_INPUT_MAX_LENGTH), Justification for Selection (TextAreaInput, required for selected
               vendors), and Description (TextAreaInput, optional).
-            imageFileName: r2-s7-step4-qa-justification
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 4
           - instruction: >
               Auto-save runs every 2000ms via useContinuousAutoSave, storing selectedQuotationItems, comments,
               justifications, and descriptions to the quotationAnalysisDraftsService (IndexedDB). Drafts are validated
               against current quotations on load, removing stale items. In edit mode (qaId provided), existing QA data
               and current POs are pre-loaded.
-            imageFileName: r2-s7-step5-qa-autosave
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 5
           - instruction: >
               The "Link to Contract" button opens SelectContractDialog to associate a contract with the QA. A selected
               contract shows its details in a card with an X button to remove. The "Download Draft QA" button exports the
               current analysis to Excel using the exportQADraftToExcel helper function.
-            imageFileName: r2-s7-step6-qa-contract-export
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 6
           - instruction: >
               Click "Preview Purchase Orders" to validate selections and trigger the PO preview. The system validates that
               all required fields are populated. The preview opens the PurchaseOrderPreviewDialog. On final submission, the
               QA is created with reference K1-QA-{yyMMdd}-{ref}, and POs are generated for each selected vendor.
-            imageFileName: r2-s7-step7-qa-preview-submit
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 7
 
       # --- Direct Award ---
@@ -712,25 +712,25 @@ roles:
               The DirectAwardDialog opens from the RFQ detail when awarding directly to a single vendor. It shows a
               2-column layout: left (1/2 width) shows the PO Preview with calculated totals (subtotal, tax, delivery,
               discount, total), right (1/2 width) shows item quantities and direct award information.
-            imageFileName: r2-s8-step0-direct-award-layout
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 0
           - instruction: >
               Right column - Item Quantities Card: Each quotation item shows the item name, supplier item name (if different),
               price per unit (formatted currency), and an editable Quantity field (NumberInput, min=0, step=0.01). The PO
               preview updates live as quantities change.
-            imageFileName: r2-s8-step1-direct-award-items
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 1
           - instruction: >
               Right column - Direct Award Information Card: Justification (Textarea, required, placeholder "Please provide
               the reason for direct award...") with helper text "Explain why this supplier is being awarded directly without
               competitive bidding". Description (Textarea, optional) for additional PO context.
-            imageFileName: r2-s8-step2-direct-award-info
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 2
           - instruction: >
               Click "Create Purchase Order" (disabled if creating OR justification is empty OR quotation data still loading).
               On submit, items are separated into requestedItems (with requestForQuotationItemId) and additionalItems.
               A success toast with "View Purchase Orders" link appears. Navigation redirects to /procurement/purchase-orders.
-            imageFileName: r2-s8-step3-direct-award-submit
+            imageFileName: r2-s7-po-quotation-analysis
             sequence: 3
 
       # --- Issue PO ---
@@ -744,25 +744,25 @@ roles:
               two-column layout: left panel is a vendor selection card list, right panel shows the PO form and items.
               Vendors are grouped by their price agreement vendor, displaying item count and selected count. The selected
               vendor has a blue background highlight.
-            imageFileName: r2-s9-step0-issue-po-layout
+            imageFileName: r2-s9-po-issue-po
             sequence: 0
           - instruction: >
               For each vendor, items are shown in VendorItemCards with editable Quantity fields (NumberInput, max limited
               to item.quantity, type-clamped). A Contract section shows the selected contract details (name, department,
               period) with a "Link to Contract" button to open SelectContractDialog, and an X button to remove the contract.
-            imageFileName: r2-s9-step1-issue-po-items
+            imageFileName: r2-s9-po-issue-po
             sequence: 1
           - instruction: >
               Description field (TextAreaInput, optional, label "Purchase Order Description (Optional)") adds context to
               the PO. Click "Preview" (validates at least one item has selectedQuantity > 0) to open POPreviewDialog showing
               vendor information, items list, and summary (Subtotal, Tax, Total).
-            imageFileName: r2-s9-step2-issue-po-preview
+            imageFileName: r2-s9-po-issue-po
             sequence: 2
           - instruction: >
               In the preview, click "Create Purchase Order" to submit or "Back to Edit" to return. On creation, the PO
               is generated with reference K1-PO-{yyMMdd}-{ref} and enters PENDING-APPROVAL status. The system routes
               it to the appropriate approval tier based on the total amount.
-            imageFileName: r2-s9-step3-issue-po-submit
+            imageFileName: r2-s9-po-issue-po
             sequence: 3
 
       # --- PO Management ---
@@ -775,19 +775,19 @@ roles:
               Navigate to Procurement > Purchase Orders. The page has 4 tabs: Pending Approval (PENDING-APPROVAL status),
               Approved & Issued (PARTIAL-DELIVERY, APPROVED, ACCEPTED-BY-VENDOR statuses), Delivered (DELIVERY-COMPLETED),
               and Rejected (CANCELLED).
-            imageFileName: r2-s10-step0-po-tabs
+            imageFileName: r2-s10-po-management
             sequence: 0
           - instruction: >
               Filter controls: Procurement Officer (dropdown), Requesting Department (dropdown), Vendor (dropdown),
               Amount range (number inputs for min/max), and Issued On (date range picker). Search accepts PO reference
               numbers or item names. Pagination defaults to 40 per page (max 100).
-            imageFileName: r2-s10-step1-po-filters
+            imageFileName: r2-s10-po-management
             sequence: 1
           - instruction: >
               Table columns: PO ID (sortable by id), Issued On / Drafted On (sortable, header changes based on draft
               status), Vendor (truncated name), Req. Dept. (requesting department), Items (up to 3 with "..." for more),
               Amount (RM) (formatted number with green badge), and Actions (View PO button + Ticket button if ticketId exists).
-            imageFileName: r2-s10-step2-po-table
+            imageFileName: r2-s10-po-management
             sequence: 2
 
       # --- Quotations View ---
@@ -800,13 +800,13 @@ roles:
               Navigate to Procurement > Quotations. This is a single-view page (no tabs) showing quotations with
               PENDING status. Filter by Vendor (dropdown) and Created On (date range). Search by reference, vendor name,
               or item name. Pagination defaults to 40 per page (max 100).
-            imageFileName: r2-s11-step0-quotations-view
+            imageFileName: r2-s11-po-quotations
             sequence: 0
           - instruction: >
               Table columns: Quotation ID (sortable), Vendor (truncated), Items (up to 3 with "..."), Created On
               (sortable, formatted date), and Actions (View button + Ticket button if ticketId exists). Click View to
               open the quotation detail dialog.
-            imageFileName: r2-s11-step1-quotations-table
+            imageFileName: r2-s11-po-quotations
             sequence: 1
 
       # --- LOA Management ---
@@ -819,13 +819,13 @@ roles:
               Navigate to Procurement > Letter of Awards. The page has 3 main tabs: Draft LOAs (DRAFT status), Approved LOAs
               (APPROVED status), and Signed by Vendor (VENDOR-SIGNED status). The Approved and Signed tabs each have 5
               sub-tabs for contract date filtering.
-            imageFileName: r2-s12-step0-loa-tabs
+            imageFileName: r2-s12-po-loa-management
             sequence: 0
           - instruction: >
               Contract date sub-tabs: Not Set (both contractStartDate and contractEndDate are null), Not Started
               (contractStartDate >= tomorrow), Active (contractStartDate <= yesterday AND contractEndDate >= tomorrow),
               Expiring Soon (contractEndDate between today and +30 days), and Expired (contractEndDate <= yesterday).
-            imageFileName: r2-s12-step1-loa-subtabs
+            imageFileName: r2-s12-po-loa-management
             sequence: 1
           - instruction: >
               Filter controls: Procurement Officer, Requesting Department, Vendor, and Issued On (date range). Table
@@ -833,7 +833,7 @@ roles:
               or '-'), Amount (RM) (formatted or '-'), Type (badge: "Express LOA" vs "Standard LOA"), Issued On (sortable),
               and conditionally Contract Period (start - end date, or '?' if missing). Actions include View LOA and
               Ticket link buttons.
-            imageFileName: r2-s12-step2-loa-table
+            imageFileName: r2-s12-po-loa-management
             sequence: 2
 
       # --- Listings ---
@@ -846,7 +846,7 @@ roles:
               Navigate to Procurement > Listings for a unified view. Three tabs: Purchase Requests (APPROVED, PROCESSING,
               COMPLETED statuses), Purchase Orders (all statuses), and Letter of Awards (APPROVED, VENDOR-SIGNED statuses).
               Each tab shows the same columns and filters as the dedicated pages but in a single consolidated interface.
-            imageFileName: r2-s13-step0-listings
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- Supplier Management ---
@@ -859,27 +859,27 @@ roles:
               Navigate to Procurement > Supplier Management. The page has 6 tabs with count badges: Approved (APPROVED
               status), Newly Registered (REGISTERED status), Under Review (UNDER-REVIEW status), Unregistered (DB-SEEDED
               status), Not Approved (NOT-APPROVED status), and Missing Email (faultyEmail=true filter).
-            imageFileName: r2-s14-step0-supplier-tabs
+            imageFileName: r2-s15-po-supplier-mgmt
             sequence: 0
           - instruction: >
               Standard tabs show a Business Category filter (dropdown). The Under Review tab has additional filters:
               Business Category, Pending Vendor Updates (boolean toggle), and Pending Review (dropdown with options:
               PROCUREMENT, FINANCE, TECHNICAL, PROCUREMENT-RECOMMENDATION, CHAIRMAN-REVIEW) to track where in the
               evaluation process each vendor stands.
-            imageFileName: r2-s14-step1-supplier-filters
+            imageFileName: r2-s15-po-supplier-mgmt
             sequence: 1
           - instruction: >
               To create an adhoc (unregistered) supplier, click the "Create Adhoc Supplier" button (top right). The
               dialog form requires Company Name (required) and Email (required, valid email format). On the Newly
               Registered tab, a "Begin Registration Evaluation" button starts the formal vendor review process.
-            imageFileName: r2-s14-step2-supplier-create
+            imageFileName: r2-s15-po-supplier-mgmt
             sequence: 2
           - instruction: >
               Click a supplier row to open the Supplier Info Modal showing full vendor details. The vendor evaluation
               workflow progresses through: REGISTERED (vendor completes registration) -> UNDER-REVIEW (procurement begins
               evaluation) -> review stages (PROCUREMENT, FINANCE, TECHNICAL, PROCUREMENT-RECOMMENDATION, CHAIRMAN-REVIEW)
               -> APPROVED or NOT-APPROVED.
-            imageFileName: r2-s14-step3-supplier-workflow
+            imageFileName: r2-s15-po-supplier-mgmt
             sequence: 3
 
       # --- Item Management ---
@@ -892,18 +892,18 @@ roles:
               Navigate to Procurement > Item Management. This is a single-view page with 4 cascading category filters:
               Main Category, Group Category, Subgroup One Category, and Subgroup Two Category (each displayed as
               "code: name" format). Selecting a parent category filters the child options.
-            imageFileName: r2-s15-step0-item-filters
+            imageFileName: r2-s16-po-item-mgmt
             sequence: 0
           - instruction: >
               The table uses ItemColumns with role-based rendering. Two action buttons at the top right: "Create New Item"
               and "Add Categories". Items can be edited and deleted from the table row actions.
-            imageFileName: r2-s15-step1-item-actions
+            imageFileName: r2-s16-po-item-mgmt
             sequence: 1
           - instruction: >
               Before deleting an item, a validation dialog shows the count of Requested Items and Assets that reference
               the item. If either count is > 0, deletion is blocked with a warning. This prevents orphaning references
               in active purchase requests or asset records.
-            imageFileName: r2-s15-step2-item-delete-validation
+            imageFileName: r2-s16-po-item-mgmt
             sequence: 2
 
       # --- Price Agreements ---
@@ -916,27 +916,27 @@ roles:
               Navigate to Procurement > Price Agreements. The page has 3 tabs with icons: By Vendor (Building2 icon),
               By Item (Package icon), and Historical Pricing (History icon). Each tab has Active/Expired status sub-filters.
               A "Create Agreement" button (Plus icon) opens the MaterialPriceAgreementCreateDialog.
-            imageFileName: r2-s16-step0-mpa-tabs
+            imageFileName: r2-s17-po-price-agreements
             sequence: 0
           - instruction: >
               The MPA create form fields: Vendor (SelectInputWithSearch, required, name-based search), Item
               (SelectInputWithSearch, required, name-based search), Department/Project Scope (MultiSelectDropdown,
               optional - defaults to "All Projects and Departments"), Unit Price (TextInput number format, required,
               minimum 0.01), Tax Rate (SelectInput, options: 0%, 5%, 6%, 7%, 8%, 10%).
-            imageFileName: r2-s16-step1-mpa-form-1
+            imageFileName: r2-s17-po-price-agreements
             sequence: 1
           - instruction: >
               Additional MPA fields: UOM (SelectInput from PROCUREMENT_UOM_OPTIONS), Payment Terms (SelectInput, options:
               COD, NET 7, NET 30, NET 60, NET 90, OTHERS), Agreement Effective On (DatePicker, required), Agreement
               Expires On (DatePicker, required), External Agreement Reference Number (TextInput, optional), and
               Supporting Files (FileSelectInput, required, minimum 1 file).
-            imageFileName: r2-s16-step2-mpa-form-2
+            imageFileName: r2-s17-po-price-agreements
             sequence: 2
           - instruction: >
               Click a price agreement row to open the MPAViewAndModifyDialog for viewing details or making modifications.
               MPAs can be linked to POs - when a PO is created from items with active price agreements, the MPA reference
               is recorded on the PO items.
-            imageFileName: r2-s16-step3-mpa-view
+            imageFileName: r2-s17-po-price-agreements
             sequence: 3
 
       # --- Templates ---
@@ -949,13 +949,13 @@ roles:
               Navigate to Procurement > Templates. Three tabs: LOA Clauses (type: LOA), Quotation TnC Templates
               (type: QUOTATION), and Tender TnC Templates (type: TENDER). Each tab shows a card with title, description,
               and a "Create Template" button (Plus icon).
-            imageFileName: r2-s17-step0-templates-tabs
+            imageFileName: r2-s18-po-templates
             sequence: 0
           - instruction: >
               The table uses loaClauseTemplateColumns with an onView callback. Click a template to open the
               LOAClauseTemplateViewDialog. Create new templates via LOAClauseTemplateCreateDialog. Templates are used
               when generating LOA documents, quotation terms, and tender terms and conditions.
-            imageFileName: r2-s17-step1-templates-crud
+            imageFileName: r2-s18-po-templates
             sequence: 1
 
       # --- Contracts ---
@@ -969,7 +969,7 @@ roles:
               filtering, search, and pagination (default 10 per page). A Create button is enabled (showCreateButton=true).
               Description: "Manage contracts with contractors, track expiry dates, and link purchase orders and letter of
               awards."
-            imageFileName: r2-s18-step0-contracts
+            imageFileName: r2-s19-po-contracts
             sequence: 0
 
       # --- Officer Report ---
@@ -982,33 +982,33 @@ roles:
               Navigate to Procurement > Officer Report. Two main tabs: Purchase Requests and Request For Quotations.
               If you are a HOD, an officer filter dropdown appears with "All Officers" (default) and individual officer
               names. Non-HOD users see only their own data.
-            imageFileName: r2-s19-step0-officer-report
+            imageFileName: r2-s20-po-officer-report
             sequence: 0
           - instruction: >
               Purchase Requests tab shows 6 clickable stat cards: "New (Today)" (approved today, ShoppingBasket icon),
               "New (< 2 days)" (approved within 2 days), "New (> 2 days)" (approved more than 2 days ago), "Ongoing
               (< 5 days)" (processing less than 5 days, Clock icon), "Ongoing (> 5 days)" (processing more than 5 days),
               and "Completed" (awarded, CheckCircle2 icon). Click a card to filter the table below.
-            imageFileName: r2-s19-step1-pr-stats
+            imageFileName: r2-s20-po-officer-report
             sequence: 1
           - instruction: >
               The PR data table shows columns: Request Ref. (160px), Requester (200px, dept + first name), Items (up to 3),
               Date Column (150px, dynamic header based on filter - Approved/Processed/Awarded Date, with badge showing days
               elapsed and formatted date), Urgency (100px badge), Officer (120px), and Actions (200px - View, Reassign if
               not awarded and user is procurement officer, Ticket link).
-            imageFileName: r2-s19-step2-pr-table
+            imageFileName: r2-s20-po-officer-report
             sequence: 2
           - instruction: >
               RFQ tab shows 4 clickable stat cards: "Active RFQs" (ACTIVE status, validUntil >= today end, Activity icon),
               "Closing Today" (validUntil between today start and end, CalendarX icon), "Closed (< 5 days)" (validUntil
               between 5 days ago and yesterday, CalendarCheck icon), and "Closed (> 5 days)" (validUntil <= 5 days ago).
-            imageFileName: r2-s19-step3-rfq-stats
+            imageFileName: r2-s20-po-officer-report
             sequence: 3
           - instruction: >
               The RFQ data table columns: RFQ ID (160px), Administrator (120px), Items (up to 3), Closing Date (120px),
               Quotes (100px badge with color coding: green if quotations/minimumQuotes >= 100%, yellow if 50-99%, red
               if < 50%), and Actions (View RFQ + Ticket buttons with text labels).
-            imageFileName: r2-s19-step4-rfq-table
+            imageFileName: r2-s20-po-officer-report
             sequence: 4
 
       # --- Reports ---
@@ -1021,7 +1021,7 @@ roles:
               Navigate to Procurement > Reports. Six tabs: Purchase Order, Purchase Request, Vendor Evaluation,
               Procurement Cycle, Item, and Executive Procurement (default tab). The page delegates to the
               CorporateSpendingReport component which handles all report visualizations and data.
-            imageFileName: r2-s20-step0-reports
+            imageFileName: r2-s21-po-reports
             sequence: 0
 
   # ============================================================
@@ -1044,20 +1044,20 @@ roles:
               When a PO is submitted by a Procurement Officer, it first routes to the Procurement HOD for verification.
               Open the PurchaseOrderReviewDialog. The 3-tab layout shows PR details (tab 1), RFQ and QA details (tab 2),
               and the PO document with action buttons (tab 3). Your approval button label shows as "Verify".
-            imageFileName: r3-s0-step0-proc-hod-verify
+            imageFileName: r3-s0-proc-hod-po-verify
             sequence: 0
           - instruction: >
               On the Purchase Order tab, review the PO document (left 3/5), then use the right panel (2/5) buttons.
               Click "Verify" to approve and route to the next tier. Click "Return" to send back with comments via
               RequestChangesDialog (required textarea, min 1 char). Returning sets the task to CHANGES-REQUESTED and
               creates an UPDATE submission task for the officer, invalidating all active approval tasks.
-            imageFileName: r3-s0-step1-proc-hod-actions
+            imageFileName: r3-s0-proc-hod-po-verify
             sequence: 1
           - instruction: >
               After verification, the PO routes to the Requesting HOD for approval. Corporate tier: amounts 1,001-5,000 RM
               are final at Procurement HOD level. Development tier: amounts 501-10,000 RM are final at this level.
               Above these thresholds, the PO continues up the approval chain.
-            imageFileName: r3-s0-step2-proc-hod-routing
+            imageFileName: r3-s0-proc-hod-po-verify
             sequence: 2
 
       - title: Tender - Procurement HOD Review
@@ -1070,12 +1070,12 @@ roles:
               the next routing: if the tender is a Quotation (isQuotation=true), the Procurement HOD review directly
               triggers handleCallForTenderApproved (setting status to PRETENDER-APPROVED). If it is a full RFT, the
               system creates a Budget Officer verification task.
-            imageFileName: r3-s1-step0-tender-review
+            imageFileName: r3-s1-proc-hod-tender-review
             sequence: 0
           - instruction: >
               The Procurement HOD can approve (routing to budget verification or direct approval) or return with
               changes. Returning creates a SUBMISSION task for the officer and clears any queued verification tasks.
-            imageFileName: r3-s1-step1-tender-actions
+            imageFileName: r3-s1-proc-hod-tender-review
             sequence: 1
 
   # ============================================================
@@ -1099,19 +1099,19 @@ roles:
               After the Requesting HOD recommends a PO that exceeds their tier limit, it routes to GSVP. If the
               requester has a separate Division HOD (divisionHodId exists and differs from departmentHodId), a GVP
               task is created first. The GVP approval then routes to GSVP.
-            imageFileName: r4-s0-step0-gsvp-routing
+            imageFileName: r4-s0-gsvp-po-approval
             sequence: 0
           - instruction: >
               Open the PurchaseOrderReviewDialog with 3 tabs. Review the full audit trail: PR details, RFQ/QA comparison,
               and the PO document. Your button label varies: for Development subsidiaries, the label follows the
               Development approval matrix. For Corporate, it follows the Corporate matrix.
-            imageFileName: r4-s0-step1-gsvp-review
+            imageFileName: r4-s0-gsvp-po-approval
             sequence: 1
           - instruction: >
               Corporate tier: amounts 5,001-50,000 RM - GSVP can approve directly. Above 50,000 RM - routes to
               Quotation Committee (QC). Development tier: amounts 10,001-50,000 RM - GSVP approves. Above 50,000 RM -
               routes to QC. You can also "Return" with comments to send back for changes.
-            imageFileName: r4-s0-step2-gsvp-thresholds
+            imageFileName: r4-s0-gsvp-po-approval
             sequence: 2
 
       - title: Tender - GSVP/GVP Review
@@ -1123,7 +1123,7 @@ roles:
               For tenders, after budget verification by the Finance HOD, the system routes to GVP (Development) or
               GSVP (Corporate) based on the subsidiary type. The GSVP/GVP reviews the tender details and approves or
               returns. After GSVP/GVP approval, the system creates a CEO approval task (if no existing ACTIVE CEO task).
-            imageFileName: r4-s1-step0-gsvp-tender
+            imageFileName: r4-s1-gsvp-tender-review
             sequence: 0
 
   # ============================================================
@@ -1147,13 +1147,13 @@ roles:
               The QC Secretary receives the first task in the committee approval flow. They review the PO documentation
               including PR, RFQ/QA, and the PO itself via the PurchaseOrderReviewDialog. The Secretary verifies
               completeness and accuracy before routing to committee members.
-            imageFileName: r5-s0-step0-qc-secretary
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 0
           - instruction: >
               On approval, the system creates QC Committee Review tasks for 3 committee members simultaneously. The
               Secretary can also return the PO with comments. The QC Secretary can add QC Comments via the
               QCCommentsDialog (optional textarea) which are auto-posted to the ticket if provided.
-            imageFileName: r5-s0-step1-qc-secretary-route
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 1
 
       - title: QC - Committee Member Review
@@ -1165,13 +1165,13 @@ roles:
               Three QC Committee members receive parallel approval tasks. Each member reviews independently using the
               PurchaseOrderReviewDialog. Their button label shows as "Endorse". On the QC task, an additional QC Comments
               section appears where existing QC comments are displayed.
-            imageFileName: r5-s1-step0-qc-member-review
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 0
           - instruction: >
               The system tracks committee member approvals. When minimum 2 out of 3 members have endorsed (threshold met),
               the system automatically creates the QC Chairman task. The remaining member's task is not invalidated but
               becomes informational.
-            imageFileName: r5-s1-step1-qc-member-threshold
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 1
 
       - title: QC - Chairman Final Approval
@@ -1182,13 +1182,13 @@ roles:
           - instruction: >
               The QC Chairman receives the final approval task after minimum committee endorsement. They review all prior
               endorsements and comments. The Chairman can approve (completing the QC tier) or return with comments.
-            imageFileName: r5-s2-step0-qc-chairman
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 0
           - instruction: >
               On Chairman approval: if the PO total is within the QC tier limit (Corporate 250,000 RM / Development
               500,000 RM), the PO is fully approved and handlePOApproved is triggered. If the total exceeds QC limits,
               the system routes to the CEO for final approval.
-            imageFileName: r5-s2-step1-qc-chairman-routing
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 1
 
       - title: Quotation Committee Paper - Submission and Review
@@ -1200,33 +1200,33 @@ roles:
               For tenders, the QC/TC Paper captures the committee's evaluation. The TenderCommitteePaperFormDialog is
               a complex 2-column form: left shows a live document preview, right shows the form fields. Mode can be
               "create" or "update".
-            imageFileName: r5-s3-step0-qc-paper-form
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 0
           - instruction: >
               Form fields: Project Introduction (TextAreaInput, required), Scope Justification (TextAreaInput, required),
               Objectives (dynamic TextInput array, min 1, with Add/Remove buttons), Require Recall (Checkbox for quotation
               recall), Recommended Bid IDs (multi-select, conditional), and Recommendation Reason (TextAreaInput, required
               if recall is not checked).
-            imageFileName: r5-s3-step1-qc-paper-fields-1
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 1
           - instruction: >
               Additional fields: Bid Summaries (TextAreaInput array, one per bid submission), Bid Comparison files
               (FileUpload for analysis documents), Final Summary (TextAreaInput), and Override Quotation toggle (only
               shown if mixed bid amounts - some above and some below QC threshold).
-            imageFileName: r5-s3-step2-qc-paper-fields-2
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 2
           - instruction: >
               Auto-save features: Backend draft saved to tenderUpdatePendingApproval.tcQcPaperDraft, IndexedDB fallback
               via tenderCommitteePaperDraftsService, keyboard shortcut Cmd+S (Mac) / Ctrl+S (Windows), auto-save on
               window blur, visibility change, and beforeunload events. A "Save Progress" button enables manual saves.
               Last saved indicator shows "X minutes ago".
-            imageFileName: r5-s3-step3-qc-paper-autosave
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 3
           - instruction: >
               On submit: if a taskId exists, the task status is set to COMPLETED. Otherwise, the tender is updated
               directly. The system determines isQuotation based on bid amounts vs QC threshold. Success clears drafts
               from both backend and IndexedDB.
-            imageFileName: r5-s3-step4-qc-paper-submit
+            imageFileName: r5-s0-qc-secretary-review
             sequence: 4
 
   # ============================================================
@@ -1251,13 +1251,13 @@ roles:
               3 tabs. The CEO validates the total does not exceed their tier limit. Corporate max: 500,000 RM.
               Development max: 1,000,000 RM. Subsidiary overrides apply for KKIP Utilities
               (MAX_VALUE_KKIP_UTILITIES_CEO_PO_APPROVAL) and KKIP Mega Aerospace (MAX_VALUE_KKIP_MEGA_CEO_PO_APPROVAL).
-            imageFileName: r6-s0-step0-ceo-po
+            imageFileName: r4-s0-gsvp-po-approval
             sequence: 0
           - instruction: >
               If the PO total is within CEO limits, approval triggers handlePOApproved (sets issuedOn, creates GRN task,
               updates item pricing history, sends notifications). If above CEO limits, the system routes to BOD.
               The CEO can also return with comments to send back for revisions.
-            imageFileName: r6-s0-step1-ceo-routing
+            imageFileName: r4-s0-gsvp-po-approval
             sequence: 1
 
       - title: Tender - CEO Approval
@@ -1270,7 +1270,7 @@ roles:
               approval matrix). After GSVP/GVP review, the CEO task is created (only if no existing ACTIVE CEO task).
               On approval, handleCallForTenderApproved is triggered: status changes to PRETENDER-APPROVED, ITB clause
               submission is initiated, and for OPEN tenders, a TENDER-ADVERTISEMENT submission task is created.
-            imageFileName: r6-s1-step0-ceo-tender
+            imageFileName: r4-s1-gsvp-tender-review
             sequence: 0
 
   # ============================================================
@@ -1293,12 +1293,12 @@ roles:
               After the Requesting HOD and Procurement HOD approve a tender (for non-quotation tenders), a Budget
               Officer verification task is created (step 4 in the CFT approval matrix). The Budget Officer reviews
               the tender details and verifies that the proposed budget is available and correctly allocated.
-            imageFileName: r7-s0-step0-budget-officer
+            imageFileName: r7-s0-budget-officer-verify
             sequence: 0
           - instruction: >
               On approval, the system creates a Finance HOD budget verification task (step 5). On return with changes,
               the system notifies the admin of required changes and creates a SUBMISSION task for revision.
-            imageFileName: r7-s0-step1-budget-routing
+            imageFileName: r7-s0-budget-officer-verify
             sequence: 1
 
       - title: Tender Budget Verification - Finance HOD
@@ -1310,7 +1310,7 @@ roles:
               The Finance HOD receives the secondary budget verification task. They perform a final check on budget
               allocation and financial compliance. On approval, the system routes to GVP (Development) or GSVP
               (Corporate) based on the subsidiary type for the next approval stage.
-            imageFileName: r7-s1-step0-finance-hod
+            imageFileName: r7-s0-budget-officer-verify
             sequence: 0
 
   # ============================================================
@@ -1336,46 +1336,46 @@ roles:
               The form supports both tender types and auto-saves drafts to IndexedDB (rftDraftsService). If updating
               an existing tender (hasWarning prop), a warning shows: "Any changes made here will restart the approval
               process from the beginning."
-            imageFileName: r8-s0-step0-create-rft
+            imageFileName: r8-s0-tender-create-rft
             sequence: 0
           - instruction: >
               Core form fields: Tender Type (RadioGroup, required, OPEN or SELECTIVE), Tender Title (TextAreaInput,
               required, max 500 chars), Work Scope (TextAreaInput, required, max 5000 chars), Submission Start Date
               (DatePicker, required, min today), and Submission End Date (DatePicker, required, min submission start date).
-            imageFileName: r8-s0-step1-rft-core-fields
+            imageFileName: r8-s0-tender-create-rft
             sequence: 1
           - instruction: >
               Conditional fields for OPEN tenders only: Advertisement Start Date (DatePicker, required) and
               Advertisement End Date (DatePicker, required). These define when the tender notice will be publicly
               advertised. For government-funded tenders, a mandatory message about advertisement requirements is shown.
-            imageFileName: r8-s0-step2-rft-open-fields
+            imageFileName: r8-s0-tender-create-rft
             sequence: 2
           - instruction: >
               Conditional fields for SELECTIVE tenders only: Vendor Selection card with "Select Vendors" button
               opening SelectMultipleContractorDialog (selected contractors shown with remove buttons), and Reason
               for Selective Tender card (TextAreaInput, required for SELECTIVE, max 500 chars) explaining why a
               selective invitation process was chosen.
-            imageFileName: r8-s0-step3-rft-selective-fields
+            imageFileName: r8-s0-tender-create-rft
             sequence: 3
           - instruction: >
               Optional site visit fields: Require Site Visit (Checkbox) - when checked, reveals Site Visit Date
               (DatePicker, required), Site Visit Time (TextInput time format, required), and Site Visit Location
               (TextInput, required). Optional briefing fields: Require Tender Briefing (Checkbox) - reveals
               Briefing Date (DatePicker), Briefing Time (TextInput), and Briefing Location (TextInput).
-            imageFileName: r8-s0-step4-rft-visit-briefing
+            imageFileName: r8-s0-tender-create-rft
             sequence: 4
           - instruction: >
               Click "Review & Create" (or "Review & Update" for existing) to show preview. In preview mode, click
               "Back to Edit" to return to form, or "Create RFT/RFQ" / "Update RFT/RFQ" for final submission. For
               OPEN tenders without site visit or briefing, a confirmation dialog appears before submission. Auto-save
               pauses during preview mode.
-            imageFileName: r8-s0-step5-rft-submit
+            imageFileName: r8-s0-tender-create-rft
             sequence: 5
           - instruction: >
               On creation, the tender enters PRETENDER-PENDING-APPROVAL status and routes through the Call for Tender
               approval matrix: Officer submits -> Requesting HOD -> Procurement HOD -> (if RFT) Budget Officer ->
               Finance HOD -> GSVP/GVP -> CEO. Reference format: K1-TND-{yyMMdd}-{ref}.
-            imageFileName: r8-s0-step6-rft-approval-chain
+            imageFileName: r8-s0-tender-create-rft
             sequence: 6
 
       # --- Tender Addendum ---
@@ -1388,14 +1388,14 @@ roles:
               The TenderAddendumDialog allows adding addendums during the invitation-to-bid period. The form uses
               a dynamic array (minimum 1 addendum). Each addendum has: Title (TextInput, required) and Description
               (TextAreaInput, required). Addendums are numbered sequentially ("Addendum 1", "Addendum 2", etc.).
-            imageFileName: r8-s1-step0-addendum-form
+            imageFileName: r8-s0-tender-create-rft
             sequence: 0
           - instruction: >
               Click "Add Addendum" to add entries. Remove button appears when > 1 addendum exists. Only addendums
               with PENDING status are shown for editing. Click "Save Addendums" to preview via
               TenderAddendumPreviewDialog. On confirmation, the tender is updated and addendum status changes from
               PENDING to APPROVED.
-            imageFileName: r8-s1-step1-addendum-submit
+            imageFileName: r8-s0-tender-create-rft
             sequence: 1
 
       # --- Bid Opening ---
@@ -1408,32 +1408,32 @@ roles:
               The BidOpeningPreviewDialog displays a 3-column layout for the formal bid opening meeting. Left column
               shows the bid submission list sorted by amount (lowest first). Middle column shows the PDF viewer for
               each bid. Right column shows bid details and submitted files.
-            imageFileName: r8-s2-step0-bid-opening-layout
+            imageFileName: r8-s0-tender-create-rft
             sequence: 0
           - instruction: >
               Bids are revealed one-by-one. Each bid card shows: Bid number, status icon (Eye/EyeOff for
               revealed/unrevealed), Contractor name, Amount, and Submission date. The lowest bid gets a green
               "Lowest" badge. Click a bid card to select it, then click "Reveal Bid" to show its details.
-            imageFileName: r8-s2-step1-bid-reveal
+            imageFileName: r8-s0-tender-create-rft
             sequence: 1
           - instruction: >
               When a bid is revealed, the middle column loads the bid PDF (with download option), and the right column
               shows: Bid Details Card (Contractor name, Amount, Submission date, Completion duration, Comments) and
               Submitted Files section (bid submission PDF + additional files with download buttons). PDFs are cached
               by bid ID for performance.
-            imageFileName: r8-s2-step2-bid-details
+            imageFileName: r8-s0-tender-create-rft
             sequence: 2
           - instruction: >
               Navigate between bids with Previous/Next buttons. The "Continue" button is enabled only when all bids
               have been revealed (allBidsRevealed check). Clicking Continue opens the ScheduleOfTenderSummaryDialog
               which shows the complete bid comparison summary.
-            imageFileName: r8-s2-step3-bid-continue
+            imageFileName: r8-s0-tender-create-rft
             sequence: 3
           - instruction: >
               In the summary dialog, confirm to update the task with attendees list, external attendees, and
               pre-tender estimated value. The tender status progresses to BID-OPENED. The system records the bid
               opening meeting details for the audit trail.
-            imageFileName: r8-s2-step4-bid-summary
+            imageFileName: r8-s0-tender-create-rft
             sequence: 4
 
       # --- Admin Action Card (Tender Actions) ---
@@ -1446,19 +1446,19 @@ roles:
               The AdminActionCard component renders up to 21 conditional buttons based on the user's role, tender
               status, and task state. Buttons are grouped by function: General Actions, LOA Actions, Tender Management,
               Committee Paper Actions, Bid Actions, and Minutes Actions.
-            imageFileName: r8-s3-step0-admin-actions-overview
+            imageFileName: r8-s0-tender-create-rft
             sequence: 0
           - instruction: >
               General Actions: "Place on Hold" / "Resume Ticket" (toggle, visible if ticketOwner or admin, not in
               final status), "Edit Purchase Request" (visible if ticketOwner and no active revision task), and
               "Cancel Request" (destructive, visible if ticketOwner and not in final status).
-            imageFileName: r8-s3-step1-general-actions
+            imageFileName: r8-s0-tender-create-rft
             sequence: 1
           - instruction: >
               LOA Actions: "Update LOA" (visible if LOA task completed and admin is user), "Manage Signed LOA"
               (outline, visible if LOA exists and admin, no active tasks), "Update LOA Reference" (outline, visible
               if LOA exists and admin). These manage the Letter of Award associated with the tender.
-            imageFileName: r8-s3-step2-loa-actions
+            imageFileName: r8-s0-tender-create-rft
             sequence: 2
           - instruction: >
               Tender Management: "Edit Quotation/Tender" (canEditTenderRequest - status PRETENDER-PENDING-APPROVAL
@@ -1466,31 +1466,31 @@ roles:
               BID-APPROVED and admin is user), "Edit RFQ/RFT" (canUpdateRFT - PRETENDER states and admin),
               "Update Advert" (OPEN only, INVITATION-TO-BID or PRETENDER-APPROVED), "Submit Another Advert PO"
               (same conditions as Update Advert).
-            imageFileName: r8-s3-step3-tender-mgmt
+            imageFileName: r8-s0-tender-create-rft
             sequence: 3
           - instruction: >
               Additional Tender Management: "Update Briefing & Site Visit" (canUpdateSiteVisit - PRETENDER/INVITATION
               states, admin/requestor), "Update Submission Dates" (same conditions as site visit update), "Update
               ITT/ITQ" (canUpdateTenderInformation - INVITATION-TO-BID or BID-CLAUSES approval task, admin).
-            imageFileName: r8-s3-step4-tender-mgmt-2
+            imageFileName: r8-s0-tender-create-rft
             sequence: 4
           - instruction: >
               Committee Paper Actions: "Edit TC/QC Paper" (canEditTCQCPaper - submission task completed and approval
               task active, and user is PR HOD), opens TenderCommitteePaperFormDialog in update mode.
-            imageFileName: r8-s3-step5-committee-actions
+            imageFileName: r8-s0-tender-create-rft
             sequence: 5
           - instruction: >
               Bid Actions: "Upload Physical Bids" (status INVITATION-TO-BID or BID-OPENED, and user is admin or
               QC/TC Secretary), "Update Bid Opening Meeting" (if bidOpeningRoomBookingId exists and user has
               tender-opening-secretary role), "Add Negotiated Amount" (status BID-OPENED and admin), "Manage Bid
               Options" (status BID-OPENED and admin).
-            imageFileName: r8-s3-step6-bid-actions
+            imageFileName: r8-s0-tender-create-rft
             sequence: 6
           - instruction: >
               Minutes Actions: "Update TC Minutes" (if tcMinutesFileId exists and user has TC_SECRETARY role),
               "Update BOD Minutes" (if bodMinutesFileId exists and user has TC_SECRETARY role). Both open
               UpdateTenderMinutesDialog with the appropriate minutesType (TC or BOD).
-            imageFileName: r8-s3-step7-minutes-actions
+            imageFileName: r8-s0-tender-create-rft
             sequence: 7
 
       # --- Tender Date Changes ---
@@ -1503,14 +1503,14 @@ roles:
               When tender dates need modification after approval, the system uses a date change approval flow.
               handleTenderDateRequestChanges filters the changed date fields and creates an EVALUATE task if none
               exists. Changes are stored in tenderUpdatePendingApproval for review.
-            imageFileName: r8-s4-step0-date-change-request
+            imageFileName: r8-s0-tender-create-rft
             sequence: 0
           - instruction: >
               When date changes are approved (handleTenderDateRequestChangesApproved), the pending changes are applied
               from tenderUpdatePendingApproval to the tender record, the pending approval object is cleared, and a
               notification email is sent to the admin. If changes are requested
               (handleTenderDateRequestChangesRequested), the admin is notified of required modifications.
-            imageFileName: r8-s4-step1-date-change-approved
+            imageFileName: r8-s0-tender-create-rft
             sequence: 1
 
   # ============================================================
@@ -1537,7 +1537,7 @@ roles:
               declarations). The form auto-saves to IndexedDB continuously. 8 sub-sections compose the company
               information: Company Details, Financial Information, Ownership Structure, Track Records, License
               Registration, HSE Information, Authorised Reseller, and Anti-Corruption Declaration.
-            imageFileName: r9-s0-step0-registration-overview
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Basic Company Details form - Company Particulars: Organization Structure (SelectInput, required, options
@@ -1545,13 +1545,13 @@ roles:
               Sendirian Berhad/Berhad only, with helper text), Trading License (TextInput, required), Trading License
               Description (TextInput, required), Trading License Expiry Year (SelectInput, required, current year +50
               years dropdown), Trading License Files (FileSelectInput, required, multiple files).
-            imageFileName: r9-s0-step1-company-particulars
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               SSM fields (conditional - only for Sendirian Berhad/Berhad): SSM Number (TextInput, required) and SSM
               Files (FileSelectInput, required, multiple with description). All file uploads validate: max 20MB per
               file, accepted formats PDF/PNG/JPEG/JPG.
-            imageFileName: r9-s0-step2-ssm-fields
+            imageFileName: common-my-tasks
             sequence: 2
           - instruction: >
               Company Name (TextInput, required) with autocomplete dropdown for existing vendors - shows when search
@@ -1559,14 +1559,14 @@ roles:
               Selecting an existing vendor sets vendorId. Status badge shows green "Registering as existing vendor"
               or blue "Registering as new vendor". GST Number (TextInput, conditional for Sdn Bhd/Berhad, optional,
               helper "If none, enter N/A"). Year of Incorporation (SelectInput, required, 100-year dropdown backwards).
-            imageFileName: r9-s0-step3-company-name
+            imageFileName: common-my-tasks
             sequence: 3
           - instruction: >
               Registered Address: Line 1 (TextInput, required), Line 2 (TextInput, required), Postcode (TextInput,
               required), Country (SelectInputWithSearch, required), State (SelectInputWithSearch, conditional - only
               if country is Malaysia). Mailing Address: Toggle "Same as registered address" auto-populates all fields.
               Same field structure as registered address with independent country/state handling.
-            imageFileName: r9-s0-step4-addresses
+            imageFileName: common-my-tasks
             sequence: 4
           - instruction: >
               Contact Information: Contact Number (TextInput, required), Email (TextInput, required, email type),
@@ -1574,7 +1574,7 @@ roles:
               Last Name (TextInput, required), First Name (TextInput, required), Designation (TextInput, required).
               Company Type (CheckboxGroup, required, multiple selection: SUPPLIER, CONSULTANT, CONTRACTOR,
               SERVICE-PROVIDER).
-            imageFileName: r9-s0-step5-contact-info
+            imageFileName: common-my-tasks
             sequence: 5
 
       # --- Financial Info ---
@@ -1588,19 +1588,19 @@ roles:
               Authorized Capital (NumberInput, conditional for Sdn Bhd/Berhad, required, shows dynamic currency label),
               Paid-Up Capital (NumberInput, conditional, required), Annual Turnover (NumberInput, required),
               Working Capital (NumberInput, required). All monetary fields display dynamic currency based on selection.
-            imageFileName: r9-s1-step0-financial-fields
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Bank Details: Bank Name (SelectInput, required, from BANK_OPTIONS), Account Number (TextInput, required),
               Account Holder (TextInput, required). Payment Terms: Payment Terms (SelectInput, required, from
               PAYMENT_TERMS_OPTIONS), Other Payment Terms (TextInput, conditional - required if paymentTerms is "Other").
-            imageFileName: r9-s1-step1-bank-payment
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Supporting Documents: E-Disbursement File (single file, required, PDF preferred), Audited Accounts Files
               (FileSelectInput, multiple), Bank Statement Files (FileSelectInput, multiple). All with standard file
               validation.
-            imageFileName: r9-s1-step2-financial-docs
+            imageFileName: common-my-tasks
             sequence: 2
 
       # --- Ownership ---
@@ -1615,7 +1615,7 @@ roles:
               Share Amount (NumberInput, required, positive). Total Shares auto-calculated. "Add Shareholder" button
               creates new records. Delete button (red trash) appears when > 1 record. Optional Documents File
               (FileSelectInput) for ownership proof.
-            imageFileName: r9-s2-step0-ownership
+            imageFileName: common-my-tasks
             sequence: 0
 
       # --- Registration Submit ---
@@ -1628,20 +1628,20 @@ roles:
               Click "Continue to Declaration" (company section) - validates 0 errors across all forms. If errors exist:
               shows specific field names if 3 or fewer errors, or a summary count if more. On the declaration section,
               click "Preview & Submit" (Eye icon) to open RegistrationPreviewDialog.
-            imageFileName: r9-s3-step0-validation
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               The preview dialog loads all registration data with collapsible sections for each category. A comprehensive
               syncAllFilesToGlobalCollection function extracts ALL files from IndexedDB (trading license, SSM, e-disbursement,
               audited accounts, bank statements, company profile, ownership, director, CIDB, PUKONSA, certificates).
-            imageFileName: r9-s3-step1-preview
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               On submit, the system calls registerVendor API. If a duplicate email is detected, an EmailConflictDialog
               offers options to register as existing vendor or continue as new. All files are uploaded via
               createFilesMutation. On success, navigation redirects to /auth/registration-success. The vendor enters
               REGISTERED status awaiting procurement review.
-            imageFileName: r9-s3-step2-submit
+            imageFileName: common-my-tasks
             sequence: 2
 
       # --- Submit Quotation ---
@@ -1654,41 +1654,41 @@ roles:
               The SubmitQuotationDialog opens from an RFQ invitation. Split-pane layout: left (50%) shows live quotation
               preview (read-only), right (50%) shows the form (scrollable). Auto-saves to IndexedDB every 1 second.
               Previous drafts are loaded on dialog open and cleared on successful submission.
-            imageFileName: r9-s4-step0-quotation-layout
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Basic Information Card: Quotation Reference Number (TextInput, required) and Valid Until (DatePicker,
               required, must be future date). Below, a read-only Quotation Items Table shows requested items from the
               RFQ: Item Name, Quantity, UOM, Description/Specification.
-            imageFileName: r9-s4-step1-quotation-basic
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Quotation Response Items (dynamic array, min 1): Per item row in a table: Name (TextInput, required),
               UOM (SelectInput, from PROCUREMENT_UOM_OPTIONS, required), Quantity (NumberInput, min 1, required),
               Price Per Unit (NumberInput, required), Tax rate (NumberInput, required, percentage), Period (NumberInput,
               optional), Discount (NumberInput, optional). Delete button (Trash2 icon) enabled when > 1 item.
-            imageFileName: r9-s4-step2-quotation-items
+            imageFileName: common-my-tasks
             sequence: 2
           - instruction: >
               Delivery Section: Delivery Period Value (NumberInput, required, default 7), Delivery Period Unit
               (SelectInput, default "days", options: days/weeks/months), Delivery Charges (NumberInput, required,
               min 0, default 0). Payment Terms (SelectInput, required, options: 7 Days, 30 Days, 60 Days, Cash on
               Delivery, Payment in Advance, Other). If "Other" selected, Other Payment Terms (TextInput, required).
-            imageFileName: r9-s4-step3-quotation-delivery
+            imageFileName: common-my-tasks
             sequence: 3
           - instruction: >
               Discount (NumberInput, min 0, default 0). Additional Charges (dynamic array): per charge Name (TextInput,
               required) and Amount (NumberInput, min 0, required) with Add/Delete buttons. Terms & Conditions (dynamic
               array): per term (TextAreaInput, required) with Add/Delete. Quotation Attachment (VendorFileSelectInput,
               optional, multiple files).
-            imageFileName: r9-s4-step4-quotation-extras
+            imageFileName: common-my-tasks
             sequence: 4
           - instruction: >
               The live preview (left pane) shows: calculated item totals with tax, Subtotal, Discount applied,
               Additional charges, Delivery charges, Final total, Payment terms, Delivery period, Valid until date,
               and Terms and conditions. Click "Preview & Submit" to open confirmation. On final submit, quotation
               is created with reference K1-QUOT-{yyMMdd}-{ref}.
-            imageFileName: r9-s4-step5-quotation-submit
+            imageFileName: common-my-tasks
             sequence: 5
 
       # --- PO Management (Vendor) ---
@@ -1701,19 +1701,19 @@ roles:
               Navigate to Purchase Orders in the Vendor Portal. 5 tabs: Received (APPROVED, PARTIAL-DELIVERY,
               ACCEPTED-BY-VENDOR statuses), Delivered (DELIVERY-COMPLETED), Pending Payment (filtered by no payment),
               Paid (PAID status), and Rejected by Us (REJECTED-BY-VENDOR).
-            imageFileName: r9-s5-step0-vendor-po-tabs
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Each PO card displays: Reference number with status badge, Items count (icon + count), Delivery location
               (MapPin icon), Total amount (DollarSign icon, formatted currency), Invoice status badge (Submitted/No
               Invoice), and dates (order date, expected delivery). Click a card to open PurchaseOrderViewDialog.
-            imageFileName: r9-s5-step1-vendor-po-cards
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Invoice section (Received/Delivered tabs): Shows invoice reference number, invoice amount, supplier
               reference, and credit notes if applicable. Individual credit note entries show amounts. "Upload Credit
               Note" button appears for invoices without credit notes. Payable amount is calculated after deductions.
-            imageFileName: r9-s5-step2-vendor-po-invoice
+            imageFileName: common-my-tasks
             sequence: 2
 
       # --- Acknowledge PO ---
@@ -1727,12 +1727,12 @@ roles:
               title and the PO reference number. Confirmation message asks "Are you sure you want to acknowledge
               receipt of this purchase order?" Two buttons: Cancel (outline, disabled during submission) and
               Acknowledge (default, text changes to "Acknowledging..." when pending).
-            imageFileName: r9-s6-step0-acknowledge-po
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               On acknowledge, vendorAcknowledgedOn is set to current ISO date. Success toast: "PO has been acknowledged
               successfully". The PO status changes to ACCEPTED-BY-VENDOR. The onAcknowledge callback executes.
-            imageFileName: r9-s6-step1-acknowledge-result
+            imageFileName: common-my-tasks
             sequence: 1
 
       # --- Reject PO ---
@@ -1746,13 +1746,13 @@ roles:
               Instruction text: "You are about to reject this purchase order. Please provide a reason for rejection."
               Reason field (TextAreaInput, required, placeholder "Please enter the reason for rejecting this
               purchase order...").
-            imageFileName: r9-s7-step0-reject-po
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Buttons: Cancel (outline) and Reject PO (destructive, disabled if reason empty, text "Rejecting..."
               when pending). On reject, vendorCancellationReason is set. Success toast: "PO has been rejected
               successfully, an email has been sent to notify KKIP". Status changes to REJECTED-BY-VENDOR.
-            imageFileName: r9-s7-step1-reject-result
+            imageFileName: common-my-tasks
             sequence: 1
 
       # --- LOA Signature ---
@@ -1765,13 +1765,13 @@ roles:
               The LetterOfAwardSignatureDialog opens from the vendor's LOA view. Title: "Sign Letter of Award".
               The form requires uploading a signed LOA copy: Signed LOA (VendorFileSelectInput, required, min 1 file,
               PDF only). Files appear in a display component with individual remove buttons.
-            imageFileName: r9-s8-step0-sign-loa
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Buttons: Cancel (outline) and Sign LOA (green bg-green-600, Upload icon, disabled if submitting or
               form invalid, text "Signing..." when pending). On sign, vendorAcknowledgedOn and vendorSignedCopyFileIds
               are set on the LOA. Success toast: "Letter of Award signed successfully!" Status changes to VENDOR-SIGNED.
-            imageFileName: r9-s8-step1-sign-loa-result
+            imageFileName: common-my-tasks
             sequence: 1
 
       # --- Credit Note ---
@@ -1785,28 +1785,28 @@ roles:
               Invoice {referenceNumber}" with Receipt icon. Max height 90vh with scroll. An Invoice Summary Card
               (read-only) displays: Invoice Reference Number, Invoice Amount (RM format, green), and Supplier
               Reference (or N/A).
-            imageFileName: r9-s9-step0-credit-note
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Credit Note Items (dynamic array, min 1): Per item card with Item Number header, Description (TextInput,
               required), Qty (NumberInput, required, label "Qty *"), Unit Price (NumberInput, required, label
               "Unit Price (RM) *"), and calculated Total (read-only, RM format). Delete button per item (appears when
               > 1 item). "Add Item" button (outline, sm size).
-            imageFileName: r9-s9-step1-credit-note-items
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Total Credit Note Amount displayed in red-50 background with red-200 border: "-RM {totalAmount}".
               Credit Note Files (VendorFileSelectInput, required, min 1, formats: PDF/JPG/PNG). Instructions card
               (blue) lists: upload document, accepted formats, specify items with qty/price, ensure details visible,
               credit note deducted from invoice total.
-            imageFileName: r9-s9-step2-credit-note-files
+            imageFileName: common-my-tasks
             sequence: 2
           - instruction: >
               Buttons: Cancel (outline) and Upload Credit Note (Upload icon, disabled if submitting, text "Uploading
               Credit Note..." when pending). Validation: items array min 1 with description (required), qty (positive),
               amount (positive); creditNoteFiles min 1. On submit, credit note created via API with invoiceId, items,
               and fileIds.
-            imageFileName: r9-s9-step3-credit-note-submit
+            imageFileName: common-my-tasks
             sequence: 3
 
       # --- Bid Submission ---
@@ -1820,37 +1820,37 @@ roles:
               Unsaved changes are tracked per tab with an orange dot indicator on tab headers. Navigation between tabs
               via Previous/Next buttons. Closing shows a confirmation alert: "Close Bid Submission? Any unsaved changes
               will be lost."
-            imageFileName: r9-s10-step0-bid-tabs
+            imageFileName: common-my-tasks
             sequence: 0
           - instruction: >
               Tab 1 - Company Profile: Displays vendor information (read-only). An "Edit Company Profile" button
               opens EditCompanyProfileDialog to update vendor details before submission.
-            imageFileName: r9-s10-step1-bid-company
+            imageFileName: common-my-tasks
             sequence: 1
           - instruction: >
               Tab 2 - Bid Information: Overall Price field (required), Cheque Reference Number (conditional, if earnest
               money required by tender), Completion Duration (conditional, if not fixed by tender), Bill of Quantities
               file upload (conditional, if BOQ required), Form of Tender/Quotation file upload (required). Optional
               additional forms: Work Schedule, Equipment and Tools, Technical Specifications, Key Personnel.
-            imageFileName: r9-s10-step2-bid-info
+            imageFileName: common-my-tasks
             sequence: 2
           - instruction: >
               Tab 3 - Declarations: Four required checkboxes that must all be checked: Declaration of Integrity,
               Bidder Declaration, Acceptance of Invitation Terms, and Acceptance of Conditions of Tender.
-            imageFileName: r9-s10-step3-bid-declarations
+            imageFileName: common-my-tasks
             sequence: 3
           - instruction: >
               Comprehensive validateBidSubmission function checks all required fields: tenderAmount exists,
               chequeReferenceNumber (if earnest money), estimatedCompletionDuration (if not fixed), boqFileIds
               (if BOQ required), formOfTenderFileIds (always required), and all 4 declarations checked. Returns
               array of missing field names; shows error toast listing them.
-            imageFileName: r9-s10-step4-bid-validation
+            imageFileName: common-my-tasks
             sequence: 4
           - instruction: >
               "Preview & Submit" button (only on Tab 3) validates then opens BidSubmissionPreviewModal showing
               comprehensive bid summary. Final submit button (with "Submitting..." state) sets submittedOn
               timestamp. Each tab component handles its own auto-save and tracks hasUnsavedChanges state.
-            imageFileName: r9-s10-step5-bid-submit
+            imageFileName: common-my-tasks
             sequence: 5
 
   # ============================================================
@@ -1875,20 +1875,20 @@ roles:
               bidder), Bid Comparison analysis files, Recommended Bids, Recommendation Reason, and Final Summary.
               The system determines if this is a Quotation Committee (QC) or Tender Committee (TC) paper based on
               bid amounts vs threshold.
-            imageFileName: r10-s0-step0-tc-paper
+            imageFileName: r10-s0-tc-paper-review
             sequence: 0
           - instruction: >
               The committee can recommend specific bids (recommendedBidIds multi-select), select bid options
               (recommendedBidOptionSelections), or check "Require Recall" to recall all quotations. If recall is
               not checked, the Recommendation Reason is required. Bid summaries are auto-populated from bid
               submission data and can include AI-powered summarization.
-            imageFileName: r10-s0-step1-tc-recommendations
+            imageFileName: r10-s0-tc-paper-review
             sequence: 1
           - instruction: >
               Approval tracking for committee papers appears in Procurement > Approval Tracking under the "QC Paper"
               and "TC Paper" tabs. These filter tasks by QUOTATION-COMMITTEE-PAPER and TENDER-COMMITTEE-PAPER
               reference objects respectively.
-            imageFileName: r10-s0-step2-tc-tracking
+            imageFileName: r10-s0-tc-paper-review
             sequence: 2
 
       - title: Bid Opening Meeting - Attendance and Review
@@ -1900,13 +1900,13 @@ roles:
               Committee members attend the bid opening meeting. The system records attendees (internal users) and
               external attendees (string names). The Pre-Tender Estimated Value and Pre-Tender Estimate BQ Files
               are presented during the meeting. Bids are revealed one-by-one in order of amount (lowest first).
-            imageFileName: r10-s1-step0-tc-bid-meeting
+            imageFileName: r10-s0-tc-paper-review
             sequence: 0
           - instruction: >
               After all bids are revealed, the Schedule of Tender Summary is generated showing all bids side by side.
               Committee members can review: Contractor name, Bid amount, Submission date, Completion duration, and
               Comments for each bidder. The lowest bid is highlighted with a green badge.
-            imageFileName: r10-s1-step1-tc-bid-summary
+            imageFileName: r10-s0-tc-paper-review
             sequence: 1
 
       - title: TC/BOD Minutes Management
@@ -1919,7 +1919,7 @@ roles:
               (visible if tcMinutesFileId exists) opens UpdateTenderMinutesDialog with minutesType=TC. "Update BOD
               Minutes" button (visible if bodMinutesFileId exists) opens with minutesType=BOD. Minutes files are
               stored as references on the tender record.
-            imageFileName: r10-s2-step0-tc-minutes
+            imageFileName: r10-s0-tc-paper-review
             sequence: 0
 
   # ============================================================
@@ -1943,7 +1943,7 @@ roles:
               procurement trail including PR, RFQ/QA, and PO details. Corporate threshold: above 500,000 RM.
               Development threshold: above 1,000,000 RM. BOD approval is the final gate - once approved, the PO
               is issued, GRN tasks are created, and vendor notifications are sent.
-            imageFileName: r11-s0-step0-bod-approval
+            imageFileName: r4-s0-gsvp-po-approval
             sequence: 0
 
   # ============================================================
@@ -1966,14 +1966,14 @@ roles:
               Corporate PO Approval Tiers - Tier 1: Amount 0 - 1,000 RM, Approver is Requesting HOD, minimum 2
               quotations required. Tier 2: Amount 1,001 - 5,000 RM, Approver is Procurement HOD, minimum 2 quotations.
               Tier 3: Amount 5,001 - 50,000 RM, Approver is GSVP Corporate, minimum 3 quotations.
-            imageFileName: r12-s0-step0-corporate-tiers-1
+            imageFileName: r2-s13-po-listings
             sequence: 0
           - instruction: >
               Tier 4: Amount 50,001 - 250,000 RM, Approver is Quotation Committee (QC), minimum 5 quotations.
               QC sub-tasks: QC Secretary Review, then QC Committee Review (3 members, any 2 must approve), then
               QC Chairman Final approval. Tier 5: Amount 250,001 - 500,000 RM, Approver is CEO (Open Quotation),
               minimum 5 quotations. Tier 6: Amount 500,001+ RM, Approver is BOD (Open Tender), minimum 5 quotations.
-            imageFileName: r12-s0-step1-corporate-tiers-2
+            imageFileName: r2-s13-po-listings
             sequence: 1
 
       # --- PO Approval Matrix Development ---
@@ -1986,13 +1986,13 @@ roles:
               Development PO Approval Tiers - Tier 1: Amount 0 - 500 RM, Approver is Requesting HOD, minimum 2
               quotations. Tier 2: Amount 501 - 10,000 RM, Approver is Procurement HOD, minimum 3 quotations.
               Tier 3: Amount 10,001 - 50,000 RM, Approver is GSVP Corporate, minimum 3 quotations.
-            imageFileName: r12-s1-step0-development-tiers-1
+            imageFileName: r2-s13-po-listings
             sequence: 0
           - instruction: >
               Tier 4: Amount 50,001 - 500,000 RM, Approver is Quotation Committee (QC), minimum 5 quotations.
               QC sub-tasks same as Corporate. Tier 5: Amount 500,001 - 1,000,000 RM, Approver is CEO (Open Quotation),
               minimum 5 quotations. Tier 6: Amount 1,000,001+ RM, Approver is BOD (Open Tender), minimum 5 quotations.
-            imageFileName: r12-s1-step1-development-tiers-2
+            imageFileName: r2-s13-po-listings
             sequence: 1
 
       # --- CFT Approval Matrix ---
@@ -2005,14 +2005,14 @@ roles:
               Call for Tender 7-step approval chain: Step 1 - Procurement Officer submits tender. Step 2 - Requesting
               HOD approves. Step 3 - Procurement HOD reviews (for Quotations, directly approves; for RFTs, routes
               to budget). Step 4 - Budget Officer verifies budget allocation.
-            imageFileName: r12-s2-step0-cft-chain-1
+            imageFileName: r2-s13-po-listings
             sequence: 0
           - instruction: >
               Step 5 - Finance HOD provides secondary budget verification. Step 6 - GSVP (Corporate) or GVP
               (Development) reviews based on subsidiary type. Step 7 - CEO provides final approval. After CEO
               approval, tender status changes to PRETENDER-APPROVED, ITB clause submission is triggered, and for
               OPEN tenders a TENDER-ADVERTISEMENT task is created.
-            imageFileName: r12-s2-step1-cft-chain-2
+            imageFileName: r2-s13-po-listings
             sequence: 1
 
       # --- PR Approval Matrix ---
@@ -2025,7 +2025,7 @@ roles:
               Purchase Request approval is a 2-step process: Step 1 - Requestor submits the PR. Step 2 - Requesting
               HOD (Department HOD or Division HOD based on approver selection) approves, declines, or returns with
               comments. After HOD approval, PR status changes to APPROVED and routing to Procurement begins.
-            imageFileName: r12-s3-step0-pr-matrix
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- PR Status Transitions ---
@@ -2040,7 +2040,7 @@ roles:
               awardedOn set), CANCELLED (cancelled by requester or rejected by HOD, cancelledOn set), KIV (ticket
               placed on hold). Status is computed from model fields: KIV if ticket on hold, COMPLETED if awardedOn,
               CANCELLED if cancelledOn, PROCESSING if processedOn, APPROVED if approvedOn, else PENDING-APPROVAL.
-            imageFileName: r12-s4-step0-pr-statuses
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- PO Status Transitions ---
@@ -2056,14 +2056,14 @@ roles:
               isFullDeliveryCompletedStatus=false), DELIVERY-COMPLETED (all items received), INVOICE-SUBMITTED
               (invoice uploaded), PAID (payment confirmed, vendorPaymentReceivedOn set or invoice paid), CANCELLED
               (cancellationReason set).
-            imageFileName: r12-s5-step0-po-statuses
+            imageFileName: r2-s13-po-listings
             sequence: 0
           - instruction: >
               PO status computation priority (highest to lowest): PAID > INVOICE-SUBMITTED > CANCELLED >
               DELIVERY-COMPLETED > PARTIAL-DELIVERY > ACCEPTED-BY-VENDOR > REJECTED-BY-VENDOR > APPROVED >
               PENDING-APPROVAL. PO total is computed as: subtotal - discount + deliveryCharges + additionalCharges
               + taxAmount. Subtotal is sum of all line item subtotals.
-            imageFileName: r12-s5-step1-po-computation
+            imageFileName: r2-s13-po-listings
             sequence: 1
 
       # --- RFQ Status Transitions ---
@@ -2077,7 +2077,7 @@ roles:
               completed, processedOn set), CANCELLED (parent PR cancelled), KIV (parent PR on hold). Reference
               format: K1-RFQ-{yyMMdd}-{ref}. allQuotations computed property merges submitted quotations and
               supplier replies, deduped by vendorId.
-            imageFileName: r12-s6-step0-rfq-statuses
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- Tender Status Transitions ---
@@ -2092,13 +2092,13 @@ roles:
               sent, bids being collected), BID-OPENED (formal bid opening completed), BID-APPROVED (committee paper
               approved, winner selected), AWARDED (LOA issued to winning bidder), REJECTED (tender cancelled or all
               bids rejected), KIV (on hold), RECALL (quotations/tenders recalled for re-evaluation).
-            imageFileName: r12-s7-step0-tender-statuses
+            imageFileName: r2-s13-po-listings
             sequence: 0
           - instruction: >
               Tender types: OPEN (publicly advertised, any qualified vendor can bid) and SELECTIVE (invitation only,
               requires justification for selective process). Tender invitation document types: INFRASTRUCTURE-WORKS,
               CONSTRUCTION-WORKS, MASTER-PRICE-LIST. Tender addendum statuses: PENDING, APPROVED, REJECTED.
-            imageFileName: r12-s7-step1-tender-types
+            imageFileName: r2-s13-po-listings
             sequence: 1
 
       # --- Vendor Statuses ---
@@ -2113,7 +2113,7 @@ roles:
               progresses through review stages: PROCUREMENT -> FINANCE -> TECHNICAL -> PROCUREMENT-RECOMMENDATION ->
               CHAIRMAN-REVIEW), APPROVED (fully evaluated and approved), NOT-APPROVED (evaluation failed or vendor
               rejected).
-            imageFileName: r12-s8-step0-vendor-statuses
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- Task System ---
@@ -2129,7 +2129,7 @@ roles:
               Tasks have: taskReferenceObject (PURCHASE-REQUEST, PURCHASE-ORDER, LETTER-OF-AWARD,
               QUOTATION-COMMITTEE-PAPER, TENDER-COMMITTEE-PAPER, INVOICE, etc.), taskType (APPROVE, SUBMISSION,
               UPDATE, CANCEL, EVALUATE, RECEIVING, etc.), and assignee.
-            imageFileName: r12-s9-step0-task-system
+            imageFileName: r2-s13-po-listings
             sequence: 0
           - instruction: >
               Key task workflow patterns: Linear progression (each approval creates the next tier's task), Parallel
@@ -2137,7 +2137,7 @@ roles:
               a PO invalidates all active downstream tasks and creates a revision task), Escalation (amount exceeding
               tier limit routes to next tier), and Leave substitution (system checks LEAVE constant array for
               substitute approvers).
-            imageFileName: r12-s9-step1-task-patterns
+            imageFileName: r2-s13-po-listings
             sequence: 1
 
       # --- Reference Number Formats ---
@@ -2151,7 +2151,7 @@ roles:
               the database ID. Purchase Request: K1-PR-{yyMMdd}-{ref}. Request for Quotation: K1-RFQ-{yyMMdd}-{ref}.
               Purchase Order: K1-PO-{yyMMdd}-{ref}. Quotation: K1-QUOT-{yyMMdd}-{ref}. Quotation Analysis:
               K1-QA-{yyMMdd}-{ref}. Tender: K1-TND-{yyMMdd}-{ref}. Example: K1-PR-260317-A001.
-            imageFileName: r12-s10-step0-ref-formats
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- File Upload Constraints ---
@@ -2166,7 +2166,7 @@ roles:
               TicketFileSelectInput is used when a ticket context exists. FileSelectInput for standalone uploads.
               VendorFileSelectInput for vendor portal uploads. All file components include SelectedFilesDisplay
               with individual remove buttons.
-            imageFileName: r12-s11-step0-file-constraints
+            imageFileName: r2-s13-po-listings
             sequence: 0
 
       # --- Auto-Save Features ---
@@ -2184,5 +2184,5 @@ roles:
               IndexedDB fallback, keyboard shortcut Cmd+S/Ctrl+S, auto-save on window blur/visibility change/
               beforeunload), Bid Submission (per-tab auto-save with unsaved changes tracking). All drafts are
               cleared on successful submission and loaded on form/dialog open.
-            imageFileName: r12-s12-step0-autosave-features
+            imageFileName: r2-s13-po-listings
             sequence: 0
