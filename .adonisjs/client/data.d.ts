@@ -17,12 +17,12 @@ import type StepTransformer from '#transformers/step_transformer'
 import type TestCaseTransformer from '#transformers/test_case_transformer'
 import type TriggerLinkTransformer from '#transformers/trigger_link_transformer'
 import type UatFlowTransformer from '#transformers/uat_flow_transformer'
+import type UatTestLinkTransformer from '#transformers/uat_test_link_transformer'
 import type UploadTransformer from '#transformers/upload_transformer'
+import type UserGuideSectionTransformer from '#transformers/user_guide_section_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 import type VersionTransformer from '#transformers/version_transformer'
 import type ViewOnlyLinkTransformer from '#transformers/view_only_link_transformer'
-import type UserGuideSectionTransformer from '#transformers/user_guide_section_transformer'
-import type UatTestLinkTransformer from '#transformers/uat_test_link_transformer'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
@@ -70,9 +70,17 @@ export namespace Data {
   export namespace UatFlow {
     export type Variants = InferVariants<UatFlowTransformer>
   }
+  export type UatTestLink = InferData<UatTestLinkTransformer>
+  export namespace UatTestLink {
+    export type Variants = InferVariants<UatTestLinkTransformer>
+  }
   export type Upload = InferData<UploadTransformer>
   export namespace Upload {
     export type Variants = InferVariants<UploadTransformer>
+  }
+  export type UserGuideSection = InferData<UserGuideSectionTransformer>
+  export namespace UserGuideSection {
+    export type Variants = InferVariants<UserGuideSectionTransformer>
   }
   export type User = InferData<UserTransformer>
   export namespace User {
@@ -85,14 +93,6 @@ export namespace Data {
   export type ViewOnlyLink = InferData<ViewOnlyLinkTransformer>
   export namespace ViewOnlyLink {
     export type Variants = InferVariants<ViewOnlyLinkTransformer>
-  }
-  export type UserGuideSection = InferData<UserGuideSectionTransformer>
-  export namespace UserGuideSection {
-    export type Variants = InferVariants<UserGuideSectionTransformer>
-  }
-  export type UatTestLink = InferData<UatTestLinkTransformer>
-  export namespace UatTestLink {
-    export type Variants = InferVariants<UatTestLinkTransformer>
   }
   export type SharedProps = InferSharedProps<InertiaMiddleware>
 }

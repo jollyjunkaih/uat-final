@@ -35,10 +35,10 @@ declare module '@adonisjs/inertia/types' {
     'share/expired': ExtractProps<(typeof import('../../inertia/pages/share/expired.tsx'))['default']>
     'share/password': ExtractProps<(typeof import('../../inertia/pages/share/password.tsx'))['default']>
     'share/sign': ExtractProps<(typeof import('../../inertia/pages/share/sign.tsx'))['default']>
+    'share/uat-test': ExtractProps<(typeof import('../../inertia/pages/share/uat-test.tsx'))['default']>
     'share/view': ExtractProps<(typeof import('../../inertia/pages/share/view.tsx'))['default']>
     'sign-off/panel': ExtractProps<(typeof import('../../inertia/pages/sign-off/panel.tsx'))['default']>
     'versions/index': ExtractProps<(typeof import('../../inertia/pages/versions/index.tsx'))['default']>
     'versions/show': ExtractProps<(typeof import('../../inertia/pages/versions/show.tsx'))['default']>
-    'share/uat-test': ExtractProps<(typeof import('../../inertia/pages/share/uat-test.tsx'))['default']>
   }
 }
