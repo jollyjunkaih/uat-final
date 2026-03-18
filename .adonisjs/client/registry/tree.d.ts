@@ -58,6 +58,12 @@ export interface ApiDefinition {
     store: typeof routes['view_only_links.store']
     revoke: typeof routes['view_only_links.revoke']
   }
+  uatTestLinks: {
+    index: typeof routes['uat_test_links.index']
+    store: typeof routes['uat_test_links.store']
+    revoke: typeof routes['uat_test_links.revoke']
+    submissions: typeof routes['uat_test_links.submissions']
+  }
   export: {
     exportPrd: typeof routes['export.export_prd']
     exportUat: typeof routes['export.export_uat']
@@ -138,5 +144,9 @@ export interface ApiDefinition {
   publicSignOff: {
     show: typeof routes['public_sign_off.show']
     submit: typeof routes['public_sign_off.submit']
+  }
+  publicUatTest: {
+    show: typeof routes['public_uat_test.show']
+    submit: typeof routes['public_uat_test.submit']
   }
 }

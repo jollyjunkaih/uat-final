@@ -497,6 +497,77 @@ export class UatFlowSchema extends BaseModel {
   declare version: number
 }
 
+export class UatTestLinkSchema extends BaseModel {
+  static $columns = ['createdAt', 'createdById', 'expiresAt', 'id', 'isActive', 'projectId', 'token', 'updatedAt'] as const
+  $columns = UatTestLinkSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdById: number | null
+  @column.dateTime()
+  declare expiresAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare isActive: boolean
+  @column()
+  declare projectId: string
+  @column()
+  declare token: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class UatTestResultSchema extends BaseModel {
+  static $columns = ['comment', 'createdAt', 'featureId', 'id', 'result', 'stepId', 'uatFlowId', 'uatTestSubmissionId', 'updatedAt'] as const
+  $columns = UatTestResultSchema.$columns
+  @column()
+  declare comment: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare featureId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare result: string
+  @column()
+  declare stepId: string
+  @column()
+  declare uatFlowId: string
+  @column()
+  declare uatTestSubmissionId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class UatTestSubmissionSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'signatorId', 'signature', 'signerIp', 'signerUserAgent', 'status', 'submittedAt', 'testerName', 'uatTestLinkId', 'updatedAt'] as const
+  $columns = UatTestSubmissionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare signatorId: string | null
+  @column()
+  declare signature: string | null
+  @column()
+  declare signerIp: string | null
+  @column()
+  declare signerUserAgent: string | null
+  @column()
+  declare status: string
+  @column.dateTime()
+  declare submittedAt: DateTime | null
+  @column()
+  declare testerName: string
+  @column()
+  declare uatTestLinkId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UploadSchema extends BaseModel {
   static $columns = ['context', 'createdAt', 'fileName', 'filePath', 'id', 'mimeType', 'projectId', 'size', 'updatedAt'] as const
   $columns = UploadSchema.$columns

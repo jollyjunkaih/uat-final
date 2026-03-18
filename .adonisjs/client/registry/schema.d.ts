@@ -415,6 +415,54 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/view_only_links_controller').default['revoke']>>>
     }
   }
+  'uat_test_links.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/uat-test-links'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['index']>>>
+    }
+  }
+  'uat_test_links.store': {
+    methods: ["POST"]
+    pattern: '/api/uat-test-links'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/uat_test_validator').createUatTestLinkValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/uat_test_validator').createUatTestLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'uat_test_links.revoke': {
+    methods: ["POST"]
+    pattern: '/api/uat-test-links/:id/revoke'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['revoke']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['revoke']>>>
+    }
+  }
+  'uat_test_links.submissions': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/uat-test-links/:id/submissions'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['submissions']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/uat_test_links_controller').default['submissions']>>>
+    }
+  }
   'export.export_prd': {
     methods: ["GET","HEAD"]
     pattern: '/export/prd/:projectId'
@@ -1169,6 +1217,30 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/sign_off_link_validator').submitSignOffValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_sign_off_controller').default['submit']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_sign_off_controller').default['submit']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'public_uat_test.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/share/uat-test/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_uat_test_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_uat_test_controller').default['show']>>>
+    }
+  }
+  'public_uat_test.submit': {
+    methods: ["POST"]
+    pattern: '/share/uat-test/:token'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/uat_test_validator').submitUatTestValidator)>>
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/uat_test_validator').submitUatTestValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/public_uat_test_controller').default['submit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/public_uat_test_controller').default['submit']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }

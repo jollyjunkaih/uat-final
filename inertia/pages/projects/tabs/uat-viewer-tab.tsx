@@ -3,6 +3,11 @@ import { useQuery } from '@tanstack/react-query'
 import { apiFetch } from '~/lib/api'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '~/components/ui/tabs'
 import { cn } from '~/lib/utils'
+import {
+  useUatTestLinks,
+  useCreateUatTestLink,
+  useRevokeUatTestLink,
+} from '~/hooks/use-uat-test-links'
 
 interface TreeStep {
   id: string
@@ -201,6 +206,81 @@ function FlowAccordion({ flows }: { flows: TreeFlow[] }) {
   )
 }
 
+/* ─── UAT Test Links Panel ─── */
+
+function UatTestLinksPanel({ projectId }: { projectId: string }) {
+  const { data } = useUatTestLinks(projectId)
+  const createLink = useCreateUatTestLink(projectId)
+  const revokeLink = useRevokeUatTestLink(projectId)
+  const [copiedId, setCopiedId] = useState<string | null>(null)
+
+  const links = (data?.data ?? []).filter((l) => l.isActive)
+
+  function handleCreate() {
+    createLink.mutate({ projectId })
+  }
+
+  function handleCopy(token: string, id: string) {
+    const url = `${window.location.origin}/share/uat-test/${token}`
+    navigator.clipboard.writeText(url)
+    setCopiedId(id)
+    setTimeout(() => setCopiedId(null), 2000)
+  }
+
+  return (
+    <div className="rounded-lg border border-border bg-card p-4 space-y-3">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-foreground">UAT Test Links</h3>
+        <button
+          onClick={handleCreate}
+          disabled={createLink.isPending}
+          className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+        >
+          {createLink.isPending ? 'Creating...' : '+ Generate Link'}
+        </button>
+      </div>
+
+      {links.length === 0 ? (
+        <p className="text-xs text-muted-foreground">
+          No active test links. Generate one to share with testers.
+        </p>
+      ) : (
+        <div className="space-y-2">
+          {links.map((link) => (
+            <div
+              key={link.id}
+              className="flex items-center justify-between rounded-md border border-border bg-muted/20 px-3 py-2"
+            >
+              <div className="min-w-0 flex-1">
+                <code className="text-xs text-muted-foreground truncate block">
+                  /share/uat-test/{link.token.slice(0, 12)}...
+                </code>
+                <span className="text-xs text-muted-foreground">
+                  Created {new Date(link.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+              <div className="ml-3 flex items-center gap-2">
+                <button
+                  onClick={() => handleCopy(link.token, link.id)}
+                  className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs font-medium text-foreground hover:bg-accent"
+                >
+                  {copiedId === link.id ? 'Copied!' : 'Copy'}
+                </button>
+                <button
+                  onClick={() => revokeLink.mutate(link.id)}
+                  className="inline-flex items-center rounded-md border border-border px-2 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+                >
+                  Revoke
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ─── Main UAT Viewer ─── */
 
 export default function UatViewerTab({ projectId }: UatViewerTabProps) {
@@ -230,20 +310,24 @@ export default function UatViewerTab({ projectId }: UatViewerTabProps) {
   }
 
   return (
-    <Tabs defaultValue={features[0].id}>
-      <TabsList>
-        {features.map((feature) => (
-          <TabsTrigger key={feature.id} value={feature.id}>
-            {feature.name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+    <div className="space-y-4">
+      <UatTestLinksPanel projectId={projectId} />
 
-      {features.map((feature) => (
-        <TabsContent key={feature.id} value={feature.id}>
-          <FlowAccordion flows={feature.uatFlows || []} />
-        </TabsContent>
-      ))}
-    </Tabs>
+      <Tabs defaultValue={features[0].id}>
+        <TabsList>
+          {features.map((feature) => (
+            <TabsTrigger key={feature.id} value={feature.id}>
+              {feature.name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+
+        {features.map((feature) => (
+          <TabsContent key={feature.id} value={feature.id}>
+            <FlowAccordion flows={feature.uatFlows || []} />
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
   )
 }

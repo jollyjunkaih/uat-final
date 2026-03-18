@@ -11,6 +11,7 @@ import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
 import PrdContact from '#models/prd_contact'
 import Signator from '#models/signator'
+import UatTestLink from '#models/uat_test_link'
 
 export default class Project extends BaseModel {
   @column({ isPrimary: true })
@@ -222,4 +223,7 @@ export default class Project extends BaseModel {
 
   @hasMany(() => Signator)
   declare signators: HasMany<typeof Signator>
+
+  @hasMany(() => UatTestLink)
+  declare uatTestLinks: HasMany<typeof UatTestLink>
 }

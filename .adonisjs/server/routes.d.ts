@@ -38,6 +38,10 @@ export type ScannedRoutes = {
     'view_only_links.index': { paramsTuple?: []; params?: {} }
     'view_only_links.store': { paramsTuple?: []; params?: {} }
     'view_only_links.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'uat_test_links.index': { paramsTuple?: []; params?: {} }
+    'uat_test_links.store': { paramsTuple?: []; params?: {} }
+    'uat_test_links.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'uat_test_links.submissions': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'export.export_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
@@ -101,6 +105,8 @@ export type ScannedRoutes = {
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'public_sign_off.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'public_uat_test.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'public_uat_test.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
@@ -118,6 +124,8 @@ export type ScannedRoutes = {
     'sign_off.index': { paramsTuple?: []; params?: {} }
     'sign_off.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'view_only_links.index': { paramsTuple?: []; params?: {} }
+    'uat_test_links.index': { paramsTuple?: []; params?: {} }
+    'uat_test_links.submissions': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'export.export_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
@@ -144,6 +152,7 @@ export type ScannedRoutes = {
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'public_sign_off.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'public_uat_test.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -161,6 +170,8 @@ export type ScannedRoutes = {
     'sign_off.index': { paramsTuple?: []; params?: {} }
     'sign_off.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'view_only_links.index': { paramsTuple?: []; params?: {} }
+    'uat_test_links.index': { paramsTuple?: []; params?: {} }
+    'uat_test_links.submissions': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'export.export_prd': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'export.export_uat': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'settings.show': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
@@ -187,6 +198,7 @@ export type ScannedRoutes = {
     'projects.uat': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'public_view.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'public_sign_off.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'public_uat_test.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   POST: {
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -202,6 +214,8 @@ export type ScannedRoutes = {
     'sign_off.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'view_only_links.store': { paramsTuple?: []; params?: {} }
     'view_only_links.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'uat_test_links.store': { paramsTuple?: []; params?: {} }
+    'uat_test_links.revoke': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'integration.sync_triggers': { paramsTuple?: []; params?: {} }
     'steps.store': { paramsTuple?: []; params?: {} }
     'steps.reorder': { paramsTuple?: []; params?: {} }
@@ -221,6 +235,7 @@ export type ScannedRoutes = {
     'yaml_import.convert_gifs': { paramsTuple: [ParamValue]; params: {'projectId': ParamValue} }
     'yaml_import.convert_gifs_all': { paramsTuple?: []; params?: {} }
     'public_sign_off.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'public_uat_test.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
   }
   PATCH: {
     'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

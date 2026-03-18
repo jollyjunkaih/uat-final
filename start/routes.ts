@@ -33,6 +33,8 @@ const PrdController = () => import('#controllers/prd_controller')
 const SignatorController = () => import('#controllers/signator_controller')
 const YamlImportController = () => import('#controllers/yaml_import_controller')
 const UserGuideController = () => import('#controllers/user_guide_controller')
+const UatTestLinksController = () => import('#controllers/uat_test_links_controller')
+const PublicUatTestController = () => import('#controllers/public_uat_test_controller')
 
 // Home
 router.on('/').renderInertia('home', {}).as('home')
@@ -101,6 +103,12 @@ router
     router.get('api/view-links', [ViewOnlyLinksController, 'index'])
     router.post('api/view-links', [ViewOnlyLinksController, 'store'])
     router.post('api/view-links/:id/revoke', [ViewOnlyLinksController, 'revoke'])
+
+    // UAT Test Links
+    router.get('api/uat-test-links', [UatTestLinksController, 'index'])
+    router.post('api/uat-test-links', [UatTestLinksController, 'store'])
+    router.post('api/uat-test-links/:id/revoke', [UatTestLinksController, 'revoke'])
+    router.get('api/uat-test-links/:id/submissions', [UatTestLinksController, 'submissions'])
 
     // Export
     router.get('export/prd/:projectId', [ExportController, 'exportPrd'])
@@ -227,3 +235,5 @@ router.get('photos/:projectDir/*', async (ctx) => {
 router.get('share/view/:token', [PublicViewController, 'show'])
 router.get('share/sign/:token', [PublicSignOffController, 'show'])
 router.post('share/sign/:token', [PublicSignOffController, 'submit'])
+router.get('share/uat-test/:token', [PublicUatTestController, 'show'])
+router.post('share/uat-test/:token', [PublicUatTestController, 'submit'])

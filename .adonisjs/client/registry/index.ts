@@ -210,6 +210,30 @@ const routes = {
     tokens: [{"old":"/api/view-links/:id/revoke","type":0,"val":"api","end":""},{"old":"/api/view-links/:id/revoke","type":0,"val":"view-links","end":""},{"old":"/api/view-links/:id/revoke","type":1,"val":"id","end":""},{"old":"/api/view-links/:id/revoke","type":0,"val":"revoke","end":""}],
     types: placeholder as Registry['view_only_links.revoke']['types'],
   },
+  'uat_test_links.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/uat-test-links',
+    tokens: [{"old":"/api/uat-test-links","type":0,"val":"api","end":""},{"old":"/api/uat-test-links","type":0,"val":"uat-test-links","end":""}],
+    types: placeholder as Registry['uat_test_links.index']['types'],
+  },
+  'uat_test_links.store': {
+    methods: ["POST"],
+    pattern: '/api/uat-test-links',
+    tokens: [{"old":"/api/uat-test-links","type":0,"val":"api","end":""},{"old":"/api/uat-test-links","type":0,"val":"uat-test-links","end":""}],
+    types: placeholder as Registry['uat_test_links.store']['types'],
+  },
+  'uat_test_links.revoke': {
+    methods: ["POST"],
+    pattern: '/api/uat-test-links/:id/revoke',
+    tokens: [{"old":"/api/uat-test-links/:id/revoke","type":0,"val":"api","end":""},{"old":"/api/uat-test-links/:id/revoke","type":0,"val":"uat-test-links","end":""},{"old":"/api/uat-test-links/:id/revoke","type":1,"val":"id","end":""},{"old":"/api/uat-test-links/:id/revoke","type":0,"val":"revoke","end":""}],
+    types: placeholder as Registry['uat_test_links.revoke']['types'],
+  },
+  'uat_test_links.submissions': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/uat-test-links/:id/submissions',
+    tokens: [{"old":"/api/uat-test-links/:id/submissions","type":0,"val":"api","end":""},{"old":"/api/uat-test-links/:id/submissions","type":0,"val":"uat-test-links","end":""},{"old":"/api/uat-test-links/:id/submissions","type":1,"val":"id","end":""},{"old":"/api/uat-test-links/:id/submissions","type":0,"val":"submissions","end":""}],
+    types: placeholder as Registry['uat_test_links.submissions']['types'],
+  },
   'export.export_prd': {
     methods: ["GET","HEAD"],
     pattern: '/export/prd/:projectId',
@@ -587,6 +611,18 @@ const routes = {
     pattern: '/share/sign/:token',
     tokens: [{"old":"/share/sign/:token","type":0,"val":"share","end":""},{"old":"/share/sign/:token","type":0,"val":"sign","end":""},{"old":"/share/sign/:token","type":1,"val":"token","end":""}],
     types: placeholder as Registry['public_sign_off.submit']['types'],
+  },
+  'public_uat_test.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/share/uat-test/:token',
+    tokens: [{"old":"/share/uat-test/:token","type":0,"val":"share","end":""},{"old":"/share/uat-test/:token","type":0,"val":"uat-test","end":""},{"old":"/share/uat-test/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['public_uat_test.show']['types'],
+  },
+  'public_uat_test.submit': {
+    methods: ["POST"],
+    pattern: '/share/uat-test/:token',
+    tokens: [{"old":"/share/uat-test/:token","type":0,"val":"share","end":""},{"old":"/share/uat-test/:token","type":0,"val":"uat-test","end":""},{"old":"/share/uat-test/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['public_uat_test.submit']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

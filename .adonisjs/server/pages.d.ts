@@ -39,5 +39,6 @@ declare module '@adonisjs/inertia/types' {
     'sign-off/panel': ExtractProps<(typeof import('../../inertia/pages/sign-off/panel.tsx'))['default']>
     'versions/index': ExtractProps<(typeof import('../../inertia/pages/versions/index.tsx'))['default']>
     'versions/show': ExtractProps<(typeof import('../../inertia/pages/versions/show.tsx'))['default']>
+    'share/uat-test': ExtractProps<(typeof import('../../inertia/pages/share/uat-test.tsx'))['default']>
   }
 }
