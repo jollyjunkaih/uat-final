@@ -185,10 +185,12 @@ function SignaturePad({
 
 function StepCard({
   step,
+  stepNumber,
   result,
   onChange,
 }: {
   step: TreeStep
+  stepNumber: string
   result: StepResult
   onChange: (r: StepResult) => void
 }) {
@@ -228,7 +230,7 @@ function StepCard({
 
         <div className="min-w-0 flex-1">
           <h5 className="text-sm font-medium text-gray-900">
-            {step.sequence}. {step.name}
+            {stepNumber}. {step.name}
           </h5>
           {step.description && (
             <p className="mt-0.5 text-xs text-gray-500">{step.description}</p>
@@ -424,6 +426,38 @@ export default function UatTest({ project, features, signators, testLink }: UatT
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
+  // Accordion state for features and flows
+  const [openFeatures, setOpenFeatures] = useState<Set<string>>(() => new Set(features.map((f) => f.id)))
+  const [openFlows, setOpenFlows] = useState<Set<string>>(new Set())
+
+  function toggleFeature(id: string) {
+    setOpenFeatures((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  function toggleFlow(id: string) {
+    setOpenFlows((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  function markAllFeatureWorking(feature: TreeFeature) {
+    const updates: Record<string, StepResult> = {}
+    for (const flow of feature.uatFlows) {
+      for (const step of flow.steps) {
+        updates[step.id] = { result: 'working', comment: results[step.id]?.comment ?? '' }
+      }
+    }
+    setResults((prev) => ({ ...prev, ...updates }))
+  }
+
   // Persist to localStorage on every change
   useEffect(() => {
     if (phase === 'submitted') return
@@ -617,46 +651,109 @@ export default function UatTest({ project, features, signators, testLink }: UatT
         {/* Progress Cards */}
         <ProgressOverview features={features} results={results} />
 
-        {/* Feature sections */}
-        {features.map((feature) => (
-          <section key={feature.id} className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">
-              {feature.name}
-            </h2>
+        {/* Feature sections with accordions */}
+        {features.map((feature, featureIdx) => {
+          const featureStepIds = feature.uatFlows.flatMap((f) => f.steps.map((s) => s.id))
+          const featureCompleted = countCompleted(results, featureStepIds)
+          const featureTotal = featureStepIds.length
+          const allFeatureWorking = featureTotal > 0 && featureStepIds.every((id) => results[id]?.result === 'working')
+          const isFeatureOpen = openFeatures.has(feature.id)
 
-            {feature.uatFlows.map((flow) => {
-              const flowStepIds = flow.steps.map((s) => s.id)
-              const flowCompleted = countCompleted(results, flowStepIds)
-
-              return (
-                <div key={flow.id} className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-800">{flow.name}</h3>
-                      {flow.description && (
-                        <p className="text-xs text-gray-500">{flow.description}</p>
-                      )}
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      {flowCompleted}/{flowStepIds.length} steps
-                    </span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {flow.steps.map((step) => (
-                      <StepCard
-                        key={step.id}
-                        step={step}
-                        result={results[step.id] ?? { result: null, comment: '' }}
-                        onChange={(r) => updateStepResult(step.id, r)}
-                      />
-                    ))}
-                  </div>
+          return (
+            <section key={feature.id} className="rounded-lg border border-gray-200 bg-white overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleFeature(feature.id)}
+                className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-gray-50"
+              >
+                <h2 className="text-sm font-semibold text-gray-900 min-w-0 flex-1">
+                  {featureIdx + 1}. {feature.name}
+                </h2>
+                <div className="ml-3 flex shrink-0 items-center gap-2">
+                  <span className={cn('text-xs font-medium', allFeatureWorking ? 'text-green-600' : 'text-gray-500')}>
+                    {featureCompleted}/{featureTotal}
+                  </span>
+                  <svg
+                    className={cn('h-4 w-4 text-gray-400 transition-transform', isFeatureOpen && 'rotate-180')}
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
                 </div>
-              )
-            })}
-          </section>
-        ))}
+              </button>
+
+              {isFeatureOpen && (
+                <div className="border-t border-gray-200 px-5 py-3 space-y-3">
+                  {/* Mark all as working button */}
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => markAllFeatureWorking(feature)}
+                      className={cn(
+                        'text-xs font-medium px-3 py-1.5 rounded-md transition-colors',
+                        allFeatureWorking
+                          ? 'bg-green-100 text-green-700 cursor-default'
+                          : 'bg-green-50 text-green-700 hover:bg-green-100'
+                      )}
+                    >
+                      {allFeatureWorking ? 'All marked as working' : 'Mark all as working'}
+                    </button>
+                  </div>
+
+                  {feature.uatFlows.map((flow, flowIdx) => {
+                    const flowStepIds = flow.steps.map((s) => s.id)
+                    const flowCompleted = countCompleted(results, flowStepIds)
+                    const isFlowOpen = openFlows.has(flow.id)
+
+                    return (
+                      <div key={flow.id} className="rounded-lg border border-gray-200 overflow-hidden">
+                        <button
+                          type="button"
+                          onClick={() => toggleFlow(flow.id)}
+                          className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-gray-50"
+                        >
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-sm font-medium text-gray-900">
+                              {featureIdx + 1}.{flowIdx + 1} {flow.name}
+                            </h3>
+                            {flow.description && (
+                              <p className="text-xs text-gray-500 mt-0.5">{flow.description}</p>
+                            )}
+                          </div>
+                          <div className="ml-3 flex shrink-0 items-center gap-2">
+                            <span className="text-xs text-gray-500">
+                              {flowCompleted}/{flowStepIds.length} steps
+                            </span>
+                            <svg
+                              className={cn('h-4 w-4 text-gray-400 transition-transform', isFlowOpen && 'rotate-180')}
+                              viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                            >
+                              <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                          </div>
+                        </button>
+
+                        {isFlowOpen && (
+                          <div className="border-t border-gray-100 px-4 py-3 space-y-3">
+                            {flow.steps.map((step, stepIdx) => (
+                              <StepCard
+                                key={step.id}
+                                step={step}
+                                stepNumber={`${featureIdx + 1}.${flowIdx + 1}.${stepIdx + 1}`}
+                                result={results[step.id] ?? { result: null, comment: '' }}
+                                onChange={(r) => updateStepResult(step.id, r)}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </section>
+          )
+        })}
 
         {/* Incomplete summary */}
         {!allComplete && incompleteFeatures.length > 0 && (
