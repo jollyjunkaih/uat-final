@@ -3,6 +3,29 @@ import { join } from 'node:path'
 import { stringify } from 'yaml'
 import { slugify } from '#utils/slugify'
 
+export interface PrdFeatureYamlData {
+  name: string
+  description: string | null
+  module: string | null
+  priority: string
+  status: string
+  ecosystem: string | null
+  inScope: string | null
+  outOfScope: string | null
+  sequence: number
+  uatFlows: Array<{
+    name: string
+    description: string | null
+    preconditions: string | null
+    status: string
+    sequence: number
+  }>
+}
+
+export interface FeaturesYamlData {
+  features: PrdFeatureYamlData[]
+}
+
 export interface PrdYamlData {
   metadata: {
     companyName: string | null
@@ -68,6 +91,7 @@ export interface PrdYamlData {
     email: string | null
     phone: string | null
   }>
+  features: PrdFeatureYamlData[]
 }
 
 export interface UatYamlData {
@@ -149,6 +173,19 @@ export default class YamlWriterService {
     }
 
     writeFileSync(join(dir, 'uat.yaml'), stringify(yamlContent, { lineWidth: 0 }), 'utf-8')
+  }
+
+  writeFeatures(projectName: string, projectId: string, data: FeaturesYamlData): void {
+    const dir = this.getProjectDir(projectName, projectId)
+    this.ensureDir(dir)
+
+    const yamlContent = {
+      _projectId: projectId,
+      _generatedAt: new Date().toISOString(),
+      ...data,
+    }
+
+    writeFileSync(join(dir, 'features.yaml'), stringify(yamlContent, { lineWidth: 0 }), 'utf-8')
   }
 
   removeProjectDirectory(projectName: string, projectId: string): void {

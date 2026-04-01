@@ -7,7 +7,7 @@ import PrdMilestone from '#models/prd_milestone'
 import PrdOpenQuestion from '#models/prd_open_question'
 import PrdContact from '#models/prd_contact'
 import YamlWriterService from '#services/yaml_writer_service'
-import type { PrdYamlData, UatYamlData } from '#services/yaml_writer_service'
+import type { PrdYamlData, UatYamlData, FeaturesYamlData, PrdFeatureYamlData } from '#services/yaml_writer_service'
 
 export default class YamlSyncService {
   private writer: YamlWriterService
@@ -16,14 +16,42 @@ export default class YamlSyncService {
     this.writer = new YamlWriterService()
   }
 
+  private async loadFeaturesWithFlows(projectId: string): Promise<PrdFeatureYamlData[]> {
+    const features = await Feature.query()
+      .where('project_id', projectId)
+      .whereNull('deleted_at')
+      .preload('uatFlows', (q) => q.whereNull('deleted_at').orderBy('sequence', 'asc'))
+      .orderBy('sequence', 'asc')
+
+    return features.map((feature) => ({
+      name: feature.name,
+      description: feature.description,
+      module: feature.module,
+      priority: feature.priority,
+      status: feature.status,
+      ecosystem: feature.ecosystem,
+      inScope: feature.inScope,
+      outOfScope: feature.outOfScope,
+      sequence: feature.sequence,
+      uatFlows: feature.uatFlows.map((flow) => ({
+        name: flow.name,
+        description: flow.description,
+        preconditions: flow.preconditions,
+        status: flow.status,
+        sequence: flow.sequence,
+      })),
+    }))
+  }
+
   async syncPrd(projectId: string): Promise<void> {
     const project = await Project.findOrFail(projectId)
 
-    const [competitors, milestones, openQuestions, contacts] = await Promise.all([
+    const [competitors, milestones, openQuestions, contacts, features] = await Promise.all([
       PrdCompetitor.query().where('project_id', projectId).orderBy('sequence', 'asc'),
       PrdMilestone.query().where('project_id', projectId).orderBy('sequence', 'asc'),
       PrdOpenQuestion.query().where('project_id', projectId).orderBy('sequence', 'asc'),
       PrdContact.query().where('project_id', projectId).orderBy('sequence', 'asc'),
+      this.loadFeaturesWithFlows(projectId),
     ])
 
     const data: PrdYamlData = {
@@ -94,9 +122,17 @@ export default class YamlSyncService {
         email: c.email,
         phone: c.phone,
       })),
+      features,
     }
 
     this.writer.writePrd(project.name, project.id, data)
+  }
+
+  async syncFeatures(projectId: string): Promise<void> {
+    const project = await Project.findOrFail(projectId)
+    const features = await this.loadFeaturesWithFlows(projectId)
+    const data: FeaturesYamlData = { features }
+    this.writer.writeFeatures(project.name, project.id, data)
   }
 
   async syncUat(projectId: string): Promise<void> {
@@ -158,7 +194,7 @@ export default class YamlSyncService {
   }
 
   async syncAll(projectId: string): Promise<void> {
-    await Promise.all([this.syncPrd(projectId), this.syncUat(projectId)])
+    await Promise.all([this.syncPrd(projectId), this.syncUat(projectId), this.syncFeatures(projectId)])
   }
 
   async removeProject(projectId: string): Promise<void> {

@@ -2,7 +2,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { parse } from 'yaml'
 import { slugify } from '#utils/slugify'
-import type { PrdYamlData, UatYamlData } from '#services/yaml_writer_service'
+import type { PrdYamlData, UatYamlData, FeaturesYamlData } from '#services/yaml_writer_service'
 
 export default class YamlReaderService {
   private basePath: string
@@ -50,6 +50,29 @@ export default class YamlReaderService {
 
     const { _projectId: _, _generatedAt: __, ...data } = parsed
     return data as PrdYamlData
+  }
+
+  readFeatures(projectName: string, projectId: string): FeaturesYamlData | null {
+    const filePath = join(this.getProjectDir(projectName, projectId), 'features.yaml')
+    if (!existsSync(filePath)) return null
+
+    const content = readFileSync(filePath, 'utf-8')
+    const parsed = parse(content)
+    if (!parsed) return null
+
+    const { _projectId: _, _generatedAt: __, ...data } = parsed
+    return data as FeaturesYamlData
+  }
+
+  readFeaturesFromPath(filePath: string): FeaturesYamlData | null {
+    if (!existsSync(filePath)) return null
+
+    const content = readFileSync(filePath, 'utf-8')
+    const parsed = parse(content)
+    if (!parsed) return null
+
+    const { _projectId: _, _generatedAt: __, ...data } = parsed
+    return data as FeaturesYamlData
   }
 
   readUatFromPath(filePath: string): UatYamlData | null {

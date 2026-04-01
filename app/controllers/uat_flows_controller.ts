@@ -33,7 +33,7 @@ export default class UatFlowsController {
     const uatFlow = await service.create(data)
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromUatFlow(uatFlow.id)
-    yamlSync.syncUat(projectId).catch(() => {})
+    yamlSync.syncAll(projectId).catch(() => {})
     return ctx.response.json({ data: UatFlowTransformer.transform(uatFlow) })
   }
 
@@ -44,7 +44,7 @@ export default class UatFlowsController {
     const uatFlow = await service.update(id, data)
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromUatFlow(uatFlow.id)
-    yamlSync.syncUat(projectId).catch(() => {})
+    yamlSync.syncAll(projectId).catch(() => {})
     return ctx.response.json({ data: UatFlowTransformer.transform(uatFlow) })
   }
 
@@ -54,7 +54,7 @@ export default class UatFlowsController {
     const projectId = await yamlSync.getProjectIdFromUatFlow(id)
     const service = new UatFlowService()
     await service.delete(id)
-    yamlSync.syncUat(projectId).catch(() => {})
+    yamlSync.syncAll(projectId).catch(() => {})
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -65,7 +65,7 @@ export default class UatFlowsController {
     if (ids.length > 0) {
       const yamlSync = new YamlSyncService()
       const projectId = await yamlSync.getProjectIdFromUatFlow(ids[0])
-      yamlSync.syncUat(projectId).catch(() => {})
+      yamlSync.syncAll(projectId).catch(() => {})
     }
     return ctx.response.json({ data: { success: true } })
   }

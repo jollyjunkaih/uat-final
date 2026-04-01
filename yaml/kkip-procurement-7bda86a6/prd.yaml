@@ -42,3 +42,419 @@ competitors: []
 milestonesList: []
 openQuestions: []
 contacts: []
+features:
+  - name: Office Services - Inventory Request (E-Office Supplies)
+    description: End-to-end office supplies request lifecycle including browsing items, cart management, submission, approval, officer assignment, order preparation, goods receiving, and feedback collection.
+    module: Office Services
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Browsing office supply items, adding items to cart, submitting inventory requests, HOD approval workflow, officer assignment, order preparation, GRN completion, feedback collection, request modification, rejection, reassignment, department request for non-stocked items.
+    outOfScope: Stock replenishment, vendor purchase orders, warehouse stock management (inventory levels admin), IBS-Concrete requests.
+    sequence: 0
+    uatFlows:
+      - name: Browse Office Supplies Catalog
+        description: User navigates to the e-office supplies page, browses available items, searches for specific items, and views item details.
+        preconditions: User is logged in and has access to Office Services module.
+        status: draft
+        sequence: 0
+      - name: Add Items to Cart
+        description: User adds stocked items to the cart with specified quantities.
+        preconditions: User is on the E-Office Supplies page with stocked items available.
+        status: draft
+        sequence: 1
+      - name: Request Non-Stocked Item via Department Request
+        description: User submits a department request for a non-stocked item.
+        preconditions: User is on the E-Office Supplies page with non-stocked items visible.
+        status: draft
+        sequence: 2
+      - name: View and Manage Cart
+        description: User opens the cart dialog, reviews items, modifies quantities, removes items, and enters a reason for the request.
+        preconditions: User has items in the cart.
+        status: draft
+        sequence: 3
+      - name: Preview and Submit Inventory Request
+        description: User previews the formatted request document and submits it.
+        preconditions: Cart has items and reason is filled.
+        status: draft
+        sequence: 4
+      - name: HOD Approves Inventory Request
+        description: Department HOD reviews and approves an inventory request.
+        preconditions: An inventory request has been submitted and is in PENDING-APPROVAL status. HOD is logged in.
+        status: draft
+        sequence: 5
+      - name: HOD Requests Changes on Inventory Request
+        description: HOD reviews and returns the request for modifications.
+        preconditions: An inventory request is in PENDING-APPROVAL status. HOD is logged in.
+        status: draft
+        sequence: 6
+      - name: HOD Rejects Inventory Request
+        description: HOD rejects the inventory request.
+        preconditions: An inventory request is in PENDING-APPROVAL status.
+        status: draft
+        sequence: 7
+      - name: HOD Modifies Items and Approves
+        description: HOD adjusts item quantities and directly approves.
+        preconditions: An inventory request is in PENDING-APPROVAL status.
+        status: draft
+        sequence: 8
+      - name: Office Service HOD Assigns Officer
+        description: After approval, Office Service HOD assigns an officer to prepare the supplies.
+        preconditions: Inventory request is APPROVED. Office Service HOD is logged in.
+        status: draft
+        sequence: 9
+      - name: Assigned Officer Prepares Supplies
+        description: The assigned officer confirms the office supplies are ready for pickup.
+        preconditions: Request is ASSIGNED. Officer is logged in.
+        status: draft
+        sequence: 10
+      - name: Requester Completes Goods Received Note (GRN)
+        description: Requester picks up supplies and confirms received quantities.
+        preconditions: Request is PROCESSED (ready for pickup). Requester is logged in.
+        status: draft
+        sequence: 11
+      - name: Requester Provides Feedback
+        description: After receiving supplies, the requester provides a rating and comments.
+        preconditions: Request is RECEIVED. Requester is logged in.
+        status: draft
+        sequence: 12
+      - name: View Submitted Feedback
+        description: View previously submitted feedback for a completed request.
+        preconditions: Feedback has been submitted for a completed inventory request.
+        status: draft
+        sequence: 13
+      - name: Reassign Inventory Request to Another Officer
+        description: An officer reassigns an inventory request to themselves.
+        preconditions: Inventory request is assigned to another officer and not yet completed. Current user is an Office Service officer.
+        status: draft
+        sequence: 14
+      - name: Admin Manages Inventory Request Orders
+        description: Admin views and filters inventory requests on the orders management page.
+        preconditions: User has Office Services admin access.
+        status: draft
+        sequence: 15
+      - name: Department HOD Views Office Supplies Orders
+        description: Department HOD views and monitors inventory requests from their department.
+        preconditions: User is a Department HOD with access to Office Supplies Orders.
+        status: draft
+        sequence: 16
+  - name: Room Booking
+    description: Complete meeting room booking lifecycle including room discovery, availability checking, booking creation with office service requests, approval workflow, editing, cancellation, and post-booking evaluation.
+    module: Office Services
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Room availability browsing, room booking creation, office service requests (refreshments, presentation, extra tables/chairs, cleanup), HOD approval, auto-approval for top management, booking editing, booking deletion, post-booking evaluation, invited user management, Outlook calendar sync.
+    outOfScope: Room CRUD management (creating/editing rooms), room facility management.
+    sequence: 1
+    uatFlows:
+      - name: Browse Room Availability
+        description: User views available meeting rooms and their time slots for a selected date.
+        preconditions: User is logged in and meeting rooms are configured in the system.
+        status: ready_for_test
+        sequence: 0
+      - name: Create Room Booking
+        description: User creates a new room booking with all required and optional fields.
+        preconditions: User is on the new booking page, Meeting Room Booking tab, with available rooms displayed.
+        status: draft
+        sequence: 1
+      - name: Room Booking Auto-Approval (Top Management)
+        description: A top-management user creates a room booking and it is automatically approved.
+        preconditions: User has "top-management" role or their HOD has "top-management" role.
+        status: draft
+        sequence: 2
+      - name: Room Booking HOD Approval
+        description: HOD reviews and approves a pending room booking.
+        preconditions: A room booking is in PENDING status. HOD is logged in.
+        status: draft
+        sequence: 3
+      - name: HOD Rejects Room Booking
+        description: HOD reviews and rejects a pending room booking.
+        preconditions: A room booking is in PENDING status.
+        status: draft
+        sequence: 4
+      - name: Check Room Availability
+        description: Verify the room availability checking mechanism prevents double bookings.
+        preconditions: A room booking already exists for a specific date and time.
+        status: draft
+        sequence: 5
+      - name: Edit Room Booking
+        description: User edits an existing room booking's details.
+        preconditions: User has an active (non-completed) room booking.
+        status: draft
+        sequence: 6
+      - name: Delete Room Booking
+        description: User cancels/deletes an existing room booking.
+        preconditions: User has an active room booking.
+        status: draft
+        sequence: 7
+      - name: Admin Manages Room Bookings
+        description: Admin views and manages room bookings from the Office Services bookings page.
+        preconditions: Admin has Office Services access.
+        status: draft
+        sequence: 8
+      - name: Post-Booking Evaluation
+        description: User provides feedback after a completed room booking.
+        preconditions: A room booking has been completed (booking date/time has passed) and an evaluation task is active.
+        status: draft
+        sequence: 9
+  - name: Vehicle Booking
+    description: Complete vehicle booking lifecycle including vehicle browsing, availability checking, booking creation with driver selection, approval workflow, key management, fuel tracking, booking cancellation, and post-trip evaluation.
+    module: Office Services
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Vehicle availability browsing, vehicle booking creation (single-day and multi-day), driver type selection (self-drive, KKIP employee, OS driver), approval workflow, auto-approval for top management, key release, key return with dashboard photo, fuel/mileage tracking, booking cancellation, post-trip evaluation with fine/accident reporting, Shell card requests, terms and conditions.
+    outOfScope: Vehicle registration, vehicle disposal, vehicle depreciation, vehicle purchase workflow.
+    sequence: 2
+    uatFlows:
+      - name: Browse Vehicle Availability
+        description: User views available vehicles and their time slots for a selected date.
+        preconditions: User is logged in and vehicles are configured in the system.
+        status: draft
+        sequence: 0
+      - name: Create Vehicle Booking - Self-Drive Same Day
+        description: User creates a same-day vehicle booking as a self-driver.
+        preconditions: User is on the Vehicle Booking tab with available vehicles displayed.
+        status: draft
+        sequence: 1
+      - name: Create Vehicle Booking - Employee Driver Multi-Day
+        description: User creates a multi-day vehicle booking with a KKIP employee driver.
+        preconditions: User is on the Vehicle Booking tab with available vehicles.
+        status: draft
+        sequence: 2
+      - name: Create Vehicle Booking - OS Driver
+        description: User creates a vehicle booking requesting an OS (outsourced) driver.
+        preconditions: User is on the Vehicle Booking tab.
+        status: draft
+        sequence: 3
+      - name: Vehicle Booking Conflict Detection
+        description: Verify the system prevents double-booking of vehicles.
+        preconditions: A vehicle booking already exists for a specific date and time.
+        status: draft
+        sequence: 4
+      - name: Vehicle Booking Auto-Approval (Top Management)
+        description: Top management user creates a vehicle booking that is automatically approved.
+        preconditions: User has top-management role.
+        status: draft
+        sequence: 5
+      - name: Vehicle Booking HOD Approval
+        description: HOD reviews and approves a pending vehicle booking.
+        preconditions: A vehicle booking is PENDING. HOD is logged in.
+        status: draft
+        sequence: 6
+      - name: Vehicle Booking HOD Rejection
+        description: HOD rejects a pending vehicle booking.
+        preconditions: A vehicle booking is PENDING.
+        status: draft
+        sequence: 7
+      - name: OS Driver Assignment by Office Service HOD
+        description: Office Service HOD assigns an OS driver to a vehicle booking.
+        preconditions: A vehicle booking with driverType OS_DRIVER is approved and awaiting driver assignment.
+        status: draft
+        sequence: 8
+      - name: Admin Releases Vehicle Keys
+        description: Admin releases vehicle keys to the user before the trip.
+        preconditions: Vehicle booking is APPROVED. Admin is on the Bookings page.
+        status: draft
+        sequence: 9
+      - name: Admin Processes Vehicle Key Return
+        description: Admin processes key return after the trip with dashboard photo and mileage/fuel data.
+        preconditions: Vehicle keys have been released for this booking. Admin is on the Bookings page.
+        status: draft
+        sequence: 10
+      - name: Admin Edits Vehicle Booking Details
+        description: Admin edits time, driver, or other details of an existing vehicle booking.
+        preconditions: Admin is on the Bookings page with an active vehicle booking.
+        status: draft
+        sequence: 11
+      - name: Admin Cancels Vehicle Booking
+        description: Admin cancels an existing vehicle booking.
+        preconditions: Admin is on the Bookings page with an active vehicle booking.
+        status: draft
+        sequence: 12
+      - name: Post-Trip Vehicle Booking Evaluation
+        description: User completes a post-trip evaluation with optional fine/accident reporting.
+        preconditions: Vehicle has been returned (keys returned). Evaluation task is active.
+        status: draft
+        sequence: 13
+      - name: Driver Views Assigned Bookings
+        description: Driver views their assigned vehicle bookings for the day.
+        preconditions: User is assigned as a driver for one or more vehicle bookings.
+        status: draft
+        sequence: 14
+      - name: User Manages Own Vehicle Bookings
+        description: User views, edits, and manages their own vehicle bookings from the My Bookings page.
+        preconditions: User has existing vehicle bookings.
+        status: draft
+        sequence: 15
+  - name: Vehicle Management
+    description: Vehicle fleet management including viewing vehicle inventory, checking vehicle details, maintenance status, insurance/road tax tracking, service requests, and managing vehicle usage type.
+    module: Office Services
+    priority: medium
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Vehicle inventory browsing, vehicle search and sorting, vehicle detail viewing (overview and maintenance tabs), changing vehicle usage type (bookable vs exclusive), vehicle status indicators, insurance/road tax expiry tracking, document uploads for insurance and road tax, service requests, repair mode toggling.
+    outOfScope: Vehicle registration (asset management), vehicle depreciation, vehicle disposal, vehicle purchase workflow.
+    sequence: 3
+    uatFlows:
+      - name: Browse Vehicle Inventory
+        description: Admin views the vehicle fleet with search and sorting capabilities.
+        preconditions: User has Office Services access.
+        status: draft
+        sequence: 0
+      - name: View Vehicle Details
+        description: Admin views detailed information about a specific vehicle.
+        preconditions: Admin is on the Vehicle Management page.
+        status: draft
+        sequence: 1
+      - name: Request Vehicle Service
+        description: Admin submits a service request for a vehicle.
+        preconditions: Admin has a vehicle selected in the details dialog, Maintenance tab.
+        status: draft
+        sequence: 2
+      - name: Toggle Vehicle Repair Mode
+        description: Admin puts a vehicle in or removes it from repair mode.
+        preconditions: Admin has a vehicle selected in the details dialog, Maintenance tab.
+        status: draft
+        sequence: 3
+      - name: Change Vehicle Usage Type
+        description: Admin changes a vehicle between bookable and exclusively used.
+        preconditions: Admin has a vehicle selected in the details dialog.
+        status: draft
+        sequence: 4
+      - name: Verify Vehicle Status Indicators
+        description: Verify different vehicle status badges display correctly on the fleet page.
+        preconditions: Vehicles with different statuses exist in the system.
+        status: draft
+        sequence: 5
+  - name: Fuel Log Management
+    description: Fuel and mileage data tracking for vehicles captured during the key release and return process.
+    module: Office Services
+    priority: medium
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Fuel level recording during key release, fuel level and mileage recording during key return, dashboard photo capture, Shell card tracking. Fuel data is captured as part of the vehicle booking key management flow (no separate fuel log UI page exists in the admin desktop app).
+    outOfScope: Standalone fuel log creation page, fuel cost reporting, fuel budget management, fuel log editing.
+    sequence: 4
+    uatFlows:
+      - name: Record Fuel Data During Key Release
+        description: Admin records initial fuel/mileage data when releasing vehicle keys.
+        preconditions: An approved vehicle booking exists. Admin is on the Office Services Bookings page.
+        status: draft
+        sequence: 0
+      - name: Record Fuel Data During Key Return
+        description: Admin records final fuel/mileage data and dashboard photo when returning vehicle keys.
+        preconditions: Vehicle keys have been released for a booking. Admin is on the Bookings page.
+        status: draft
+        sequence: 1
+      - name: Verify Fuel Level Display on Booking Cards
+        description: Verify fuel levels are displayed correctly on vehicle booking cards.
+        preconditions: Fuel data has been recorded for vehicles.
+        status: draft
+        sequence: 2
+  - name: Calendar & Event Scheduling
+    description: Personal and company calendar views with event management, availability configuration, Outlook integration, and event invitation handling.
+    module: Calendar
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: My Calendar view with event list, Company Calendar with timeline and list views, event creation with preview, event editing, event deletion, event invitation management (accept/reject), weekly availability configuration, date-specific availability overrides, Outlook calendar integration (connect/disconnect), event type color coding, multi-user timeline view, quick booking links, pending booking request banner.
+    outOfScope: Recurring events, external calendar imports (Google Calendar).
+    sequence: 5
+    uatFlows:
+      - name: My Calendar View
+        description: User views their personal calendar with events and availability.
+        preconditions: User is logged in.
+        status: draft
+        sequence: 0
+      - name: Create Calendar Event
+        description: User creates a new custom calendar event with optional invitations.
+        preconditions: User is on the My Calendar page.
+        status: draft
+        sequence: 1
+      - name: Edit Calendar Event
+        description: User edits an existing calendar event.
+        preconditions: User has created an event and is viewing it on the calendar.
+        status: draft
+        sequence: 2
+      - name: Delete Calendar Event
+        description: User deletes a calendar event.
+        preconditions: User has an event they own on the calendar.
+        status: draft
+        sequence: 3
+      - name: Respond to Event Invitations
+        description: User accepts or rejects event invitations from other users.
+        preconditions: User has been invited to an event by another user.
+        status: draft
+        sequence: 4
+      - name: Company Calendar Timeline View
+        description: User views multiple colleagues' schedules in a timeline format.
+        preconditions: User has access to Company Calendar.
+        status: draft
+        sequence: 5
+      - name: Set Weekly Availability
+        description: User configures their weekly recurring availability schedule.
+        preconditions: User is on the Calendar page.
+        status: draft
+        sequence: 6
+      - name: Set Date-Specific Availability Overrides
+        description: User configures availability overrides for specific dates.
+        preconditions: User is on the Calendar page.
+        status: draft
+        sequence: 7
+      - name: Outlook Calendar Integration
+        description: User connects and disconnects their Microsoft Outlook calendar.
+        preconditions: User has a Microsoft account.
+        status: draft
+        sequence: 8
+  - name: User Booking (Appointment Scheduling)
+    description: User-to-user appointment booking including discovering available users, creating meeting requests, accepting/rejecting requests, and managing booking requests.
+    module: Calendar
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: User availability browsing, user booking creation (in-person and virtual), booking request approval/rejection, booking requests management page (To Approve and My Requests tabs), booking editing, booking deletion, Outlook calendar sync on acceptance.
+    outOfScope: Recurring appointments, group bookings (multi-user target).
+    sequence: 6
+    uatFlows:
+      - name: Browse User Availability
+        description: User views available employees and their time slots for scheduling meetings.
+        preconditions: User is logged in and other users have configured their availability.
+        status: draft
+        sequence: 0
+      - name: Create In-Person User Booking
+        description: User creates an in-person meeting request with another user.
+        preconditions: User is on the Appointment tab with available users displayed.
+        status: draft
+        sequence: 1
+      - name: Create Virtual User Booking
+        description: User creates a virtual meeting request.
+        preconditions: User is on the Appointment tab.
+        status: draft
+        sequence: 2
+      - name: Respond to User Booking Request
+        description: Target user accepts or rejects a booking request from their calendar.
+        preconditions: A user booking request has been sent to the current user.
+        status: draft
+        sequence: 3
+      - name: Reject User Booking Request
+        description: Target user rejects a booking request.
+        preconditions: A pending user booking request exists.
+        status: draft
+        sequence: 4
+      - name: Manage Booking Requests
+        description: User manages sent and received booking requests from the dedicated page.
+        preconditions: User has both sent and received booking requests.
+        status: draft
+        sequence: 5
+      - name: Edit User Booking
+        description: User edits an existing user booking's details.
+        preconditions: User has created a user booking that hasn't been completed.
+        status: draft
+        sequence: 6
+      - name: Delete User Booking
+        description: User deletes an existing user booking.
+        preconditions: User has a user booking.
+        status: draft
+        sequence: 7

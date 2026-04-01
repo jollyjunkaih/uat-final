@@ -31,7 +31,7 @@ export default class FeaturesController {
     const data = await ctx.request.validateUsing(createFeatureValidator)
     const service = new FeatureService()
     const feature = await service.create(data)
-    new YamlSyncService().syncUat(feature.projectId).catch(() => {})
+    new YamlSyncService().syncAll(feature.projectId).catch(() => {})
     return ctx.response.json({ data: FeatureTransformer.transform(feature) })
   }
 
@@ -40,7 +40,7 @@ export default class FeaturesController {
     const data = await ctx.request.validateUsing(updateFeatureValidator)
     const service = new FeatureService()
     const feature = await service.update(id, data)
-    new YamlSyncService().syncUat(feature.projectId).catch(() => {})
+    new YamlSyncService().syncAll(feature.projectId).catch(() => {})
     return ctx.response.json({ data: FeatureTransformer.transform(feature) })
   }
 
@@ -50,7 +50,7 @@ export default class FeaturesController {
     const yamlSync = new YamlSyncService()
     const projectId = await yamlSync.getProjectIdFromFeature(id)
     await service.delete(id)
-    yamlSync.syncUat(projectId).catch(() => {})
+    yamlSync.syncAll(projectId).catch(() => {})
     return ctx.response.json({ data: { success: true } })
   }
 
@@ -61,7 +61,7 @@ export default class FeaturesController {
     if (ids.length > 0) {
       const yamlSync = new YamlSyncService()
       const projectId = await yamlSync.getProjectIdFromFeature(ids[0])
-      yamlSync.syncUat(projectId).catch(() => {})
+      yamlSync.syncAll(projectId).catch(() => {})
     }
     return ctx.response.json({ data: { success: true } })
   }

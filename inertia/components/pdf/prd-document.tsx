@@ -174,6 +174,38 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     lineHeight: 1.4,
   },
+  // UAT flow styles
+  flowList: {
+    marginTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+    paddingTop: 6,
+  },
+  flowListLabel: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#64748b',
+    marginBottom: 4,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  flowItem: {
+    flexDirection: 'row' as const,
+    alignItems: 'flex-start' as const,
+    marginBottom: 4,
+    paddingLeft: 4,
+  },
+  flowName: {
+    fontSize: 9,
+    color: '#1e293b',
+    flex: 1,
+  },
+  flowDescription: {
+    fontSize: 8,
+    color: '#64748b',
+    marginTop: 1,
+    lineHeight: 1.3,
+  },
   // Upload image
   uploadImage: {
     width: 200,
@@ -469,6 +501,26 @@ export default function PrdDocument({
                       {(feature as unknown as Record<string, string>).outOfScope}
                     </Text>
                   </>
+                )}
+                {feature.uatFlows && feature.uatFlows.length > 0 && (
+                  <View style={styles.flowList}>
+                    <Text style={styles.flowListLabel}>UAT Flows</Text>
+                    {feature.uatFlows.map((flow, flowIdx) => (
+                      <View key={flowIdx} style={styles.flowItem}>
+                        <View style={{ flex: 1 }}>
+                          <Text style={styles.flowName}>
+                            {flowIdx + 1}. {flow.name}
+                          </Text>
+                          {flow.description && (
+                            <Text style={styles.flowDescription}>{flow.description}</Text>
+                          )}
+                        </View>
+                        <Text style={[styles.badge, getStatusStyle(flow.status)]}>
+                          {flow.status.replace(/_/g, ' ')}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
                 )}
               </View>
             ))}

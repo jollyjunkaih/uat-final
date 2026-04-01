@@ -1,47 +1,5 @@
-_projectId: 34a0e2fb-2a33-409b-b0b5-f0d7071ca513
-_generatedAt: 2026-03-17T07:23:41.593Z
-metadata:
-  companyName: asdfasdf
-  productName: asdfasdf
-  projectManager: asdfasdf
-  contributors: asdfasdf
-  prdVersion: asdfas
-  locationsOfSale: asdfasdf
-  prdDate: asdfasdf
-  preparedBy: asdfasdf
-purpose:
-  objective: null
-  targetMarket: null
-  targetAudience: null
-  successMetrics: null
-userInteraction:
-  userInteractions: null
-  touchpoint: null
-  userFeedback: null
-designAndBranding:
-  formFactor: null
-  materials: null
-  brandingAdjectives: []
-  brandingTone: []
-  visualIdentity: null
-  packagingPresentation: null
-softwareArchitecture:
-  firmwareFunctions: null
-  cloudApplication: null
-  smartphoneApplication: null
-servicing:
-  servicingUpdates: null
-milestones:
-  targetReleaseDate: null
-additional:
-  diagramsSchematics: null
-  bom: null
-  additionalResources: null
-  additionalVisualIdentity: null
-competitors: []
-milestonesList: []
-openQuestions: []
-contacts: []
+_projectId: 34b0e2fb-2a33-409b-b0b5-f0d7071ca513
+_generatedAt: 2026-04-01T17:40:25.747Z
 features:
   - name: Office Services - Inventory Request (E-Office Supplies)
     description: End-to-end office supplies request lifecycle including browsing items, cart management, submission, approval, officer assignment, order preparation, goods receiving, and feedback collection.
