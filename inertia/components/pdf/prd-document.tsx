@@ -191,21 +191,24 @@ const styles = StyleSheet.create({
   },
   flowItem: {
     flexDirection: 'row' as const,
-    alignItems: 'flex-start' as const,
+    alignItems: 'center' as const,
     marginBottom: 4,
-    paddingLeft: 4,
+  },
+  flowNumber: {
+    fontSize: 9,
+    color: '#94a3b8',
+    width: 18,
+    flexShrink: 0,
   },
   flowName: {
     fontSize: 9,
     color: '#1e293b',
-    flex: 1,
+    marginRight: 6,
   },
-  flowDescription: {
-    fontSize: 8,
-    color: '#64748b',
-    marginTop: 1,
-    lineHeight: 1.3,
-  },
+  badgePassed: { backgroundColor: '#f0fdf4', color: '#16a34a' },
+  badgeFailed: { backgroundColor: '#fef2f2', color: '#dc2626' },
+  badgeBlocked: { backgroundColor: '#fff7ed', color: '#c2410c' },
+  badgeReady: { backgroundColor: '#eff6ff', color: '#1d4ed8' },
   // Upload image
   uploadImage: {
     width: 200,
@@ -305,10 +308,16 @@ function getPriorityStyle(priority: string) {
 function getStatusStyle(status: string) {
   switch (status.toLowerCase()) {
     case 'approved':
-      return styles.badgeApproved
+    case 'passed':
+      return styles.badgePassed
     case 'in_review':
     case 'pending':
-      return styles.badgePending
+    case 'ready_for_test':
+      return styles.badgeReady
+    case 'failed':
+      return styles.badgeFailed
+    case 'blocked':
+      return styles.badgeBlocked
     case 'draft':
       return styles.badgeDraft
     default:
@@ -463,7 +472,7 @@ export default function PrdDocument({
           <View key={moduleName}>
             <Text style={styles.subSectionTitle}>{moduleName}</Text>
             {grouped[moduleName].map((feature) => (
-              <View key={feature.id} style={styles.featureCard} wrap={false}>
+              <View key={feature.id} style={styles.featureCard}>
                 <View style={styles.featureHeader}>
                   <Text style={styles.featureName}>{feature.name}</Text>
                   <View style={styles.badgeRow}>
@@ -506,17 +515,18 @@ export default function PrdDocument({
                   <View style={styles.flowList}>
                     <Text style={styles.flowListLabel}>UAT Flows</Text>
                     {feature.uatFlows.map((flow, flowIdx) => (
-                      <View key={flowIdx} style={styles.flowItem}>
-                        <View style={{ flex: 1 }}>
-                          <Text style={styles.flowName}>
-                            {flowIdx + 1}. {flow.name}
-                          </Text>
-                          {flow.description && (
-                            <Text style={styles.flowDescription}>{flow.description}</Text>
-                          )}
-                        </View>
+                      <View key={flowIdx} style={styles.flowItem} wrap={false}>
+                        <Text style={styles.flowNumber}>{flowIdx + 1}.</Text>
+                        <Text style={[styles.flowName, { flex: 1 }]}>
+                          {flow.name
+                            .split(' ')
+                            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                            .join(' ')}
+                        </Text>
                         <Text style={[styles.badge, getStatusStyle(flow.status)]}>
-                          {flow.status.replace(/_/g, ' ')}
+                          {flow.status
+                            .replace(/_/g, ' ')
+                            .replace(/\b\w/g, (c) => c.toUpperCase())}
                         </Text>
                       </View>
                     ))}

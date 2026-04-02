@@ -1,0 +1,314 @@
+_projectId: 55c888b4-4784-4ea7-b3cb-ed515541329f
+_generatedAt: 2026-04-02T05:34:06.948Z
+metadata:
+  companyName: KKIP
+  productName: KKIP Procurement & Asset Management System
+  projectManager: null
+  contributors: Finance Department, IT Department
+  prdVersion: "1.0"
+  locationsOfSale: Malaysia
+  prdDate: 2026-04-02
+  preparedBy: Tech Byte of Bread
+purpose:
+  objective: Digitize and streamline the end-to-end payment validation lifecycle — from vendor invoice submission through multi-level validation to payment voucher creation, amount-based approval routing, and final disbursement — ensuring compliance, auditability, and timely vendor payments.
+  targetMarket: KKIP internal finance operations and vendor payment processing
+  targetAudience: Finance department staff (Finance AP, Finance HOD), department HODs, GSVP Corporate Services, vendors/suppliers, and internal requesters
+  successMetrics: |
+    1. Reduce average invoice-to-payment cycle time by 40%. 2. Achieve 100% digital audit trail for all payment transactions. 3. Maintain 95%+ SLA compliance on approval task completion within 2 business days. 4. Zero unauthorized or duplicate payments through systematic validation gates. 5. 90%+ vendor satisfaction score on payment transparency and timeliness.
+userInteraction:
+  userInteractions: |
+    Vendors submit invoices via the Vendor Web Portal against Purchase Orders (PO) or Letters of Award (LOA). Admin users can also upload invoices on behalf of vendors via the Admin Desktop App. Requester HODs, Finance Officers, and Finance AP staff receive sequential validation tasks. Finance AP creates payment vouchers from validated invoices. Finance HOD and GSVP Corporate approve payment vouchers based on amount thresholds. Finance AP uploads payment slips or cheque deposit slips to complete disbursement.
+  touchpoint: |
+    Vendor Web Portal: Invoice submission, credit note upload, payment tracking. Admin Desktop App: Invoice management (Finance > Invoices page), payment voucher management (Finance > Payment Vouchers page), task-based approval actions. Notification System: Email/in-app notifications for task assignments, approvals, rejections, and payment completions. Task Dashboard: Centralized view of pending validation and approval tasks with SLA tracking.
+  userFeedback: null
+designAndBranding:
+  formFactor: Web application (Admin Desktop App) and Vendor Web Portal
+  materials: null
+  brandingAdjectives: []
+  brandingTone: []
+  visualIdentity: null
+  packagingPresentation: null
+softwareArchitecture:
+  firmwareFunctions: null
+  cloudApplication: |
+    Backend: AdonisJS 6 with PostgreSQL database. Frontend Admin: React with TanStack Router. Frontend Vendor: React-based Vendor Web Portal. Task/Workflow Engine: Custom sequential task workflow system with SLA tracking. Notification Service: In-app and email notification dispatch. File Storage: Document upload system for invoices, credit notes, payment slips, and cheque deposit slips.
+  smartphoneApplication: null
+servicing:
+  servicingUpdates: null
+milestones:
+  targetReleaseDate: null
+additional:
+  diagramsSchematics: null
+  bom: null
+  additionalResources: null
+  additionalVisualIdentity: null
+competitors: []
+milestonesList: []
+openQuestions:
+  - question: Should automated escalation be triggered when approval tasks exceed their 2-business-day SLA?
+    answer: null
+    dateAnswered: null
+  - question: Is partial payment of invoices required, or are invoices always fully paid?
+    answer: null
+    dateAnswered: null
+  - question: What is the formal dispute resolution process when a vendor disagrees with an invoice rejection?
+    answer: null
+    dateAnswered: null
+  - question: Is multi-currency support needed for international vendors invoicing in non-RM currencies?
+    answer: null
+    dateAnswered: null
+  - question: What is the record retention policy for completed payment records and audit logs?
+    answer: null
+    dateAnswered: null
+contacts: []
+features:
+  - name: Invoice Submission
+    description: End-to-end invoice upload lifecycle allowing vendors (via Vendor Web Portal) and admin users (via Admin Desktop App) to submit invoices against Purchase Orders or Letters of Award, with automatic reference number generation, file attachment management, and payable amount tracking.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Vendor Web Portal + Backend
+    inScope: Invoice upload with document attachments, linking to PO or LOA, supplier reference entry, invoice amount and date capture, payment terms and due date setting, external reference tracking, automatic reference number generation (K1-INV-yyMMdd-{id}), invoice listing with status tabs (Submitted/Validated/Paid), invoice detail view dialog, invoice update (while in SUBMITTED status), due date sub-filters (Due This Week/Overdue/Due Later/All).
+    outOfScope: Automatic invoice OCR/data extraction, invoice template generation, recurring invoice scheduling.
+    sequence: 0
+    uatFlows:
+      - name: Vendor Submits Invoice via Portal
+        description: Vendor logs into the Vendor Web Portal, navigates to invoice submission, selects a Purchase Order, uploads invoice document(s), enters invoice amount, supplier reference, invoice date, due date, and submits.
+        preconditions: Vendor has an active account. A Purchase Order exists linked to the vendor. PO has a valid ticket.
+        status: draft
+        sequence: 0
+      - name: Admin Uploads Invoice on Behalf of Vendor
+        description: Admin user navigates to Finance > Invoices, creates a new invoice by selecting a PO or LOA, uploads documents, enters invoice details, and submits.
+        preconditions: Admin user is logged in with Finance access. A PO or LOA exists in the system.
+        status: draft
+        sequence: 1
+      - name: View Invoice Details
+        description: User opens an invoice from the list to view full details including attached documents, linked PO/LOA, amounts, credit notes, and current validation status.
+        preconditions: At least one invoice exists in the system. User has appropriate access.
+        status: draft
+        sequence: 2
+      - name: Update Submitted Invoice
+        description: User modifies a submitted invoice's details (amount, dates, documents) while it is still in SUBMITTED status.
+        preconditions: Invoice is in SUBMITTED status. User has edit permissions.
+        status: draft
+        sequence: 3
+      - name: Filter and Browse Invoices
+        description: User browses invoices using status tabs (Submitted, Validated, Paid) and due date sub-filters (Due This Week, Overdue, Due Later, All).
+        preconditions: User is on the Finance > Invoices page.
+        status: draft
+        sequence: 4
+  - name: Invoice Validation Workflow (3-Level Sequential Approval)
+    description: Automated three-level sequential validation workflow triggered upon invoice submission. Each level must complete before the next begins, with 2-business-day SLA per level. The chain proceeds from Requester HOD to Department Finance Officer to Finance AP, culminating in invoice VALIDATED status.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: |
+      Level 1 - Requester HOD validation (VERIFICATION task, 2 business day SLA, assigned to requester's HOD). Level 2 - Finance Officer validation (VERIFICATION task, 2 business day SLA, assigned to department-specific Finance Officer from PURCHASE_REQUEST_DEPARTMENTS config). Level 3 - Finance AP validation (VERIFICATION task, 2 business day SLA, assigned to finance-ap role user, sets validatedAt timestamp on approval). Task creation with auto-generated names (e.g., "Requester HOD: Payment Validation for Invoice #K1-INV-yyMMdd-{id}"). Approval and rejection with comments at each level. Notification dispatch on task assignment, approval, and rejection. Sequential workflow progression (next level only starts after previous approval). Invoice status transition from SUBMITTED to VALIDATED upon Level 3 approval.
+    outOfScope: Parallel validation, automatic escalation on SLA breach, delegation/proxy approval.
+    sequence: 1
+    uatFlows:
+      - name: Level 1 - Requester HOD Validates Invoice
+        description: Requester HOD receives a VERIFICATION task, reviews the invoice against the PO, and approves it to advance the workflow to Level 2.
+        preconditions: Invoice has been submitted. Requester has a configured HOD. VERIFICATION task is ACTIVE and assigned to the HOD.
+        status: draft
+        sequence: 0
+      - name: Level 1 - Requester HOD Rejects Invoice
+        description: Requester HOD reviews the invoice and rejects it with comments. Workflow stops, requester is notified.
+        preconditions: VERIFICATION task is ACTIVE and assigned to the HOD.
+        status: draft
+        sequence: 1
+      - name: Level 2 - Finance Officer Validates Invoice
+        description: Department-specific Finance Officer receives a VERIFICATION task after Level 1 approval, reviews compliance, and approves to advance to Level 3.
+        preconditions: Level 1 has been approved. Finance Officer is configured for the requester's department.
+        status: draft
+        sequence: 2
+      - name: Level 2 - Finance Officer Rejects Invoice
+        description: Finance Officer rejects the invoice with comments. Workflow stops, requester is notified.
+        preconditions: VERIFICATION task is ACTIVE and assigned to the Finance Officer.
+        status: draft
+        sequence: 3
+      - name: Level 3 - Finance AP Validates Invoice (Final)
+        description: Finance AP user receives the final VERIFICATION task, validates the invoice, and sets validatedAt. Invoice status transitions to VALIDATED. Requester receives "Invoice Validated" notification.
+        preconditions: Level 2 has been approved. Finance AP user exists with 'finance-ap' role.
+        status: draft
+        sequence: 4
+      - name: Level 3 - Finance AP Rejects Invoice
+        description: Finance AP rejects the invoice with comments. Workflow stops, requester is notified. Invoice remains SUBMITTED.
+        preconditions: VERIFICATION task is ACTIVE and assigned to Finance AP.
+        status: draft
+        sequence: 5
+  - name: Credit Note Management
+    description: Optional credit note submission against invoices to adjust the payable amount. Vendors or admin users can upload itemized credit notes with supporting documents. Credit notes automatically recalculate the invoice's payable amount without requiring a separate approval workflow.
+    module: Finance - Payment Validation
+    priority: medium
+    status: draft
+    ecosystem: Admin Desktop App + Vendor Web Portal + Backend
+    inScope: Credit note creation with itemized line items (description, quantity, amount), document attachment upload, automatic payableAmount recalculation (invoiceAmount minus sum of credit note amounts), multiple credit notes per invoice, credit note deletion, reference number generation (K1-CN-yyMMdd-{id}), credit note listing and detail view.
+    outOfScope: Credit note approval workflow, partial credit application, credit note editing after creation.
+    sequence: 2
+    uatFlows:
+      - name: Vendor Submits Credit Note
+        description: Vendor uploads a credit note against a submitted or validated invoice with itemized deductions and supporting documents.
+        preconditions: Invoice exists in SUBMITTED or VALIDATED status. Vendor is logged into the portal.
+        status: draft
+        sequence: 0
+      - name: Admin Uploads Credit Note
+        description: Admin user creates a credit note on behalf of a vendor against an existing invoice.
+        preconditions: Invoice exists in SUBMITTED or VALIDATED status. Admin has Finance access.
+        status: draft
+        sequence: 1
+      - name: Verify Payable Amount Recalculation
+        description: After credit note submission, verify that the invoice's payableAmount is correctly reduced by the credit note total.
+        preconditions: An invoice has one or more credit notes applied.
+        status: draft
+        sequence: 2
+      - name: Delete Credit Note
+        description: User deletes a credit note, and the invoice's payableAmount is recalculated to exclude the removed credit note.
+        preconditions: A credit note exists for an invoice.
+        status: draft
+        sequence: 3
+  - name: Payment Voucher Creation
+    description: Finance staff create payment vouchers by selecting multiple validated invoices from the same vendor. The system enforces that all selected invoices are VALIDATED, belong to the same vendor, and have no existing payment voucher assignment. The voucher's total amount is calculated as the sum of all linked invoices' payable amounts (accounting for credit notes).
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: Multi-select validated invoices for voucher creation, same-vendor enforcement, automatic total amount calculation (sum of payableAmounts), reference number generation (K1-PV-yyMMdd-{id}), optional per-invoice descriptions, payment voucher listing with tabs (Pending Approval/Paid), payment voucher detail view with linked invoices and documents, immediate approval workflow trigger upon creation.
+    outOfScope: Splitting a payment voucher, merging payment vouchers, recurring payment voucher scheduling.
+    sequence: 3
+    uatFlows:
+      - name: Create Payment Voucher from Validated Invoices
+        description: Finance AP selects multiple validated invoices from the same vendor on the Invoices page and creates a payment voucher. System validates all selected invoices are VALIDATED, from the same vendor, and unassigned to another voucher.
+        preconditions: Multiple invoices exist in VALIDATED status from the same vendor. User has Finance AP access.
+        status: draft
+        sequence: 0
+      - name: Add Per-Invoice Descriptions to Payment Voucher
+        description: During or after payment voucher creation, user adds optional descriptions for individual invoices within the voucher.
+        preconditions: Payment voucher has been created with linked invoices.
+        status: draft
+        sequence: 1
+      - name: View Payment Voucher Details
+        description: User opens a payment voucher to view its linked invoices, total amount, approval status, issuer, and attached payment documents.
+        preconditions: At least one payment voucher exists. User has Finance access.
+        status: draft
+        sequence: 2
+      - name: Filter and Browse Payment Vouchers
+        description: User browses payment vouchers using status tabs (Pending Approval, Paid) on the Finance > Payment Vouchers page.
+        preconditions: User is on the Finance > Payment Vouchers page.
+        status: draft
+        sequence: 3
+      - name: Prevent Invalid Payment Voucher Creation
+        description: System prevents creating a payment voucher when invoices are not all VALIDATED, are from different vendors, or already have a payment voucher assigned.
+        preconditions: User attempts to create a payment voucher with invalid invoice selection.
+        status: draft
+        sequence: 4
+  - name: Payment Voucher Approval Workflow (Amount-Based Routing)
+    description: |
+      Automated approval workflow triggered upon payment voucher creation with amount-based routing across three tiers: Tier 1 (≤ RM 50,000): Finance HOD approval → Finance AP uploads M2E payment slip. Tier 2 (RM 50,001 - RM 500,000): Finance HOD approval → GSVP Corporate Services approval → Finance AP uploads M2E payment slip. Tier 3 (> RM 500,000): Finance HOD approval → GSVP Corporate Services approval → Finance AP submits cheque deposit slip. Approval tasks require digital signatures. Each approval level has a 2-business-day SLA, and the final payment upload task has a 3-business-day SLA.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: |
+      Amount-based tier routing (RM 50k / RM 500k thresholds). Finance HOD approval with digital signature (APPROVE task, 2 business day SLA). GSVP Corporate Services approval with digital signature for Tier 2 and Tier 3 (APPROVE task, 2 business day SLA). Development vs Corporate GSVP routing based on isDevelopment flag. Finance AP M2E payment slip upload for Tier 1 and Tier 2 (SUBMISSION task, 3 business day SLA). Finance AP cheque deposit slip upload for Tier 3 (SUBMISSION task, 3 business day SLA). Task auto-generation with descriptive names (e.g., "Finance HOD: Verify Invoice Payment for PO {referenceNumber}"). Rejection at any level with comments and requester notification. Sequential approval progression.
+    outOfScope: Parallel approvals, delegation of approval authority, dynamic threshold configuration, automatic payment execution.
+    sequence: 4
+    uatFlows:
+      - name: "Tier 1: Finance HOD Approves Payment Voucher (≤ RM 50,000)"
+        description: Finance HOD receives an APPROVE task for a payment voucher totaling RM 50,000 or less, reviews it, provides a digital signature, and approves. Workflow proceeds to M2E payment slip upload.
+        preconditions: Payment voucher created with totalAmount ≤ RM 50,000. Finance HOD is logged in.
+        status: draft
+        sequence: 0
+      - name: "Tier 2: GSVP Corporate Approves Payment Voucher (RM 50,001 - RM 500,000)"
+        description: After Finance HOD approval, GSVP Corporate Services receives an APPROVE task, reviews the high-value payment, provides a digital signature, and approves. Workflow proceeds to M2E payment slip upload.
+        preconditions: Finance HOD has approved. Payment voucher totalAmount is between RM 50,001 and RM 500,000.
+        status: draft
+        sequence: 1
+      - name: "Tier 3: GSVP Corporate Approves Payment Voucher (> RM 500,000)"
+        description: After Finance HOD approval, GSVP Corporate Services approves a very high-value payment voucher. Workflow proceeds to cheque deposit slip submission instead of M2E.
+        preconditions: Finance HOD has approved. Payment voucher totalAmount exceeds RM 500,000.
+        status: draft
+        sequence: 2
+      - name: Finance HOD Rejects Payment Voucher
+        description: Finance HOD rejects the payment voucher with comments. Requester receives "Payment Voucher Rejected" notification. Workflow stops.
+        preconditions: APPROVE task is ACTIVE and assigned to Finance HOD.
+        status: draft
+        sequence: 3
+      - name: GSVP Corporate Rejects Payment Voucher
+        description: GSVP Corporate rejects the payment voucher after Finance HOD approval. Requester is notified. Workflow stops.
+        preconditions: Finance HOD has approved. APPROVE task is ACTIVE and assigned to GSVP Corporate.
+        status: draft
+        sequence: 4
+  - name: Payment Completion & Disbursement
+    description: Final step in the payment lifecycle where Finance AP uploads the payment evidence (M2E payment slip for amounts ≤ RM 500,000, or cheque deposit slip for amounts > RM 500,000). Upon upload, the system marks the payment voucher and all linked invoices as PAID, updates associated Purchase Order statuses, and dispatches completion notifications.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: |
+      M2E payment slip upload via SUBMISSION task (Tier 1 and Tier 2, 3 business day SLA). Cheque deposit slip upload via SUBMISSION task (Tier 3, 3 business day SLA). Automatic status transitions: PaymentVoucher.paidOn set, all linked Invoice.paidOn set, PurchaseOrder status set to PAID. "Payment Completed" notification dispatch to requester. Audit trail logging for payment completion. Replica COMPLETED tasks created in related tickets.
+    outOfScope: Automatic bank transfer integration, payment reversal/refund, partial payment.
+    sequence: 5
+    uatFlows:
+      - name: Finance AP Uploads M2E Payment Slip
+        description: Finance AP receives a SUBMISSION task, uploads the M2E payment slip document, and completes the payment. System marks the voucher and all linked invoices as PAID.
+        preconditions: All required approvals are completed. SUBMISSION task is ACTIVE and assigned to Finance AP. Payment voucher totalAmount ≤ RM 500,000.
+        status: draft
+        sequence: 0
+      - name: Finance AP Submits Cheque Deposit Slip
+        description: Finance AP receives a SUBMISSION task for a high-value payment, uploads the cheque deposit slip, and completes the payment.
+        preconditions: All required approvals are completed. SUBMISSION task is ACTIVE and assigned to Finance AP. Payment voucher totalAmount > RM 500,000.
+        status: draft
+        sequence: 1
+      - name: Verify Invoice Status After Payment
+        description: After payment completion, verify that all linked invoices have paidOn timestamps set and display PAID status.
+        preconditions: Payment has been completed for a payment voucher.
+        status: draft
+        sequence: 2
+      - name: Verify Purchase Order Status After Payment
+        description: After payment completion, verify that the linked Purchase Order status is updated to PAID.
+        preconditions: Payment has been completed. Invoices are linked to a Purchase Order.
+        status: draft
+        sequence: 3
+      - name: Verify Payment Completion Notifications
+        description: After payment completion, verify that the requester receives a "Payment Completed" notification with the payment voucher reference number.
+        preconditions: Payment has been completed for a payment voucher.
+        status: draft
+        sequence: 4
+  - name: Task & Notification Management (Payment Context)
+    description: Centralized task management for all payment validation and approval activities. Tasks are auto-created by workflows, assigned to specific users based on role and department, and tracked with SLA due dates. The system provides in-app and email notifications for task assignments, completions, and rejections.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: |
+      Automatic task creation for VERIFICATION (invoice validation), APPROVE (payment voucher approval), and SUBMISSION (payment upload) types. Task assignment to specific users based on role configuration (HOD, Finance Officer, Finance AP, Finance HOD, GSVP). SLA tracking with due dates (2 business days for validation/approval, 3 business days for payment upload). Task approval and rejection with comments. Task status management (ACTIVE, COMPLETED, REJECTED, LOG). In-app notification dispatch for task assignment, approval, rejection, and payment completion. Task dashboard integration showing pending actions. Resource reference linking (taskReferenceObject = 'INVOICE' or 'PAYMENT-VOUCHER').
+    outOfScope: Task delegation/reassignment for payment tasks, automatic SLA escalation, task prioritization/sorting by urgency.
+    sequence: 6
+    uatFlows:
+      - name: View Pending Payment Validation Tasks
+        description: User views their assigned payment validation tasks on the task dashboard, filtered by type (VERIFICATION, APPROVE, SUBMISSION).
+        preconditions: User has pending payment-related tasks assigned.
+        status: draft
+        sequence: 0
+      - name: Complete Validation Task with Approval
+        description: User opens a VERIFICATION task, reviews the linked invoice, and approves it with optional comments.
+        preconditions: A VERIFICATION task is ACTIVE and assigned to the user.
+        status: draft
+        sequence: 1
+      - name: Reject Validation Task with Comments
+        description: User opens a VERIFICATION or APPROVE task and rejects it with mandatory comments explaining the reason.
+        preconditions: A task is ACTIVE and assigned to the user.
+        status: draft
+        sequence: 2
+      - name: Receive Task Assignment Notification
+        description: User receives an in-app notification when a new payment validation or approval task is assigned to them.
+        preconditions: A workflow has created and assigned a task to the user.
+        status: draft
+        sequence: 3
+      - name: Receive Payment Completion Notification
+        description: Requester receives a notification confirming payment has been completed for their invoice(s).
+        preconditions: A payment voucher linked to the requester's invoice has been marked as PAID.
+        status: draft
+        sequence: 4

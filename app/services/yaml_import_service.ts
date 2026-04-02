@@ -1,4 +1,5 @@
 import { parse } from 'yaml'
+import { DateTime } from 'luxon'
 import Project from '#models/project'
 import Feature from '#models/feature'
 import UatFlow from '#models/uat_flow'
@@ -9,7 +10,7 @@ import PrdOpenQuestion from '#models/prd_open_question'
 import PrdContact from '#models/prd_contact'
 import StepImage from '#models/step_image'
 import UserGuideService from '#services/user_guide_service'
-import type { PrdYamlData, UatYamlData } from '#services/yaml_writer_service'
+import type { PrdYamlData, UatYamlData, FeaturesYamlData } from '#services/yaml_writer_service'
 
 export default class YamlImportService {
   async importPrd(projectId: string, yamlContent: string): Promise<void> {
@@ -61,6 +62,7 @@ export default class YamlImportService {
     if (data.competitors?.length) {
       for (let i = 0; i < data.competitors.length; i++) {
         const c = data.competitors[i]
+        if (!c.competitorName) continue
         await PrdCompetitor.create({
           projectId,
           competitorName: c.competitorName,
@@ -74,6 +76,7 @@ export default class YamlImportService {
     if (data.milestonesList?.length) {
       for (let i = 0; i < data.milestonesList.length; i++) {
         const m = data.milestonesList[i]
+        if (!m.department) continue
         await PrdMilestone.create({
           projectId,
           department: m.department,
@@ -89,6 +92,7 @@ export default class YamlImportService {
     if (data.openQuestions?.length) {
       for (let i = 0; i < data.openQuestions.length; i++) {
         const q = data.openQuestions[i]
+        if (!q.question) continue
         await PrdOpenQuestion.create({
           projectId,
           question: q.question,
@@ -103,6 +107,7 @@ export default class YamlImportService {
     if (data.contacts?.length) {
       for (let i = 0; i < data.contacts.length; i++) {
         const c = data.contacts[i]
+        if (!c.name) continue
         await PrdContact.create({
           projectId,
           name: c.name,
@@ -198,6 +203,108 @@ export default class YamlImportService {
               })
             }
           }
+        }
+      }
+    }
+  }
+
+  async importFeatures(projectId: string, yamlContent: string): Promise<void> {
+    const parsed = parse(yamlContent)
+    if (!parsed) throw new Error('Invalid YAML content')
+
+    const { _projectId: _, _generatedAt: __, ...rawData } = parsed
+    const data = rawData as FeaturesYamlData
+
+    if (!data.features?.length) return
+
+    await Project.findOrFail(projectId)
+
+    const existingFeatures = await Feature.query()
+      .where('project_id', projectId)
+      .whereNull('deleted_at')
+
+    const existingByName = new Map(existingFeatures.map((f) => [f.name, f]))
+    const incomingNames = new Set(data.features.map((f) => f.name))
+
+    // Soft-delete features no longer present in features.yaml
+    for (const existing of existingFeatures) {
+      if (!incomingNames.has(existing.name)) {
+        existing.deletedAt = DateTime.now()
+        await existing.save()
+      }
+    }
+
+    for (const featureData of data.features) {
+      let featureId: string
+      const existing = existingByName.get(featureData.name)
+
+      if (existing) {
+        existing.merge({
+          description: featureData.description ?? null,
+          module: featureData.module ?? null,
+          priority: featureData.priority as 'critical' | 'high' | 'medium' | 'low',
+          status: featureData.status as 'draft' | 'in_review' | 'approved' | 'deprecated',
+          ecosystem: featureData.ecosystem ?? null,
+          inScope: featureData.inScope ?? null,
+          outOfScope: featureData.outOfScope ?? null,
+          sequence: featureData.sequence,
+        })
+        await existing.save()
+        featureId = existing.id
+      } else {
+        const feature = await Feature.create({
+          projectId,
+          name: featureData.name,
+          description: featureData.description ?? null,
+          module: featureData.module ?? null,
+          priority: featureData.priority as 'critical' | 'high' | 'medium' | 'low',
+          status: featureData.status as 'draft' | 'in_review' | 'approved' | 'deprecated',
+          ecosystem: featureData.ecosystem ?? null,
+          inScope: featureData.inScope ?? null,
+          outOfScope: featureData.outOfScope ?? null,
+          sequence: featureData.sequence,
+          version: 1,
+        })
+        featureId = feature.id
+      }
+
+      if (!featureData.uatFlows?.length) continue
+
+      const existingFlows = await UatFlow.query()
+        .where('feature_id', featureId)
+        .whereNull('deleted_at')
+
+      const existingFlowsByName = new Map(existingFlows.map((f) => [f.name, f]))
+      const incomingFlowNames = new Set(featureData.uatFlows.map((f) => f.name))
+
+      // Soft-delete flows no longer present in features.yaml
+      for (const existingFlow of existingFlows) {
+        if (!incomingFlowNames.has(existingFlow.name)) {
+          existingFlow.deletedAt = DateTime.now()
+          await existingFlow.save()
+        }
+      }
+
+      for (const flowData of featureData.uatFlows) {
+        const existingFlow = existingFlowsByName.get(flowData.name)
+        if (existingFlow) {
+          existingFlow.merge({
+            description: flowData.description ?? null,
+            preconditions: flowData.preconditions ?? null,
+            status: flowData.status as 'draft' | 'ready_for_test' | 'passed' | 'failed' | 'blocked',
+            sequence: flowData.sequence,
+          })
+          await existingFlow.save()
+        } else {
+          await UatFlow.create({
+            featureId,
+            name: flowData.name,
+            description: flowData.description ?? null,
+            preconditions: flowData.preconditions ?? null,
+            status: flowData.status as 'draft' | 'ready_for_test' | 'passed' | 'failed' | 'blocked',
+            sequence: flowData.sequence,
+            version: 1,
+          })
         }
       }
     }

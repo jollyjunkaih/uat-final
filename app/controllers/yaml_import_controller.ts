@@ -81,6 +81,7 @@ export default class YamlImportController {
 
     const prdPath = join(projectDir, 'prd.yaml')
     const uatPath = join(projectDir, 'uat.yaml')
+    const featuresPath = join(projectDir, 'features.yaml')
     const userGuidePath = join(projectDir, 'user-guide.yaml')
 
     const importService = new YamlImportService()
@@ -95,10 +96,19 @@ export default class YamlImportController {
       await importService.importUat(projectId, uatContent)
     }
 
+    // Import features.yaml after uat.yaml so it can update feature/flow metadata
+    // (upserts by name, preserving steps from uat.yaml)
+    if (existsSync(featuresPath)) {
+      const featuresContent = readFileSync(featuresPath, 'utf-8')
+      await importService.importFeatures(projectId, featuresContent)
+    }
+
     if (existsSync(userGuidePath)) {
       const userGuideContent = readFileSync(userGuidePath, 'utf-8')
       await importService.importUserGuide(projectId, userGuideContent)
     }
+
+    new YamlSyncService().syncAll(projectId).catch(() => {})
 
     return ctx.response.json({ data: { success: true } })
   }
