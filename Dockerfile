@@ -21,7 +21,8 @@ RUN node ace build
 # ----------------------------
 FROM base AS prod-deps
 WORKDIR /app
-COPY --from=build /app/build/package*.json ./
+COPY --from=build /app/build/package.json ./
+COPY --from=build /app/package-lock.json ./
 RUN npm ci --omit=dev
 
 # ----------------------------
