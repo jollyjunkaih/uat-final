@@ -1,0 +1,11 @@
+node_modules
+tmp
+.git
+.vscode
+.fleet
+.idea
+.DS_Store
+docs-site
+*.secret.sh
+npm-debug.log
+yarn-error.log
