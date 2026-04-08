@@ -1,17 +1,90 @@
-_projectId: 9a803bf9-0470-4c40-8ee6-f0d4df4b030d
-_generatedAt: 2026-04-02T06:47:56.070Z
+_projectId: cedce6f3-41c8-48d9-8422-aa2962a128c4
+_generatedAt: 2026-04-08T14:32:29.720Z
+metadata:
+  companyName: KKIP Sdn Bhd
+  productName: KKIP Asset Management System (AMS)
+  projectManager: TBD
+  contributors: TBD
+  prdVersion: "1.1"
+  locationsOfSale: Malaysia (Internal Use)
+  prdDate: 2026-04-02
+  preparedBy: JK
+purpose:
+  objective: |
+    To develop a comprehensive Asset Management System (AMS) that enables KKIP to register, track, maintain, audit, and dispose of organizational assets throughout their full lifecycle. The system will provide real-time visibility into asset location and condition, automate maintenance scheduling, support regulatory compliance, enable data-driven asset investment decisions, and integrate with existing KKIP procurement and office services modules.
+  targetMarket: Internal enterprise asset management for KKIP and subsidiaries
+  targetAudience: |
+    KKIP internal staff including Asset Officers, Department HODs, Finance/Accounts team, IT department, Maintenance technicians, Office Services team, and Senior Management.
+  successMetrics: |
+    - 100% asset registration coverage within 6 months of deployment - Reduction in asset loss/misplacement by 80% - Maintenance SLA compliance rate of 95% or higher - Audit completion time reduced by 60% - Real-time visibility into asset location and condition for all registered assets - Zero untracked disposals (100% disposal compliance)
+userInteraction:
+  userInteractions: |
+    Primary interactions include asset registration and tagging, QR/barcode scanning for asset lookup, maintenance request submission and tracking, asset audit workflows via mobile app, disposal request and approval workflows, dashboard and reporting views, and asset transfer between departments/locations.
+  touchpoint: |
+    Admin Desktop App (primary management interface), Mobile App (field scanning, audits, issue reporting), Backend API (data processing and business logic).
+  userFeedback: null
+designAndBranding:
+  formFactor: Desktop web application + Mobile application
+  materials: null
+  brandingAdjectives: []
+  brandingTone: []
+  visualIdentity: Consistent with existing KKIP Admin Desktop App design system
+  packagingPresentation: null
+softwareArchitecture:
+  firmwareFunctions: null
+  cloudApplication: |
+    AdonisJS backend with PostgreSQL database, integrated into existing KKIP monorepo. OpenAPI schema for type-safe frontend integration. Real-time updates via AdonisJS Transmit.
+  smartphoneApplication: |
+    Expo React Native mobile app extension for field-level asset scanning, audit data collection, issue reporting with photo/video capture, and asset location verification.
+servicing:
+  servicingUpdates: |
+    Regular updates aligned with KKIP release cycles. Asset label generation and QR/barcode printing support. Integration with existing procurement module for asset onboarding from purchase orders.
+milestones:
+  targetReleaseDate: TBD
+additional:
+  diagramsSchematics: |
+    Process flow diagrams created in Figma for: Asset Registration, Asset Audit, Asset Disposal, and Maintenance Request workflows.
+  bom: null
+  additionalResources: |
+    References: CodeMax Asset Management System (https://codemax.my/asset-management-system/), Toshiba Fortitude Asset Tracking System (https://www.toshibatec.com.my/solution/asset-tracking-system/)
+  additionalVisualIdentity: null
+competitors: []
+milestonesList: []
+openQuestions:
+  - question: Integration scope with existing procurement module — should assets auto-register from completed purchase orders?
+    answer: Yes — office assets go through OS module which checks Asset Registrar before creating PR.
+    dateAnswered: 2026-04-02
+  - question: Which barcode/QR code printer hardware will be standardized across KKIP?
+    answer: null
+    dateAnswered: null
+  - question: Will RFID tracking be required in addition to QR/barcode scanning?
+    answer: null
+    dateAnswered: null
+  - question: What depreciation methods should be supported (straight-line, declining balance, etc.)?
+    answer: null
+    dateAnswered: null
+  - question: Should the system integrate with any external government asset reporting systems?
+    answer: null
+    dateAnswered: null
+  - question: What is the timeline for KPA API availability for automated ledger posting?
+    answer: Pending — manual/batch ledger posting until KPA API is available.
+    dateAnswered: 2026-04-02
+  - question: What is the exact Corporate Asset naming convention to prevent inter-department confusion?
+    answer: null
+    dateAnswered: null
+  - question: What are the specific categories of disposable items that can be linked to parent assets?
+    answer: null
+    dateAnswered: null
+contacts: []
 features:
   - name: Asset Registration & Onboarding
-    description: |
-      Complete asset registration lifecycle including manual entry, bulk import, and auto-registration from purchase orders. Captures asset details such as type, category, location, supplier info, invoice number, serial number, warranty period, purchase date, purchase cost, and product lifecycle stage. Generates unique asset IDs and supports QR code/barcode label generation and printing.
+    description: Complete asset registration lifecycle including manual entry, bulk import, and auto-registration from purchase orders. Captures asset details such as type, category, location, supplier info, invoice number, serial number, warranty period, purchase date, purchase cost, and product lifecycle stage. Generates unique asset IDs and supports QR code/barcode label generation and printing.
     module: Asset Management
     priority: high
     status: draft
     ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: |
-      Manual asset registration form, bulk CSV/Excel import, auto-registration from completed purchase orders, asset categorization (IT Equipment, Furniture, Vehicles, Machinery, etc.), QR code and barcode generation, label printing (customizable templates), asset photo upload, document attachment (warranty cards, invoices, manuals), unique asset ID assignment, asset status management (Active, In Repair, Disposed, Lost), custodian/department assignment, warranty tracking with expiry alerts.
-    outOfScope: |
-      RFID tag programming, GPS real-time tracking hardware integration, asset insurance policy management.
+    inScope: Manual asset registration form, bulk CSV/Excel import, auto-registration from completed purchase orders, asset categorization (IT Equipment, Furniture, Vehicles, Machinery, etc.), QR code and barcode generation, label printing (customizable templates), asset photo upload, document attachment (warranty cards, invoices, manuals), unique asset ID assignment, asset status management (Active, In Repair, Disposed, Lost), custodian/department assignment, warranty tracking with expiry alerts.
+    outOfScope: RFID tag programming, GPS real-time tracking hardware integration, asset insurance policy management.
     sequence: 0
     uatFlows:
       - name: Register New Asset Manually

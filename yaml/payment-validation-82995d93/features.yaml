@@ -1,0 +1,126 @@
+_projectId: 82995d93-99cc-41d3-ae2f-90b0d494d2b9
+_generatedAt: 2026-04-08T15:23:03.877Z
+features:
+  - name: Invoice Submission and Instant Verification
+    description: |
+      End-to-end invoice upload lifecycle for vendors (via Portal) and admins (via Desktop App). 
+      Includes an "Instant Verification" engine that performs real-time database checks against 
+      PO status and GRN receipt before allowing submission.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Vendor Web Portal + Backend
+    inScope: |
+      - Instant Checks: Rejects submission if PO/Milestone is already PAID.
+      - GRN/COD Logic: Requires GRN receipt for standard POs; allows bypass if PO is marked as COD.
+      - LOA Milestones: Mandatory submission against specific payment milestones with supporting doc attachments.
+      - Data Capture: Supplier reference, invoice amount, date, and credit-term-based due date setting.
+      - Ref Generation: Automatic generation using format K1-INV-yyMMdd-{id}.
+      - Invoice Listing: Status tabs for (Submitted / Validated / Paid) with detail view dialogs.
+    outOfScope: Automatic invoice OCR/data extraction, recurring invoice scheduling.
+    sequence: 0
+    uatFlows:
+      - name: Vendor Submits Invoice via Portal (with GRN check)
+        description: Vendor selects a PO; system validates GRN status. Vendor enters amount, date, and reference to submit.
+        preconditions: Vendor has active account. PO exists and is not fully paid.
+        status: draft
+        sequence: 0
+      - name: Admin Uploads Invoice for COD PO
+        description: Admin creates invoice for a COD-marked PO; system allows submission despite missing GRN.
+        preconditions: Admin has Finance access. PO exists with COD flag.
+        status: draft
+        sequence: 1
+      - name: LOA Milestone Submission
+        description: User submits against a specific LOA payment milestone; system enforces document attachment.
+        preconditions: LOA exists with pending milestones.
+        status: draft
+        sequence: 2
+  - name: Invoice Validation Workflow (HOD & Procurement)
+    description: |
+      Automated sequential validation workflow. This ensures that the department that requested the 
+      service confirms delivery and Procurement verifies contractual compliance before MHW sync.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: |
+      - Level 1 (Requester HOD): Operational verification. For LOA Milestones, HOD must upload a "Current Works Report."
+      - Level 2 (Procurement HOD): Final review of procurement terms and documents.
+      - SLA Management: 2-business-day SLA per level with automated task names (e.g., "Requester HOD: Payment Validation for Invoice #ID").
+      - Transitions: Approval moves status from SUBMITTED to VERIFIED; Rejection requires mandatory comments.
+    outOfScope: Parallel validation, automatic escalation on SLA breach.
+    sequence: 1
+    uatFlows:
+      - name: HOD Validates LOA Milestone with Report
+        description: Requester HOD reviews milestone invoice, uploads work progress report, and approves.
+        preconditions: Invoice is in SUBMITTED status for an LOA.
+        status: draft
+        sequence: 0
+      - name: Procurement HOD Rejects Invoice
+        description: Procurement HOD finds discrepancy and rejects with comments; workflow stops and requester is notified.
+        preconditions: Level 1 HOD approval is complete.
+        status: draft
+        sequence: 1
+  - name: Credit / Debit Note Management
+    description: Adjusts the final payable amount of an invoice based on delivery mismatches (e.g., mismatch in GRN vs PO).
+    module: Finance - Payment Validation
+    priority: medium
+    status: draft
+    ecosystem: Admin Desktop App + Vendor Web Portal + Backend
+    inScope: |
+      - Adjustment Submission: Vendor/Admin can upload itemized notes (description, quantity, amount).
+      - Automatic Recalculation: payableAmount = (Invoice Amount + Debit Notes - Credit Notes).
+      - Multi-Note Support: Multiple notes allowed per invoice until paid.
+      - Ref Generation: K1-CN-yyMMdd-{id} or K1-DN-yyMMdd-{id}.
+    outOfScope: Note approval workflow (inherited from Invoice status).
+    sequence: 2
+    uatFlows: []
+  - name: Integration with MHW
+    description: Synchronizes internal verified invoices with the MHW financial system and retrieves payment voucher data.
+    module: Finance - Integration
+    priority: high
+    status: draft
+    ecosystem: Backend + MHW System
+    inScope: |
+      - Invoice Export: Pushes Invoice data to MHW immediately after Procurement HOD approval.
+      - PV Retrieval: Receives Payment Voucher (PV) details and numbers from MHW to link back to internal invoices.
+    outOfScope: null
+    sequence: 3
+    uatFlows:
+      - name: Automatic Submission to MHW
+        description: System verifies that status change to VERIFIED triggers a successful API push to MHW.
+        preconditions: Level 2 approval successful.
+        status: draft
+        sequence: 0
+  - name: Payment Voucher (PV) Management
+    description: Local management of PVs synced from MHW, including the final internal validation tasks.
+    module: Finance - Payment Validation
+    priority: high
+    status: draft
+    ecosystem: Admin Desktop App + Backend
+    inScope: |
+      - PV Sync: Local records updated with MHW Payment Voucher data.
+      - PV Validation Tasks: Automated tasks for Finance AP to perform final checks on the synced PV.
+      - Mapping: Links multiple invoices to a single PV where applicable.
+      - Listing: PV dashboard with tabs (Pending Approval / Paid).
+    outOfScope: null
+    sequence: 4
+    uatFlows:
+      - name: Finance AP Validates PV Task
+        description: Finance user reviews the synced PV and its linked invoices, then completes the PV Task.
+        preconditions: PV has been received/synced from MHW.
+        status: draft
+        sequence: 0
+  - name: Invoice Management & Cashflow Planning
+    description: Provides the Finance team with visibility into liabilities to optimize payment timing.
+    module: Finance - Payment Validation
+    priority: medium
+    status: draft
+    ecosystem: Admin Desktop App
+    inScope: |
+      - Due Date Sub-filters: (Due This Week / Overdue / Due Later / All) based on PO credit terms.
+      - Cashflow Planning: Allows users to flag invoices for specific payment runs to manage bank balances.
+      - Vendor View: Aggregated outstanding amounts per vendor.
+    outOfScope: null
+    sequence: 5
+    uatFlows: []
