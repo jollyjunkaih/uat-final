@@ -36,10 +36,18 @@ export default class Feature extends BaseModel {
   @column()
   declare outOfScope: string | null
 
-  @column()
+  @column({
+    prepare: (value: Array<{ fileName: string; sequence: number }>) => JSON.stringify(value || []),
+    consume: (value: string | Array<{ fileName: string; sequence: number }>) =>
+      typeof value === 'string' ? JSON.parse(value) : value || [],
+  })
   declare mockScreens: Array<{ fileName: string; sequence: number }>
 
-  @column()
+  @column({
+    prepare: (value: Array<{ fileName: string; sequence: number }>) => JSON.stringify(value || []),
+    consume: (value: string | Array<{ fileName: string; sequence: number }>) =>
+      typeof value === 'string' ? JSON.parse(value) : value || [],
+  })
   declare processFlows: Array<{ fileName: string; sequence: number }>
 
   @column()

@@ -546,14 +546,6 @@ export default function PrdDocument({
               <View key={feature.id} style={styles.featureCard}>
                 <View style={styles.featureHeader}>
                   <Text style={styles.featureName}>{feature.name}</Text>
-                  <View style={styles.badgeRow}>
-                    <Text style={[styles.badge, getPriorityStyle(feature.priority)]}>
-                      {feature.priority}
-                    </Text>
-                    <Text style={[styles.badge, getStatusStyle(feature.status)]}>
-                      {feature.status.replace(/_/g, ' ')}
-                    </Text>
-                  </View>
                 </View>
                 {feature.description && (
                   <Text style={styles.description}>{feature.description}</Text>
@@ -594,49 +586,48 @@ export default function PrdDocument({
                             .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
                             .join(' ')}
                         </Text>
-                        <Text style={[styles.badge, getStatusStyle(flow.status)]}>
-                          {flow.status
-                            .replace(/_/g, ' ')
-                            .replace(/\b\w/g, (c) => c.toUpperCase())}
-                        </Text>
                       </View>
                     ))}
                   </View>
                 )}
-                {projectDir && (() => {
-                  const mockScreens = (feature as unknown as Record<string, unknown>).mockScreens as FeatureImage[] | undefined
-                  return mockScreens && mockScreens.length > 0 ? (
-                    <View style={styles.flowList}>
-                      <Text style={styles.flowListLabel}>Mock Screens</Text>
-                      <View style={styles.imageRow}>
-                        {mockScreens.map((screen) => (
-                          <Image
-                            key={screen.fileName}
-                            src={`/feature-images/${projectDir}/${feature.id}/${screen.fileName}.png`}
-                            style={styles.uploadImage}
-                          />
-                        ))}
+                {projectDir &&
+                  (() => {
+                    const mockScreens = (feature as unknown as Record<string, unknown>)
+                      .mockScreens as FeatureImage[] | undefined
+                    return mockScreens && mockScreens.length > 0 ? (
+                      <View style={styles.flowList}>
+                        <Text style={styles.flowListLabel}>Mock Screens</Text>
+                        <View style={styles.imageRow}>
+                          {mockScreens.map((screen) => (
+                            <Image
+                              key={screen.fileName}
+                              src={`/feature-images/${projectDir}/${feature.id}/${screen.fileName}.png`}
+                              style={styles.uploadImage}
+                            />
+                          ))}
+                        </View>
                       </View>
-                    </View>
-                  ) : null
-                })()}
-                {projectDir && (() => {
-                  const processFlows = (feature as unknown as Record<string, unknown>).processFlows as FeatureImage[] | undefined
-                  return processFlows && processFlows.length > 0 ? (
-                    <View style={styles.flowList}>
-                      <Text style={styles.flowListLabel}>Process Flows</Text>
-                      <View style={styles.imageRow}>
-                        {processFlows.map((flow) => (
-                          <Image
-                            key={flow.fileName}
-                            src={`/process-flow-images/${projectDir}/${feature.id}/${flow.fileName}.png`}
-                            style={styles.uploadImage}
-                          />
-                        ))}
+                    ) : null
+                  })()}
+                {projectDir &&
+                  (() => {
+                    const processFlows = (feature as unknown as Record<string, unknown>)
+                      .processFlows as FeatureImage[] | undefined
+                    return processFlows && processFlows.length > 0 ? (
+                      <View style={styles.flowList}>
+                        <Text style={styles.flowListLabel}>Process Flows</Text>
+                        <View style={styles.imageRow}>
+                          {processFlows.map((flow) => (
+                            <Image
+                              key={flow.fileName}
+                              src={`/process-flow-images/${projectDir}/${feature.id}/${flow.fileName}.png`}
+                              style={styles.uploadImage}
+                            />
+                          ))}
+                        </View>
                       </View>
-                    </View>
-                  ) : null
-                })()}
+                    ) : null
+                  })()}
               </View>
             ))}
           </View>
@@ -770,11 +761,11 @@ export default function PrdDocument({
           <Text style={styles.emptyText}>No contacts defined.</Text>
         )}
 
-        <View style={styles.signatureGroupedSection} wrap={false}>
+        <View style={styles.signatureGroupedSection}>
           <Text style={styles.signatureGroupedTitle}>13. Required Signatures</Text>
 
           {/* Project Owner */}
-          <View style={styles.signatureRoleContainer}>
+          <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Project Owner</Text>
             <View style={styles.signatureBox}>
               <View style={styles.signatureField}>
@@ -797,7 +788,7 @@ export default function PrdDocument({
           </View>
 
           {/* Key Stakeholder 1 */}
-          <View style={styles.signatureRoleContainer}>
+          <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Key Stakeholder - 1</Text>
             <View style={styles.signatureBox}>
               <View style={styles.signatureField}>
@@ -820,7 +811,7 @@ export default function PrdDocument({
           </View>
 
           {/* Key Stakeholder 2 */}
-          <View style={styles.signatureRoleContainer}>
+          <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Key Stakeholder - 2</Text>
             <View style={styles.signatureBox}>
               <View style={styles.signatureField}>
@@ -843,7 +834,7 @@ export default function PrdDocument({
           </View>
 
           {/* IT Manager */}
-          <View style={styles.signatureRoleContainer}>
+          <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>IT Manager</Text>
             <View style={styles.signatureBox}>
               <View style={styles.signatureField}>
@@ -866,7 +857,7 @@ export default function PrdDocument({
           </View>
 
           {/* Group Senior Vice President */}
-          <View style={styles.signatureRoleContainer}>
+          <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Group Senior Vice President</Text>
             <View style={styles.signatureBox}>
               <View style={styles.signatureField}>
