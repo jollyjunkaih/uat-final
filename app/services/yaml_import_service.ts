@@ -161,6 +161,8 @@ export default class YamlImportService {
         outOfScope: featureData.outOfScope ?? null,
         sequence: featureData.sequence,
         version: 1,
+        mockScreens: featureData.mockScreens ?? [],
+        processFlows: featureData.processFlows ?? [],
       })
 
       if (!featureData.uatFlows?.length) continue
@@ -248,6 +250,8 @@ export default class YamlImportService {
           inScope: featureData.inScope ?? null,
           outOfScope: featureData.outOfScope ?? null,
           sequence: featureData.sequence,
+          mockScreens: featureData.mockScreens ?? [],
+          processFlows: featureData.processFlows ?? [],
         })
         await existing.save()
         featureId = existing.id
@@ -264,6 +268,8 @@ export default class YamlImportService {
           outOfScope: featureData.outOfScope ?? null,
           sequence: featureData.sequence,
           version: 1,
+          mockScreens: featureData.mockScreens ?? [],
+          processFlows: featureData.processFlows ?? [],
         })
         featureId = feature.id
       }
