@@ -399,6 +399,14 @@ function Field({ label, value }: { label: string; value?: string | null }) {
   )
 }
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60)
+}
+
 function FieldRow({ children }: { children: React.ReactNode }) {
   return <View style={styles.fieldRow}>{children}</View>
 }
@@ -601,7 +609,7 @@ export default function PrdDocument({
                           {mockScreens.map((screen) => (
                             <Image
                               key={screen.fileName}
-                              src={`/feature-images/${projectDir}/${feature.id}/${screen.fileName}.png`}
+                              src={`/feature-images/${projectDir}/${slugify(feature.name)}/${screen.fileName}.png`}
                               style={styles.uploadImage}
                             />
                           ))}
@@ -620,7 +628,7 @@ export default function PrdDocument({
                           {processFlows.map((flow) => (
                             <Image
                               key={flow.fileName}
-                              src={`/process-flow-images/${projectDir}/${feature.id}/${flow.fileName}.png`}
+                              src={`/process-flow-images/${projectDir}/${slugify(feature.name)}/${flow.fileName}.png`}
                               style={styles.uploadImage}
                             />
                           ))}
@@ -768,7 +776,7 @@ export default function PrdDocument({
           <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Project Owner</Text>
             <View style={styles.signatureBox}>
-              <View style={styles.signatureField}>
+              <View style={{ ...styles.signatureField, marginTop: 40 }}>
                 <Text style={styles.signatureFieldLabel}>Signature:</Text>
                 <View style={styles.signatureFieldLine} />
               </View>
@@ -791,7 +799,7 @@ export default function PrdDocument({
           <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Key Stakeholder - 1</Text>
             <View style={styles.signatureBox}>
-              <View style={styles.signatureField}>
+              <View style={{ ...styles.signatureField, marginTop: 40 }}>
                 <Text style={styles.signatureFieldLabel}>Signature:</Text>
                 <View style={styles.signatureFieldLine} />
               </View>
@@ -814,7 +822,7 @@ export default function PrdDocument({
           <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Key Stakeholder - 2</Text>
             <View style={styles.signatureBox}>
-              <View style={styles.signatureField}>
+              <View style={{ ...styles.signatureField, marginTop: 40 }}>
                 <Text style={styles.signatureFieldLabel}>Signature:</Text>
                 <View style={styles.signatureFieldLine} />
               </View>
@@ -837,7 +845,7 @@ export default function PrdDocument({
           <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>IT Manager</Text>
             <View style={styles.signatureBox}>
-              <View style={styles.signatureField}>
+              <View style={{ ...styles.signatureField, marginTop: 40 }}>
                 <Text style={styles.signatureFieldLabel}>Signature:</Text>
                 <View style={styles.signatureFieldLine} />
               </View>
@@ -860,7 +868,7 @@ export default function PrdDocument({
           <View style={styles.signatureRoleContainer} wrap={false}>
             <Text style={styles.signatureRoleTitle}>Group Senior Vice President</Text>
             <View style={styles.signatureBox}>
-              <View style={styles.signatureField}>
+              <View style={{ ...styles.signatureField, marginTop: 40 }}>
                 <Text style={styles.signatureFieldLabel}>Signature:</Text>
                 <View style={styles.signatureFieldLine} />
               </View>
