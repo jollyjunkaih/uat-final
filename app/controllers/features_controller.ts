@@ -1,6 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import FeatureService from '#services/feature_service'
 import FeatureTransformer from '#transformers/feature_transformer'
+import FeatureImageService from '#services/feature_image_service'
+import type { FeatureImageType } from '#services/feature_image_service'
 import { createFeatureValidator, updateFeatureValidator } from '#validators/feature_validator'
 import { reorderEventsValidator } from '#validators/event_validator'
 import YamlSyncService from '#services/yaml_sync_service'
@@ -64,5 +66,53 @@ export default class FeaturesController {
       yamlSync.syncAll(projectId).catch(() => {})
     }
     return ctx.response.json({ data: { success: true } })
+  }
+
+  // --- Feature Images (mock screens & process flows) ---
+
+  private async handleImageUpload(ctx: HttpContext, type: FeatureImageType) {
+    const featureId = ctx.params.id
+    const file = ctx.request.file('image', {
+      size: '10mb',
+      extnames: ['jpg', 'jpeg', 'png', 'webp', 'svg'],
+    })
+
+    if (!file) {
+      return ctx.response.badRequest({ error: 'No image file provided' })
+    }
+    if (file.hasErrors) {
+      return ctx.response.badRequest({ error: file.errors[0]?.message || 'Invalid file' })
+    }
+
+    const imageService = new FeatureImageService()
+    const { projectName, projectId } = await imageService.getProjectInfo(featureId)
+    const feature = await imageService.uploadImage(featureId, projectName, projectId, file, type)
+    return ctx.response.json({ data: FeatureTransformer.transform(feature) })
+  }
+
+  private async handleImageDelete(ctx: HttpContext, type: FeatureImageType) {
+    const featureId = ctx.params.id
+    const fileName = ctx.params.fileName
+
+    const imageService = new FeatureImageService()
+    const { projectName, projectId } = await imageService.getProjectInfo(featureId)
+    const feature = await imageService.deleteImage(featureId, projectName, projectId, fileName, type)
+    return ctx.response.json({ data: FeatureTransformer.transform(feature) })
+  }
+
+  async uploadMockScreen(ctx: HttpContext) {
+    return this.handleImageUpload(ctx, 'mock-screens')
+  }
+
+  async deleteMockScreen(ctx: HttpContext) {
+    return this.handleImageDelete(ctx, 'mock-screens')
+  }
+
+  async uploadProcessFlow(ctx: HttpContext) {
+    return this.handleImageUpload(ctx, 'process-flows')
+  }
+
+  async deleteProcessFlow(ctx: HttpContext) {
+    return this.handleImageDelete(ctx, 'process-flows')
   }
 }

@@ -13,6 +13,8 @@ export interface PrdFeatureYamlData {
   inScope: string | null
   outOfScope: string | null
   sequence: number
+  mockScreens: Array<{ fileName: string; sequence: number }>
+  processFlows: Array<{ fileName: string; sequence: number }>
   uatFlows: Array<{
     name: string
     description: string | null

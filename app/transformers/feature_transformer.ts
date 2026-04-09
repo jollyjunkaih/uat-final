@@ -14,6 +14,8 @@ export default class FeatureTransformer extends BaseTransformer<Feature> {
       'ecosystem',
       'inScope',
       'outOfScope',
+      'mockScreens',
+      'processFlows',
       'ownerId',
       'version',
       'sequence',

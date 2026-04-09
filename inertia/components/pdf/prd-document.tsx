@@ -353,6 +353,11 @@ export interface PrdSignator {
   title: string | null
 }
 
+export interface FeatureImage {
+  fileName: string
+  sequence: number
+}
+
 export interface PrdDocumentProps {
   projectName: string
   project: Record<string, unknown>
@@ -364,6 +369,7 @@ export interface PrdDocumentProps {
   uploads: Upload[]
   logoUrl: string
   prdSignators?: PrdSignator[]
+  projectDir?: string
 }
 
 export default function PrdDocument({
@@ -377,6 +383,7 @@ export default function PrdDocument({
   uploads,
   logoUrl,
   prdSignators = [],
+  projectDir,
 }: PrdDocumentProps) {
   const p = project as Record<string, string | string[] | null | undefined>
   const date = new Date().toLocaleDateString('en-US', {
@@ -532,6 +539,40 @@ export default function PrdDocument({
                     ))}
                   </View>
                 )}
+                {projectDir && (() => {
+                  const mockScreens = (feature as unknown as Record<string, unknown>).mockScreens as FeatureImage[] | undefined
+                  return mockScreens && mockScreens.length > 0 ? (
+                    <View style={styles.flowList}>
+                      <Text style={styles.flowListLabel}>Mock Screens</Text>
+                      <View style={styles.imageRow}>
+                        {mockScreens.map((screen) => (
+                          <Image
+                            key={screen.fileName}
+                            src={`/feature-images/${projectDir}/${feature.id}/${screen.fileName}.png`}
+                            style={styles.uploadImage}
+                          />
+                        ))}
+                      </View>
+                    </View>
+                  ) : null
+                })()}
+                {projectDir && (() => {
+                  const processFlows = (feature as unknown as Record<string, unknown>).processFlows as FeatureImage[] | undefined
+                  return processFlows && processFlows.length > 0 ? (
+                    <View style={styles.flowList}>
+                      <Text style={styles.flowListLabel}>Process Flows</Text>
+                      <View style={styles.imageRow}>
+                        {processFlows.map((flow) => (
+                          <Image
+                            key={flow.fileName}
+                            src={`/process-flow-images/${projectDir}/${feature.id}/${flow.fileName}.png`}
+                            style={styles.uploadImage}
+                          />
+                        ))}
+                      </View>
+                    </View>
+                  ) : null
+                })()}
               </View>
             ))}
           </View>

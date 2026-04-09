@@ -37,6 +37,12 @@ export default class Feature extends BaseModel {
   declare outOfScope: string | null
 
   @column()
+  declare mockScreens: Array<{ fileName: string; sequence: number }>
+
+  @column()
+  declare processFlows: Array<{ fileName: string; sequence: number }>
+
+  @column()
   declare ownerId: string
 
   @column()

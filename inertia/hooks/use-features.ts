@@ -59,3 +59,37 @@ export function useDeleteFeature(projectId: string) {
     },
   })
 }
+
+export function useUploadFeatureImage(projectId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ featureId, file, type }: { featureId: string; file: File; type: 'mock-screens' | 'process-flows' }) => {
+      const formData = new FormData()
+      formData.append('image', file)
+      return fetch(`/api/features/${featureId}/${type}`, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      }).then((res) => {
+        if (!res.ok) throw new Error('Upload failed')
+        return res.json()
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['features', projectId] })
+      queryClient.invalidateQueries({ queryKey: ['project-tree', projectId] })
+    },
+  })
+}
+
+export function useDeleteFeatureImage(projectId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ featureId, fileName, type }: { featureId: string; fileName: string; type: 'mock-screens' | 'process-flows' }) =>
+      apiFetch(`/api/features/${featureId}/${type}/${fileName}`, { method: 'DELETE' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['features', projectId] })
+      queryClient.invalidateQueries({ queryKey: ['project-tree', projectId] })
+    },
+  })
+}

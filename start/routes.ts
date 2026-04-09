@@ -71,6 +71,10 @@ router
     router.patch('api/features/:id', [FeaturesController, 'update'])
     router.delete('api/features/:id', [FeaturesController, 'destroy'])
     router.post('api/features/reorder', [FeaturesController, 'reorder'])
+    router.post('api/features/:id/mock-screens', [FeaturesController, 'uploadMockScreen'])
+    router.delete('api/features/:id/mock-screens/:fileName', [FeaturesController, 'deleteMockScreen'])
+    router.post('api/features/:id/process-flows', [FeaturesController, 'uploadProcessFlow'])
+    router.delete('api/features/:id/process-flows/:fileName', [FeaturesController, 'deleteProcessFlow'])
 
     // UAT Flows
     router.get('api/uat-flows', [UatFlowsController, 'index'])
@@ -228,6 +232,26 @@ router.get('photos/:projectDir/*', async (ctx) => {
   const { join } = await import('node:path')
   const app = (await import('@adonisjs/core/services/app')).default
   const fullPath = join(app.makePath('yaml'), projectDir, 'photos', filePath)
+  return ctx.response.download(fullPath)
+})
+
+// Serve feature mock screen images
+router.get('feature-images/:projectDir/:featureId/*', async (ctx) => {
+  const { projectDir, featureId } = ctx.params
+  const filePath = ctx.params['*'].join('/')
+  const { join } = await import('node:path')
+  const app = (await import('@adonisjs/core/services/app')).default
+  const fullPath = join(app.makePath('yaml'), projectDir, 'img', 'features', featureId, filePath)
+  return ctx.response.download(fullPath)
+})
+
+// Serve feature process flow images
+router.get('process-flow-images/:projectDir/:featureId/*', async (ctx) => {
+  const { projectDir, featureId } = ctx.params
+  const filePath = ctx.params['*'].join('/')
+  const { join } = await import('node:path')
+  const app = (await import('@adonisjs/core/services/app')).default
+  const fullPath = join(app.makePath('yaml'), projectDir, 'img', 'process-flows', featureId, filePath)
   return ctx.response.download(fullPath)
 })
 

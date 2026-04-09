@@ -66,7 +66,7 @@ export class EventSchema extends BaseModel {
 }
 
 export class FeatureSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'description', 'ecosystem', 'id', 'inScope', 'module', 'name', 'outOfScope', 'priority', 'projectId', 'sequence', 'status', 'updatedAt', 'version'] as const
+  static $columns = ['createdAt', 'deletedAt', 'description', 'ecosystem', 'id', 'inScope', 'mockScreens', 'module', 'name', 'outOfScope', 'priority', 'processFlows', 'projectId', 'sequence', 'status', 'updatedAt', 'version'] as const
   $columns = FeatureSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -81,6 +81,8 @@ export class FeatureSchema extends BaseModel {
   @column()
   declare inScope: string | null
   @column()
+  declare mockScreens: any | null
+  @column()
   declare module: string | null
   @column()
   declare name: string
@@ -88,6 +90,8 @@ export class FeatureSchema extends BaseModel {
   declare outOfScope: string | null
   @column()
   declare priority: string
+  @column()
+  declare processFlows: any | null
   @column()
   declare projectId: string
   @column()
@@ -127,7 +131,7 @@ export class GlEntrySchema extends BaseModel {
   declare documentNo: string | null
   @column()
   declare documentType: string | null
-  @column()
+  @column({ isPrimary: true })
   declare entryNo: number
   @column()
   declare glAccountNo: string | null

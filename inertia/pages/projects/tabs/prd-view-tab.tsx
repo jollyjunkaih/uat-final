@@ -15,6 +15,14 @@ interface PrdViewTabProps {
   project: Data.Project
 }
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60)
+}
+
 export default function PrdViewTab({ projectId, projectName, project }: PrdViewTabProps) {
   const { data: treeData, isLoading: treeLoading } = useProjectTree(projectId)
   const { data: competitorsData, isLoading: compLoading } = useCompetitors(projectId)
@@ -34,6 +42,7 @@ export default function PrdViewTab({ projectId, projectName, project }: PrdViewT
   const prdSignatorIds: string[] = (project as any).prdSignatorIds || []
   const prdSignators = allSignators.filter((s) => prdSignatorIds.includes(s.id))
 
+  const projectDir = `${slugify(projectName) || 'unnamed'}-${projectId.substring(0, 8)}`
   const isLoading = treeLoading || compLoading || msLoading || qLoading || ctLoading || upLoading || sigLoading
 
   const document = useMemo(
@@ -49,9 +58,10 @@ export default function PrdViewTab({ projectId, projectName, project }: PrdViewT
         uploads={uploads}
         logoUrl={logoSrc}
         prdSignators={prdSignators}
+        projectDir={projectDir}
       />
     ),
-    [projectName, project, features, competitors, milestones, openQuestions, contacts, uploads, prdSignators]
+    [projectName, project, features, competitors, milestones, openQuestions, contacts, uploads, prdSignators, projectDir]
   )
 
   async function handleDownload() {

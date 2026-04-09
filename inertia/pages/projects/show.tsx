@@ -67,7 +67,7 @@ function ProjectStatusBadge({ status }: { status: string }) {
 function TabContent({ tab, project }: { tab: Tab; project: Data.Project }) {
   switch (tab) {
     case 'features':
-      return <FeaturesTab projectId={project.id} moduleList={project.moduleList} />
+      return <FeaturesTab projectId={project.id} projectName={project.name} moduleList={project.moduleList} />
     case 'uat-flows':
       return <UatFlowsTab projectId={project.id} />
     case 'prd-edit':

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import React, { useState, type FormEvent } from 'react'
 import { usePage } from '@inertiajs/react'
 import { toast } from 'sonner'
 import {
@@ -6,13 +6,124 @@ import {
   useCreateFeature,
   useUpdateFeature,
   useDeleteFeature,
-  type Feature,
+  useUploadFeatureImage,
+  useDeleteFeatureImage,
 } from '~/hooks/use-features'
 import { PriorityBadge } from '~/components/priority-badge'
 
 interface FeaturesTabProps {
   projectId: string
+  projectName: string
   moduleList: string[]
+}
+
+interface FeatureWithImages {
+  id: string
+  name: string
+  description: string | null
+  module: string | null
+  priority: string
+  status: string
+  ecosystem: string | null
+  inScope: string | null
+  outOfScope: string | null
+  ownerId: string
+  mockScreens?: Array<{ fileName: string; sequence: number }>
+  processFlows?: Array<{ fileName: string; sequence: number }>
+  [key: string]: unknown
+}
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60)
+}
+
+function getProjectDir(projectName: string, projectId: string): string {
+  const slug = slugify(projectName) || 'unnamed'
+  const shortId = projectId.substring(0, 8)
+  return `${slug}-${shortId}`
+}
+
+function FeatureImageSection({
+  featureId,
+  projectDir,
+  images,
+  type,
+  label,
+  uploadImage,
+  deleteImage,
+}: {
+  featureId: string
+  projectDir: string
+  images: Array<{ fileName: string; sequence: number }> | undefined
+  type: 'mock-screens' | 'process-flows'
+  label: string
+  uploadImage: ReturnType<typeof useUploadFeatureImage>
+  deleteImage: ReturnType<typeof useDeleteFeatureImage>
+}) {
+  const routePrefix = type === 'mock-screens' ? 'feature-images' : 'process-flow-images'
+  const items = images || []
+
+  function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files
+    if (!files) return
+    for (const file of Array.from(files)) {
+      uploadImage.mutate({ featureId, file, type })
+    }
+    e.target.value = ''
+  }
+
+  return (
+    <div className="mt-3">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{label}</span>
+        <label className="cursor-pointer rounded border border-dashed border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent">
+          + Add
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleUpload}
+            className="hidden"
+          />
+        </label>
+      </div>
+      {items.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {items.map((img) => (
+            <div key={img.fileName} className="group relative">
+              <img
+                src={`/${routePrefix}/${projectDir}/${featureId}/${img.fileName}.png`}
+                alt={img.fileName}
+                className="h-20 w-auto rounded border border-border object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  if (target.src.endsWith('.png')) {
+                    target.src = target.src.replace('.png', '.jpg')
+                  } else if (target.src.endsWith('.jpg')) {
+                    target.src = target.src.replace('.jpg', '.jpeg')
+                  } else if (target.src.endsWith('.jpeg')) {
+                    target.src = target.src.replace('.jpeg', '.webp')
+                  }
+                }}
+              />
+              <button
+                onClick={() => deleteImage.mutate({ featureId, fileName: img.fileName, type })}
+                className="absolute -right-1 -top-1 hidden rounded-full bg-red-500 p-0.5 text-white shadow group-hover:block"
+              >
+                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 const priorities = ['critical', 'high', 'medium', 'low'] as const
@@ -26,7 +137,7 @@ function FeatureForm({
   submitLabel,
 }: {
   moduleList: string[]
-  initial?: Partial<Feature>
+  initial?: Partial<FeatureWithImages>
   onSubmit: (data: Record<string, string>) => void
   onCancel: () => void
   submitting: boolean
@@ -161,20 +272,23 @@ function FeatureForm({
   )
 }
 
-export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps) {
+export default function FeaturesTab({ projectId, projectName, moduleList }: FeaturesTabProps) {
   const { data, isLoading } = useFeatures(projectId)
   const createFeature = useCreateFeature(projectId)
   const updateFeature = useUpdateFeature(projectId)
   const deleteFeature = useDeleteFeature(projectId)
+  const uploadImage = useUploadFeatureImage(projectId)
+  const deleteImage = useDeleteFeatureImage(projectId)
   const user = usePage().props.user as { id: string } | undefined
 
-  console.log(data)
+  const projectDir = getProjectDir(projectName, projectId)
 
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
 
-  const features = data?.data || []
+  const features = (data?.data || []) as FeatureWithImages[]
 
   function handleCreate(formData: Record<string, string>) {
     createFeature.mutate(
@@ -231,7 +345,7 @@ export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps)
     })
   }
 
-  function handleStatusChange(feature: Feature, newStatus: string) {
+  function handleStatusChange(feature: FeatureWithImages, newStatus: string) {
     updateFeature.mutate(
       { id: feature.id, status: newStatus },
       {
@@ -313,68 +427,108 @@ export default function FeaturesTab({ projectId, moduleList }: FeaturesTabProps)
                     </td>
                   </tr>
                 ) : (
-                  <tr key={feature.id} className="hover:bg-muted/30">
-                    <td className="px-4 py-3">
-                      <div>
-                        <span className="font-medium text-foreground">{feature.name}</span>
-                        {feature.description && (
-                          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-                            {feature.description}
-                          </p>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">{feature.module || '—'}</td>
-                    <td className="px-4 py-3">
-                      <PriorityBadge priority={feature.priority} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <select
-                        value={feature.status}
-                        onChange={(e) => handleStatusChange(feature, e.target.value)}
-                        className="rounded-md border border-input bg-background px-2 py-1 text-xs text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
-                      >
-                        <option value="draft">Draft</option>
-                        <option value="in_review">In Review</option>
-                        <option value="approved">Approved</option>
-                        <option value="deprecated">Deprecated</option>
-                      </select>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setEditingId(feature.id)}
-                          className="text-sm font-medium text-primary hover:underline"
-                        >
-                          Edit
-                        </button>
-                        {deletingId === feature.id ? (
-                          <div className="flex items-center gap-1">
-                            <button
-                              onClick={() => handleDelete(feature.id)}
-                              disabled={deleteFeature.isPending}
-                              className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50"
-                            >
-                              Confirm
-                            </button>
-                            <button
-                              onClick={() => setDeletingId(null)}
-                              className="text-sm text-muted-foreground hover:underline"
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        ) : (
+                  <React.Fragment key={feature.id}>
+                    <tr className="hover:bg-muted/30">
+                      <td className="px-4 py-3">
+                        <div>
                           <button
-                            onClick={() => setDeletingId(feature.id)}
-                            className="text-sm font-medium text-red-600 hover:underline"
+                            onClick={() => setExpandedId(expandedId === feature.id ? null : feature.id)}
+                            className="flex items-center gap-1 font-medium text-foreground hover:text-primary"
                           >
-                            Delete
+                            <svg
+                              className={`h-3.5 w-3.5 transition-transform ${expandedId === feature.id ? 'rotate-90' : ''}`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                            {feature.name}
                           </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
+                          {feature.description && (
+                            <p className="mt-0.5 ml-5 text-xs text-muted-foreground line-clamp-1">
+                              {feature.description}
+                            </p>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">{feature.module || '—'}</td>
+                      <td className="px-4 py-3">
+                        <PriorityBadge priority={feature.priority} />
+                      </td>
+                      <td className="px-4 py-3">
+                        <select
+                          value={feature.status}
+                          onChange={(e) => handleStatusChange(feature, e.target.value)}
+                          className="rounded-md border border-input bg-background px-2 py-1 text-xs text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                        >
+                          <option value="draft">Draft</option>
+                          <option value="in_review">In Review</option>
+                          <option value="approved">Approved</option>
+                          <option value="deprecated">Deprecated</option>
+                        </select>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setEditingId(feature.id)}
+                            className="text-sm font-medium text-primary hover:underline"
+                          >
+                            Edit
+                          </button>
+                          {deletingId === feature.id ? (
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => handleDelete(feature.id)}
+                                disabled={deleteFeature.isPending}
+                                className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50"
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                onClick={() => setDeletingId(null)}
+                                className="text-sm text-muted-foreground hover:underline"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setDeletingId(feature.id)}
+                              className="text-sm font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                    {expandedId === feature.id && (
+                      <tr>
+                        <td colSpan={5} className="px-4 py-3 bg-muted/20">
+                          <FeatureImageSection
+                            featureId={feature.id}
+                            projectDir={projectDir}
+                            images={feature.mockScreens}
+                            type="mock-screens"
+                            label="Mock Screens"
+                            uploadImage={uploadImage}
+                            deleteImage={deleteImage}
+                          />
+                          <FeatureImageSection
+                            featureId={feature.id}
+                            projectDir={projectDir}
+                            images={feature.processFlows}
+                            type="process-flows"
+                            label="Process Flows"
+                            uploadImage={uploadImage}
+                            deleteImage={deleteImage}
+                          />
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 )
               )}
             </tbody>

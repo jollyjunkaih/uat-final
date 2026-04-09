@@ -33,6 +33,8 @@ export default class YamlSyncService {
       inScope: feature.inScope,
       outOfScope: feature.outOfScope,
       sequence: feature.sequence,
+      mockScreens: feature.mockScreens || [],
+      processFlows: feature.processFlows || [],
       uatFlows: feature.uatFlows.map((flow) => ({
         name: flow.name,
         description: flow.description,
@@ -173,6 +175,8 @@ export default class YamlSyncService {
         inScope: feature.inScope,
         outOfScope: feature.outOfScope,
         sequence: feature.sequence,
+        mockScreens: feature.mockScreens || [],
+        processFlows: feature.processFlows || [],
         uatFlows: feature.uatFlows.map((flow) => ({
           name: flow.name,
           description: flow.description,
