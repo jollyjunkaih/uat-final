@@ -104,49 +104,6 @@ export class FeatureSchema extends BaseModel {
   declare version: number
 }
 
-export class GlEntrySchema extends BaseModel {
-  static $columns = ['accountManagerCode', 'amountLcy', 'contractorCode', 'creditAmountLcy', 'customerCode', 'customerContractDim', 'customerGroupCode', 'debitAmountLcy', 'departmentCode', 'description', 'documentNo', 'documentType', 'entryNo', 'glAccountNo', 'globalDimension1Code', 'globalDimension2Code', 'postingDate', 'rigVesselProjectCode', 'subledgerEntryCode'] as const
-  $columns = GlEntrySchema.$columns
-  @column()
-  declare accountManagerCode: string | null
-  @column()
-  declare amountLcy: string | null
-  @column()
-  declare contractorCode: string | null
-  @column()
-  declare creditAmountLcy: string | null
-  @column()
-  declare customerCode: string | null
-  @column()
-  declare customerContractDim: string | null
-  @column()
-  declare customerGroupCode: string | null
-  @column()
-  declare debitAmountLcy: string | null
-  @column()
-  declare departmentCode: string | null
-  @column()
-  declare description: string | null
-  @column()
-  declare documentNo: string | null
-  @column()
-  declare documentType: string | null
-  @column({ isPrimary: true })
-  declare entryNo: number
-  @column()
-  declare glAccountNo: string | null
-  @column()
-  declare globalDimension1Code: string | null
-  @column()
-  declare globalDimension2Code: string | null
-  @column.date()
-  declare postingDate: DateTime | null
-  @column()
-  declare rigVesselProjectCode: string | null
-  @column()
-  declare subledgerEntryCode: string | null
-}
-
 export class PrdCompetitorSchema extends BaseModel {
   static $columns = ['competitorName', 'createdAt', 'id', 'productNameOrLink', 'projectId', 'sequence', 'updatedAt'] as const
   $columns = PrdCompetitorSchema.$columns

@@ -1,5 +1,5 @@
 _projectId: 9a803bf9-0470-4c40-8ee6-f0d4df4b030d
-_generatedAt: 2026-04-09T06:26:46.001Z
+_generatedAt: 2026-04-09T17:47:57.897Z
 metadata:
   testingStartDate: null
   testingStartTime: null
@@ -17,7 +17,15 @@ features:
     inScope: Manual asset registration form, bulk CSV/Excel import, auto-registration from completed purchase orders, asset categorization (IT Equipment, Furniture, Vehicles, Machinery, etc.), QR code and barcode generation, label printing (customizable templates), asset photo upload, document attachment (warranty cards, invoices, manuals), unique asset ID assignment, asset status management (Active, In Repair, Disposed, Lost), custodian/department assignment, warranty tracking with expiry alerts.
     outOfScope: RFID tag programming, GPS real-time tracking hardware integration, asset insurance policy management.
     sequence: 0
-    mockScreens: []
+    mockScreens:
+      - fileName: asset_registration_onboarding
+        sequence: 1
+      - fileName: asset_registry_dashboard
+        sequence: 2
+      - fileName: asset_details_view
+        sequence: 3
+      - fileName: bulk_upload_mapping_wizard
+        sequence: 4
     processFlows: []
     uatFlows:
       - name: Register New Asset Manually
@@ -62,63 +70,6 @@ features:
         status: draft
         sequence: 6
         steps: []
-  - name: Asset Tracking & Location Management
-    description: |
-      Real-time tracking of asset location and custodian assignment. Supports asset transfers between departments and locations, movement history logging, and custodian handover workflows. Enables QR/barcode scanning via mobile app for quick asset identification and location verification.
-    module: Asset Management
-    priority: high
-    status: draft
-    ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: |
-      Asset location assignment and updates, department/building/floor/room location hierarchy, custodian assignment and transfer, asset movement history log, QR code/barcode scanning for asset lookup (mobile), asset check-in/check-out for shared assets, location-based asset listing, transfer request and approval workflow, movement alerts for high-value assets.
-    outOfScope: |
-      GPS/IoT real-time location tracking, automated movement detection via sensors.
-    sequence: 1
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Scan Asset QR Code for Lookup
-        description: User scans an asset's QR code or barcode using the mobile app to view full asset details including current location, custodian, and status.
-        preconditions: Asset is registered with a generated QR/barcode label. Mobile app is installed.
-        status: draft
-        sequence: 0
-        steps: []
-      - name: Transfer Asset Between Departments
-        description: User initiates an asset transfer request specifying the target department and new custodian. Transfer goes through approval workflow.
-        preconditions: Asset is registered and active. User has transfer permissions.
-        status: draft
-        sequence: 1
-        steps: []
-      - name: Approve Asset Transfer
-        description: HOD reviews and approves or rejects an asset transfer request.
-        preconditions: A transfer request is pending approval. HOD is logged in.
-        status: draft
-        sequence: 2
-        steps: []
-      - name: Check-Out Shared Asset
-        description: User checks out a shared asset (e.g., projector, camera) for temporary use with expected return date.
-        preconditions: Asset is marked as shared/pooled and is currently available.
-        status: draft
-        sequence: 3
-        steps: []
-      - name: Check-In Shared Asset
-        description: User returns a checked-out shared asset and confirms its condition.
-        preconditions: Asset is currently checked out to the user.
-        status: draft
-        sequence: 4
-        steps: []
-      - name: View Asset Movement History
-        description: User views the full movement and transfer history of an asset including dates, locations, and custodians.
-        preconditions: Asset exists with recorded movements.
-        status: draft
-        sequence: 5
-        steps: []
-      - name: View Assets by Location
-        description: User browses assets filtered by specific building, floor, room, or department location.
-        preconditions: Assets are registered with location data.
-        status: draft
-        sequence: 6
-        steps: []
   - name: Maintenance Management
     description: |
       End-to-end maintenance lifecycle management including preventive maintenance scheduling, corrective maintenance (fault reporting), technician assignment, work order management, spare parts tracking, and maintenance history. Supports both internal technician assignment and external vendor service requests. Automated reminders for scheduled maintenance and warranty expiry.
@@ -131,8 +82,18 @@ features:
     outOfScope: |
       Spare parts inventory management (separate module), vendor procurement for parts.
     sequence: 2
-    mockScreens: []
-    processFlows: []
+    mockScreens:
+      - fileName: maintenance_hub
+        sequence: 1
+      - fileName: maintenance_schedule_configuration
+        sequence: 2
+      - fileName: fault_reporting
+        sequence: 3
+      - fileName: work_order_management
+        sequence: 4
+    processFlows:
+      - fileName: asset_maintenance_reporting_flow
+        sequence: 1
     uatFlows:
       - name: Report Asset Fault via Mobile
         description: User scans asset QR code and submits a fault report with description, severity level, photos, and videos.
@@ -206,8 +167,14 @@ features:
     outOfScope: |
       Automated RFID mass-scanning audits, third-party auditor portal access.
     sequence: 3
-    mockScreens: []
-    processFlows: []
+    mockScreens:
+      - fileName: audit_planner
+        sequence: 1
+      - fileName: audit_reconciliation
+        sequence: 2
+    processFlows:
+      - fileName: asset_audit_process_flow
+        sequence: 1
     uatFlows:
       - name: Create Audit Plan
         description: Admin creates an audit plan specifying scope (full, department, location, or category), scheduled date, assigned auditors, and audit checklist criteria.
@@ -281,7 +248,9 @@ features:
     outOfScope: |
       Tax depreciation schedules, integration with external accounting systems, accounts payable/receivable.
     sequence: 4
-    mockScreens: []
+    mockScreens:
+      - fileName: depreciation_valuation
+        sequence: 1
     processFlows: []
     uatFlows:
       - name: Configure Depreciation Method for Asset Category
@@ -332,8 +301,12 @@ features:
     outOfScope: |
       E-waste vendor management, auction platform integration, environmental regulatory submission.
     sequence: 5
-    mockScreens: []
-    processFlows: []
+    mockScreens:
+      - fileName: disposal_workflow
+        sequence: 1
+    processFlows:
+      - fileName: asset_disposal_process_flow
+        sequence: 1
     uatFlows:
       - name: Submit Disposal Request
         description: User selects one or more assets and submits a disposal request specifying the disposal method, reason, and supporting documentation.
@@ -401,7 +374,9 @@ features:
     outOfScope: |
       Predictive analytics/AI-based forecasting, integration with external BI tools (Power BI, Tableau).
     sequence: 7
-    mockScreens: []
+    mockScreens:
+      - fileName: executive_analytics_dashboard
+        sequence: 1
     processFlows: []
     uatFlows:
       - name: View Asset Overview Dashboard

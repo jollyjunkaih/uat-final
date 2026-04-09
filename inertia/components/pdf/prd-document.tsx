@@ -622,17 +622,16 @@ export default function PrdDocument({
                     const processFlows = (feature as unknown as Record<string, unknown>)
                       .processFlows as FeatureImage[] | undefined
                     return processFlows && processFlows.length > 0 ? (
-                      <View style={styles.flowList}>
+                      <View style={{ marginTop: 8, borderTopWidth: 1, borderTopColor: '#e2e8f0', paddingTop: 6 }}>
                         <Text style={styles.flowListLabel}>Process Flows</Text>
-                        <View style={styles.imageRow}>
-                          {processFlows.map((flow) => (
+                        {processFlows.map((flow) => (
+                          <View key={flow.fileName} style={{ flexDirection: 'row' as const, marginTop: 4 }}>
                             <Image
-                              key={flow.fileName}
                               src={`/process-flow-images/${projectDir}/${slugify(feature.name)}/${flow.fileName}.png`}
-                              style={styles.uploadImage}
+                              style={{ flex: 1, objectFit: 'contain' as const }}
                             />
-                          ))}
-                        </View>
+                          </View>
+                        ))}
                       </View>
                     ) : null
                   })()}
