@@ -1,5 +1,5 @@
-_projectId: cedce6f3-41c8-48d9-8422-aa2962a128c4
-_generatedAt: 2026-04-08T14:32:29.720Z
+_projectId: 9a803bf9-0470-4c40-8ee6-f0d4df4b030d
+_generatedAt: 2026-04-09T06:26:45.989Z
 metadata:
   companyName: KKIP Sdn Bhd
   productName: KKIP Asset Management System (AMS)
@@ -86,6 +86,8 @@ features:
     inScope: Manual asset registration form, bulk CSV/Excel import, auto-registration from completed purchase orders, asset categorization (IT Equipment, Furniture, Vehicles, Machinery, etc.), QR code and barcode generation, label printing (customizable templates), asset photo upload, document attachment (warranty cards, invoices, manuals), unique asset ID assignment, asset status management (Active, In Repair, Disposed, Lost), custodian/department assignment, warranty tracking with expiry alerts.
     outOfScope: RFID tag programming, GPS real-time tracking hardware integration, asset insurance policy management.
     sequence: 0
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: Register New Asset Manually
         description: User fills in asset registration form with all required fields including asset type, category, location, serial number, purchase details, and custodian assignment.
@@ -134,6 +136,8 @@ features:
     outOfScope: |
       GPS/IoT real-time location tracking, automated movement detection via sensors.
     sequence: 1
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: Scan Asset QR Code for Lookup
         description: User scans an asset's QR code or barcode using the mobile app to view full asset details including current location, custodian, and status.
@@ -182,6 +186,8 @@ features:
     outOfScope: |
       Spare parts inventory management (separate module), vendor procurement for parts.
     sequence: 2
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: Report Asset Fault via Mobile
         description: User scans asset QR code and submits a fault report with description, severity level, photos, and videos.
@@ -245,6 +251,8 @@ features:
     outOfScope: |
       Automated RFID mass-scanning audits, third-party auditor portal access.
     sequence: 3
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: Create Audit Plan
         description: Admin creates an audit plan specifying scope (full, department, location, or category), scheduled date, assigned auditors, and audit checklist criteria.
@@ -308,6 +316,8 @@ features:
     outOfScope: |
       Tax depreciation schedules, integration with external accounting systems, accounts payable/receivable.
     sequence: 4
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: Configure Depreciation Method for Asset Category
         description: Admin sets the default depreciation method, useful life, and salvage value percentage for an asset category.
@@ -351,6 +361,8 @@ features:
     outOfScope: |
       E-waste vendor management, auction platform integration, environmental regulatory submission.
     sequence: 5
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: Submit Disposal Request
         description: User selects one or more assets and submits a disposal request specifying the disposal method, reason, and supporting documentation.
@@ -397,39 +409,6 @@ features:
         preconditions: Multiple assets are eligible for disposal.
         status: draft
         sequence: 8
-  - name: Document & Knowledge Management
-    description: |
-      Digital document management for all asset-related documentation including user manuals, SOPs, warranty cards, service contracts, compliance certificates, and maintenance guides. Supports version control and easy retrieval via asset association.
-    module: Asset Management
-    priority: medium
-    status: draft
-    ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: |
-      Document upload and association with assets, document categorization (Manual, Warranty, Contract, Certificate, SOP, Photo, Video), version control for updated documents, document search and retrieval, mobile access to asset documents via QR scan, bulk document upload, document expiry tracking (warranties, contracts, certificates), expiry notification alerts.
-    outOfScope: |
-      Document creation/editing tools, OCR/text extraction from scanned documents.
-    sequence: 6
-    uatFlows:
-      - name: Upload Document to Asset
-        description: User uploads a document (manual, warranty, contract) and associates it with one or more assets.
-        preconditions: Asset is registered. User has document management permissions.
-        status: draft
-        sequence: 0
-      - name: View Asset Documents via Mobile Scan
-        description: User scans asset QR code on mobile and accesses all associated documents.
-        preconditions: Asset has documents attached. Mobile app is installed.
-        status: draft
-        sequence: 1
-      - name: Track Document Expiry
-        description: System sends notifications for upcoming warranty, contract, or certificate expirations.
-        preconditions: Documents with expiry dates are attached to assets.
-        status: draft
-        sequence: 2
-      - name: Search Documents Across Assets
-        description: User searches for documents across the entire asset register by name, type, or associated asset.
-        preconditions: Documents exist in the system.
-        status: draft
-        sequence: 3
   - name: Reporting & Analytics Dashboard
     description: |
       Comprehensive reporting and analytics capabilities providing real-time visibility into asset portfolio health, utilization, costs, and compliance. Includes pre-built reports and customizable dashboards for data-driven asset management decisions.
@@ -442,6 +421,8 @@ features:
     outOfScope: |
       Predictive analytics/AI-based forecasting, integration with external BI tools (Power BI, Tableau).
     sequence: 7
+    mockScreens: []
+    processFlows: []
     uatFlows:
       - name: View Asset Overview Dashboard
         description: User views the main dashboard showing asset counts by status, category, and department with key metrics.
@@ -473,41 +454,3 @@ features:
         preconditions: User has reporting admin access.
         status: draft
         sequence: 5
-  - name: Asset Label & Identification Management
-    description: |
-      Generation, printing, and management of asset identification labels including QR codes and barcodes. Supports customizable label templates, batch label generation, and integration with label printers.
-    module: Asset Management
-    priority: high
-    status: draft
-    ecosystem: Admin Desktop App + Backend
-    inScope: |
-      QR code generation for each registered asset, barcode generation (Code 128, Code 39), customizable label templates (with asset ID, name, department, QR/barcode), batch label generation for multiple assets, label preview before printing, integration with label printers (Toshiba, Zebra, Brother), label reprint for damaged labels, label size configuration, label history tracking.
-    outOfScope: |
-      RFID tag programming, NFC tag writing, custom label design editor.
-    sequence: 8
-    uatFlows:
-      - name: Generate Single Asset Label
-        description: User generates a QR code or barcode label for a single asset with preview.
-        preconditions: Asset is registered.
-        status: draft
-        sequence: 0
-      - name: Batch Generate Labels
-        description: User selects multiple assets and generates labels in batch with a selected template.
-        preconditions: Multiple assets are registered. Label template is configured.
-        status: draft
-        sequence: 1
-      - name: Print Labels to Connected Printer
-        description: User sends generated labels to a connected label printer.
-        preconditions: Labels are generated. Printer is configured and connected.
-        status: draft
-        sequence: 2
-      - name: Reprint Damaged Label
-        description: User reprints a label for an asset whose physical label is damaged or illegible.
-        preconditions: Asset is registered.
-        status: draft
-        sequence: 3
-      - name: Configure Label Template
-        description: Admin configures label templates specifying size, fields to include, and QR/barcode format.
-        preconditions: User has label management admin access.
-        status: draft
-        sequence: 4
