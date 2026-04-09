@@ -1,5 +1,5 @@
 _projectId: 9a803bf9-0470-4c40-8ee6-f0d4df4b030d
-_generatedAt: 2026-04-09T06:26:45.989Z
+_generatedAt: 2026-04-09T06:26:45.989000Z
 metadata:
   companyName: KKIP Sdn Bhd
   productName: KKIP Asset Management System (AMS)
@@ -22,16 +22,16 @@ userInteraction:
     Primary interactions include asset registration and tagging, QR/barcode scanning for asset lookup, maintenance request submission and tracking, asset audit workflows via mobile app, disposal request and approval workflows, dashboard and reporting views, and asset transfer between departments/locations.
   touchpoint: |
     Admin Desktop App (primary management interface), Mobile App (field scanning, audits, issue reporting), Backend API (data processing and business logic).
-  userFeedback: null
+  userFeedback:
 designAndBranding:
   formFactor: Desktop web application + Mobile application
-  materials: null
+  materials:
   brandingAdjectives: []
   brandingTone: []
   visualIdentity: Consistent with existing KKIP Admin Desktop App design system
-  packagingPresentation: null
+  packagingPresentation:
 softwareArchitecture:
-  firmwareFunctions: null
+  firmwareFunctions:
   cloudApplication: |
     AdonisJS backend with PostgreSQL database, integrated into existing KKIP monorepo. OpenAPI schema for type-safe frontend integration. Real-time updates via AdonisJS Transmit.
   smartphoneApplication: |
@@ -44,413 +44,445 @@ milestones:
 additional:
   diagramsSchematics: |
     Process flow diagrams created in Figma for: Asset Registration, Asset Audit, Asset Disposal, and Maintenance Request workflows.
-  bom: null
+  bom:
   additionalResources: |
     References: CodeMax Asset Management System (https://codemax.my/asset-management-system/), Toshiba Fortitude Asset Tracking System (https://www.toshibatec.com.my/solution/asset-tracking-system/)
-  additionalVisualIdentity: null
+  additionalVisualIdentity:
 competitors: []
 milestonesList: []
 openQuestions:
-  - question: Integration scope with existing procurement module — should assets auto-register from completed purchase orders?
-    answer: Yes — office assets go through OS module which checks Asset Registrar before creating PR.
-    dateAnswered: 2026-04-02
-  - question: Which barcode/QR code printer hardware will be standardized across KKIP?
-    answer: null
-    dateAnswered: null
-  - question: Will RFID tracking be required in addition to QR/barcode scanning?
-    answer: null
-    dateAnswered: null
-  - question: What depreciation methods should be supported (straight-line, declining balance, etc.)?
-    answer: null
-    dateAnswered: null
-  - question: Should the system integrate with any external government asset reporting systems?
-    answer: null
-    dateAnswered: null
-  - question: What is the timeline for KPA API availability for automated ledger posting?
-    answer: Pending — manual/batch ledger posting until KPA API is available.
-    dateAnswered: 2026-04-02
-  - question: What is the exact Corporate Asset naming convention to prevent inter-department confusion?
-    answer: null
-    dateAnswered: null
-  - question: What are the specific categories of disposable items that can be linked to parent assets?
-    answer: null
-    dateAnswered: null
+- question: Integration scope with existing procurement module — should assets auto-register from completed purchase orders?
+  answer: Yes — office assets go through OS module which checks Asset Registrar before creating PR.
+  dateAnswered: 2026-04-02
+- question: Which barcode/QR code printer hardware will be standardized across KKIP?
+  answer:
+  dateAnswered:
+- question: Will RFID tracking be required in addition to QR/barcode scanning?
+  answer:
+  dateAnswered:
+- question: What depreciation methods should be supported (straight-line, declining balance, etc.)?
+  answer:
+  dateAnswered:
+- question: Should the system integrate with any external government asset reporting systems?
+  answer:
+  dateAnswered:
+- question: What is the timeline for KPA API availability for automated ledger posting?
+  answer: Pending — manual/batch ledger posting until KPA API is available.
+  dateAnswered: 2026-04-02
+- question: What is the exact Corporate Asset naming convention to prevent inter-department confusion?
+  answer:
+  dateAnswered:
+- question: What are the specific categories of disposable items that can be linked to parent assets?
+  answer:
+  dateAnswered:
 contacts: []
 features:
-  - name: Asset Registration & Onboarding
-    description: Complete asset registration lifecycle including manual entry, bulk import, and auto-registration from purchase orders. Captures asset details such as type, category, location, supplier info, invoice number, serial number, warranty period, purchase date, purchase cost, and product lifecycle stage. Generates unique asset IDs and supports QR code/barcode label generation and printing.
-    module: Asset Management
-    priority: high
-    status: draft
-    ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: Manual asset registration form, bulk CSV/Excel import, auto-registration from completed purchase orders, asset categorization (IT Equipment, Furniture, Vehicles, Machinery, etc.), QR code and barcode generation, label printing (customizable templates), asset photo upload, document attachment (warranty cards, invoices, manuals), unique asset ID assignment, asset status management (Active, In Repair, Disposed, Lost), custodian/department assignment, warranty tracking with expiry alerts.
-    outOfScope: RFID tag programming, GPS real-time tracking hardware integration, asset insurance policy management.
-    sequence: 0
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Register New Asset Manually
-        description: User fills in asset registration form with all required fields including asset type, category, location, serial number, purchase details, and custodian assignment.
-        preconditions: User has Asset Management module access with registration permissions.
-        status: draft
-        sequence: 0
-      - name: Bulk Import Assets via CSV/Excel
-        description: User uploads a CSV or Excel file containing multiple asset records. System validates data, reports errors, and creates asset records for valid entries.
-        preconditions: User has admin access to Asset Management module. Import template is available.
-        status: draft
-        sequence: 1
-      - name: Auto-Register Asset from Purchase Order
-        description: Upon GRN completion in the procurement module, system prompts user to register received items as assets with pre-filled supplier and cost data.
-        preconditions: A purchase order has been completed with GRN. Procurement module integration is active.
-        status: draft
-        sequence: 2
-      - name: Generate and Print Asset Label
-        description: User generates a QR code or barcode label for a registered asset and sends it to a connected label printer.
-        preconditions: Asset is registered in the system. Label printer is configured.
-        status: draft
-        sequence: 3
-      - name: Upload Asset Documents
-        description: User attaches warranty cards, invoices, user manuals, or photos to an existing asset record.
-        preconditions: Asset exists in the system.
-        status: draft
-        sequence: 4
-      - name: View and Search Asset Register
-        description: User browses the full asset register with search, filter (by category, location, department, status), and sort capabilities.
-        preconditions: Assets exist in the system.
-        status: draft
-        sequence: 5
-      - name: View Asset Detail
-        description: User views complete asset information including specifications, assignment history, maintenance history, financial data, and attached documents.
-        preconditions: Asset exists in the system.
-        status: draft
-        sequence: 6
-  - name: Asset Tracking & Location Management
-    description: |
-      Real-time tracking of asset location and custodian assignment. Supports asset transfers between departments and locations, movement history logging, and custodian handover workflows. Enables QR/barcode scanning via mobile app for quick asset identification and location verification.
-    module: Asset Management
-    priority: high
-    status: draft
-    ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: |
-      Asset location assignment and updates, department/building/floor/room location hierarchy, custodian assignment and transfer, asset movement history log, QR code/barcode scanning for asset lookup (mobile), asset check-in/check-out for shared assets, location-based asset listing, transfer request and approval workflow, movement alerts for high-value assets.
-    outOfScope: |
-      GPS/IoT real-time location tracking, automated movement detection via sensors.
+- name: Asset Registration & Onboarding
+  description: Complete asset registration lifecycle including manual entry, bulk import, and auto-registration from purchase orders. Captures asset details such as type, category, location, supplier 
+    info, invoice number, serial number, warranty period, purchase date, purchase cost, and product lifecycle stage. Generates unique asset IDs and supports QR code/barcode label generation and 
+    printing.
+  module: Asset Management
+  priority: high
+  status: draft
+  ecosystem: Admin Desktop App + Backend + Mobile App
+  inScope: Manual asset registration form, bulk CSV/Excel import, auto-registration from completed purchase orders, asset categorization (IT Equipment, Furniture, Vehicles, Machinery, etc.), QR code 
+    and barcode generation, label printing (customizable templates), asset photo upload, document attachment (warranty cards, invoices, manuals), unique asset ID assignment, asset status management 
+    (Active, In Repair, Disposed, Lost), custodian/department assignment, warranty tracking with expiry alerts.
+  outOfScope: RFID tag programming, GPS real-time tracking hardware integration, asset insurance policy management.
+  sequence: 0
+  mockScreens:
+  - fileName: asset_registration_onboarding
     sequence: 1
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Scan Asset QR Code for Lookup
-        description: User scans an asset's QR code or barcode using the mobile app to view full asset details including current location, custodian, and status.
-        preconditions: Asset is registered with a generated QR/barcode label. Mobile app is installed.
-        status: draft
-        sequence: 0
-      - name: Transfer Asset Between Departments
-        description: User initiates an asset transfer request specifying the target department and new custodian. Transfer goes through approval workflow.
-        preconditions: Asset is registered and active. User has transfer permissions.
-        status: draft
-        sequence: 1
-      - name: Approve Asset Transfer
-        description: HOD reviews and approves or rejects an asset transfer request.
-        preconditions: A transfer request is pending approval. HOD is logged in.
-        status: draft
-        sequence: 2
-      - name: Check-Out Shared Asset
-        description: User checks out a shared asset (e.g., projector, camera) for temporary use with expected return date.
-        preconditions: Asset is marked as shared/pooled and is currently available.
-        status: draft
-        sequence: 3
-      - name: Check-In Shared Asset
-        description: User returns a checked-out shared asset and confirms its condition.
-        preconditions: Asset is currently checked out to the user.
-        status: draft
-        sequence: 4
-      - name: View Asset Movement History
-        description: User views the full movement and transfer history of an asset including dates, locations, and custodians.
-        preconditions: Asset exists with recorded movements.
-        status: draft
-        sequence: 5
-      - name: View Assets by Location
-        description: User browses assets filtered by specific building, floor, room, or department location.
-        preconditions: Assets are registered with location data.
-        status: draft
-        sequence: 6
-  - name: Maintenance Management
-    description: |
-      End-to-end maintenance lifecycle management including preventive maintenance scheduling, corrective maintenance (fault reporting), technician assignment, work order management, spare parts tracking, and maintenance history. Supports both internal technician assignment and external vendor service requests. Automated reminders for scheduled maintenance and warranty expiry.
-    module: Asset Management
-    priority: high
-    status: draft
-    ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: |
-      Fault/issue reporting with photos and videos (mobile and desktop), preventive maintenance scheduling with automated reminders, corrective maintenance work orders, technician assignment (internal and external), work order status tracking (Reported, Assigned, In Progress, Completed, Verified), spare parts usage logging, maintenance cost tracking, SLA monitoring, warranty-based service routing (in-warranty to supplier, out-of-warranty to internal/external), maintenance history per asset, supplier fault report submission, maintenance KPI dashboard.
-    outOfScope: |
-      Spare parts inventory management (separate module), vendor procurement for parts.
+  - fileName: asset_registry_dashboard
     sequence: 2
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Report Asset Fault via Mobile
-        description: User scans asset QR code and submits a fault report with description, severity level, photos, and videos.
-        preconditions: User has mobile app installed. Asset is registered with QR label.
-        status: draft
-        sequence: 0
-      - name: Report Asset Fault via Desktop
-        description: User searches for an asset and submits a fault report through the desktop interface.
-        preconditions: User has Asset Management access.
-        status: draft
-        sequence: 1
-      - name: Assign Technician to Work Order
-        description: Maintenance coordinator reviews the fault report and assigns an internal technician or routes to external vendor.
-        preconditions: A fault report has been submitted. Coordinator has maintenance management access.
-        status: draft
-        sequence: 2
-      - name: Submit Fault Report to Supplier
-        description: For in-warranty assets, maintenance coordinator generates and submits a formal fault report to the supplier.
-        preconditions: Asset is within warranty period. Fault report exists.
-        status: draft
-        sequence: 3
-      - name: Technician Updates Work Order Progress
-        description: Assigned technician updates work order status, adds notes, logs time spent, and records spare parts used.
-        preconditions: Work order is assigned to the technician.
-        status: draft
-        sequence: 4
-      - name: Complete and Verify Maintenance Work
-        description: Technician marks work as complete. Requester verifies the fix and confirms asset is operational.
-        preconditions: Work order is marked as completed by technician.
-        status: draft
-        sequence: 5
-      - name: Create Preventive Maintenance Schedule
-        description: Admin creates a recurring preventive maintenance schedule for an asset or group of assets with frequency, checklist, and assigned team.
-        preconditions: Assets are registered. User has maintenance admin access.
-        status: draft
-        sequence: 6
-      - name: Execute Preventive Maintenance Task
-        description: Technician receives a scheduled maintenance task, performs the checklist items, and records completion.
-        preconditions: A preventive maintenance task is due. Technician is assigned.
-        status: draft
-        sequence: 7
-      - name: View Maintenance History
-        description: User views complete maintenance history for an asset including all work orders, costs, and downtime.
-        preconditions: Asset exists with maintenance records.
-        status: draft
-        sequence: 8
-      - name: Maintenance SLA Monitoring
-        description: Admin views SLA compliance dashboard showing response times, resolution times, and overdue work orders.
-        preconditions: Work orders exist in the system.
-        status: draft
-        sequence: 9
-  - name: Asset Audit Management
-    description: |
-      Comprehensive asset audit workflow supporting audit planning, scheduling, execution via mobile scanning, discrepancy identification, reconciliation, and audit reporting. Enables physical verification of assets against the system register through QR/barcode scanning with condition assessment and location confirmation.
-    module: Asset Management
-    priority: high
-    status: draft
-    ecosystem: Admin Desktop App + Backend + Mobile App
-    inScope: |
-      Audit plan creation (full audit or by department/location/category), audit scheduling and assignment, mobile-based audit execution with QR/barcode scanning, asset condition assessment during audit, location verification, photo capture during audit, discrepancy detection (missing, unregistered, relocated, condition change), discrepancy resolution workflow, audit progress tracking (real-time), audit completion and sign-off, audit report generation (PDF), audit history and trail, unregistered asset flagging and on-the-spot registration.
-    outOfScope: |
-      Automated RFID mass-scanning audits, third-party auditor portal access.
+  - fileName: asset_details_view
     sequence: 3
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Create Audit Plan
-        description: Admin creates an audit plan specifying scope (full, department, location, or category), scheduled date, assigned auditors, and audit checklist criteria.
-        preconditions: User has audit management permissions. Assets exist in the system.
-        status: draft
-        sequence: 0
-      - name: Assign Auditors to Audit Plan
-        description: Admin assigns one or more auditors to an audit plan with specific location or department assignments.
-        preconditions: Audit plan is created in Draft status.
-        status: draft
-        sequence: 1
-      - name: Start Audit Execution on Mobile
-        description: Auditor opens assigned audit on mobile app, begins scanning assets via QR code/barcode at the designated location.
-        preconditions: Audit plan is in Scheduled status. Auditor has mobile app with audit module access.
-        status: draft
-        sequence: 2
-      - name: Scan and Verify Asset During Audit
-        description: Auditor scans an asset's QR/barcode, confirms location, assesses condition (Good, Fair, Poor, Damaged), and captures photos if needed.
-        preconditions: Audit is in progress. Auditor is at the asset location.
-        status: draft
-        sequence: 3
-      - name: Flag Missing Asset
-        description: Auditor marks an asset as missing when it cannot be found at its registered location during the audit.
-        preconditions: Audit is in progress. Asset appears in the expected audit list but is not physically present.
-        status: draft
-        sequence: 4
-      - name: Register Untagged Asset Found During Audit
-        description: Auditor discovers an unregistered/untagged asset during audit and initiates on-the-spot registration via mobile.
-        preconditions: Audit is in progress. A physical asset is found without a system record.
-        status: draft
-        sequence: 5
-      - name: View Audit Progress in Real-Time
-        description: Admin monitors audit progress showing scanned vs. expected assets, completion percentage, and flagged discrepancies.
-        preconditions: An audit is in progress.
-        status: draft
-        sequence: 6
-      - name: Review and Resolve Audit Discrepancies
-        description: Admin reviews flagged discrepancies (missing, relocated, condition changes) and takes corrective action (update location, mark as lost, initiate investigation).
-        preconditions: Audit is completed with discrepancies flagged.
-        status: draft
-        sequence: 7
-      - name: Complete Audit and Generate Report
-        description: Admin finalizes the audit, resolves all discrepancies, and generates a comprehensive audit report (PDF) with summary statistics.
-        preconditions: All audit locations have been scanned. Discrepancies are reviewed.
-        status: draft
-        sequence: 8
-      - name: View Audit History
-        description: Admin views past audits with results, discrepancy rates, and trend analysis over time.
-        preconditions: Previous audits have been completed.
-        status: draft
-        sequence: 9
-  - name: Asset Depreciation & Financial Tracking
-    description: |
-      Automated depreciation calculation and financial tracking for all registered assets. Supports multiple depreciation methods, generates financial reports, and provides current book value visibility for informed asset investment decisions.
-    module: Asset Management
-    priority: medium
-    status: draft
-    ecosystem: Admin Desktop App + Backend
-    inScope: |
-      Depreciation method configuration (straight-line, declining balance, sum-of-years-digits), automatic monthly/yearly depreciation calculation, current book value display per asset, depreciation schedule generation, asset cost center assignment, financial summary reports (total asset value, total depreciation, net book value by category/department), asset revaluation, insurance value tracking, salvage value configuration, useful life configuration per asset category.
-    outOfScope: |
-      Tax depreciation schedules, integration with external accounting systems, accounts payable/receivable.
+  - fileName: bulk_upload_mapping_wizard
     sequence: 4
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Configure Depreciation Method for Asset Category
-        description: Admin sets the default depreciation method, useful life, and salvage value percentage for an asset category.
-        preconditions: User has finance module access. Asset categories exist.
-        status: draft
-        sequence: 0
-      - name: View Asset Depreciation Schedule
-        description: User views the full depreciation schedule for an asset showing yearly/monthly depreciation amounts and remaining book value.
-        preconditions: Asset is registered with purchase cost and depreciation method configured.
-        status: draft
-        sequence: 1
-      - name: Run Monthly Depreciation Calculation
-        description: System runs automated monthly depreciation calculation for all active assets and updates book values.
-        preconditions: Assets are registered with depreciation configurations.
-        status: draft
-        sequence: 2
-      - name: Generate Financial Summary Report
-        description: Admin generates a financial report showing total asset value, accumulated depreciation, and net book value by category, department, or location.
-        preconditions: Assets exist with financial data.
-        status: draft
-        sequence: 3
-      - name: Record Asset Revaluation
-        description: Finance user records a revaluation for an asset, updating its book value with justification.
-        preconditions: Asset exists. User has finance permissions.
-        status: draft
-        sequence: 4
-      - name: Update Insurance Value
-        description: User updates the insurance value and policy details for an asset.
-        preconditions: Asset is registered.
-        status: draft
-        sequence: 5
-  - name: Asset Disposal Management
-    description: |
-      End-to-end asset disposal workflow from disposal request through multi-level approval, disposal execution, environmental compliance documentation, financial write-off, and certificate generation. Supports multiple disposal methods including sale, donation, recycling, and scrapping.
-    module: Asset Management
-    priority: high
+  processFlows: []
+  uatFlows:
+  - name: Register New Asset Manually
+    description: User fills in asset registration form with all required fields including asset type, category, location, serial number, purchase details, and custodian assignment.
+    preconditions: User has Asset Management module access with registration permissions.
     status: draft
-    ecosystem: Admin Desktop App + Backend
-    inScope: |
-      Disposal request submission with reason and supporting documents, disposal method selection (Sale, Donation, Recycling, Scrapping, Trade-In), multi-level approval workflow (HOD, Finance, Senior Management), disposal valuation (current book value vs. disposal value), buyer/recipient information capture, environmental compliance checklist, disposal certificate generation (PDF), financial write-off processing, asset status update to Disposed, disposal history and audit trail, batch disposal for multiple assets, disposal analytics and reporting.
-    outOfScope: |
-      E-waste vendor management, auction platform integration, environmental regulatory submission.
+    sequence: 0
+  - name: Bulk Import Assets via CSV/Excel
+    description: User uploads a CSV or Excel file containing multiple asset records. System validates data, reports errors, and creates asset records for valid entries.
+    preconditions: User has admin access to Asset Management module. Import template is available.
+    status: draft
+    sequence: 1
+  - name: Auto-Register Asset from Purchase Order
+    description: Upon GRN completion in the procurement module, system prompts user to register received items as assets with pre-filled supplier and cost data.
+    preconditions: A purchase order has been completed with GRN. Procurement module integration is active.
+    status: draft
+    sequence: 2
+  - name: Generate and Print Asset Label
+    description: User generates a QR code or barcode label for a registered asset and sends it to a connected label printer.
+    preconditions: Asset is registered in the system. Label printer is configured.
+    status: draft
+    sequence: 3
+  - name: Upload Asset Documents
+    description: User attaches warranty cards, invoices, user manuals, or photos to an existing asset record.
+    preconditions: Asset exists in the system.
+    status: draft
+    sequence: 4
+  - name: View and Search Asset Register
+    description: User browses the full asset register with search, filter (by category, location, department, status), and sort capabilities.
+    preconditions: Assets exist in the system.
+    status: draft
     sequence: 5
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: Submit Disposal Request
-        description: User selects one or more assets and submits a disposal request specifying the disposal method, reason, and supporting documentation.
-        preconditions: User has disposal request permissions. Assets are in Active or Condemned status.
-        status: draft
-        sequence: 0
-      - name: HOD Reviews Disposal Request
-        description: Department HOD reviews the disposal request and approves or rejects it with comments.
-        preconditions: Disposal request is in Pending HOD Approval status.
-        status: draft
-        sequence: 1
-      - name: Finance Reviews Disposal Request
-        description: Finance team reviews the disposal for financial impact, confirms book value, and approves or requests changes.
-        preconditions: Disposal request has HOD approval and is in Pending Finance Review status.
-        status: draft
-        sequence: 2
-      - name: Senior Management Approves Disposal
-        description: For high-value assets, senior management provides final disposal approval.
-        preconditions: Disposal has finance approval and asset value exceeds the threshold for senior management review.
-        status: draft
-        sequence: 3
-      - name: Execute Asset Disposal
-        description: Asset officer executes the disposal by recording disposal date, method, disposal value (if sold), buyer/recipient details, and completing the environmental compliance checklist.
-        preconditions: Disposal request is fully approved.
-        status: draft
-        sequence: 4
-      - name: Generate Disposal Certificate
-        description: System generates a PDF disposal certificate documenting the asset details, disposal method, approvals, and compliance information.
-        preconditions: Disposal has been executed.
-        status: draft
-        sequence: 5
-      - name: Process Financial Write-Off
-        description: Finance processes the financial write-off for disposed assets, removing them from the active asset register and recording the disposal in financial records.
-        preconditions: Disposal is executed and certificate is generated.
-        status: draft
-        sequence: 6
-      - name: View Disposal History
-        description: User views the complete history of disposed assets with filters for date range, department, disposal method, and value.
-        preconditions: Disposals have been completed.
-        status: draft
-        sequence: 7
-      - name: Batch Disposal Request
-        description: User selects multiple assets for batch disposal with a common reason and method.
-        preconditions: Multiple assets are eligible for disposal.
-        status: draft
-        sequence: 8
-  - name: Reporting & Analytics Dashboard
-    description: |
-      Comprehensive reporting and analytics capabilities providing real-time visibility into asset portfolio health, utilization, costs, and compliance. Includes pre-built reports and customizable dashboards for data-driven asset management decisions.
-    module: Asset Management
-    priority: medium
+  - name: View Asset Detail
+    description: User views complete asset information including specifications, assignment history, maintenance history, financial data, and attached documents.
+    preconditions: Asset exists in the system.
     status: draft
-    ecosystem: Admin Desktop App + Backend
-    inScope: |
-      Asset overview dashboard (total assets, by status, by category, by department), asset value summary (purchase cost, current book value, depreciation), maintenance KPIs (MTTR, MTBF, cost per asset, SLA compliance), audit compliance dashboard (last audit date, discrepancy rates), asset utilization reports, cost analysis by category/department/location, asset aging report, warranty expiry report, disposal summary report, custom report builder with filters and export (PDF, Excel), scheduled report generation and email distribution.
-    outOfScope: |
-      Predictive analytics/AI-based forecasting, integration with external BI tools (Power BI, Tableau).
+    sequence: 6
+- name: Asset Tracking & Location Management
+  description: |
+    Real-time tracking of asset location and custodian assignment. Supports asset transfers between departments and locations, movement history logging, and custodian handover workflows. Enables QR/barcode scanning via mobile app for quick asset identification and location verification.
+  module: Asset Management
+  priority: high
+  status: draft
+  ecosystem: Admin Desktop App + Backend + Mobile App
+  inScope: |
+    Asset location assignment and updates, department/building/floor/room location hierarchy, custodian assignment and transfer, asset movement history log, QR code/barcode scanning for asset lookup (mobile), asset check-in/check-out for shared assets, location-based asset listing, transfer request and approval workflow, movement alerts for high-value assets.
+  outOfScope: |
+    GPS/IoT real-time location tracking, automated movement detection via sensors.
+  sequence: 1
+  mockScreens:
+  - fileName: asset_transfer_request
+    sequence: 1
+  processFlows: []
+  uatFlows:
+  - name: Scan Asset QR Code for Lookup
+    description: User scans an asset's QR code or barcode using the mobile app to view full asset details including current location, custodian, and status.
+    preconditions: Asset is registered with a generated QR/barcode label. Mobile app is installed.
+    status: draft
+    sequence: 0
+  - name: Transfer Asset Between Departments
+    description: User initiates an asset transfer request specifying the target department and new custodian. Transfer goes through approval workflow.
+    preconditions: Asset is registered and active. User has transfer permissions.
+    status: draft
+    sequence: 1
+  - name: Approve Asset Transfer
+    description: HOD reviews and approves or rejects an asset transfer request.
+    preconditions: A transfer request is pending approval. HOD is logged in.
+    status: draft
+    sequence: 2
+  - name: Check-Out Shared Asset
+    description: User checks out a shared asset (e.g., projector, camera) for temporary use with expected return date.
+    preconditions: Asset is marked as shared/pooled and is currently available.
+    status: draft
+    sequence: 3
+  - name: Check-In Shared Asset
+    description: User returns a checked-out shared asset and confirms its condition.
+    preconditions: Asset is currently checked out to the user.
+    status: draft
+    sequence: 4
+  - name: View Asset Movement History
+    description: User views the full movement and transfer history of an asset including dates, locations, and custodians.
+    preconditions: Asset exists with recorded movements.
+    status: draft
+    sequence: 5
+  - name: View Assets by Location
+    description: User browses assets filtered by specific building, floor, room, or department location.
+    preconditions: Assets are registered with location data.
+    status: draft
+    sequence: 6
+- name: Maintenance Management
+  description: |
+    End-to-end maintenance lifecycle management including preventive maintenance scheduling, corrective maintenance (fault reporting), technician assignment, work order management, spare parts tracking, and maintenance history. Supports both internal technician assignment and external vendor service requests. Automated reminders for scheduled maintenance and warranty expiry.
+  module: Asset Management
+  priority: high
+  status: draft
+  ecosystem: Admin Desktop App + Backend + Mobile App
+  inScope: |
+    Fault/issue reporting with photos and videos (mobile and desktop), preventive maintenance scheduling with automated reminders, corrective maintenance work orders, technician assignment (internal and external), work order status tracking (Reported, Assigned, In Progress, Completed, Verified), spare parts usage logging, maintenance cost tracking, SLA monitoring, warranty-based service routing (in-warranty to supplier, out-of-warranty to internal/external), maintenance history per asset, supplier fault report submission, maintenance KPI dashboard.
+  outOfScope: |
+    Spare parts inventory management (separate module), vendor procurement for parts.
+  sequence: 2
+  mockScreens:
+  - fileName: maintenance_hub
+    sequence: 1
+  - fileName: maintenance_schedule_configuration
+    sequence: 2
+  - fileName: fault_reporting
+    sequence: 3
+  - fileName: work_order_management
+    sequence: 4
+  processFlows: []
+  uatFlows:
+  - name: Report Asset Fault via Mobile
+    description: User scans asset QR code and submits a fault report with description, severity level, photos, and videos.
+    preconditions: User has mobile app installed. Asset is registered with QR label.
+    status: draft
+    sequence: 0
+  - name: Report Asset Fault via Desktop
+    description: User searches for an asset and submits a fault report through the desktop interface.
+    preconditions: User has Asset Management access.
+    status: draft
+    sequence: 1
+  - name: Assign Technician to Work Order
+    description: Maintenance coordinator reviews the fault report and assigns an internal technician or routes to external vendor.
+    preconditions: A fault report has been submitted. Coordinator has maintenance management access.
+    status: draft
+    sequence: 2
+  - name: Submit Fault Report to Supplier
+    description: For in-warranty assets, maintenance coordinator generates and submits a formal fault report to the supplier.
+    preconditions: Asset is within warranty period. Fault report exists.
+    status: draft
+    sequence: 3
+  - name: Technician Updates Work Order Progress
+    description: Assigned technician updates work order status, adds notes, logs time spent, and records spare parts used.
+    preconditions: Work order is assigned to the technician.
+    status: draft
+    sequence: 4
+  - name: Complete and Verify Maintenance Work
+    description: Technician marks work as complete. Requester verifies the fix and confirms asset is operational.
+    preconditions: Work order is marked as completed by technician.
+    status: draft
+    sequence: 5
+  - name: Create Preventive Maintenance Schedule
+    description: Admin creates a recurring preventive maintenance schedule for an asset or group of assets with frequency, checklist, and assigned team.
+    preconditions: Assets are registered. User has maintenance admin access.
+    status: draft
+    sequence: 6
+  - name: Execute Preventive Maintenance Task
+    description: Technician receives a scheduled maintenance task, performs the checklist items, and records completion.
+    preconditions: A preventive maintenance task is due. Technician is assigned.
+    status: draft
     sequence: 7
-    mockScreens: []
-    processFlows: []
-    uatFlows:
-      - name: View Asset Overview Dashboard
-        description: User views the main dashboard showing asset counts by status, category, and department with key metrics.
-        preconditions: Assets exist in the system. User has reporting access.
-        status: draft
-        sequence: 0
-      - name: Generate Asset Register Report
-        description: User generates a full or filtered asset register report and exports it as PDF or Excel.
-        preconditions: Assets exist in the system.
-        status: draft
-        sequence: 1
-      - name: View Maintenance KPI Dashboard
-        description: Admin views maintenance performance metrics including response times, resolution rates, and costs.
-        preconditions: Maintenance work orders exist.
-        status: draft
-        sequence: 2
-      - name: Generate Depreciation Report
-        description: Finance user generates a depreciation report showing book values and depreciation for a given period.
-        preconditions: Assets with depreciation data exist.
-        status: draft
-        sequence: 3
-      - name: View Asset Aging Report
-        description: User views a report showing assets by age, approaching or exceeding useful life.
-        preconditions: Assets with purchase dates exist.
-        status: draft
-        sequence: 4
-      - name: Schedule Automated Report
-        description: Admin configures a report to be automatically generated and emailed on a recurring schedule.
-        preconditions: User has reporting admin access.
-        status: draft
-        sequence: 5
+  - name: View Maintenance History
+    description: User views complete maintenance history for an asset including all work orders, costs, and downtime.
+    preconditions: Asset exists with maintenance records.
+    status: draft
+    sequence: 8
+  - name: Maintenance SLA Monitoring
+    description: Admin views SLA compliance dashboard showing response times, resolution times, and overdue work orders.
+    preconditions: Work orders exist in the system.
+    status: draft
+    sequence: 9
+- name: Asset Audit Management
+  description: |
+    Comprehensive asset audit workflow supporting audit planning, scheduling, execution via mobile scanning, discrepancy identification, reconciliation, and audit reporting. Enables physical verification of assets against the system register through QR/barcode scanning with condition assessment and location confirmation.
+  module: Asset Management
+  priority: high
+  status: draft
+  ecosystem: Admin Desktop App + Backend + Mobile App
+  inScope: |
+    Audit plan creation (full audit or by department/location/category), audit scheduling and assignment, mobile-based audit execution with QR/barcode scanning, asset condition assessment during audit, location verification, photo capture during audit, discrepancy detection (missing, unregistered, relocated, condition change), discrepancy resolution workflow, audit progress tracking (real-time), audit completion and sign-off, audit report generation (PDF), audit history and trail, unregistered asset flagging and on-the-spot registration.
+  outOfScope: |
+    Automated RFID mass-scanning audits, third-party auditor portal access.
+  sequence: 3
+  mockScreens:
+  - fileName: audit_planner
+    sequence: 1
+  - fileName: audit_reconciliation
+    sequence: 2
+  processFlows: []
+  uatFlows:
+  - name: Create Audit Plan
+    description: Admin creates an audit plan specifying scope (full, department, location, or category), scheduled date, assigned auditors, and audit checklist criteria.
+    preconditions: User has audit management permissions. Assets exist in the system.
+    status: draft
+    sequence: 0
+  - name: Assign Auditors to Audit Plan
+    description: Admin assigns one or more auditors to an audit plan with specific location or department assignments.
+    preconditions: Audit plan is created in Draft status.
+    status: draft
+    sequence: 1
+  - name: Start Audit Execution on Mobile
+    description: Auditor opens assigned audit on mobile app, begins scanning assets via QR code/barcode at the designated location.
+    preconditions: Audit plan is in Scheduled status. Auditor has mobile app with audit module access.
+    status: draft
+    sequence: 2
+  - name: Scan and Verify Asset During Audit
+    description: Auditor scans an asset's QR/barcode, confirms location, assesses condition (Good, Fair, Poor, Damaged), and captures photos if needed.
+    preconditions: Audit is in progress. Auditor is at the asset location.
+    status: draft
+    sequence: 3
+  - name: Flag Missing Asset
+    description: Auditor marks an asset as missing when it cannot be found at its registered location during the audit.
+    preconditions: Audit is in progress. Asset appears in the expected audit list but is not physically present.
+    status: draft
+    sequence: 4
+  - name: Register Untagged Asset Found During Audit
+    description: Auditor discovers an unregistered/untagged asset during audit and initiates on-the-spot registration via mobile.
+    preconditions: Audit is in progress. A physical asset is found without a system record.
+    status: draft
+    sequence: 5
+  - name: View Audit Progress in Real-Time
+    description: Admin monitors audit progress showing scanned vs. expected assets, completion percentage, and flagged discrepancies.
+    preconditions: An audit is in progress.
+    status: draft
+    sequence: 6
+  - name: Review and Resolve Audit Discrepancies
+    description: Admin reviews flagged discrepancies (missing, relocated, condition changes) and takes corrective action (update location, mark as lost, initiate investigation).
+    preconditions: Audit is completed with discrepancies flagged.
+    status: draft
+    sequence: 7
+  - name: Complete Audit and Generate Report
+    description: Admin finalizes the audit, resolves all discrepancies, and generates a comprehensive audit report (PDF) with summary statistics.
+    preconditions: All audit locations have been scanned. Discrepancies are reviewed.
+    status: draft
+    sequence: 8
+  - name: View Audit History
+    description: Admin views past audits with results, discrepancy rates, and trend analysis over time.
+    preconditions: Previous audits have been completed.
+    status: draft
+    sequence: 9
+- name: Asset Depreciation & Financial Tracking
+  description: |
+    Automated depreciation calculation and financial tracking for all registered assets. Supports multiple depreciation methods, generates financial reports, and provides current book value visibility for informed asset investment decisions.
+  module: Asset Management
+  priority: medium
+  status: draft
+  ecosystem: Admin Desktop App + Backend
+  inScope: |
+    Depreciation method configuration (straight-line, declining balance, sum-of-years-digits), automatic monthly/yearly depreciation calculation, current book value display per asset, depreciation schedule generation, asset cost center assignment, financial summary reports (total asset value, total depreciation, net book value by category/department), asset revaluation, insurance value tracking, salvage value configuration, useful life configuration per asset category.
+  outOfScope: |
+    Tax depreciation schedules, integration with external accounting systems, accounts payable/receivable.
+  sequence: 4
+  mockScreens:
+  - fileName: depreciation_valuation
+    sequence: 1
+  processFlows: []
+  uatFlows:
+  - name: Configure Depreciation Method for Asset Category
+    description: Admin sets the default depreciation method, useful life, and salvage value percentage for an asset category.
+    preconditions: User has finance module access. Asset categories exist.
+    status: draft
+    sequence: 0
+  - name: View Asset Depreciation Schedule
+    description: User views the full depreciation schedule for an asset showing yearly/monthly depreciation amounts and remaining book value.
+    preconditions: Asset is registered with purchase cost and depreciation method configured.
+    status: draft
+    sequence: 1
+  - name: Run Monthly Depreciation Calculation
+    description: System runs automated monthly depreciation calculation for all active assets and updates book values.
+    preconditions: Assets are registered with depreciation configurations.
+    status: draft
+    sequence: 2
+  - name: Generate Financial Summary Report
+    description: Admin generates a financial report showing total asset value, accumulated depreciation, and net book value by category, department, or location.
+    preconditions: Assets exist with financial data.
+    status: draft
+    sequence: 3
+  - name: Record Asset Revaluation
+    description: Finance user records a revaluation for an asset, updating its book value with justification.
+    preconditions: Asset exists. User has finance permissions.
+    status: draft
+    sequence: 4
+  - name: Update Insurance Value
+    description: User updates the insurance value and policy details for an asset.
+    preconditions: Asset is registered.
+    status: draft
+    sequence: 5
+- name: Asset Disposal Management
+  description: |
+    End-to-end asset disposal workflow from disposal request through multi-level approval, disposal execution, environmental compliance documentation, financial write-off, and certificate generation. Supports multiple disposal methods including sale, donation, recycling, and scrapping.
+  module: Asset Management
+  priority: high
+  status: draft
+  ecosystem: Admin Desktop App + Backend
+  inScope: |
+    Disposal request submission with reason and supporting documents, disposal method selection (Sale, Donation, Recycling, Scrapping, Trade-In), multi-level approval workflow (HOD, Finance, Senior Management), disposal valuation (current book value vs. disposal value), buyer/recipient information capture, environmental compliance checklist, disposal certificate generation (PDF), financial write-off processing, asset status update to Disposed, disposal history and audit trail, batch disposal for multiple assets, disposal analytics and reporting.
+  outOfScope: |
+    E-waste vendor management, auction platform integration, environmental regulatory submission.
+  sequence: 5
+  mockScreens:
+  - fileName: disposal_workflow
+    sequence: 1
+  processFlows: []
+  uatFlows:
+  - name: Submit Disposal Request
+    description: User selects one or more assets and submits a disposal request specifying the disposal method, reason, and supporting documentation.
+    preconditions: User has disposal request permissions. Assets are in Active or Condemned status.
+    status: draft
+    sequence: 0
+  - name: HOD Reviews Disposal Request
+    description: Department HOD reviews the disposal request and approves or rejects it with comments.
+    preconditions: Disposal request is in Pending HOD Approval status.
+    status: draft
+    sequence: 1
+  - name: Finance Reviews Disposal Request
+    description: Finance team reviews the disposal for financial impact, confirms book value, and approves or requests changes.
+    preconditions: Disposal request has HOD approval and is in Pending Finance Review status.
+    status: draft
+    sequence: 2
+  - name: Senior Management Approves Disposal
+    description: For high-value assets, senior management provides final disposal approval.
+    preconditions: Disposal has finance approval and asset value exceeds the threshold for senior management review.
+    status: draft
+    sequence: 3
+  - name: Execute Asset Disposal
+    description: Asset officer executes the disposal by recording disposal date, method, disposal value (if sold), buyer/recipient details, and completing the environmental compliance checklist.
+    preconditions: Disposal request is fully approved.
+    status: draft
+    sequence: 4
+  - name: Generate Disposal Certificate
+    description: System generates a PDF disposal certificate documenting the asset details, disposal method, approvals, and compliance information.
+    preconditions: Disposal has been executed.
+    status: draft
+    sequence: 5
+  - name: Process Financial Write-Off
+    description: Finance processes the financial write-off for disposed assets, removing them from the active asset register and recording the disposal in financial records.
+    preconditions: Disposal is executed and certificate is generated.
+    status: draft
+    sequence: 6
+  - name: View Disposal History
+    description: User views the complete history of disposed assets with filters for date range, department, disposal method, and value.
+    preconditions: Disposals have been completed.
+    status: draft
+    sequence: 7
+  - name: Batch Disposal Request
+    description: User selects multiple assets for batch disposal with a common reason and method.
+    preconditions: Multiple assets are eligible for disposal.
+    status: draft
+    sequence: 8
+- name: Reporting & Analytics Dashboard
+  description: |
+    Comprehensive reporting and analytics capabilities providing real-time visibility into asset portfolio health, utilization, costs, and compliance. Includes pre-built reports and customizable dashboards for data-driven asset management decisions.
+  module: Asset Management
+  priority: medium
+  status: draft
+  ecosystem: Admin Desktop App + Backend
+  inScope: |
+    Asset overview dashboard (total assets, by status, by category, by department), asset value summary (purchase cost, current book value, depreciation), maintenance KPIs (MTTR, MTBF, cost per asset, SLA compliance), audit compliance dashboard (last audit date, discrepancy rates), asset utilization reports, cost analysis by category/department/location, asset aging report, warranty expiry report, disposal summary report, custom report builder with filters and export (PDF, Excel), scheduled report generation and email distribution.
+  outOfScope: |
+    Predictive analytics/AI-based forecasting, integration with external BI tools (Power BI, Tableau).
+  sequence: 7
+  mockScreens:
+  - fileName: executive_analytics_dashboard
+    sequence: 1
+  processFlows: []
+  uatFlows:
+  - name: View Asset Overview Dashboard
+    description: User views the main dashboard showing asset counts by status, category, and department with key metrics.
+    preconditions: Assets exist in the system. User has reporting access.
+    status: draft
+    sequence: 0
+  - name: Generate Asset Register Report
+    description: User generates a full or filtered asset register report and exports it as PDF or Excel.
+    preconditions: Assets exist in the system.
+    status: draft
+    sequence: 1
+  - name: View Maintenance KPI Dashboard
+    description: Admin views maintenance performance metrics including response times, resolution rates, and costs.
+    preconditions: Maintenance work orders exist.
+    status: draft
+    sequence: 2
+  - name: Generate Depreciation Report
+    description: Finance user generates a depreciation report showing book values and depreciation for a given period.
+    preconditions: Assets with depreciation data exist.
+    status: draft
+    sequence: 3
+  - name: View Asset Aging Report
+    description: User views a report showing assets by age, approaching or exceeding useful life.
+    preconditions: Assets with purchase dates exist.
+    status: draft
+    sequence: 4
+  - name: Schedule Automated Report
+    description: Admin configures a report to be automatically generated and emailed on a recurring schedule.
+    preconditions: User has reporting admin access.
+    status: draft
+    sequence: 5
