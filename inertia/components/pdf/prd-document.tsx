@@ -291,6 +291,71 @@ const styles = StyleSheet.create({
     minWidth: 80,
     marginTop: 180,
   },
+  // New grouped signature styles
+  signatureGroupedSection: {
+    marginTop: 24,
+    marginBottom: 12,
+  },
+  signatureGroupedTitle: {
+    fontSize: 14,
+    fontWeight: 'bold' as const,
+    color: '#1e293b',
+    marginBottom: 12,
+    paddingBottom: 6,
+    borderBottomWidth: 2,
+    borderBottomColor: '#2563eb',
+  },
+  signatureRoleContainer: {
+    marginBottom: 16,
+    paddingBottom: 16,
+  },
+  signatureRoleTitle: {
+    fontSize: 11,
+    fontWeight: 'bold' as const,
+    color: '#1e293b',
+    marginBottom: 8,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  signatureBox: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 8,
+    paddingBottom: 8,
+    minHeight: 180,
+    justifyContent: 'space-between' as const,
+  },
+  signatureField: {
+    flexDirection: 'row' as const,
+    alignItems: 'flex-end' as const,
+    marginBottom: 10,
+  },
+  signatureFieldLabel: {
+    fontSize: 8,
+    fontWeight: 'bold' as const,
+    color: '#475569',
+    width: 70,
+    marginRight: 8,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
+  signatureFieldLine: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: '#1a1a1a',
+    minHeight: 16,
+  },
+  signatureStakeholderField: {
+    fontSize: 8,
+    fontWeight: 'bold' as const,
+    color: '#475569',
+    width: 90,
+    marginRight: 8,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.5,
+  },
 })
 
 function getPriorityStyle(priority: string) {
@@ -382,7 +447,6 @@ export default function PrdDocument({
   contacts,
   uploads,
   logoUrl,
-  prdSignators = [],
   projectDir,
 }: PrdDocumentProps) {
   const p = project as Record<string, string | string[] | null | undefined>
@@ -706,35 +770,124 @@ export default function PrdDocument({
           <Text style={styles.emptyText}>No contacts defined.</Text>
         )}
 
-        {prdSignators.length > 0 && (
-          <View style={styles.signatureSection} wrap={false}>
-            <Text style={styles.signatureSectionTitle}>13. Required Signatures</Text>
-            <View>
-              <View style={styles.signatureTableHeader}>
-                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Name</Text>
-                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Title</Text>
-                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Signature</Text>
-                <Text style={[styles.signatureHeaderCell, { width: '25%' }]}>Date</Text>
+        <View style={styles.signatureGroupedSection} wrap={false}>
+          <Text style={styles.signatureGroupedTitle}>13. Required Signatures</Text>
+
+          {/* Project Owner */}
+          <View style={styles.signatureRoleContainer}>
+            <Text style={styles.signatureRoleTitle}>Project Owner</Text>
+            <View style={styles.signatureBox}>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Signature:</Text>
+                <View style={styles.signatureFieldLine} />
               </View>
-              {prdSignators.map((s) => (
-                <View key={s.id} style={styles.signatureTableRow}>
-                  <View style={[styles.signatureCell, { width: '25%' }]}>
-                    <Text>{s.name}</Text>
-                  </View>
-                  <View style={[styles.signatureCell, { width: '25%' }]}>
-                    <Text>{s.title || '—'}</Text>
-                  </View>
-                  <View style={[styles.signatureCell, { width: '25%' }]}>
-                    <View style={styles.signatureLine} />
-                  </View>
-                  <View style={[styles.signatureCell, { width: '25%' }]}>
-                    <View style={styles.signatureLine} />
-                  </View>
-                </View>
-              ))}
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Name:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Title:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Date:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
             </View>
           </View>
-        )}
+
+          {/* Key Stakeholder 1 */}
+          <View style={styles.signatureRoleContainer}>
+            <Text style={styles.signatureRoleTitle}>Key Stakeholder - 1</Text>
+            <View style={styles.signatureBox}>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Signature:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureStakeholderField}>Designation:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Name:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Date:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+            </View>
+          </View>
+
+          {/* Key Stakeholder 2 */}
+          <View style={styles.signatureRoleContainer}>
+            <Text style={styles.signatureRoleTitle}>Key Stakeholder - 2</Text>
+            <View style={styles.signatureBox}>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Signature:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureStakeholderField}>Designation:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Name:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Date:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+            </View>
+          </View>
+
+          {/* IT Manager */}
+          <View style={styles.signatureRoleContainer}>
+            <Text style={styles.signatureRoleTitle}>IT Manager</Text>
+            <View style={styles.signatureBox}>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Signature:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Name:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Title:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Date:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+            </View>
+          </View>
+
+          {/* Group Senior Vice President */}
+          <View style={styles.signatureRoleContainer}>
+            <Text style={styles.signatureRoleTitle}>Group Senior Vice President</Text>
+            <View style={styles.signatureBox}>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Signature:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Name:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Title:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+              <View style={styles.signatureField}>
+                <Text style={styles.signatureFieldLabel}>Date:</Text>
+                <View style={styles.signatureFieldLine} />
+              </View>
+            </View>
+          </View>
+        </View>
 
         <View style={styles.footer} fixed>
           <Text style={styles.footerText}>{projectName} — Product Requirements Document</Text>
