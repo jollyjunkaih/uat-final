@@ -114,6 +114,30 @@ const routes = {
     tokens: [{"old":"/api/features/reorder","type":0,"val":"api","end":""},{"old":"/api/features/reorder","type":0,"val":"features","end":""},{"old":"/api/features/reorder","type":0,"val":"reorder","end":""}],
     types: placeholder as Registry['features.reorder']['types'],
   },
+  'features.upload_mock_screen': {
+    methods: ["POST"],
+    pattern: '/api/features/:id/mock-screens',
+    tokens: [{"old":"/api/features/:id/mock-screens","type":0,"val":"api","end":""},{"old":"/api/features/:id/mock-screens","type":0,"val":"features","end":""},{"old":"/api/features/:id/mock-screens","type":1,"val":"id","end":""},{"old":"/api/features/:id/mock-screens","type":0,"val":"mock-screens","end":""}],
+    types: placeholder as Registry['features.upload_mock_screen']['types'],
+  },
+  'features.delete_mock_screen': {
+    methods: ["DELETE"],
+    pattern: '/api/features/:id/mock-screens/:fileName',
+    tokens: [{"old":"/api/features/:id/mock-screens/:fileName","type":0,"val":"api","end":""},{"old":"/api/features/:id/mock-screens/:fileName","type":0,"val":"features","end":""},{"old":"/api/features/:id/mock-screens/:fileName","type":1,"val":"id","end":""},{"old":"/api/features/:id/mock-screens/:fileName","type":0,"val":"mock-screens","end":""},{"old":"/api/features/:id/mock-screens/:fileName","type":1,"val":"fileName","end":""}],
+    types: placeholder as Registry['features.delete_mock_screen']['types'],
+  },
+  'features.upload_process_flow': {
+    methods: ["POST"],
+    pattern: '/api/features/:id/process-flows',
+    tokens: [{"old":"/api/features/:id/process-flows","type":0,"val":"api","end":""},{"old":"/api/features/:id/process-flows","type":0,"val":"features","end":""},{"old":"/api/features/:id/process-flows","type":1,"val":"id","end":""},{"old":"/api/features/:id/process-flows","type":0,"val":"process-flows","end":""}],
+    types: placeholder as Registry['features.upload_process_flow']['types'],
+  },
+  'features.delete_process_flow': {
+    methods: ["DELETE"],
+    pattern: '/api/features/:id/process-flows/:fileName',
+    tokens: [{"old":"/api/features/:id/process-flows/:fileName","type":0,"val":"api","end":""},{"old":"/api/features/:id/process-flows/:fileName","type":0,"val":"features","end":""},{"old":"/api/features/:id/process-flows/:fileName","type":1,"val":"id","end":""},{"old":"/api/features/:id/process-flows/:fileName","type":0,"val":"process-flows","end":""},{"old":"/api/features/:id/process-flows/:fileName","type":1,"val":"fileName","end":""}],
+    types: placeholder as Registry['features.delete_process_flow']['types'],
+  },
   'uat_flows.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/uat-flows',

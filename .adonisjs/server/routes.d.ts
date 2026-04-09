@@ -22,6 +22,10 @@ export type ScannedRoutes = {
     'features.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'features.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'features.reorder': { paramsTuple?: []; params?: {} }
+    'features.upload_mock_screen': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'features.delete_mock_screen': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'fileName': ParamValue} }
+    'features.upload_process_flow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'features.delete_process_flow': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'fileName': ParamValue} }
     'uat_flows.index': { paramsTuple?: []; params?: {} }
     'uat_flows.store': { paramsTuple?: []; params?: {} }
     'uat_flows.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -207,6 +211,8 @@ export type ScannedRoutes = {
     'projects.store': { paramsTuple?: []; params?: {} }
     'features.store': { paramsTuple?: []; params?: {} }
     'features.reorder': { paramsTuple?: []; params?: {} }
+    'features.upload_mock_screen': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'features.upload_process_flow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'uat_flows.store': { paramsTuple?: []; params?: {} }
     'uat_flows.reorder': { paramsTuple?: []; params?: {} }
     'versions.store': { paramsTuple?: []; params?: {} }
@@ -253,6 +259,8 @@ export type ScannedRoutes = {
   DELETE: {
     'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'features.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'features.delete_mock_screen': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'fileName': ParamValue} }
+    'features.delete_process_flow': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'fileName': ParamValue} }
     'uat_flows.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'steps.delete_step_image': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

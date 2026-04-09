@@ -33,6 +33,10 @@ export interface ApiDefinition {
     update: typeof routes['features.update']
     destroy: typeof routes['features.destroy']
     reorder: typeof routes['features.reorder']
+    uploadMockScreen: typeof routes['features.upload_mock_screen']
+    deleteMockScreen: typeof routes['features.delete_mock_screen']
+    uploadProcessFlow: typeof routes['features.upload_process_flow']
+    deleteProcessFlow: typeof routes['features.delete_process_flow']
   }
   uatFlows: {
     index: typeof routes['uat_flows.index']

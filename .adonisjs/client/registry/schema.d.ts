@@ -223,6 +223,54 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'features.upload_mock_screen': {
+    methods: ["POST"]
+    pattern: '/api/features/:id/mock-screens'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['uploadMockScreen']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['uploadMockScreen']>>>
+    }
+  }
+  'features.delete_mock_screen': {
+    methods: ["DELETE"]
+    pattern: '/api/features/:id/mock-screens/:fileName'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; fileName: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['deleteMockScreen']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['deleteMockScreen']>>>
+    }
+  }
+  'features.upload_process_flow': {
+    methods: ["POST"]
+    pattern: '/api/features/:id/process-flows'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['uploadProcessFlow']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['uploadProcessFlow']>>>
+    }
+  }
+  'features.delete_process_flow': {
+    methods: ["DELETE"]
+    pattern: '/api/features/:id/process-flows/:fileName'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; fileName: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/features_controller').default['deleteProcessFlow']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/features_controller').default['deleteProcessFlow']>>>
+    }
+  }
   'uat_flows.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/uat-flows'
