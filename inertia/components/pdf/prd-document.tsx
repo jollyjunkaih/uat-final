@@ -458,11 +458,7 @@ export default function PrdDocument({
   projectDir,
 }: PrdDocumentProps) {
   const p = project as Record<string, string | string[] | null | undefined>
-  const date = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const date = p.prdDate
 
   const grouped: Record<string, TreeFeature[]> = {}
   for (const feature of features) {
@@ -622,10 +618,20 @@ export default function PrdDocument({
                     const processFlows = (feature as unknown as Record<string, unknown>)
                       .processFlows as FeatureImage[] | undefined
                     return processFlows && processFlows.length > 0 ? (
-                      <View style={{ marginTop: 8, borderTopWidth: 1, borderTopColor: '#e2e8f0', paddingTop: 6 }}>
+                      <View
+                        style={{
+                          marginTop: 8,
+                          borderTopWidth: 1,
+                          borderTopColor: '#e2e8f0',
+                          paddingTop: 6,
+                        }}
+                      >
                         <Text style={styles.flowListLabel}>Process Flows</Text>
                         {processFlows.map((flow) => (
-                          <View key={flow.fileName} style={{ flexDirection: 'row' as const, marginTop: 4 }}>
+                          <View
+                            key={flow.fileName}
+                            style={{ flexDirection: 'row' as const, marginTop: 4 }}
+                          >
                             <Image
                               src={`/process-flow-images/${projectDir}/${slugify(feature.name)}/${flow.fileName}.png`}
                               style={{ flex: 1, objectFit: 'contain' as const }}

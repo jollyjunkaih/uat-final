@@ -1,5 +1,5 @@
 _projectId: 9a803bf9-0470-4c40-8ee6-f0d4df4b030d
-_generatedAt: 2026-04-08T17:47:57.895Z
+_generatedAt: 2026-04-09T17:51:30.972Z
 features:
   - name: Asset Registration & Onboarding
     description: Complete asset registration lifecycle including manual entry, bulk import, and auto-registration from purchase orders. Captures asset details such as type, category, location, supplier info, invoice number, serial number, warranty period, purchase date, purchase cost, and product lifecycle stage. Generates unique asset IDs and supports QR code/barcode label generation and printing.
