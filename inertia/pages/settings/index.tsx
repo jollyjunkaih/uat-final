@@ -1,10 +1,11 @@
 import { router } from '@inertiajs/react'
-import { useState, FormEvent } from 'react'
+import { useState, useRef, FormEvent } from 'react'
 import { type Data } from '@generated/data'
 import { Link } from '@adonisjs/inertia/react'
 import { useSignators, useCreateSignator, useUpdateSignator, useDeleteSignator } from '~/hooks/use-signators'
 import type { Signator } from '~/hooks/use-signators'
 import { toast } from 'sonner'
+import { apiUpload } from '~/lib/api'
 
 interface SettingsProps {
   project: Data.Project
@@ -79,6 +80,26 @@ export default function Settings({ project }: SettingsProps) {
   })
   const [submitting, setSubmitting] = useState(false)
   const [saved, setSaved] = useState(false)
+
+  // YAML import
+  const [yamlImporting, setYamlImporting] = useState<'prd' | 'uat' | 'features' | null>(null)
+  const prdFileRef = useRef<HTMLInputElement>(null)
+  const uatFileRef = useRef<HTMLInputElement>(null)
+  const featuresFileRef = useRef<HTMLInputElement>(null)
+
+  async function handleYamlUpload(type: 'prd' | 'uat' | 'features', file: File) {
+    setYamlImporting(type)
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      await apiUpload(`/api/yaml/import/${type}/${project.id}`, formData)
+      toast.success(`${type.toUpperCase()} YAML imported successfully`)
+    } catch (err: any) {
+      toast.error(err.message || `Failed to import ${type.toUpperCase()} YAML`)
+    } finally {
+      setYamlImporting(null)
+    }
+  }
 
   // Signator CRUD
   const { data: signatorsData } = useSignators(project.id)
@@ -455,6 +476,50 @@ export default function Settings({ project }: SettingsProps) {
                 />
               </div>
             )}
+          </div>
+        </section>
+
+        {/* YAML Import */}
+        <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-foreground">Import YAML</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Upload a YAML file to parse and update the database for this project. Existing data will be overwritten by the imported content.
+          </p>
+
+          <div className="mt-5 space-y-4">
+            {(
+              [
+                { type: 'prd', label: 'PRD', ref: prdFileRef, description: 'Imports project metadata, purpose, features list, milestones, and PRD sub-resources.' },
+                { type: 'uat', label: 'UAT', ref: uatFileRef, description: 'Imports UAT flows, events, test cases, and step details.' },
+                { type: 'features', label: 'Features', ref: featuresFileRef, description: 'Imports feature and UAT flow metadata (name, description, sequence). Preserves existing steps.' },
+              ] as const
+            ).map(({ type, label, ref, description }) => (
+              <div key={type} className="flex items-start gap-4 rounded-md border border-border bg-background px-4 py-3">
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-foreground">{label} YAML</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+                </div>
+                <input
+                  ref={ref}
+                  type="file"
+                  accept=".yaml,.yml"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) handleYamlUpload(type, file)
+                    e.target.value = ''
+                  }}
+                />
+                <button
+                  type="button"
+                  disabled={yamlImporting !== null}
+                  onClick={() => ref.current?.click()}
+                  className="inline-flex items-center rounded-md border border-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                >
+                  {yamlImporting === type ? 'Importing...' : `Upload ${label}`}
+                </button>
+              </div>
+            ))}
           </div>
         </section>
 
